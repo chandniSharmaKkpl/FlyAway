@@ -1,0 +1,1 @@
+//  Word constant, Alert constants will go here
