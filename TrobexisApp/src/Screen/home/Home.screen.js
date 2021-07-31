@@ -1,11 +1,13 @@
 import React, { useState, useCallback } from 'react';
-import { View, Text, Image, FlatList } from 'react-native';
+import { View, Text, Image, FlatList, Pressable } from 'react-native';
 import styles from './Home.style';
 import { HeaderCustom, BookingCard } from '../../component';
 import { Avatar } from "react-native-elements";
 import imageConstant from '../../constant/imageConstant'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import appColor from '../../constant/colorConstant';
+import appConstant from '../../constant/appConstant';
+
 
 const HomeScreen = (props) => {
 
@@ -14,15 +16,26 @@ const HomeScreen = (props) => {
     const renderItem = (item) => {
         return (
             <View>
-                <BookingCard item={item} titleColor={appColor.YELLOW} />
+               <BookingCard item={item} titleColor={appColor.YELLOW} 
+                title={"Bus Booking - Butler Park to Barrow Island"} viewName={appConstant.HOME_SCREEN} />
             </View>
         )
     }
 
+    const onClickBusBooking = useCallback(() => {
+        props.navigation.navigate(appConstant.PICK_A_BUS)
+            },[])
+
     return (
         <>
             <View style={styles.container}>
-                <HeaderCustom />
+                <HeaderCustom
+                title={""} 
+                viewName={appConstant.HOME_SCREEN} 
+                leftIcon={true} rightIcon={true} 
+                centerTitle={false}
+                onClickRightIcon = {()=> {console.log("")}}
+                rightIconImage={""} />
                 {/* Title view */}
                 <View style={styles.viewTopBackground}>
                     <View style={styles.viewTitle}>
@@ -82,7 +95,9 @@ const HomeScreen = (props) => {
                     </View>
 
 
-                    <View style={[styles.viewSmallBox]}>
+                    <Pressable style={[styles.viewSmallBox]}
+                    onPress={()=>onClickBusBooking()}
+                    >
                         {/* <View style={styles.viewYellowBox}>
                             <Text style={styles.textNumber}>1</Text>
                         </View> */}
@@ -92,7 +107,7 @@ const HomeScreen = (props) => {
                             </View>
                             <Text style={styles.textButtonTitle}>Bus Bookings</Text>
                         </View>
-                    </View>
+                    </Pressable>
                 </View>
                 
             </View>

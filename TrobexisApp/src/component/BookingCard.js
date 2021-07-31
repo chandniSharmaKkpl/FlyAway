@@ -5,21 +5,30 @@ import fontConstant from '../constant/fontConstant';
 
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import imageConstant from '../constant/imageConstant';
+import appConstant from '../constant/appConstant';
 
 const BookingCard = (props) => {
-    let title = "Butler Park > Barrow Island"
+    const {title, viewName} = props;
+    let title1 = "Butler Park > Barrow Island"
     let date = '20-07-2021';
     let time = "10:30 AM"
     return (
         <View style={styles.viewOutSide}>
             <View style={{ padding: 15 }}>
-                <Text style={[styles.textTitle, {color: props.titleColor}]}>Bus Booking- Butler Park to Barrow Island</Text>
+
+                <View style={{flexDirection:'row', justifyContent:'space-between', alignItems:'center'}}>              
+                      <Text style={[styles.textTitle, {color: props.titleColor}]}>{title}</Text>
+
+                   {viewName === appConstant.PICK_A_BUS?   <View style={styles.buttonYellow}>
+                        <Text style={styles.buttonTitle}>50 Seats</Text>
+                    </View> : null}
+                </View>
 
                 <View style={{flexDirection:'row', paddingTop:'5%', alignItems:'center'}}>
                     <View style={styles.viewImages}>
                         <Image style={styles.image} resizeMode={'contain'} source={imageConstant.IMAGE_PATH}/>
                     </View>
-                    <Text style={styles.textDetail}>{title} </Text>
+                    <Text style={styles.textDetail}>{title?title: title1} </Text>
                 </View>
 
 
@@ -48,6 +57,21 @@ const BookingCard = (props) => {
 export default BookingCard;
 
 const styles = {
+    buttonTitle:{
+        fontFamily: fontConstant.BARLOW_BOLD,
+        fontSize: fontConstant.TEXT_14_SIZE_BOLD,
+        color: appColor.WHITE,
+        padding:'5%', 
+        alignItems:'center'
+      },
+    buttonYellow:{
+        justifyContent:'center',
+        alignItems:'center',
+        borderRadius:10, 
+         width:wp('20%'),
+        // height:hp('5%'),
+        backgroundColor:appColor.YELLOW
+      }, 
     viewInside: {
         flexDirection: 'row', 
         justifyContent: 'space-between',

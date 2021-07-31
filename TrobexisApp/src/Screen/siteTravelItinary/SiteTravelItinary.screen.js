@@ -1,31 +1,20 @@
 import React, { useState, useCallback } from 'react';
 import { View, Text, Image, FlatList } from 'react-native';
 import stylesHome from '../home/Home.style';
-import stylesCommon from '../../common/common.style';
-
 import { HeaderCustom, BookingCard } from '../../component';
 import { Avatar } from "react-native-elements";
 import imageConstant from '../../constant/imageConstant'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import appConstant from '../../constant/appConstant';
 
-const History = (props) => {
+const ScreenName = (props) => {
 
     return (
         <>
             <View style={stylesHome.container}>
-            <HeaderCustom
-                title={"History"} 
-                viewName={appConstant.HISTORY} 
-                leftIcon={true} rightIcon={true} 
-                centerTitle={false}
-                onClickRightIcon = {()=> {console.log("")}}
-                rightIconImage={""} />
-
-                <Text style={stylesCommon.textHeading}>Coming Soon</Text>
+                <HeaderCustom />
                 </View>
                 </>
     )
 }
 
-export default History;
+export default ScreenName;

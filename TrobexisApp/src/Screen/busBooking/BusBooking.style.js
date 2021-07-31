@@ -13,14 +13,7 @@ export default StyleSheet.create({
     height: '100%',
     backgroundColor: appColor.LIGH_BLUE
   },
-  textHeading: {
-
-    fontFamily: fontConstant.BARLOW_BOLD,
-    fontSize: fontConstant.TEXT_H2_SIZE_BOLD,
-    color: appColor.BLACK,
-    padding: '5%',
-
-  },
+  
   viewButtonTextInput: {
     flexDirection: 'row',
     paddingLeft: '5%',

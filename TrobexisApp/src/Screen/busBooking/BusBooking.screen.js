@@ -2,11 +2,14 @@ import React, { useState, useCallback } from 'react';
 import { View, Text, Image, FlatList, Pressable } from 'react-native';
 import stylesHome from '../home/Home.style';
 import styles from './BusBooking.style';
+import stylesCommon from '../../common/common.style';
+
 import { HeaderCustom, BookingCard, cus, CustomTextInput } from '../../component';
 import { Avatar } from "react-native-elements";
 import imageConstant from '../../constant/imageConstant'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import appColor from '../../constant/colorConstant';
+import appConstant from '../../constant/appConstant';
 
 
 const BusBookingScreen = (props) => {
@@ -16,7 +19,7 @@ const BusBookingScreen = (props) => {
     const renderItem = (item) => {
         return (
             <View>
-                <BookingCard item={item} titleColor={appColor.NAVY_BLUE} />
+                <BookingCard item={item} titleColor={appColor.NAVY_BLUE} title={"Bus Booking- Butler Park to Barrow Island"} viewName={appConstant.BUS_BOOKING}/>
             </View>
         )
     }
@@ -24,8 +27,14 @@ const BusBookingScreen = (props) => {
     return (
         <>
             <View style={stylesHome.container}>
-                <HeaderCustom title={"Make a Booking"}/>
-                <Text style={styles.textHeading}>Make a Booking</Text>
+                <HeaderCustom  
+                 title={"Make a Booking"} 
+                viewName={appConstant.BUS_BOOKING} 
+                leftIcon={true} rightIcon={true} 
+                centerTitle={true}
+                onClickRightIcon = {()=> {console.log(" ")}}
+                rightIconImage={""}/>
+                <Text style={stylesCommon.textHeading}>Make a Booking</Text>
 
                 <View style={styles.viewButtonTextInput}>
                     <CustomTextInput title={"Tuesday, July 20,2021"} rightIcon={imageConstant.IMAGE_CALENDAR_BLACK} width={wp('90%')} />
@@ -51,7 +60,7 @@ const BusBookingScreen = (props) => {
                 </View>
 
                 <>
-                    <Text style={styles.textHeading}>Upcoming Journeys</Text>
+                    <Text style={stylesCommon.textHeading}>Upcoming Journeys</Text>
                     {/* Bookinng list  */}
                     <View style={{ alignSelf: 'center', height: hp('18%') }}>
                         <FlatList
