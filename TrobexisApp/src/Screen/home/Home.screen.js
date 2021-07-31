@@ -1,18 +1,103 @@
-import React from 'react';
-import {View, Text} from 'react-native';
+import React, { useState, useCallback } from 'react';
+import { View, Text, Image, FlatList } from 'react-native';
 import styles from './Home.style';
-import Header from '../../component/Header';
+import { HeaderCustom, BookingCard } from '../../component';
+import { Avatar } from "react-native-elements";
+import imageConstant from '../../constant/imageConstant'
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import appColor from '../../constant/colorConstant';
 
-const HomeScreen =(props)=>{
+const HomeScreen = (props) => {
 
-    return(
+    const [arrayBooking, setArrayBooking] = useState([1])
+
+    const renderItem = (item) => {
+        return (
+            <View>
+                <BookingCard item={item} titleColor={appColor.YELLOW} />
+            </View>
+        )
+    }
+
+    return (
         <>
-        <View style={styles.container}>
-<Header />
-            <Text style={{}}> Home Tab </Text>
-        </View>
+            <View style={styles.container}>
+                <HeaderCustom />
+                {/* Title view */}
+                <View style={styles.viewTopBackground}>
+                    <View style={styles.viewTitle}>
+
+                        <View style={styles.viewImageUser}>
+                            <Avatar
+                                size="large"
+                                source={imageConstant.IMAGE_USER}
+                                onPress={() => console.log("Works!")}
+                                activeOpacity={0.7}
+                            />
+                        </View>
+                        <View style={{ paddingLeft: wp('12%'), paddingTop:hp('1.2%') }} >
+                            <Text style={styles.textHello}>Hello</Text>
+                            <Text style={styles.textTimeWish}>Good Morning</Text>
+                        </View>
+
+                    </View>
+                </View>
+
+                {/* Bookinng list  */}
+                <View style={{ marginTop: hp('-10%'), alignSelf: 'center', height:hp('18%') }}>
+                    <FlatList
+                        renderItem={renderItem}
+                        data={arrayBooking}
+                        keyExtractor={(item, index) => index.toString()}
+
+                    />
+                </View>
+                <Text style={styles.textTitleGoes}>Title Goes Here</Text>
+
+{/* Journeys / Approval and Bus Booking  */}
+                <View style={styles.viewContainSmallBox}>
+
+                    <View style={styles.viewSmallBox}>
+                        <View style={styles.viewYellowBox}>
+                            <Text style={styles.textNumber}>1</Text>
+                        </View>
+                        <View style={styles.viewInsideSmallBox}>
+                            <View style={styles.imageIcon}>
+                                <Image style={styles.image} resizeMode={'contain'} source={imageConstant.IMAGE_PLANE} />
+                            </View>
+                            <Text style={styles.textButtonTitle}>Journeys</Text>
+                        </View>
+                    </View>
+
+                    <View style={styles.viewSmallBox}>
+                        <View style={styles.viewYellowBox}>
+                            <Text style={styles.textNumber}>1</Text>
+                        </View>
+                        <View style={styles.viewInsideSmallBox}>
+                            <View style={styles.imageIcon}>
+                                <Image style={styles.image} resizeMode={'contain'} source={imageConstant.IMAGE_LIKE} />
+                            </View>
+                            <Text style={styles.textButtonTitle}>Approvals</Text>
+                        </View>
+                    </View>
+
+
+                    <View style={[styles.viewSmallBox]}>
+                        {/* <View style={styles.viewYellowBox}>
+                            <Text style={styles.textNumber}>1</Text>
+                        </View> */}
+                        <View style={styles.viewInsideSmallBox}>
+                            <View style={styles.imageIcon}>
+                                <Image style={styles.image} resizeMode={'contain'} source={imageConstant.IMAGE_BUS_BLUE} />
+                            </View>
+                            <Text style={styles.textButtonTitle}>Bus Bookings</Text>
+                        </View>
+                    </View>
+                </View>
+                
+            </View>
         </>
     )
 }
 
-export default HomeScreen; 
+export default HomeScreen;

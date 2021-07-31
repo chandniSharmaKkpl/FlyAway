@@ -11,9 +11,12 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		279AB4C10EDB471C9EB49565 /* Barlow-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 87F8242C1C9B4834AC2B0D5E /* Barlow-Regular.ttf */; };
 		2FA2A14A5A35231150893785 /* libPods-TrobexisApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D5BA7C4F729B41D081C1476 /* libPods-TrobexisApp.a */; };
+		7A6BA8AC876647F69B30607F /* Barlow-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3B61A9E17923407891B596CB /* Barlow-Bold.ttf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		D820481E0484BE0F45DBAD0D /* libPods-TrobexisApp-TrobexisAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BDFAAA9C2D117ECFF521A209 /* libPods-TrobexisApp-TrobexisAppTests.a */; };
+		E520437A44A34BA7A6CFE99B /* Barlow-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4EE88936E4CD46699EEA8623 /* Barlow-SemiBold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,9 +39,12 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = TrobexisApp/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = TrobexisApp/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = TrobexisApp/main.m; sourceTree = "<group>"; };
+		3B61A9E17923407891B596CB /* Barlow-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-Bold.ttf"; path = "../assets/Fonts/Barlow-Bold.ttf"; sourceTree = "<group>"; };
+		4EE88936E4CD46699EEA8623 /* Barlow-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-SemiBold.ttf"; path = "../assets/Fonts/Barlow-SemiBold.ttf"; sourceTree = "<group>"; };
 		5D8FE83CA9E81FC2A232172E /* Pods-TrobexisApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrobexisApp.debug.xcconfig"; path = "Target Support Files/Pods-TrobexisApp/Pods-TrobexisApp.debug.xcconfig"; sourceTree = "<group>"; };
 		6D5BA7C4F729B41D081C1476 /* libPods-TrobexisApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TrobexisApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = TrobexisApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		87F8242C1C9B4834AC2B0D5E /* Barlow-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-Regular.ttf"; path = "../assets/Fonts/Barlow-Regular.ttf"; sourceTree = "<group>"; };
 		9E48576253DF9D5ED82AAA24 /* Pods-TrobexisApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrobexisApp.release.xcconfig"; path = "Target Support Files/Pods-TrobexisApp/Pods-TrobexisApp.release.xcconfig"; sourceTree = "<group>"; };
 		BDFAAA9C2D117ECFF521A209 /* libPods-TrobexisApp-TrobexisAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TrobexisApp-TrobexisAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3A124C04032EC490C0BF6CD /* Pods-TrobexisApp-TrobexisAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrobexisApp-TrobexisAppTests.debug.xcconfig"; path = "Target Support Files/Pods-TrobexisApp-TrobexisAppTests/Pods-TrobexisApp-TrobexisAppTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -106,6 +112,16 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		3CCBA7182FE94C77A6CF719D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				3B61A9E17923407891B596CB /* Barlow-Bold.ttf */,
+				87F8242C1C9B4834AC2B0D5E /* Barlow-Regular.ttf */,
+				4EE88936E4CD46699EEA8623 /* Barlow-SemiBold.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -122,6 +138,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				DB729BFF5A5362FCF4ECFF7A /* Pods */,
+				3CCBA7182FE94C77A6CF719D /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -145,7 +162,6 @@
 				D3A124C04032EC490C0BF6CD /* Pods-TrobexisApp-TrobexisAppTests.debug.xcconfig */,
 				E9DFB0608004942A84E3568B /* Pods-TrobexisApp-TrobexisAppTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -243,6 +259,9 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				7A6BA8AC876647F69B30607F /* Barlow-Bold.ttf in Resources */,
+				279AB4C10EDB471C9EB49565 /* Barlow-Regular.ttf in Resources */,
+				E520437A44A34BA7A6CFE99B /* Barlow-SemiBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

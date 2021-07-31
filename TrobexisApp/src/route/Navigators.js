@@ -39,8 +39,8 @@ function NavigationSetup() {
     <Stack.Navigator>
       <Stack.Screen
         options={{headerShown: false}}
-        name="HomeScreen"
-        component={HomeScreen}
+        name="BusBookingScreen"
+        component={BusBookingScreen}
       />
 
       {/* <Stack.Screen name="Tab" component={TabNavigator} /> */}
