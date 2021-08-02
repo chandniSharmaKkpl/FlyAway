@@ -5,5 +5,7 @@ export default{
     BUS_BOOKING:'Bus Booking',
     HOME_SCREEN:'Home',
     SITE_ITINARY:'Site Itinary',
-    HISTORY:"History"
+    HISTORY:"History",
+    TAB:'Tab',
+    
 }

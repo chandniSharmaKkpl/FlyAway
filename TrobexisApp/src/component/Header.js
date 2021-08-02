@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TextInput, Image, Text, Pressable } from 'react-native';
+import { View, TextInput, Image, Text, Pressable, Platform } from 'react-native';
 import appColor from '../constant/colorConstant';
 import imageConstant from '../constant/imageConstant'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -9,16 +9,9 @@ const HeaderCustom = (props) => {
   const { title, leftIcon, rightIcon, viewName, centerTitle, onClickRightIcon, rightIconImage } = props
 
   return (
-    <View style={{
-      flexDirection: 'row', justifyContent: 'space-between', height: hp('10%'),
-      backgroundColor: appColor.NAVY_BLUE
-    }}>
+    <View style={Platform.OS === 'android'? styles.topHeaderStyleAndroid: styles.topHeaderStyleIos}>
 
-      <View style={{
-        height: hp('2.5%'), width: wp('8%'),
-        marginTop: hp('6%'),
-        marginLeft: wp('4%')
-      }}>
+      <View style={styles.iconHeader}>
         {leftIcon ? <Image style={{ width: '100%', height: '100%' }} resizeMode={'contain'} source={imageConstant.IMAGE_MENU} />
           : null}
       </View>
@@ -39,14 +32,33 @@ const HeaderCustom = (props) => {
 export default HeaderCustom;
 
 const styles = {
+  topHeaderStyleIos:{
+    flexDirection: 'row', 
+    justifyContent: 'space-between', height: hp('10%'),
+    backgroundColor: appColor.NAVY_BLUE
+  },
+  topHeaderStyleAndroid:{
+    flexDirection: 'row', 
+    justifyContent: 'space-between', height: hp('7%'),
+    backgroundColor: appColor.NAVY_BLUE,
+  },
+  iconHeader:{
+    
+      height: hp('2.5%'), 
+      width: wp('8%'),
+      marginTop:Platform.OS === 'android'? hp('2%'): hp('6%'),
+      marginLeft: wp('4%')
+    
+  },
+  
   styleBell:{
     height: hp('3%'), width: wp('8%'),
-    marginTop: hp('6%'),
+    marginTop:Platform.OS === 'android'? hp('2%'): hp('6%'),
     marginRight: wp('4%')
   },
   styleArrow:{
     height: hp('3%'), width: wp('6%'),
-    marginTop: hp('6%'),
+    marginTop:Platform.OS === 'android'? hp('2%'): hp('6%'),
     marginRight: wp('4%')
   },
   textTitle: {
@@ -56,6 +68,6 @@ const styles = {
     flexWrap: 'wrap',
     alignSelf: 'center',
 
-    marginTop: hp('4%'),
+    marginTop:Platform.OS==='android'? hp('-1%'): hp('4%'),
   },
 }

@@ -5,9 +5,8 @@ import stylesCommon from '../../common/common.style';
 
 import { HeaderCustom, BookingCard } from '../../component';
 import { Avatar } from "react-native-elements";
-import imageConstant from '../../constant/imageConstant'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import appConstant from '../../constant/appConstant';
+import {appColor, appConstant, imageConstant} from '../../constant'; 
 
 const History = (props) => {
 

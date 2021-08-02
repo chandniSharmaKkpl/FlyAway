@@ -8,6 +8,7 @@ import HomeScreen from '../Screen/home/Home.screen';
 import BusBookingScreen from '../Screen/busBooking/BusBooking.screen';
 import HistoryScreen from '../Screen/history/History.screen';
 import PickABus from '../Screen/pickABus/PickABus.screen';
+import SiteTravelItinary from '../Screen/siteTravelItinary/SiteTravelItinary.screen';
 import appConstant from '../constant/appConstant';
 import appColor from '../constant/colorConstant';
 import imageConstant from '../constant/imageConstant';
@@ -20,7 +21,7 @@ const Tab = createBottomTabNavigator();
 function DrawerNavigator() {
   return (
     <Drawer.Navigator
-      initialRouteName={'Tab'}
+      initialRouteName={appConstant.TAB}
       // drawerContent={() => <CustomDrawer />}
       drawerType="slide">
       <Drawer.Screen name="Tab" component={TabNavigator} />
@@ -33,13 +34,25 @@ const HomeStack =()=>{
     <Stack.Navigator>
       <Stack.Screen 
         options={{ headerShown: false }}
-      name={appConstant.HOME_SCREEN} component={HomeScreen}/>
+        name={appConstant.HOME_SCREEN} component={HomeScreen}/>
       <Stack.Screen 
         options={{ headerShown: false }}
       name={appConstant.PICK_A_BUS} component={PickABus}/>
     </Stack.Navigator>
   )
 }
+ const BusBookingStack =()=>{
+  return(
+    <Stack.Navigator>
+      <Stack.Screen 
+        options={{ headerShown: false }}
+        name={appConstant.BUS_BOOKING} component={BusBookingScreen}/>
+      <Stack.Screen 
+        options={{ headerShown: false }}
+      name={appConstant.SITE_ITINARY} component={SiteTravelItinary}/>
+    </Stack.Navigator>
+  )
+ }
 
 function TabNavigator() {
   return (
@@ -61,8 +74,8 @@ function TabNavigator() {
       activeColor={appColor.WHITE}
       inactiveColor={appColor.WHITE}
       barStyle={{ backgroundColor: appColor.NAVY_BLUE }}
-      initialRouteName={'Home'}>
-      <Tab.Screen name="Home"
+      initialRouteName={appConstant.HOME_SCREEN}>
+      <Tab.Screen name={appConstant.HOME_SCREEN}
         options={{
           tabBarLabel: 'Home',
           tabBarIcon: ({ tintColor }) => (
@@ -73,18 +86,17 @@ function TabNavigator() {
           )
         }}
         component={HomeStack} />
-      <Tab.Screen name="Bus Booking" component={BusBookingScreen} 
+      <Tab.Screen name={appConstant.BUS_BOOKING} component={BusBookingStack} 
       options={{
         tabBarLabel: 'Bus Booking',
         tabBarIcon: ({ tintColor }) => (
           <View style={styles.viewImage}>
             <Image source={imageConstant.IMAGE_BUS_WHITE} resizeMode={'contain'} style={styles.image} />
-
           </View>
         )
       }}
       />
-      <Tab.Screen name="History" component={HistoryScreen} 
+      <Tab.Screen name={appConstant.HISTORY} component={HistoryScreen} 
       options={{
         tabBarLabel: 'Home',
         tabBarIcon: ({ tintColor }) => (
@@ -111,7 +123,7 @@ function NavigationSetup() {
 
       <Stack.Screen
         options={{ headerShown: false }}
-        name="Tab" component={TabNavigator} />
+        name={appConstant.TAB} component={TabNavigator} />
     </Stack.Navigator>
   );
 }

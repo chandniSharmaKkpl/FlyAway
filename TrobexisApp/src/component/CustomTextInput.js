@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, Platform } from 'react-native';
 import appColor from '../constant/colorConstant';
 import fontConstant from '../constant/fontConstant';
 
@@ -16,7 +16,7 @@ const CustomTextInput = (props) => {
 
             
             <Text>{props.title}</Text>
-            <View style={styles.viewImages}>
+           <View style={props.rightIcon === imageConstant.IMAGE_CALENDAR_BLACK ?styles.viewCalendarImages: styles.viewDownArrowImages}>
                 <Image style={styles.image} resizeMode={'contain'} source={props.rightIcon} />
             </View>
             </View>
@@ -27,17 +27,17 @@ const CustomTextInput = (props) => {
 const styles = {
     viewOutSide: {
         borderRadius: 14,
-        borderColor: appColor.GRAY,
-        shadowColor: appColor.SHADOW,
+        borderColor:Platform.OS==='android'? appColor.BORDER: appColor.GRAY,
+        shadowColor:  appColor.SHADOW,
         shadowOffset: {
             width: 1,
             height: 1,
         },
-        shadowOpacity: 0.62,
-        shadowRadius: 2.22,
+        shadowOpacity: Platform.OS === 'android'? 0.2 :0.62,
+        shadowRadius: Platform.OS === 'android'? 1.2 : 2.22,
         elevation: 5,
         // width: wp('90%'),
-        height: hp('5%'),
+        height: hp('6%'),
         backgroundColor: appColor.WHITE,
         flexDirection: 'row',
         justifyContent:'space-between',
@@ -50,9 +50,13 @@ const styles = {
         flexWrap: 'wrap',
         paddingLeft: wp('2%')
     },
-    viewImages: {
-        width: wp('3%'),
-        height: hp('3%'),
+    viewCalendarImages: {
+        width: wp('4.5%'),
+        height: hp('4.5%'),
+    },
+    viewDownArrowImages: {
+        width: wp('3.5%'),
+        height: hp('3.5%'),
     },
     image: {
         width: '100%',

@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 import styles from './HomeDetail.style';
+import {appColor, appConstant, imageConstant} from '../../constant'; 
 
 const HomeDetailScreen =()=>{
 

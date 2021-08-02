@@ -6,21 +6,24 @@ import stylesCommon from '../../common/common.style';
 
 import { HeaderCustom, BookingCard, cus, CustomTextInput } from '../../component';
 import { Avatar } from "react-native-elements";
-import imageConstant from '../../constant/imageConstant'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import appColor from '../../constant/colorConstant';
-import appConstant from '../../constant/appConstant';
+import {appColor, appConstant, imageConstant} from '../../constant'; 
 
 
 const BusBookingScreen = (props) => {
 
     const [arrayBooking, setArrayBooking] = useState([1])
 
+    const onClickBookingCard = useCallback(() => {
+            props.navigation.navigate(appConstant.SITE_ITINARY)
+        },[],
+    );
+
     const renderItem = (item) => {
         return (
-            <View>
+            <Pressable onPress={onClickBookingCard }>
                 <BookingCard item={item} titleColor={appColor.NAVY_BLUE} title={"Bus Booking- Butler Park to Barrow Island"} viewName={appConstant.BUS_BOOKING}/>
-            </View>
+            </Pressable>
         )
     }
 

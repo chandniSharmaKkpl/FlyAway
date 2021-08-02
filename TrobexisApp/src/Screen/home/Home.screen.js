@@ -1,17 +1,26 @@
-import React, { useState, useCallback } from 'react';
-import { View, Text, Image, FlatList, Pressable } from 'react-native';
+import React, { useState, useCallback, useEffect } from 'react';
+import { View, Text, Image, FlatList, Pressable, BackHandler } from 'react-native';
 import styles from './Home.style';
 import { HeaderCustom, BookingCard } from '../../component';
 import { Avatar } from "react-native-elements";
-import imageConstant from '../../constant/imageConstant'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import appColor from '../../constant/colorConstant';
-import appConstant from '../../constant/appConstant';
-
+import {appColor, appConstant, imageConstant} from '../../constant'; 
 
 const HomeScreen = (props) => {
 
     const [arrayBooking, setArrayBooking] = useState([1])
+
+    const handleBackButtonClick =()=>{
+        return true;
+
+    }
+    useEffect(() => {
+        BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+
+        return () => {
+            BackHandler.removeEventListener('hardwareBackPress', handleBackButtonClick);
+        }
+    }, [])
 
     const renderItem = (item) => {
         return (
@@ -57,7 +66,7 @@ const HomeScreen = (props) => {
                 </View>
 
                 {/* Bookinng list  */}
-                <View style={{ marginTop: hp('-10%'), alignSelf: 'center', height:hp('18%') }}>
+                <View style={{ marginTop: hp('-8%'), alignSelf: 'center', height:hp('18%') }}>
                     <FlatList
                         renderItem={renderItem}
                         data={arrayBooking}
