@@ -1,5 +1,12 @@
 import React, {useState, useCallback, useEffect} from 'react';
-import {View, Text, Image, FlatList, BackHandler} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  FlatList,
+  BackHandler,
+  Pressable,
+} from 'react-native';
 import stylesHome from '../home/Home.style';
 import stylesCommon from '../../common/common.style';
 import styles from './SiteTravelItinary.style';
@@ -29,7 +36,7 @@ const SiteTravelItinary = props => {
   }, []);
 
   const handleBackButtonClick = () => {
-    props.navigation.goBack();
+    props.navigation.navigate(viewName);
   };
 
   const renderItem = item => {
@@ -50,7 +57,12 @@ const SiteTravelItinary = props => {
 
   const returnView = (title, value) => {
     return (
-      <View style={{flexDirection: 'row', paddingTop:hp('1%'), paddingBottom:hp('1%')}}>
+      <View
+        style={{
+          flexDirection: 'row',
+          paddingTop: hp('1%'),
+          paddingBottom: hp('1%'),
+        }}>
         <Text style={styles.textBlue}>{title}: </Text>
         <Text style={styles.textBlack}>{value}</Text>
       </View>
@@ -75,7 +87,7 @@ const SiteTravelItinary = props => {
         <ScrollView style={{}}>
           {/* View user information */}
           <View style={styles.viewOutSide}>
-            <View style={{padding: 15}}>
+            <View style={styles.viewInside}>
               {returnView('Name', 'Poole Boris')}
               {returnView('Bus Booking', 'Butler Park to Barrow Island')}
               {returnView('Date', 'Tue, July20,2021 to Tue, July 20, 2021')}
@@ -83,15 +95,71 @@ const SiteTravelItinary = props => {
             </View>
           </View>
 
-{/* View Travel information */}
+          {/* View Travel information */}
 
-<View style={styles.viewOutSide}>
-  <View style={styles.viewInside}>
+          <View style={[styles.viewOutSide, {marginTop: hp('3%')}]}>
+            <View style={[styles.viewRowTop]}>
+              <View style={styles.buttonBusYellow}>
+                <View style={styles.viewBusImage}>
+                  <Image
+                    source={imageConstant.IMAGE_BUS_WHITE}
+                    resizeMode={'contain'}
+                    style={stylesCommon.image}
+                  />
+                </View>
+              </View>
+              <View style={styles.viewLeft}>
+                <Text style={styles.textYellow}>Trobexis Coaches (BRW02)</Text>
+                <Text style={[styles.textBlack]}>Tuesday, July20,2021</Text>
+              </View>
+            </View>
+            <View style={styles.viewSingleLine} />
 
-  </View>
+            {/* View Departs and Arrive */}
+            <View style={styles.viewDepartsAndArrive}></View>
+            <View style={styles.viewItinerary}>
+              <View style={styles.viewLocation}>
+                <Text style={styles.textBlueBig}>Departs</Text>
 
-</View>
+                <Text style={styles.textBlack}>Butler Park(034)</Text>
+                <Text style={styles.textBlack}>12:00 PM</Text>
+              </View>
 
+              <View style={{width:'66%',flexDirection:'row'}}>
+                <View style={[styles.viewArrow,{flex:3}]}>
+                  <Image
+                    resizeMode={'contain'}
+                    source={imageConstant.IMAGE_ARROW_RIGHT}
+                    style={stylesCommon.image}
+                  />
+                </View>
+
+                <View style={styles.viewRightLocation}>
+                  <Text style={styles.textBlueBig}>Arrives</Text>
+
+                  <Text style={styles.textBlack}>
+                    Barrows Island(BWB)
+                  </Text>
+                  <Text style={styles.textBlack}>12:00 PM</Text>
+                </View>
+              </View>
+            </View>
+
+            <View style={styles.ViewBlueBottom}>
+              <Text style={[styles.textWhite, {padding: '2%'}]}>
+                Total Time: 10m
+              </Text>
+            </View>
+          </View>
+
+          {/* Cancel Button */}
+          {props.viewName === appConstant.BUS_BOOKING ? null : (
+            <View style={styles.viewCancelButton}>
+              <Pressable style={styles.buttonRed}>
+                <Text style={styles.textRedButton}>Cancel Booking</Text>
+              </Pressable>
+            </View>
+          )}
         </ScrollView>
       </View>
     </>

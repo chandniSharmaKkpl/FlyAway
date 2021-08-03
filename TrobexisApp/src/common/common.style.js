@@ -12,5 +12,9 @@ export default StyleSheet.create({
         padding: '5%',
     
       },
+      image:{
+        width:'100%',
+        height:'100%'
+      }
 }
 )

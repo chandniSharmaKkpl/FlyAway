@@ -7,4 +7,5 @@ export default {
     SHADOW:'#00000014',
     BORDER:'#0000000D',
 GRAY:'gray',
+RED:'#C32130'
 }

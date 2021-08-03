@@ -15,7 +15,9 @@ const BusBookingScreen = (props) => {
     const [arrayBooking, setArrayBooking] = useState([1])
 
     const onClickBookingCard = useCallback(() => {
-            props.navigation.navigate(appConstant.SITE_ITINARY)
+            props.navigation.navigate(appConstant.SITE_ITINARY, {
+                viewName: appConstant.BUS_BOOKING
+            })
         },[],
     );
 

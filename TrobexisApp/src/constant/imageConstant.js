@@ -22,7 +22,7 @@ export default{
  IMAGE_CALENDAR_BLUE : require('../../assets/image/make_a_booking_page/calendar-solid.png'),
  IMAGE_ARROW_DOWN : require('../../assets/image/make_a_booking_page/XMLID_23_-1.png'),
 IMAGE_ARROW_BACK : require('../../assets/image/pick_a_bus_page/up-arrow-svgrepo-com.png'),
-// export const IMAGE_ : require('../../assets/image/home_page/.png');
+ IMAGE_ARROW_RIGHT : require('../../assets/image/add_booking_page/up-arrow-svgrepo-com-1.png'),
 // export const IMAGE_ : require('../../assets/image/home_page/.png');
 }
 

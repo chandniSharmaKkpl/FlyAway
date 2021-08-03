@@ -24,10 +24,14 @@ const HomeScreen = (props) => {
 
     const renderItem = (item) => {
         return (
-            <View>
+            <Pressable onPress={()=>{ props.navigation.navigate( appConstant.BUS_BOOKING,{
+                viewName:appConstant.HOME_SCREEN,    
+                screen: appConstant.SITE_ITINARY,
+                    dataItem:{ item}})
+            }}>
                <BookingCard item={item} titleColor={appColor.YELLOW} 
                 title={"Bus Booking - Butler Park to Barrow Island"} viewName={appConstant.HOME_SCREEN} />
-            </View>
+            </Pressable>
         )
     }
 

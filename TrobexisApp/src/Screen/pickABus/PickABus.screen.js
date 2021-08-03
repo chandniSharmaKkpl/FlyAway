@@ -1,5 +1,5 @@
 import React, {useState, useCallback, useEffect} from 'react';
-import {View, Text, Image, FlatList, BackHandler} from 'react-native';
+import {View, Text, Image, FlatList, BackHandler, Pressable} from 'react-native';
 import stylesHome from '../home/Home.style';
 import stylesCommon from '../../common/common.style';
 import {HeaderCustom, BookingCard} from '../../component';
@@ -30,16 +30,20 @@ const PickABus = props => {
     props.navigation.goBack();
   };
 
+
   const renderItem = item => {
     return (
-      <View>
+      <Pressable onPress={()=> props.navigation.navigate( appConstant.BUS_BOOKING,{
+        screen: appConstant.SITE_ITINARY,
+        viewName:appConstant.PICK_A_BUS,
+        dataItem:{ item}})}>
         <BookingCard
           item={item}
           titleColor={appColor.NAVY_BLUE}
           title={'Butler Park to Barrow Island'}
           viewName={appConstant.PICK_A_BUS}
         />
-      </View>
+      </Pressable>
     );
   };
   const onClickBack = useCallback(() => {
