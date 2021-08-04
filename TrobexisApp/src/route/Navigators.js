@@ -98,7 +98,7 @@ function TabNavigator() {
       />
       <Tab.Screen name={appConstant.HISTORY} component={HistoryScreen} 
       options={{
-        tabBarLabel: 'Home',
+        tabBarLabel: 'History',
         tabBarIcon: ({ tintColor }) => (
           <View style={styles.viewImage}>
             <Image source={imageConstant.IMAGE_CLOCK_WHITE

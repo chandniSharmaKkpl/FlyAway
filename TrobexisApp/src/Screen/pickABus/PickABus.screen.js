@@ -33,10 +33,7 @@ const PickABus = props => {
 
   const renderItem = item => {
     return (
-      <Pressable onPress={()=> props.navigation.navigate( appConstant.BUS_BOOKING,{
-        screen: appConstant.SITE_ITINARY,
-        viewName:appConstant.PICK_A_BUS,
-        dataItem:{ item}})}>
+      <Pressable>
         <BookingCard
           item={item}
           titleColor={appColor.NAVY_BLUE}
