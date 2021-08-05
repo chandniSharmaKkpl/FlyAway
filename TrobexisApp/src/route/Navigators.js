@@ -82,7 +82,7 @@ function TabNavigator() {
       initialRouteName={appConstant.HOME_SCREEN}>
       <Tab.Screen name={appConstant.HOME_SCREEN}
         options={{
-          tabBarLabel: 'Home',
+          // tabBarLabel: 'Home',
           tabBarIcon: ({ tintColor }) => (
             <View style={styles.viewImage}>
               <Image source={imageConstant.IMAGE_HOME_WHITE} resizeMode={'contain'} style={styles.image} />
@@ -93,7 +93,7 @@ function TabNavigator() {
         component={HomeStack} />
       <Tab.Screen name={appConstant.BUS_BOOKING} component={BusBookingStack} 
       options={{
-        tabBarLabel: 'Bus Booking',
+        // tabBarLabel: 'Bus Booking',
         tabBarIcon: ({ tintColor }) => (
           <View style={styles.viewImage}>
             <Image source={imageConstant.IMAGE_BUS_WHITE} resizeMode={'contain'} style={styles.image} />
@@ -103,7 +103,7 @@ function TabNavigator() {
       />
       <Tab.Screen name={appConstant.HISTORY} component={HistoryScreen} 
       options={{
-        tabBarLabel: 'History',
+        // tabBarLabel: 'History',
         tabBarIcon: ({ tintColor }) => (
           <View style={styles.viewImage}>
             <Image source={imageConstant.IMAGE_CLOCK_WHITE
