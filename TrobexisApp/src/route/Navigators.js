@@ -8,6 +8,7 @@ import HomeScreen from '../Screen/home/Home.screen';
 import BusBookingScreen from '../Screen/busBooking/BusBooking.screen';
 import HistoryScreen from '../Screen/history/History.screen';
 import PickABus from '../Screen/pickABus/PickABus.screen';
+import Notifications from '../Screen/Notification/notificationScreen';
 import SiteTravelItinary from '../Screen/siteTravelItinary/SiteTravelItinary.screen';
 import appConstant from '../constant/appConstant';
 import appColor from '../constant/colorConstant';
@@ -38,6 +39,10 @@ const HomeStack =()=>{
       <Stack.Screen 
         options={{ headerShown: false }}
       name={appConstant.PICK_A_BUS} component={PickABus}/>
+
+    <Stack.Screen 
+        options={{ headerShown: false }}
+      name={appConstant.NOTIFICATIONS} component={Notifications}/>
     </Stack.Navigator>
   )
 }

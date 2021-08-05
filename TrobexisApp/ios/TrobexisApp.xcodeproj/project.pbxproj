@@ -487,6 +487,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "Trobexis AppStore Distribution Profile";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -515,6 +516,7 @@
 				PRODUCT_NAME = TrobexisApp;
 				PROVISIONING_PROFILE_SPECIFIER = "Trobexis AppStore Distribution Profile";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

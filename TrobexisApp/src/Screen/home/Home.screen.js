@@ -30,20 +30,36 @@ const HomeScreen = (props) => {
             </Pressable>
         )
     }
+function abc(...param) {
+    console.log("param", param);
+    return param;
+}
+
+    const method=()=>{
+const a = {}
+
+         console.log(" object us -----", a.prototype.__proto__
+         );
+    }
 
     const onClickBusBooking = useCallback(() => {
         props.navigation.navigate(appConstant.PICK_A_BUS)
             },[])
 
+           
     return (
         <>
+        {
+       //  method()
+     // abc(2,3,4)
+        }
             <View style={styles.container}>
                 <HeaderCustom
                 title={""} 
                 viewName={appConstant.HOME_SCREEN} 
                 leftIcon={true} rightIcon={true} 
                 centerTitle={false}
-                onClickRightIcon = {()=> {console.log("")}}
+                onClickRightIcon = {()=> {props.navigation.navigate(appConstant.NOTIFICATIONS)}}
                 rightIconImage={""} />
                 {/* Title view */}
                 <View style={styles.viewTopBackground}>
