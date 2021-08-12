@@ -4,3 +4,4 @@ export {default as appColor} from './colorConstant';
 export {default as imageConstant} from './imageConstant'; 
 export {default as fontConstant} from './fontConstant'; 
 export {default as msgConstant} from './alertMsgConstant'; 
+export {default as apiUrl} from './api';

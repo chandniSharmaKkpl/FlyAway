@@ -16,7 +16,6 @@ const HomeScreen = (props) => {
     }
     useEffect(() => {
         BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
-
         return () => {
             BackHandler.removeEventListener('hardwareBackPress', handleBackButtonClick);
         }
@@ -30,17 +29,6 @@ const HomeScreen = (props) => {
             </Pressable>
         )
     }
-function abc(...param) {
-    console.log("param", param);
-    return param;
-}
-
-    const method=()=>{
-const a = {}
-
-         console.log(" object us -----", a.prototype.__proto__
-         );
-    }
 
     const onClickBusBooking = useCallback(() => {
         props.navigation.navigate(appConstant.PICK_A_BUS)
@@ -50,8 +38,6 @@ const a = {}
     return (
         <>
         {
-       //  method()
-     // abc(2,3,4)
         }
             <View style={styles.container}>
                 <HeaderCustom

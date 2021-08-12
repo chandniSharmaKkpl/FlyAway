@@ -8,7 +8,7 @@
 import 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -29,9 +29,14 @@ import {
 import { NavigationContainer } from '@react-navigation/native';
 import HomeScreen from './src/Screen/home/Home.screen'
 import NavigationSetup from './src/route/Navigators';
+import SplashScreen from 'react-native-splash-screen';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
+  
+  useEffect(() => {
+        SplashScreen.hide();
+      }, []);
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -43,7 +48,6 @@ const App = () => {
       <NavigationContainer>
            <NavigationSetup />
       </NavigationContainer>
-
     </SafeAreaProvider>
   );
 };
