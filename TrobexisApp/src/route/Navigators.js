@@ -66,9 +66,11 @@ function TabNavigator() {
 
       tabBarOptions={{
         activeTintColor: appColor.WHITE,
-        inactiveTintColor: appColor.WHITE,
+        inactiveTintColor: appColor.NAVY_BLUE,
         activeBackgroundColor: appColor.NAVY_BLUE,
         inactiveBackgroundColor: appColor.NAVY_BLUE,
+      //  showLabel: false ,
+
         style: {
           backgroundColor: appColor.NAVY_BLUE,
           // paddingBottom: 3

@@ -7,6 +7,8 @@ export default{
     SITE_ITINARY:'Site Itinary',
     HISTORY:"History",
     TAB:'Tab',
-    NOTIFICATIONS:'Notification'
+    NOTIFICATIONS:'Notification',
+    ACCESS_TOKEN:'Access Token',
+    
     
 }

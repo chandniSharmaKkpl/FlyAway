@@ -26,10 +26,13 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import { Provider } from 'react-redux';
+import StoreRoot from './src/store';
 import { NavigationContainer } from '@react-navigation/native';
 import HomeScreen from './src/Screen/home/Home.screen'
 import NavigationSetup from './src/route/Navigators';
 import SplashScreen from 'react-native-splash-screen';
+
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -45,9 +48,11 @@ const App = () => {
   return (
     <SafeAreaProvider style={backgroundStyle}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+      <Provider store={StoreRoot}>
       <NavigationContainer>
            <NavigationSetup />
       </NavigationContainer>
+      </Provider>
     </SafeAreaProvider>
   );
 };

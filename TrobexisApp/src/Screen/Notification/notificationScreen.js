@@ -44,8 +44,9 @@ const NotificationScreen = props => {
     );
   };
   const onClickBack = useCallback(() => {
-    props.navigation.goBack();
+    props.navigation.pop();
   }, []);
+  
   return (
     <>
       <View style={stylesHome.container}>

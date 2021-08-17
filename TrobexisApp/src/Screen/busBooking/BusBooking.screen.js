@@ -1,13 +1,13 @@
-import React, {useState, useCallback} from 'react';
-import {View, Text, Image, FlatList, Pressable} from 'react-native';
+import React, {useState, useCallback, useEffect} from 'react';
+import {View, Text, Image, FlatList, Pressable, BackHandler} from 'react-native';
 import stylesHome from '../home/Home.style';
 import styles from './BusBooking.style';
 import stylesCommon from '../../common/common.style';
+import format from "date-fns/format";
 
 import {
   HeaderCustom,
   BookingCard,
-  cus,
   CustomTextInput,
   Calendar,
 } from '../../component';
@@ -29,6 +29,23 @@ const BusBookingScreen = props => {
     });
   }, []);
 
+  const handleBackButtonClick =() =>{
+   return true;
+  }
+
+  useEffect(() => {
+    const unsubscribe = props.navigation.addListener("focus", () => {
+        BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+        let date = new Date();
+        let currentDate = format(date, "EEEE, MMMM dd yyyy");
+        setSelectedDate(currentDate);
+          });
+    return () =>{
+        BackHandler.removeEventListener('hardwareBackPress', handleBackButtonClick);
+        unsubscribe;
+     }
+  }, [])
+
   const renderItem = item => {
     return (
       <Pressable onPress={onClickBookingCard}>
@@ -43,16 +60,19 @@ const BusBookingScreen = props => {
   };
 
   const onClickCalendarDate = async selectedDay => {
-    //console.log("selectedDay---", selectedDay.dateString);
-    let dateString = selectedDay.dateString;
-    // Pass parameter in api
-    // return;
-    await setSelectedDate(dateString);
+    let dateString1 = selectedDay.dateString;
+    let dateTemp = Date.parse(dateString1);
+   let currentDate = format(dateTemp, "EEEE, MMMM dd yyyy");
+    await setSelectedDate(currentDate);
   };
 
   const onClickCalendarIcon = () => {
     setIsCalendarShow(!isCalendarShow);
   };
+  const onClickRightIcon = useCallback(()=>{
+            props.navigation.navigate(appConstant.NOTIFICATIONS)
+},[])     
+
   return (
     <>
       <View style={stylesHome.container}>
@@ -62,16 +82,14 @@ const BusBookingScreen = props => {
           leftIcon={true}
           rightIcon={true}
           centerTitle={true}
-          onClickRightIcon={() => {
-            console.log(' ');
-          }}
+          onClickRightIcon = {onClickRightIcon}
           rightIconImage={''}
         />
         <Text style={stylesCommon.textHeading}>Make a Booking</Text>
 
-        <View style={styles.viewButtonTextInput}>
+        <View style={styles.viewCalendar1}>
           <CustomTextInput
-            title={selectedDate}
+         title={selectedDate}
             rightIcon={imageConstant.IMAGE_CALENDAR_BLACK}
             width={wp('90%')}
             onClickRightIcon={onClickCalendarIcon}
@@ -79,20 +97,20 @@ const BusBookingScreen = props => {
         </View>
 
         {isCalendarShow ? (
-          <View style={{padding: '2%', paddingLeft:wp('5%'), paddingRight:wp('5%'),height:hp('45%')}}>
+          <View style={styles.viewCalendar}>
             <Calendar onDayPress={onClickCalendarDate} />
           </View>
         ) : null}
 
-        <View style={styles.viewButtonTextInput}>
+        <View style={styles.viewButtonTextInput }>
           <View style={styles.buttonYellow}>
             <Text style={styles.buttonTitle}>From:</Text>
           </View>
-          <View style={{paddingLeft: wp('3%')}}>
+          <View style={styles.viewFromText}>
             <CustomTextInput
               title={'Butler Park(034)'}
               rightIcon={imageConstant.IMAGE_ARROW_DOWN}
-              width={wp('72%')}
+              // width={wp('72%')}
             />
           </View>
         </View>
@@ -101,11 +119,11 @@ const BusBookingScreen = props => {
           <View style={styles.buttonYellow}>
             <Text style={styles.buttonTitle}>To:</Text>
           </View>
-          <View style={{paddingLeft: wp('3%')}}>
+          <View style={styles.viewFromText}>
             <CustomTextInput
               title={'Barrow Island(BWB)'}
               rightIcon={imageConstant.IMAGE_ARROW_DOWN}
-              width={wp('72%')}
+              // width={wp('72%')}
             />
           </View>
         </View>
