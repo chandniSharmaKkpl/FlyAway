@@ -33,7 +33,7 @@ const PickABus = props => {
 
   const renderItem = item => {
     return (
-      <Pressable>
+      <Pressable onPress={()=> props.navigation.navigate(appConstant.ADD_LUGGAGE, {data: item})}>
         <BookingCard
           item={item}
           titleColor={appColor.NAVY_BLUE}
@@ -52,11 +52,13 @@ const PickABus = props => {
         <HeaderCustom
           title={'Pick a Bus'}
           viewName={appConstant.PICK_A_BUS}
-          leftIcon={false}
-          rightIcon={true}
+          leftIcon={true}
+          onClickLeftIcon={()=> props.navigation.goBack()}
+          rightIcon={false}
           centerTitle={true}
-          onClickRightIcon={() => onClickBack()}
-          rightIconImage={imageConstant.IMAGE_ARROW_BACK}
+          onClickRightIcon={()=>{}}
+          rightIconImage={''}
+          viewName={appConstant.PICK_A_BUS}
         />
         <Text style={stylesCommon.textHeading}>Pick a Bus</Text>
 

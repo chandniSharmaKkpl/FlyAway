@@ -9,6 +9,6 @@ export default{
     TAB:'Tab',
     NOTIFICATIONS:'Notification',
     ACCESS_TOKEN:'Access Token',
-    
-    
+    ADD_LUGGAGE:'Add Luggage',
+    BOOKING_SUMMARY: 'Booking Summary',
 }

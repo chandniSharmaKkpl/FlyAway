@@ -18,17 +18,21 @@ import {
 import {appColor, appConstant, imageConstant} from '../../constant';
 import {requestToGetAccessToken, requestToGetUserProfile} from './Home.action';
 import localDB from '../../database/localDb';
+import DeviceInfo from 'react-native-device-info';
+
 
 const HomeScreen = props => {
   const response = useSelector(state => state.HomeReducer); // Getting api response
   const dispatch = useDispatch(); // Calling api
 
-  const [arrayBooking, setArrayBooking] = useState([1]);
+  const [arrayBooking, setArrayBooking] = useState([1,2,3,4,5,6]);
+  const [userProfile, setUserProfile] = useState({});
 
   const handleBackButtonClick = () => {
     return true;
   };
   useEffect(() => {
+    
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
     dispatch(requestToGetAccessToken());
    // checkAccessToken();
@@ -46,7 +50,7 @@ const HomeScreen = props => {
         <BookingCard
           item={item}
           titleColor={appColor.YELLOW}
-          title={'Bus Booking - Butler Park to Barrow Island'}
+          title={item.index ===0 || item.index === 2? 'Bus Booking - Butler Park to Barrow Island': 'Bus Booking - Sydney to Melbourne'}
           viewName={appConstant.HOME_SCREEN}
         />
       </Pressable>
@@ -61,20 +65,15 @@ const HomeScreen = props => {
     props.navigation.navigate(appConstant.NOTIFICATIONS);
   }, []);
 
+
   const checkAccessToken = () => {
-    localDB.setAccessToken(response);
-    //console.log(' respionse  ----', response);
-    if (response && response.accessToken && Object.keys(response.accessToken).length !== 0) {
-        console.log(' in side respionse  ----', response);
-      dispatch(requestToGetUserProfile(response.accessToken));
-    }
-    // For user profile
-    if (response && response) {
-    }
+   // localDB.setAccessToken(response);
+   
   };
 
   return (
     <>
+    
       <View style={styles.container}>
         <HeaderCustom
           title={''}
@@ -90,14 +89,14 @@ const HomeScreen = props => {
           <View style={styles.viewTitle}>
             <View style={styles.viewImageUser}>
               <Avatar
-                size="large"
+                size={DeviceInfo.isTablet() ? "xlarge": 'large'}
                 source={imageConstant.IMAGE_USER}
                 onPress={() => console.log('Works!')}
                 activeOpacity={0.7}
               />
             </View>
             <View style={{paddingLeft: wp('12%'), paddingTop: hp('1.2%')}}>
-              <Text style={styles.textHello}>Hello</Text>
+              <Text style={styles.textHello}>Hello {response.userProfile.firstname}!</Text>
               <Text style={styles.textTimeWish}>Good Morning</Text>
             </View>
           </View>
