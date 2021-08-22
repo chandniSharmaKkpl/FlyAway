@@ -11,4 +11,7 @@ export default{
     ACCESS_TOKEN:'Access Token',
     ADD_LUGGAGE:'Add Luggage',
     BOOKING_SUMMARY: 'Booking Summary',
+    BUS_BOOKING_STACK:"BusBookingStack",
+    HOME_STACK:"HomeStack",
+
 }

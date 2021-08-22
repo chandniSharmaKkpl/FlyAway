@@ -46,7 +46,10 @@ const HomeScreen = props => {
 
   const renderItem = item => {
     return (
-      <Pressable>
+      <Pressable onPress={()=> props.navigation.navigate(appConstant.BUS_BOOKING_STACK,{
+        screen:appConstant.SITE_ITINARY,
+        params: { prevData: item},
+      })}>
         <BookingCard
           item={item}
           titleColor={appColor.YELLOW}
@@ -71,9 +74,30 @@ const HomeScreen = props => {
    
   };
 
+  const getTimeMessage = () => {
+    var d = new Date();
+    var hour = d.getHours();
+    var amPm = ''
+    let stringToRead = "";
+    if (hour < 12) {
+        amPm = "am"
+        stringToRead = "Good morning"
+    } else {
+        amPm = "pm"
+        if (hour >= 12 && hour <= 17) {
+            stringToRead = "Good Afternoon";
+        } else {
+            if (hour > 17 && hour <= 24) {
+                stringToRead = "Good Evening";
+            }
+        }
+    }
+    return stringToRead;
+}
+
   return (
     <>
-    
+    {console.log(" itinary list ", response )}
       <View style={styles.container}>
         <HeaderCustom
           title={''}
@@ -97,13 +121,14 @@ const HomeScreen = props => {
             </View>
             <View style={{paddingLeft: wp('12%'), paddingTop: hp('1.2%')}}>
               <Text style={styles.textHello}>Hello {response.userProfile.firstname}!</Text>
-              <Text style={styles.textTimeWish}>Good Morning</Text>
+              <Text style={styles.textTimeWish}>{getTimeMessage()}</Text>
             </View>
           </View>
         </View>
 
         {/* Bookinng list  */}
-        <View
+    {/* {response.itinaryList && response.itinaryList>0? */}
+     <View
           style={{
             marginTop: hp('-8%'),
             alignSelf: 'center',
@@ -116,6 +141,7 @@ const HomeScreen = props => {
             keyExtractor={(item, index) => index.toString()}
           />
         </View>
+        {/* : null } */}
         <Text style={styles.textTitleGoes}>Title Goes Here</Text>
 
         {/* Journeys / Approval and Bus Booking  */}
