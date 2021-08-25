@@ -4,25 +4,6 @@ import {ApiBase} from '../../api/apiBase';
 import {successToGetAccessToken, failToGetAccessToken} from './Home.action';
 import {getToken, getUserProfile, getItinaryList} from './Home.api';
 
-export function* workerGetAccessToken() {
-  console.log('call Here ');
-  try {
-    const accessToken = yield call(getToken);
-
-    console.log('  workerGetAccessToken in saga -======>>>>>>', accessToken);
-    yield put({
-      type: actionConstant.ACTION_GET_ACCESS_TOKEN_SUCCESS,
-      payload: accessToken,
-    });
-
-     yield call(workerGetUserProfile);
-  } catch (error) {
-    yield put({
-      type: actionConstant.ACTION_GET_ACCESS_TOKEN_FAILURE,
-      payload: error,
-    });
-  }
-}
 
 export function* workerGetUserProfile() {
   try {
@@ -80,11 +61,9 @@ export function* workerGetItinaryList() {
   }
 }
 
-function* watchGetAccessToken() {
+function* watchGetUserProfile() {
   yield all[
     takeLatest(
-      actionConstant.ACTION_GET_ACCESS_TOKEN_REQUEST,
-      workerGetAccessToken,
       actionConstant.ACTION_GET_USER_PROFILE_REQUEST,
       workerGetUserProfile,
       actionConstant.ACTION_GET_ITINARY_LIST_REQUEST,
@@ -93,4 +72,4 @@ function* watchGetAccessToken() {
   ];
 }
 
-export default watchGetAccessToken;
+export default watchGetUserProfile;

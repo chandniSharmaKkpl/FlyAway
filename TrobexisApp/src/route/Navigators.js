@@ -21,6 +21,11 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import DeviceInfo from 'react-native-device-info';
+import LoginScreen from '../Screen/login/Login.screen'; 
+import ForgotPassword from '../Screen/ForgotPassword/ForgotPassword.screen'; 
+import AuthContext from '../context/AuthContext'
+
+
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -37,9 +42,30 @@ function DrawerNavigator() {
   );
 }
 
+const AuthStack =()=>{
+  return(
+  <Stack.Navigator>
+  <Stack.Screen
+    options={{headerShown: false}}
+    name={appConstant.LOGIN}
+    component={LoginScreen}
+  />
+   <Stack.Screen
+    options={{headerShown: false}}
+    name={appConstant.FORGOT_PASSWORD}
+    component={ForgotPassword}
+  />
+  </Stack.Navigator>)
+}
+
 const HomeStack = () => {
   return (
     <Stack.Navigator>
+      <Stack.Screen
+    options={{headerShown: false}}
+    name={appConstant.LOGIN}
+    component={LoginScreen}
+  />
       <Stack.Screen
         options={{headerShown: false}}
         name={appConstant.HOME_SCREEN}
@@ -108,7 +134,23 @@ function TabNavigator() {
       activeColor={appColor.WHITE}
       inactiveColor={appColor.WHITE}
       barStyle={{backgroundColor: appColor.NAVY_BLUE}}
-      initialRouteName={appConstant.HOME_SCREEN}>
+      initialRouteName={appConstant.LOGIN}>
+
+<Tab.Screen
+        name={appConstant.LOGIN}
+        options={{
+          tabBarIcon: ({tintColor}) => (
+            <View style={styles.viewImage}>
+              <Image
+                source={imageConstant.IMAGE_HOME_WHITE}
+                resizeMode={'contain'}
+                style={styles.image}
+              />
+            </View>
+          ),
+        }}
+        component={AuthStack}
+      />
       <Tab.Screen
         name={appConstant.HOME_SCREEN}
         options={{
@@ -159,19 +201,32 @@ function TabNavigator() {
 }
 
 function NavigationSetup() {
-  return (
-    <Stack.Navigator>
-      {/* <Stack.Screen
-        options={{headerShown: false}}
-        name="PickABus"
-        component={BusBookingScreen}
-      /> */}
 
+  const { user } = React.useContext(AuthContext)
+
+  console.log(" user --===", user); 
+
+  return (
+
+   <Stack.Navigator initialRouteName={appConstant.LOGIN} options={{ gestureEnabled: true }} >
+{user === null? 
+<>
+<Stack.Screen
+                    name={appConstant.AUTH_STACK}
+                    component={AuthStack}
+                    options={{
+                        header: () => null,
+                        gestureEnabled: false,
+                        headerTransparent: true,
+                    }}
+                />
+</>
+:
       <Stack.Screen
         options={{headerShown: false}}
         name={appConstant.TAB}
-        component={TabNavigator}
-      />
+        component={DrawerNavigator}
+      /> }
     </Stack.Navigator>
   );
 }

@@ -16,9 +16,10 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {appColor, appConstant, imageConstant} from '../../constant';
-import {requestToGetAccessToken, requestToGetUserProfile} from './Home.action';
+import { requestToGetUserProfile} from './Home.action';
 import localDB from '../../database/localDb';
 import DeviceInfo from 'react-native-device-info';
+import commonStyles from '../../common/common.style'
 
 
 const HomeScreen = props => {
@@ -34,7 +35,7 @@ const HomeScreen = props => {
   useEffect(() => {
     
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
-    dispatch(requestToGetAccessToken());
+    dispatch(requestToGetUserProfile());
    // checkAccessToken();
     return () => {
       BackHandler.removeEventListener(

@@ -32,11 +32,13 @@ import { NavigationContainer } from '@react-navigation/native';
 import HomeScreen from './src/Screen/home/Home.screen'
 import NavigationSetup from './src/route/Navigators';
 import SplashScreen from 'react-native-splash-screen';
+import AuthContext from './src/context/AuthContext';
 
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
-  
+  const [user, setUser] = React.useState(null);
+
   useEffect(() => {
         SplashScreen.hide();
       }, []);
@@ -47,12 +49,16 @@ const App = () => {
 
   return (
     <SafeAreaProvider style={backgroundStyle}>
+      <AuthContext.Provider value={{ user, setUserData: setUser}}>
+
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       <Provider store={StoreRoot}>
       <NavigationContainer>
            <NavigationSetup />
       </NavigationContainer>
       </Provider>
+
+      </AuthContext.Provider>
     </SafeAreaProvider>
   );
 };
