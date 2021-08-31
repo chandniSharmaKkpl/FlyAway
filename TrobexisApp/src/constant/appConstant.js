@@ -16,4 +16,6 @@ export default {
   LOGIN: 'Login',
   FORGOT_PASSWORD: 'Forgot Password',
   AUTH_STACK: 'AuthStack',
+  DRAWER_NAVIGATOR:"DrawerNavigator",
+  
 };

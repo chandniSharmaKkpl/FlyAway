@@ -36,7 +36,6 @@ const HomeScreen = props => {
     
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
     dispatch(requestToGetUserProfile());
-   // checkAccessToken();
     return () => {
       BackHandler.removeEventListener(
         'hardwareBackPress',

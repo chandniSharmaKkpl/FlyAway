@@ -34,6 +34,7 @@ const Tab = createBottomTabNavigator();
 function DrawerNavigator() {
   return (
     <Drawer.Navigator
+      name={appConstant.DRAWER_NAVIGATOR}
       initialRouteName={appConstant.TAB}
       // drawerContent={() => <CustomDrawer />}
       drawerType="slide">
@@ -61,11 +62,7 @@ const AuthStack =()=>{
 const HomeStack = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen
-    options={{headerShown: false}}
-    name={appConstant.LOGIN}
-    component={LoginScreen}
-  />
+     
       <Stack.Screen
         options={{headerShown: false}}
         name={appConstant.HOME_SCREEN}
@@ -134,23 +131,8 @@ function TabNavigator() {
       activeColor={appColor.WHITE}
       inactiveColor={appColor.WHITE}
       barStyle={{backgroundColor: appColor.NAVY_BLUE}}
-      initialRouteName={appConstant.LOGIN}>
+      initialRouteName={appConstant.HOME_SCREEN}>
 
-<Tab.Screen
-        name={appConstant.LOGIN}
-        options={{
-          tabBarIcon: ({tintColor}) => (
-            <View style={styles.viewImage}>
-              <Image
-                source={imageConstant.IMAGE_HOME_WHITE}
-                resizeMode={'contain'}
-                style={styles.image}
-              />
-            </View>
-          ),
-        }}
-        component={AuthStack}
-      />
       <Tab.Screen
         name={appConstant.HOME_SCREEN}
         options={{
@@ -209,7 +191,7 @@ function NavigationSetup() {
   return (
 
    <Stack.Navigator initialRouteName={appConstant.LOGIN} options={{ gestureEnabled: true }} >
-{user === null? 
+{user != null? 
 <>
 <Stack.Screen
                     name={appConstant.AUTH_STACK}
@@ -225,8 +207,10 @@ function NavigationSetup() {
       <Stack.Screen
         options={{headerShown: false}}
         name={appConstant.TAB}
-        component={DrawerNavigator}
-      /> }
+        component={TabNavigator}
+        
+      /> 
+      }
     </Stack.Navigator>
   );
 }

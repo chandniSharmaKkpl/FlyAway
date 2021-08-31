@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "970528940197",
+    "project_id": "trobexis-155fc",
+    "storage_bucket": "trobexis-155fc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:970528940197:android:d0d6e57606e03b33dd2d4c",
+        "android_client_info": {
+          "package_name": "com.trobexisapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "970528940197-h8v52p2gd40i52b9553l14fr3ta957g7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAaMEhD9Iyo0DtrYsnYoLC87S9TvakU4To"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "970528940197-h8v52p2gd40i52b9553l14fr3ta957g7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "970528940197-m782snj6f45it4keanb1q9iko6hb7gqq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.2excel.trobexisapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

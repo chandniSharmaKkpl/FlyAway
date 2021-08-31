@@ -4,7 +4,7 @@ import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
   } from 'react-native-responsive-screen';
-import { appColor } from '../constant';
+import { appColor, fontConstant } from '../constant';
 import IconEntypo from 'react-native-vector-icons/Entypo'; 
 
 // import {TextField}from '@material-ui/core'
@@ -12,6 +12,7 @@ const LoginTextView = (props) => {
     const {
         placeholder,
         textChange,
+        onChangeText,
         secureTextEntry,
         keyboardType,
         maxLength,
@@ -29,13 +30,12 @@ const LoginTextView = (props) => {
     return (
         <View>
         <View style={[styles.container,costomStyle]}>
-{console.log(" error is ", props)}
             <TextInput
                 {...props}
                 style={styles.textInputStyle}
                 ref={props.onRef ? (input) => props.onRef(input) : null}
                 // underlineColor={underlineColor}
-                onChangeText={textChange}
+                onChangeText={onChangeText}
                 secureTextEntry={secureTextEntry}
                 keyboardType={keyboardType}
                 // placeholderTextColor={placeHolderColor?placeHolderColor:'white'}
@@ -64,13 +64,20 @@ const LoginTextView = (props) => {
              </View>: null
                 }
         </View>
-        {error && error!= "" ?<Text style={{ color: appColor.RED, alignSelf:'center' }}>{error}</Text>: null}
+        {error && error!= "" ?<Text style={styles.errorTxt}>{error}</Text>: null}
 
    </View>
     )
 
 }
 const styles = StyleSheet.create({
+    errorTxt:{
+         color: appColor.RED,
+          alignSelf:'center',
+          fontFamily: fontConstant.BARLOW_REGULAR,
+          fontSize: fontConstant.TEXT_16_SIZE_REGULAR,
+          paddingBottom:hp('1%')
+         },
     viewEye:{
 		justifyContent:'center',
      //   backgroundColor:'pink',
@@ -107,8 +114,11 @@ const styles = StyleSheet.create({
         flex:0.9,
         justifyContent:'center',
         alignItems:'center',
-        paddingLeft:wp('3%')
-        // fontFamily:AppConstant.constant.MuseoSlab
+        paddingLeft:wp('3%'),
+
+        fontFamily: fontConstant.BARLOW_REGULAR,
+        fontSize: fontConstant.TEXT_16_SIZE_REGULAR,
+        color: appColor.GRAY,
         
       }
 });

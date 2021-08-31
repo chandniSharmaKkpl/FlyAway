@@ -2,7 +2,7 @@ import React, {useState, useCallback} from 'react';
 import {View, Text, Image, FlatList,ScrollView, Pressable, Button} from 'react-native';
 import stylesHome from '../home/Home.style';
 import styles from './Login.style';
-import {HeaderCustom, BookingCard, LoginTextView} from '../../component';
+import {HeaderCustom, BookingCard, LoginTextView,  Loader} from '../../component';
 import {Avatar} from 'react-native-elements';
 import imageConstant from '../../constant/imageConstant';
 import {useSelector, useDispatch} from 'react-redux';
@@ -13,30 +13,26 @@ import {
   } from 'react-native-responsive-screen';
 import {ImageBackground} from 'react-native';
 import commonStyle from '../../common/common.style';
-import { appColor } from '../../constant';
+import { appColor, appConstant } from '../../constant';
 import { requestToGetAccessToken} from './Login.action';
 import { isEmailValid, isMobileNumberValid } from "../../helper/validations";
 import alertMsgConstant from '../../constant/alertMsgConstant';
+import AuthContext from "../../context/AuthContext";
+import PushController from "../../component/PushController";
 
 const LoginScreen = props => {
   const [isClickEye, setIsClickEye] = useState(false);
-  const [deviceInfo, setDeviceInfo] = useState({}); // Getting user device info from push controller.
+  const response = useSelector(state => state.LoginReducer); // Getting api response
+  const { setUserData } = React.useContext(AuthContext);
 
+  const [deviceInfo, setDeviceInfo] = useState({}); // Getting user device info from push controller.
   const [userTemp, setUserTemp] = React.useState({
     // email: __DEV__?"hardik98@mailinator.com":'',
     // password: __DEV__?"Hardik@123":''
 
     email: '',
     password: '',
-    // // email: "ch_win78@mailinator.com",
-    // password: "Test@1234",
-    //  email: "ch_win66@mailinator.com",
-    //  password: "Test@1234",
-
-    // email: "hardik98@mailinator.com",
-    // password: "Hardik@123",
-    // email: "",
-    // password: "",
+    
   });
 
   const [error, setError] = React.useState({
@@ -51,31 +47,32 @@ const LoginScreen = props => {
   const [loading, setLoading] = React.useState(false);
   const dispatch = useDispatch(); // Calling api
 
-  //   React.useEffect(() => {
+    React.useEffect(() => {
 
-  //     let isUserAvailable = false;
-  //     // Check if user is available in local db then redirect him to the drawer view
-  //     const userPromise = getCurrentUser();
-  //     if (userPromise) {
-  //       Promise.resolve(userPromise).then((currentUser) => {
-  //         if (currentUser) {
-  //           isUserAvailable = true;
-  //           setUserData(currentUser);
-  //           navigation.navigate("DrawerStack");
-  //         }
-  //       });
-  //     }
-  //      // Whenever coming on this view need to clean complete data of this view.
-  //      const unsubscribe = props.navigation.addListener("focus", () => {
-  //       setError({ emailErr: "", passwordErr: "" });
-  //       if (!isUserAvailable) {
-  //         setUserTemp({ email: "", password: "" });
-  //       }
-  //       setFormError("");
-  //     });
+      let isUserAvailable = false;
+      // Check if user is available in local db then redirect him to the drawer view
+      // const userPromise = getCurrentUser();
+      // if (userPromise) {
+      //   Promise.resolve(userPromise).then((currentUser) => {
+      //     if (currentUser) {
+      //       isUserAvailable = true;
+      //       setUserData(currentUser);
+      //       props.navigation.navigate(appConstant.DRAWER_NAVIGATOR);
+      //     }
+      //   });
+      // }
+       // Whenever coming on this view need to clean complete data of this view.
+       const unsubscribe = props.navigation.addListener("focus", () => {
+        setError({ emailErr: "", passwordErr: "" });
+        if (!isUserAvailable) {
+          setUserTemp({ email: "", password: "" });
+        }
+        setFormError("");
+      });
 
-  //     return unsubscribe;
-  //   }, []);
+      return unsubscribe;
+    }, []);
+
 
   function Validate({ email, password }) {
     let emailErr = "";
@@ -100,22 +97,37 @@ const LoginScreen = props => {
       };
     }
   }
+
+  const checkResponse = useCallback(
+    () => {
+      if (response.accessToken && response.accessToken.token) {
+        console.log(" response in login", response); 
+        setUserData(response.accessToken); 
+      props.navigation.navigate(appConstant.DRAWER_NAVIGATOR)
+      }
+    },
+    [],
+  )
   const submitForm = () => {
     
     const validate = Validate(userTemp);
-    console.log(" user temp -----", validate); 
 
-    setError(
-      validate !== 'ok'
-        ? validate
-        : {
-            emailErr: '',
-            passwordErr: '',
-          },
-    );
+    // setError(
+    //   validate !== 'ok'
+    //     ? validate
+    //     : {
+    //         emailErr: '',
+    //         passwordErr: '',
+    //       },
+    // );
+    console.log(" user temp -----", props); 
+    //checkResponse();
+
+    props.navigation.navigate(appConstant.TAB)
+
 
     if (validate === 'ok') {
-      dispatch(requestToGetAccessToken());
+      // dispatch(requestToGetAccessToken());
     }
   };
   // Getting device info from push controller
@@ -136,13 +148,15 @@ const LoginScreen = props => {
     }
   };
   const onPressRight = () => {
-    console.log(' onr pes right ');
     setIsClickEye(!isClickEye);
   };
 
   return (
     <>
       <View style={stylesHome.container}>
+    {
+        checkResponse()
+        }
          <ImageBackground
           source={imageConstant.IMAGE_LOGIN_BACKGROUND}
           style={commonStyle.image}
@@ -159,7 +173,6 @@ const LoginScreen = props => {
             showsVerticalScrollIndicator={false}
             keyboardShouldPersistTaps="always">
          
-
             <View style={styles.inputView}>
               <LoginTextView
                 keyboardType="email-address"
@@ -222,17 +235,19 @@ const LoginScreen = props => {
               </View>
 
                <Pressable style={styles.btnLogin}
-                  onPress={submitForm}>
+                  onPress={()=> submitForm()}>
                   <Text style={styles.loginBtnText}>Login to Continue</Text>
                 </Pressable>
             
-             
             </View>
          
           </ScrollView>
         </ImageBackground>
-    
+        {response.isRequesting ? <Loader loading={response.isRequesting}/> : null}
+
       </View>
+      <PushController getDeviceInfo={getDeviceInfo} />
+
     </>
   );
 };

@@ -37,7 +37,7 @@ export function* workerGetUserProfile() {
 export function* workerGetItinaryList() {
   try {
     const reducer = yield select();
-    console.log(" workerGetItinaryList ");
+     console.log(" workerGetItinaryList ");
     const token = reducer.HomeReducer.accessToken.token;
     if (token) {
       const itinaryList = yield call(

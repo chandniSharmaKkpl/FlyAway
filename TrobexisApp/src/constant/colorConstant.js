@@ -6,6 +6,6 @@ export default {
     WHITE:'#FFFFFF',
     SHADOW:'#00000014',
     BORDER:'#0000000D',
-GRAY:'gray',
-RED:'#C32130'
+GRAY:'#2E3642',
+RED:'#C32130',
 }

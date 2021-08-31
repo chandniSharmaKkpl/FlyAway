@@ -48,7 +48,7 @@ export const failToGetItinaryList = (error) => ({
 
 
 export default{
-    requestToGetAccessToken, 
+  requestToGetUserProfile, 
     // successToGetAccessToken, 
     // failToGetAccessToken,
     // requestToGetUserProfile,

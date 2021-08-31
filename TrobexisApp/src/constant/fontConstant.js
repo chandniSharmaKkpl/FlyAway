@@ -20,6 +20,7 @@ export default{
     TEXT_H2_SIZE_REGULAR:hp('1.7%'), //12
     TEXT_H3_SIZE_REGULAR:hp("1.2%"),  //9 
     TEXT_17_SIZE_REGULAR:hp("2.0%"), //17
+    TEXT_16_SIZE_REGULAR:hp("1.9%"), //16
 
     TEXT_14_SIZE_REGULAR:hp('2%'),  // 14
 

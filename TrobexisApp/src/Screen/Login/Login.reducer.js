@@ -26,7 +26,6 @@ export default (state = initialState, { type, payload }) => {
           }
           case actionConstant.ACTION_GET_ACCESS_TOKEN_FAILURE: {
             console.log(" failed ", payload); 
-
             return {
               ...state,
               accessToken: payload.error,

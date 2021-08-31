@@ -2,6 +2,14 @@ import {actionConstant} from '../../constant';
 
 // Access Token
 
+export const fetchToken = () => ({
+  type: actionConstant.ACTION_FETCH_TOKEN,
+  payload: {
+  },
+});
+
+
+
  export const requestToGetAccessToken = () => ({
     type: actionConstant.ACTION_GET_ACCESS_TOKEN_REQUEST,
     payload: {
@@ -23,18 +31,16 @@ import {actionConstant} from '../../constant';
     },
   });
 
-//   // USER PROFILE
 
 
 
-// export default{
-//     requestToGetUpcomingJourney, 
-//     // successToGetAccessToken, 
-//     // failToGetAccessToken,
+export default{
+  fetchToken,
+      
 //     // requestToGetUserProfile,
 //     // successToGetUserProfile,
 //     // failToGetUserProfile,
 //     // requestToGetItinaryList,
 //     // successToGetItinaryList,
 //     // failToGetItinaryList
-//   }
+   }
