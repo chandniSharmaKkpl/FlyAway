@@ -134,7 +134,7 @@ const BusBookingScreen = props => {
 
         <>
           <Text style={stylesCommon.textHeading}>Upcoming Journeys</Text>
-          {/* Bookinng list  */}
+          {/* Booking list  */}
           <View style={{alignSelf: 'center', height: hp('18%')}}>
             <FlatList
               renderItem={renderItem}

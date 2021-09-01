@@ -29,7 +29,7 @@ import AuthContext from '../context/AuthContext'
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
-const Tab = createBottomTabNavigator();
+const TabObject  = createBottomTabNavigator();
 
 function DrawerNavigator() {
   return (
@@ -38,7 +38,7 @@ function DrawerNavigator() {
       initialRouteName={appConstant.TAB}
       // drawerContent={() => <CustomDrawer />}
       drawerType="slide">
-      <Drawer.Screen name="Tab" component={TabNavigator} />
+      <Drawer.Screen name={appConstant.TAB} component={TabNavigator} />
     </Drawer.Navigator>
   );
 }
@@ -51,11 +51,24 @@ const AuthStack =()=>{
     name={appConstant.LOGIN}
     component={LoginScreen}
   />
+  <Stack.Screen
+    options={{headerShown: false}}
+    name={appConstant.TAB}
+    component={TabNavigator}
+  />
+  
+  <Stack.Screen
+    options={{headerShown: false}}
+    name={appConstant.DRAWER_NAVIGATOR}
+    component={DrawerNavigator}
+  />
+
    <Stack.Screen
     options={{headerShown: false}}
     name={appConstant.FORGOT_PASSWORD}
     component={ForgotPassword}
   />
+   
   </Stack.Navigator>)
 }
 
@@ -67,11 +80,6 @@ const HomeStack = () => {
         options={{headerShown: false}}
         name={appConstant.HOME_SCREEN}
         component={HomeScreen}
-      />
-      <Stack.Screen
-        options={{headerShown: false}}
-        name={appConstant.PICK_A_BUS}
-        component={PickABus}
       />
 
       <Stack.Screen
@@ -101,6 +109,12 @@ const BusBookingStack = () => {
         name={appConstant.SITE_ITINARY}
         component={SiteTravelItinary}
       />
+       <Stack.Screen
+        options={{headerShown: false}}
+        name={appConstant.PICK_A_BUS}
+        component={PickABus}
+      />
+
       <Stack.Screen
         options={{headerShown: false}}
         name={appConstant.ADD_LUGGAGE}
@@ -117,7 +131,9 @@ const BusBookingStack = () => {
 
 function TabNavigator() {
   return (
-    <Tab.Navigator
+    <TabObject.Navigator
+
+      name={appConstant.TAB}
       options={{tabBarVisible: true}}
       tabBarOptions={{
         activeTintColor: appColor.WHITE,
@@ -133,7 +149,7 @@ function TabNavigator() {
       barStyle={{backgroundColor: appColor.NAVY_BLUE}}
       initialRouteName={appConstant.HOME_SCREEN}>
 
-      <Tab.Screen
+      <TabObject.Screen
         name={appConstant.HOME_SCREEN}
         options={{
           tabBarIcon: ({tintColor}) => (
@@ -148,7 +164,7 @@ function TabNavigator() {
         }}
         component={HomeStack}
       />
-      <Tab.Screen
+      <TabObject.Screen
         name={appConstant.BUS_BOOKING}
         component={BusBookingStack}
         options={{
@@ -163,7 +179,7 @@ function TabNavigator() {
           ),
         }}
       />
-      <Tab.Screen
+      <TabObject.Screen
         name={appConstant.HISTORY}
         component={HistoryScreen}
         options={{
@@ -178,7 +194,7 @@ function TabNavigator() {
           ),
         }}
       />
-    </Tab.Navigator>
+    </TabObject.Navigator>
   );
 }
 
@@ -191,7 +207,7 @@ function NavigationSetup() {
   return (
 
    <Stack.Navigator initialRouteName={appConstant.LOGIN} options={{ gestureEnabled: true }} >
-{user != null? 
+{user == null? 
 <>
 <Stack.Screen
                     name={appConstant.AUTH_STACK}
@@ -206,8 +222,8 @@ function NavigationSetup() {
 :
       <Stack.Screen
         options={{headerShown: false}}
-        name={appConstant.TAB}
-        component={TabNavigator}
+        name={appConstant.DRAWER_NAVIGATOR}
+        component={DrawerNavigator}
         
       /> 
       }
@@ -224,7 +240,10 @@ const styles = {
   },
   viewImage: {
     width: wp('6%'),
-    height: hp('6%'),
+    height: hp('5%'),
+    marginTop:hp('1%'),
+   // backgroundColor:'red',
+justifyContent:'flex-end'
   },
   tabBar: {
     height: DeviceInfo.isTablet() ? hp('8%') : hp('10%'),

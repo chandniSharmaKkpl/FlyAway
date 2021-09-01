@@ -101,9 +101,10 @@ const LoginScreen = props => {
   const checkResponse = useCallback(
     () => {
       if (response.accessToken && response.accessToken.token) {
-        console.log(" response in login", response); 
+        console.log(" response in login", props.navigation); 
         setUserData(response.accessToken); 
-      props.navigation.navigate(appConstant.DRAWER_NAVIGATOR)
+       props.navigation.push(appConstant.DRAWER_NAVIGATOR)
+
       }
     },
     [],

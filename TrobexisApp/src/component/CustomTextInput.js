@@ -29,6 +29,7 @@ const CustomTextInput = props => {
             style={styles.viewCalendarImages}
             onPress={onClickRightIcon}>
             <Image
+            
               style={styles.image}
               resizeMode={'contain'}
               source={props.rightIcon}
@@ -84,6 +85,7 @@ const styles = {
   image: {
     width: '100%',
     height: '100%',
+    tintColor: appColor.NAVY_BLUE
   },
 };
 export default CustomTextInput;

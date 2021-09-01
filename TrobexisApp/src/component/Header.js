@@ -10,10 +10,11 @@ const HeaderCustom = (props) => {
     <View style={Platform.OS === 'android'? styles.topHeaderStyleAndroid: styles.topHeaderStyleIos}>
 
       <Pressable style={styles.iconHeader} onPress={onClickLeftIcon}>
-        {leftIcon && viewName === appConstant.PICK_A_BUS ||  leftIcon && viewName === appConstant.BOOKING_SUMMARY || leftIcon && viewName === appConstant.ADD_LUGGAGE?
-         <Image style={{ width: '100%', height: '100%' }} resizeMode={'contain'} source={imageConstant.IMAGE_ARROW_BACK} />
-        : <Image style={{ width: '100%', height: '100%' }} resizeMode={'contain'} source={imageConstant.IMAGE_MENU} />
-          }
+        {viewName === appConstant.HOME_SCREEN || viewName === appConstant.BUS_BOOKING || viewName === appConstant.HISTORY ?
+         <Image style={{ width: '100%', height: '100%' }} resizeMode={'contain'} source={imageConstant.IMAGE_MENU} />
+        :  <Image style={{ width: '100%', height: '100%' }} resizeMode={'contain'} source={imageConstant.IMAGE_ARROW_BACK} />
+  
+        }
       </Pressable>
 
       <Text style={styles.textTitle}>{title}</Text>

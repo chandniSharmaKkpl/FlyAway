@@ -50,14 +50,15 @@ const NotificationScreen = props => {
   return (
     <>
       <View style={stylesHome.container}>
-        <HeaderCustom
+      <HeaderCustom
           title={'Notifications'}
           viewName={appConstant.NOTIFICATIONS}
-          leftIcon={false}
-          rightIcon={true}
+          onClickLeftIcon={()=> props.navigation.goBack()}
+          leftIcon={true}
+          rightIcon={false}
           centerTitle={true}
-          onClickRightIcon={() => onClickBack()}
-          rightIconImage={imageConstant.IMAGE_ARROW_BACK}
+          onClickRightIcon={() => {}}
+          rightIconImage={''}
         />
         <Text style={stylesCommon.textHeading}>Notifications</Text>
 
