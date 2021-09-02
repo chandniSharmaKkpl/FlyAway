@@ -4,10 +4,13 @@ export default {
   BASE_URL: 'https://app-aue.trobexisuat.com/T1DEVMobile/api/',
   GET_ACCESS_TOKEN: 'account/accesstoken/',
   USER_PROFILE: 'users/:userId/profile',
-  GET_ITINARY_LIST: 'users/:userId/itineraries',
+  GET_ITINARY_LIST: 'users/:userId/itineraries?cancancel=true',
   GET_ITINARY_DETAIL: 'itineraries/:itineraryId',
   GET_BUS_STOP: 'bus/stops',
   GET_BUS_ROUTE:'bus/routes',
   POST_BUS_BOOKING:'bus/bookings',
-  CANCEL_BUS_BOOKING:'itineraries/:itinerayId'
+  CANCEL_BUS_BOOKING:'itineraries/:itinerayId',
+  GET_ITINARY_LIST_ALL_JOURNEY: 'users/:userId/itineraries?cancancel=false',
+  GET_APPROVAL_LIST:'users/:userId/approvals',
+  
 };

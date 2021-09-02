@@ -6,6 +6,8 @@ const initialState = {
  accessToken:'',
  userProfile:'',
  itinaryList:'',
+ itinaryListAllJourney:'',
+ approvalList:'',
   error:{}
 }
 
@@ -67,6 +69,60 @@ export default (state = initialState, { type, payload }) => {
               error: {},
             };
           }
+            // ITINARY LIST ALL JOURNEY
+            case actionConstant.ACTION_GET_ITINARY_LIST_ALL_JOURNEY_REQUEST: {
+              return {
+                ...state,
+                itinaryListAllJourney:{},
+                isRequesting: true,
+                error: {},
+              };
+            }
+            case actionConstant.ACTION_GET_ITINARY_LIST_ALL_JOURNEY_SUCCESS: {
+              return {
+                ...state,
+                itinaryListAllJourney: payload,
+                isRequesting: false,
+                error: {},
+              };
+            }
+            case actionConstant.ACTION_GET_ITINARY_LIST_ALL_JOURNEY_FAILURE: {
+              console.log(" failed ", payload); 
+  
+              return {
+                ...state,
+                itinaryListAllJourney: payload.error,
+                isRequesting: false,
+                error: {},
+              };
+            }
+              // APPROVAL LIST 
+              case actionConstant.ACTION_GET_APPROVAL_LIST_REQUEST: {
+                return {
+                  ...state,
+                  approvalList:{},
+                  isRequesting: true,
+                  error: {},
+                };
+              }
+              case actionConstant.ACTION_GET_APPROVAL_LIST_SUCCESS: {
+                return {
+                  ...state,
+                  approvalList: payload,
+                  isRequesting: false,
+                  error: {},
+                };
+              }
+              case actionConstant.ACTION_GET_APPROVAL_LIST_FAILURE: {
+                console.log(" failed ", payload); 
+    
+                return {
+                  ...state,
+                  approvalList: payload.error,
+                  isRequesting: false,
+                  error: {},
+                };
+              }
     default:
         return state
     }

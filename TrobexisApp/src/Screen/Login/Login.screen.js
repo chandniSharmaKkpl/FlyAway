@@ -86,7 +86,6 @@ const LoginScreen = (props) => {
 
 
   const submitForm = () => {
-    console.log("Call here in sumit button ")
     const validate = Validate(userTemp);
 
     setError(

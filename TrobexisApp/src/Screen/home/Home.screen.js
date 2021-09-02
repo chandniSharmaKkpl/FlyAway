@@ -97,6 +97,7 @@ const HomeScreen = props => {
 
   return (
     <>
+    {console.log(" response is", response)}
       <View style={styles.container}>
         <HeaderCustom
           title={''}
@@ -146,9 +147,14 @@ const HomeScreen = props => {
         {/* Journeys / Approval and Bus Booking  */}
         <View style={styles.viewContainSmallBox}>
           <View style={styles.viewSmallBox}>
+         { response.itinaryListAllJourney && Array.isArray(response.itinaryListAllJourney) &&
+                response.itinaryListAllJourney.length?  
             <View style={styles.viewYellowBox}>
-              <Text style={styles.textNumber}>1</Text>
-            </View>
+              <Text style={styles.textNumber}>
+                {response.itinaryListAllJourney.length}
+                </Text>
+            </View>: null }
+
             <View style={styles.viewInsideSmallBox}>
               <View style={styles.imageIcon}>
                 <Image
@@ -162,9 +168,11 @@ const HomeScreen = props => {
           </View>
 
           <View style={styles.viewSmallBox}>
+          { response.approvalList && Array.isArray(response.approvalList) &&
+                response.approvalList.length?
             <View style={styles.viewYellowBox}>
-              <Text style={styles.textNumber}>1</Text>
-            </View>
+              <Text style={styles.textNumber}>{response.approvalList.length}</Text>
+            </View>: null}
             <View style={styles.viewInsideSmallBox}>
               <View style={styles.imageIcon}>
                 <Image
@@ -195,7 +203,7 @@ const HomeScreen = props => {
             </View>
           </Pressable>
         </View>
-        {response.isRequesting ? <Loader></Loader> : null}
+        {response.isRequesting ? <Loader loading={response.isRequesting} /> : null}
       </View>
     </>
   );
