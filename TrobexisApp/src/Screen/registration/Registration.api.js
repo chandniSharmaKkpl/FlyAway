@@ -10,7 +10,7 @@ export const get = () => {
           data: response,
           //status: response.status
         }).then(accessToken => {
-            console.log(' accessToken is', accessToken);
+           
 
           return accessToken.data.data;
         }),

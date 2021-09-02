@@ -2,13 +2,6 @@ import {actionConstant} from '../../constant';
 
 // Access Token
 
-export const fetchToken = () => ({
-  type: actionConstant.ACTION_FETCH_TOKEN,
-  payload: {
-  },
-});
-
-
 
  export const requestToGetAccessToken = () => ({
     type: actionConstant.ACTION_GET_ACCESS_TOKEN_REQUEST,
@@ -35,8 +28,8 @@ export const fetchToken = () => ({
 
 
 export default{
-  fetchToken,
-      
+ // fetchToken,
+  requestToGetAccessToken
 //     // requestToGetUserProfile,
 //     // successToGetUserProfile,
 //     // failToGetUserProfile,

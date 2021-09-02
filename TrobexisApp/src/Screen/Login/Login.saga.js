@@ -7,8 +7,6 @@ import {getToken, getUserProfile} from './Login.api';
 export function* workerGetAccessToken() {
   try {
     const accessToken = yield call(getToken);
-
-    console.log('  workerGetAccessToken in saga -======>>>>>>', accessToken);
     yield put({
       type: actionConstant.ACTION_GET_ACCESS_TOKEN_SUCCESS,
       payload: accessToken,
@@ -20,18 +18,12 @@ export function* workerGetAccessToken() {
     });
   }
 }
-export function* workerFetchToken() {
-  yield null;
-}
+
+
 
 export function* watchGetAccessToken() {
-  yield all[
-    takeLatest(
-      actionConstant.ACTION_FETCH_TOKEN,
-      workerFetchToken,
-      actionConstant.ACTION_GET_ACCESS_TOKEN_REQUEST,
-      workerGetAccessToken,
-    )
-  ];
+  yield takeLatest(
+      actionConstant.ACTION_GET_ACCESS_TOKEN_REQUEST,workerGetAccessToken,
+    );
 }
 

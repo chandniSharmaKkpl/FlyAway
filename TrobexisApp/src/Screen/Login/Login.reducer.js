@@ -2,11 +2,12 @@ import {actionConstant} from '../../constant';
 const initialState = {
     isRequesting: false,
     accessToken:'',
-     error:{}
+    error:{}
    }
    
 
 export default (state = initialState, { type, payload }) => {
+
     switch (type) {
         case actionConstant.ACTION_GET_ACCESS_TOKEN_REQUEST: {
             return {
@@ -17,6 +18,7 @@ export default (state = initialState, { type, payload }) => {
             };
           }
           case actionConstant.ACTION_GET_ACCESS_TOKEN_SUCCESS: {
+            console.log("payload",payload)
             return {
               ...state,
               accessToken: payload,
@@ -25,7 +27,6 @@ export default (state = initialState, { type, payload }) => {
             };
           }
           case actionConstant.ACTION_GET_ACCESS_TOKEN_FAILURE: {
-            console.log(" failed ", payload); 
             return {
               ...state,
               accessToken: payload.error,

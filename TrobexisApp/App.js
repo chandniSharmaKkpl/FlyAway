@@ -27,7 +27,7 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import { Provider } from 'react-redux';
-import StoreRoot from './src/store';
+import {StoreRoot} from './src/store';
 import { NavigationContainer } from '@react-navigation/native';
 import HomeScreen from './src/Screen/home/Home.screen'
 import NavigationSetup from './src/route/Navigators';
@@ -49,7 +49,7 @@ const App = () => {
 
   return (
     <SafeAreaProvider style={backgroundStyle}>
-      <AuthContext.Provider value={{ user, setUserData: setUser}}>
+      {/* <AuthContext.Provider value={{ user, setUserData: setUser}}> */}
 
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       <Provider store={StoreRoot}>
@@ -58,7 +58,7 @@ const App = () => {
       </NavigationContainer>
       </Provider>
 
-      </AuthContext.Provider>
+      {/* </AuthContext.Provider> */}
     </SafeAreaProvider>
   );
 };

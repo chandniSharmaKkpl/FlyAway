@@ -3,6 +3,7 @@ import localDB from '../../database/localDb';
 import {ApiBase} from '../../api/apiBase';
 
 export const getToken = () => {
+  console.log("token","call hhere");
     return ApiBase()
       .get(apiConstant.GET_ACCESS_TOKEN)
       .then(response =>
@@ -10,9 +11,10 @@ export const getToken = () => {
           data: response,
           //status: response.status
         }).then(accessToken => {
-            console.log(' accessToken is', accessToken);
-
+          console.log("token",accessToken);
           return accessToken.data.data;
         }),
-      );
+      ).catch(err=>{
+          console.log("error ",err)
+      });
   };

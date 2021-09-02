@@ -1,12 +1,13 @@
 import { all, fork } from 'redux-saga/effects';
-import * as SagaHome from '../../Screen/home/Home.saga';
-import * as SagaLogin from '../../Screen/login/Login.saga';
+
+import { watchGetAccessToken } from '../../Screen/login/Login.saga';
+import { watchItinaryList,watchGetUserProfile } from '../../Screen/home/Home.saga';
 
 export default function* sagaRoot() {
 
-    yield all([
-        ...Object.values(SagaLogin),
-         ...Object.values(SagaHome)
-
-    ].map(fork))
+  yield all([
+    fork(watchGetAccessToken),
+    fork(watchItinaryList),
+    fork(watchGetUserProfile)
+  ]);
 }

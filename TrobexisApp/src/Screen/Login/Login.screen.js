@@ -1,39 +1,37 @@
-import React, {useState, useCallback} from 'react';
-import {View, Text, Image, FlatList,ScrollView, Pressable, Button} from 'react-native';
+import React, { useState, useCallback } from 'react';
+import { View, Text, Image, FlatList, ScrollView, Pressable, Button } from 'react-native';
 import stylesHome from '../home/Home.style';
 import styles from './Login.style';
-import {HeaderCustom, BookingCard, LoginTextView,  Loader} from '../../component';
-import {Avatar} from 'react-native-elements';
+import { LoginTextView, Loader } from '../../component';
 import imageConstant from '../../constant/imageConstant';
-import {useSelector, useDispatch} from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 
 import {
-    widthPercentageToDP as wp,
-    heightPercentageToDP as hp,
-  } from 'react-native-responsive-screen';
-import {ImageBackground} from 'react-native';
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+import { ImageBackground } from 'react-native';
 import commonStyle from '../../common/common.style';
 import { appColor, appConstant } from '../../constant';
-import { requestToGetAccessToken} from './Login.action';
+import { requestToGetAccessToken } from './Login.action';
 import { isEmailValid, isMobileNumberValid } from "../../helper/validations";
 import alertMsgConstant from '../../constant/alertMsgConstant';
 import AuthContext from "../../context/AuthContext";
 // import PushController from "../../component/PushController";
 
-const LoginScreen = props => {
+const LoginScreen = (props) => {
   const [isClickEye, setIsClickEye] = useState(false);
-  const response = useSelector(state => state.LoginReducer); // Getting api response
+  //const newAccesstoken = get; // Getting api response
   const { setUserData } = React.useContext(AuthContext);
 
   const [deviceInfo, setDeviceInfo] = useState({}); // Getting user device info from push controller.
   const [userTemp, setUserTemp] = React.useState({
-    // email: __DEV__?"hardik98@mailinator.com":'',
-    // password: __DEV__?"Hardik@123":''
-
     email: '',
     password: '',
-    
   });
+
+  const [token, setToken] = React.useState({});
 
   const [error, setError] = React.useState({
     emailErr: '',
@@ -47,47 +45,35 @@ const LoginScreen = props => {
   const [loading, setLoading] = React.useState(false);
   const dispatch = useDispatch(); // Calling api
 
-    React.useEffect(() => {
+  React.useEffect(() => {
 
-      let isUserAvailable = false;
-      // Check if user is available in local db then redirect him to the drawer view
-      // const userPromise = getCurrentUser();
-      // if (userPromise) {
-      //   Promise.resolve(userPromise).then((currentUser) => {
-      //     if (currentUser) {
-      //       isUserAvailable = true;
-      //       setUserData(currentUser);
-      //       props.navigation.navigate(appConstant.DRAWER_NAVIGATOR);
-      //     }
-      //   });
-      // }
-       // Whenever coming on this view need to clean complete data of this view.
-       const unsubscribe = props.navigation.addListener("focus", () => {
-        setError({ emailErr: "", passwordErr: "" });
-        if (!isUserAvailable) {
-          setUserTemp({ email: "", password: "" });
-        }
-        setFormError("");
-      });
+    let isUserAvailable = false;
+    const unsubscribe = props.navigation.addListener("focus", () => {
+      setError({ emailErr: "", passwordErr: "" });
+      if (!isUserAvailable) {
+        setUserTemp({ email: "", password: "" });
+      }
+      setFormError("");
+    });
 
-      return unsubscribe;
-    }, []);
+    return unsubscribe;
+  }, [error]);
 
 
   function Validate({ email, password }) {
     let emailErr = "";
     let passwordErr = "";
-  
+
     if (email.trim() === "") {
       emailErr = alertMsgConstant.EMAIL_NOT_EMPTY;
     } else if (!isEmailValid(email)) {
       emailErr = alertMsgConstant.EMAIL_NOT_VALID;
     }
-  
+
     if (password.trim() === "") {
       passwordErr = alertMsgConstant.PASSWORD_NOT_EMPTY;
     }
-  
+
     if (emailErr === "" && passwordErr === "") {
       return "ok";
     } else {
@@ -98,37 +84,27 @@ const LoginScreen = props => {
     }
   }
 
-  const checkResponse = useCallback(
-    () => {
-      if (response.accessToken && response.accessToken.token) {
-        console.log(" response in login", props.navigation); 
-        setUserData(response.accessToken); 
-       props.navigation.push(appConstant.DRAWER_NAVIGATOR)
 
-      }
-    },
-    [],
-  )
   const submitForm = () => {
-    
+    console.log("Call here in sumit button ")
     const validate = Validate(userTemp);
 
-    // setError(
-    //   validate !== 'ok'
-    //     ? validate
-    //     : {
-    //         emailErr: '',
-    //         passwordErr: '',
-    //       },
-    // );
-    console.log(" user temp -----", props); 
-    //checkResponse();
+    setError(
+      validate !== 'ok'
+        ? validate
+        : {
+          emailErr: '',
+          passwordErr: '',
+        },
+    );
 
-    props.navigation.navigate(appConstant.TAB)
+    if (validate === 'ok' ) {
+      dispatch(requestToGetAccessToken());
+      // Since we have token when the user is open the app so we are redirecting user to the next screen
+      //checkResponse();
 
-
-    if (validate === 'ok') {
-      // dispatch(requestToGetAccessToken());
+      //getTimeMessage();
+      //props.navigation.navigate(appConstant.DRAWER_NAVIGATOR);
     }
   };
   // Getting device info from push controller
@@ -152,37 +128,43 @@ const LoginScreen = props => {
     setIsClickEye(!isClickEye);
   };
 
+  const movetToScreen  = useCallback((token) => {
+    if (token && token.token) {
+      //setUserData(token)
+      props.navigation.navigate(appConstant.DRAWER_NAVIGATOR);
+    }
+  }, [props.accessToken]);
+
+
   return (
     <>
       <View style={stylesHome.container}>
-    {
-        checkResponse()
-        }
-         <ImageBackground
+        {movetToScreen(props.accessToken)}
+        <ImageBackground
           source={imageConstant.IMAGE_LOGIN_BACKGROUND}
           style={commonStyle.image}
           resizeMode={'cover'}>
-              <View style={styles.logoImage}>
-                  <Image source={imageConstant.IMAGE_LOGO} resizeMode={'contain'} 
-                  style={commonStyle.image}/>
-              </View>
-              <View style={styles.titleView}>
-              <Text style={styles.titleStyle}>Login</Text>
-            </View>
+          <View style={styles.logoImage}>
+            <Image source={imageConstant.IMAGE_LOGO} resizeMode={'contain'}
+              style={commonStyle.image} />
+          </View>
+          <View style={styles.titleView}>
+            <Text style={styles.titleStyle}>Login</Text>
+          </View>
           <ScrollView
             style={styles.scrollViewStyle}
             showsVerticalScrollIndicator={false}
             keyboardShouldPersistTaps="always">
-         
+
             <View style={styles.inputView}>
               <LoginTextView
                 keyboardType="email-address"
                 placeholder="Enter Email Address"
                 value={userTemp.email}
                 error={error.emailErr}
-                onChangeText={e => setUserTemp({...userTemp, email: e})}
-                />
- {/* { emailErr ? (
+                onChangeText={e => setUserTemp({ ...userTemp, email: e })}
+              />
+              {/* { emailErr ? (
                 <Text style={[styles.error, {color:appColor.RED}]}>
                   {emailErr}
                 </Text>
@@ -194,23 +176,23 @@ const LoginScreen = props => {
                   placeholder="Enter Password"
                   value={userTemp.password}
                   error={error.passwordErr}
-                  onChangeText={e => setUserTemp({...userTemp, password: e})}
+                  onChangeText={e => setUserTemp({ ...userTemp, password: e })}
                   isClickEye={isClickEye}
                   onPressRight={onPressRight}
                   right={true}
                 />
               ) : (
-                <LoginTextView
-                  secureTextEntry={true}
-                  placeholder="Enter Password"
-                  value={userTemp.password}
-                  error={error.passwordErr}
-                  onChangeText={e => setUserTemp({...userTemp, password: e})}
-                  isClickEye={isClickEye}
-                  onPressRight={onPressRight}
-                  right={true}
-                />
-              )}
+                  <LoginTextView
+                    secureTextEntry={true}
+                    placeholder="Enter Password"
+                    value={userTemp.password}
+                    error={error.passwordErr}
+                    onChangeText={e => setUserTemp({ ...userTemp, password: e })}
+                    isClickEye={isClickEye}
+                    onPressRight={onPressRight}
+                    right={true}
+                  />
+                )}
 
               {/* { passwordErr ? (
                 <Text style={[styles.error, {color:appColor.RED}]}>
@@ -221,30 +203,30 @@ const LoginScreen = props => {
               <View
                 style={{
                   marginBottom: hp('5%'),
-                  alignSelf:'flex-end',
-                  paddingRight:wp('10%'),
-                  paddingTop:hp('5%')
+                  alignSelf: 'flex-end',
+                  paddingRight: wp('10%'),
+                  paddingTop: hp('5%')
 
-                 // justifyContent: 'space-between',
+                  // justifyContent: 'space-between',
                 }}>
-            
-                 <Pressable
-                  //onPress={() => navigation.navigate('ForgotPassword')}
-                  >
+
+                <Pressable
+                //onPress={() => navigation.navigate('ForgotPassword')}
+                >
                   <Text style={styles.forgotPwd}>Forgot Password?</Text>
                 </Pressable>
               </View>
 
-               <Pressable style={styles.btnLogin}
-                  onPress={()=> submitForm()}>
-                  <Text style={styles.loginBtnText}>Login to Continue</Text>
-                </Pressable>
-            
+              <Pressable style={styles.btnLogin}
+                onPress={() => submitForm()}>
+                <Text style={styles.loginBtnText}>Login to Continue</Text>
+              </Pressable>
+
             </View>
-         
+
           </ScrollView>
         </ImageBackground>
-        {response.isRequesting ? <Loader loading={response.isRequesting}/> : null}
+        {props.isRequesting ? <Loader loading={props.isRequesting} /> : null}
 
       </View>
       {/* <PushController getDeviceInfo={getDeviceInfo} /> */}
@@ -253,4 +235,14 @@ const LoginScreen = props => {
   );
 };
 
-export default LoginScreen;
+const mapStateToProps = (state) => {
+  // Redux Store --> Component
+  return {
+    accessToken: state.LoginReducer.accessToken,
+    isRequesting: state.LoginReducer.isRequesting
+  };
+};
+// Map Dispatch To Props (Dispatch Actions To Reducers. Reducers Then Modify The Data And Assign It To Your Props)
+
+
+export default connect(mapStateToProps, null)(LoginScreen);

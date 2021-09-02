@@ -37,7 +37,6 @@ export function* workerGetUserProfile() {
 export function* workerGetItinaryList() {
   try {
     const reducer = yield select();
-     console.log(" workerGetItinaryList ");
     const token = reducer.HomeReducer.accessToken.token;
     if (token) {
       const itinaryList = yield call(
@@ -61,15 +60,16 @@ export function* workerGetItinaryList() {
   }
 }
 
-function* watchGetUserProfile() {
-  yield all[
-    takeLatest(
+export function* watchGetUserProfile() {
+    yield takeLatest(
       actionConstant.ACTION_GET_USER_PROFILE_REQUEST,
-      workerGetUserProfile,
-      actionConstant.ACTION_GET_ITINARY_LIST_REQUEST,
-      workerGetItinaryList
-    )
-  ];
+      workerGetUserProfile
+    );
+}  
+export function* watchItinaryList() {
+  yield takeLatest(
+    actionConstant.ACTION_GET_ITINARY_LIST_REQUEST,
+    workerGetItinaryList
+  );
 }
-
 export default watchGetUserProfile;

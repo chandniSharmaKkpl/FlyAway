@@ -1,7 +1,8 @@
 import axios from 'axios';
-import {apiConstant} from '../../constant';
+import { apiConstant } from '../../constant';
 
 export const ApiBase = (token = null) => {
+  
   let instance = axios.create({
     baseURL: apiConstant.BASE_URL,
     headers: {
@@ -14,7 +15,7 @@ export const ApiBase = (token = null) => {
     },
   });
 
-  console.log(' in api instance ', token);
+
   if (token && token !== null) {
     instance = axios.create({
       baseURL: apiConstant.BASE_URL,

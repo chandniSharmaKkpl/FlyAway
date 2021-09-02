@@ -1,5 +1,5 @@
-import React, {useState, useCallback, useEffect} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
+import React, { useState, useCallback, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   View,
   Text,
@@ -9,14 +9,14 @@ import {
   BackHandler,
 } from 'react-native';
 import styles from './Home.style';
-import {HeaderCustom, BookingCard, Loader} from '../../component';
-import {Avatar} from 'react-native-elements';
+import { HeaderCustom, BookingCard, Loader } from '../../component';
+import { Avatar } from 'react-native-elements';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {appColor, appConstant, imageConstant} from '../../constant';
-import { requestToGetUserProfile} from './Home.action';
+import { appColor, appConstant, imageConstant } from '../../constant';
+import { requestToGetUserProfile } from './Home.action';
 import localDB from '../../database/localDb';
 import DeviceInfo from 'react-native-device-info';
 import commonStyles from '../../common/common.style'
@@ -26,14 +26,14 @@ const HomeScreen = props => {
   const response = useSelector(state => state.HomeReducer); // Getting api response
   const dispatch = useDispatch(); // Calling api
 
-  const [arrayBooking, setArrayBooking] = useState([1,2,3,4,5,6]);
+  const [arrayBooking, setArrayBooking] = useState([1, 2, 3, 4, 5, 6]);
   const [userProfile, setUserProfile] = useState({});
 
   const handleBackButtonClick = () => {
     return true;
   };
   useEffect(() => {
-    
+
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
     dispatch(requestToGetUserProfile());
     return () => {
@@ -46,14 +46,14 @@ const HomeScreen = props => {
 
   const renderItem = item => {
     return (
-      <Pressable onPress={()=> props.navigation.navigate(appConstant.BUS_BOOKING_STACK,{
-        screen:appConstant.SITE_ITINARY,
-        params: { prevData: item},
+      <Pressable onPress={() => props.navigation.navigate(appConstant.BUS_BOOKING_STACK, {
+        screen: appConstant.SITE_ITINARY,
+        params: { prevData: item },
       })}>
         <BookingCard
           item={item}
           titleColor={appColor.YELLOW}
-          title={item.index ===0 || item.index === 2? 'Bus Booking - Butler Park to Barrow Island': 'Bus Booking - Sydney to Melbourne'}
+          title={item.index === 0 || item.index === 2 ? 'Bus Booking - Butler Park to Barrow Island' : 'Bus Booking - Sydney to Melbourne'}
           viewName={appConstant.HOME_SCREEN}
         />
       </Pressable>
@@ -70,8 +70,8 @@ const HomeScreen = props => {
 
 
   const checkAccessToken = () => {
-   // localDB.setAccessToken(response);
-   
+    // localDB.setAccessToken(response);
+
   };
 
   const getTimeMessage = () => {
@@ -80,24 +80,23 @@ const HomeScreen = props => {
     var amPm = ''
     let stringToRead = "";
     if (hour < 12) {
-        amPm = "am"
-        stringToRead = "Good morning"
+      amPm = "am"
+      stringToRead = "Good morning"
     } else {
-        amPm = "pm"
-        if (hour >= 12 && hour <= 17) {
-            stringToRead = "Good Afternoon";
-        } else {
-            if (hour > 17 && hour <= 24) {
-                stringToRead = "Good Evening";
-            }
+      amPm = "pm"
+      if (hour >= 12 && hour <= 17) {
+        stringToRead = "Good Afternoon";
+      } else {
+        if (hour > 17 && hour <= 24) {
+          stringToRead = "Good Evening";
         }
+      }
     }
     return stringToRead;
-}
+  }
 
   return (
     <>
-    {console.log(" itinary list ", response )}
       <View style={styles.container}>
         <HeaderCustom
           title={''}
@@ -113,13 +112,13 @@ const HomeScreen = props => {
           <View style={styles.viewTitle}>
             <View style={styles.viewImageUser}>
               <Avatar
-                size={DeviceInfo.isTablet() ? "xlarge": 'large'}
+                size={DeviceInfo.isTablet() ? "xlarge" : 'large'}
                 source={imageConstant.IMAGE_USER}
                 onPress={() => console.log('Works!')}
                 activeOpacity={0.7}
               />
             </View>
-            <View style={{paddingLeft: wp('12%'), paddingTop: hp('1.2%')}}>
+            <View style={{ paddingLeft: wp('12%'), paddingTop: hp('1.2%') }}>
               <Text style={styles.textHello}>Hello {response.userProfile.firstname}!</Text>
               <Text style={styles.textTimeWish}>{getTimeMessage()}</Text>
             </View>
@@ -127,8 +126,8 @@ const HomeScreen = props => {
         </View>
 
         {/* Bookinng list  */}
-    {/* {response.itinaryList && response.itinaryList>0? */}
-     <View
+        {/* {response.itinaryList && response.itinaryList>0? */}
+        <View
           style={{
             marginTop: hp('-8%'),
             alignSelf: 'center',
@@ -196,7 +195,7 @@ const HomeScreen = props => {
             </View>
           </Pressable>
         </View>
-        {response.isRequesting ? Loader : null}
+        {response.isRequesting ? <Loader></Loader> : null}
       </View>
     </>
   );

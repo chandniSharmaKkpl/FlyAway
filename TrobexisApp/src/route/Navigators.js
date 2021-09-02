@@ -1,9 +1,9 @@
 import React from 'react';
-import {View, Image} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-import {createDrawerNavigator} from '@react-navigation/drawer';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { View, Image } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../Screen/home/Home.screen';
 import BusBookingScreen from '../Screen/busBooking/BusBooking.screen';
 import HistoryScreen from '../Screen/history/History.screen';
@@ -21,15 +21,15 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import DeviceInfo from 'react-native-device-info';
-import LoginScreen from '../Screen/login/Login.screen'; 
-import ForgotPassword from '../Screen/ForgotPassword/ForgotPassword.screen'; 
+import LoginScreen from '../Screen/login/Login.screen';
+import ForgotPassword from '../Screen/ForgotPassword/ForgotPassword.screen';
 import AuthContext from '../context/AuthContext'
 
 
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
-const TabObject  = createBottomTabNavigator();
+const TabObject = createBottomTabNavigator();
 
 function DrawerNavigator() {
   return (
@@ -43,47 +43,42 @@ function DrawerNavigator() {
   );
 }
 
-const AuthStack =()=>{
-  return(
-  <Stack.Navigator>
-  <Stack.Screen
-    options={{headerShown: false}}
-    name={appConstant.LOGIN}
-    component={LoginScreen}
-  />
-  <Stack.Screen
-    options={{headerShown: false}}
-    name={appConstant.TAB}
-    component={TabNavigator}
-  />
-  
-  <Stack.Screen
-    options={{headerShown: false}}
-    name={appConstant.DRAWER_NAVIGATOR}
-    component={DrawerNavigator}
-  />
+const AuthStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name={appConstant.LOGIN}
+        component={LoginScreen}
+      />
 
-   <Stack.Screen
-    options={{headerShown: false}}
-    name={appConstant.FORGOT_PASSWORD}
-    component={ForgotPassword}
-  />
-   
-  </Stack.Navigator>)
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name={appConstant.DRAWER_NAVIGATOR}
+        component={DrawerNavigator}
+      />
+
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name={appConstant.FORGOT_PASSWORD}
+        component={ForgotPassword}
+      />
+
+    </Stack.Navigator>)
 }
 
 const HomeStack = () => {
   return (
     <Stack.Navigator>
-     
+
       <Stack.Screen
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
         name={appConstant.HOME_SCREEN}
         component={HomeScreen}
       />
 
       <Stack.Screen
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
         name={appConstant.NOTIFICATIONS}
         component={Notifications}
       />
@@ -94,34 +89,34 @@ const HomeStack = () => {
 const BusBookingStack = () => {
   return (
     <Stack.Navigator>
-       {/* <Stack.Screen
+      {/* <Stack.Screen
         options={{headerShown: false}}
         name={appConstant.BOOKING_SUMMARY}
         component={BookingSummary}
       /> */}
       <Stack.Screen
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
         name={appConstant.BUS_BOOKING}
         component={BusBookingScreen}
       />
       <Stack.Screen
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
         name={appConstant.SITE_ITINARY}
         component={SiteTravelItinary}
       />
-       <Stack.Screen
-        options={{headerShown: false}}
+      <Stack.Screen
+        options={{ headerShown: false }}
         name={appConstant.PICK_A_BUS}
         component={PickABus}
       />
 
       <Stack.Screen
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
         name={appConstant.ADD_LUGGAGE}
         component={AddLuggage}
       />
-       <Stack.Screen
-        options={{headerShown: false}}
+      <Stack.Screen
+        options={{ headerShown: false }}
         name={appConstant.BOOKING_SUMMARY}
         component={BookingSummary}
       />
@@ -134,7 +129,7 @@ function TabNavigator() {
     <TabObject.Navigator
 
       name={appConstant.TAB}
-      options={{tabBarVisible: true}}
+      options={{ tabBarVisible: true }}
       tabBarOptions={{
         activeTintColor: appColor.WHITE,
         inactiveTintColor: appColor.NAVY_BLUE,
@@ -146,13 +141,13 @@ function TabNavigator() {
       sceneAnimationEnabled={false}
       activeColor={appColor.WHITE}
       inactiveColor={appColor.WHITE}
-      barStyle={{backgroundColor: appColor.NAVY_BLUE}}
+      barStyle={{ backgroundColor: appColor.NAVY_BLUE }}
       initialRouteName={appConstant.HOME_SCREEN}>
 
       <TabObject.Screen
         name={appConstant.HOME_SCREEN}
         options={{
-          tabBarIcon: ({tintColor}) => (
+          tabBarIcon: ({ tintColor }) => (
             <View style={styles.viewImage}>
               <Image
                 source={imageConstant.IMAGE_HOME_WHITE}
@@ -168,7 +163,7 @@ function TabNavigator() {
         name={appConstant.BUS_BOOKING}
         component={BusBookingStack}
         options={{
-          tabBarIcon: ({tintColor}) => (
+          tabBarIcon: ({ tintColor }) => (
             <View style={styles.viewImage}>
               <Image
                 source={imageConstant.IMAGE_BUS_WHITE}
@@ -183,7 +178,7 @@ function TabNavigator() {
         name={appConstant.HISTORY}
         component={HistoryScreen}
         options={{
-          tabBarIcon: ({tintColor}) => (
+          tabBarIcon: ({ tintColor }) => (
             <View style={styles.viewImage}>
               <Image
                 source={imageConstant.IMAGE_CLOCK_WHITE}
@@ -202,30 +197,28 @@ function NavigationSetup() {
 
   const { user } = React.useContext(AuthContext)
 
-  console.log(" user --===", user); 
-
   return (
 
-   <Stack.Navigator initialRouteName={appConstant.LOGIN} options={{ gestureEnabled: true }} >
-{user == null? 
-<>
-<Stack.Screen
-                    name={appConstant.AUTH_STACK}
-                    component={AuthStack}
-                    options={{
-                        header: () => null,
-                        gestureEnabled: false,
-                        headerTransparent: true,
-                    }}
-                />
-</>
-:
-      <Stack.Screen
-        options={{headerShown: false}}
-        name={appConstant.DRAWER_NAVIGATOR}
-        component={DrawerNavigator}
-        
-      /> 
+    <Stack.Navigator initialRouteName={appConstant.LOGIN} options={{ gestureEnabled: true }} >
+      {user == null ?
+        <>
+          <Stack.Screen
+            name={appConstant.AUTH_STACK}
+            component={AuthStack}
+            options={{
+              header: () => null,
+              gestureEnabled: false,
+              headerTransparent: true,
+            }}
+          />
+        </>
+        :
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name={appConstant.DRAWER_NAVIGATOR}
+          component={DrawerNavigator}
+
+        />
       }
     </Stack.Navigator>
   );
@@ -241,9 +234,9 @@ const styles = {
   viewImage: {
     width: wp('6%'),
     height: hp('5%'),
-    marginTop:hp('1%'),
-   // backgroundColor:'red',
-justifyContent:'flex-end'
+    marginTop: hp('1%'),
+    // backgroundColor:'red',
+    justifyContent: 'flex-end'
   },
   tabBar: {
     height: DeviceInfo.isTablet() ? hp('8%') : hp('10%'),
