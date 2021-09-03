@@ -1,34 +1,57 @@
 import {actionConstant} from '../../constant';
 
-// Access Token
+//  Bus Route
 
- export const requestToPostBusBooking = () => ({
-    type: actionConstant.ACTION_GET_ACCESS_TOKEN_REQUEST,
+ export const requestToGetBusRoute = () => ({
+    type: actionConstant.ACTION_GET_BUS_ROUTE_REQUEST,
     payload: {
     },
   });
   
   
-  export const successToPostBusBooking = (data) => ({
-    type: actionConstant.ACTION_GET_ACCESS_TOKEN_SUCCESS,
+  export const successToGetBusRoute = (data) => ({
+    type: actionConstant.ACTION_GET_BUS_ROUTE_SUCCESS,
     payload: {
       data: data,
     },
   });
   
-  export const failToPostBusBooking = (error) => ({
-    type: actionConstant.ACTION_GET_ACCESS_TOKEN_FAILURE,
+  export const failToGetBusRoute = (error) => ({
+    type: actionConstant.ACTION_GET_BUS_ROUTE_FAILURE,
     payload: {
       data: error,
     },
   });
 
+  //  Bus Stops
+
+ export const requestToGetBusStop = () => ({
+  type: actionConstant.ACTION_GET_BUS_STOP_REQUEST,
+  payload: {
+  },
+});
+
+
+export const successToGetBusStop = (data) => ({
+  type: actionConstant.ACTION_GET_BUS_STOP_SUCCESS,
+  payload: {
+    data: data,
+  },
+});
+
+export const failToGetBusStop = (error) => ({
+  type: actionConstant.ACTION_GET_BUS_STOP_FAILURE,
+  payload: {
+    data: error,
+  },
+});
 
 
 
 
 export default{
-    requestToGetUpcomingJourney, 
+  requestToGetBusRoute, 
+  requestToGetBusStop,
     // successToGetAccessToken, 
     // failToGetAccessToken,
     // requestToGetUserProfile,

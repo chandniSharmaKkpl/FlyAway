@@ -1,41 +1,39 @@
-// import {actionConstant} from '../../constant';
+import {actionConstant} from '../../constant';
 
-// // Access Token
+// Access Token
 
-//  export const requestToGetUpcomingJourney = () => ({
-//     type: actionConstant.ACTION_GET_ACCESS_TOKEN_REQUEST,
-//     payload: {
-//     },
-//   });
+
+ export const requestToPostBooking = () => ({
+    type: actionConstant.ACTION_POST_BUS_BOOKING_REQUEST,
+    payload: {
+    },
+  });
   
   
-//   export const successToGetUpcomingJourney = (data) => ({
-//     type: actionConstant.ACTION_GET_ACCESS_TOKEN_SUCCESS,
-//     payload: {
-//       data: data,
-//     },
-//   });
+  export const successToPostBooking = (data) => ({
+    type: actionConstant.ACTION_POST_BUS_BOOKING_SUCCESS,
+    payload: {
+      data: data,
+    },
+  });
   
-//   export const failToGetUpcomingJourney = (error) => ({
-//     type: actionConstant.ACTION_GET_ACCESS_TOKEN_FAILURE,
-//     payload: {
-//       data: error,
-//     },
-//   });
-
-
-//   // USER PROFILE
+  export const failToPostBooking = (error) => ({
+    type: actionConstant.ACTION_POST_BUS_BOOKING_FAILURE,
+    payload: {
+      data: error,
+    },
+  });
 
 
 
-// export default{
-//     requestToGetUpcomingJourney, 
-//     // successToGetAccessToken, 
-//     // failToGetAccessToken,
+
+export default{
+ // fetchToken,
+  requestToPostBooking
 //     // requestToGetUserProfile,
 //     // successToGetUserProfile,
 //     // failToGetUserProfile,
 //     // requestToGetItinaryList,
 //     // successToGetItinaryList,
 //     // failToGetItinaryList
-//   }
+   }

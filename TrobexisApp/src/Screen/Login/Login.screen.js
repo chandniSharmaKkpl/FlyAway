@@ -97,14 +97,10 @@ const LoginScreen = (props) => {
         },
     );
 
-    if (validate === 'ok' ) {
+    // Temporary commit this condition 
+   // if (validate === 'ok' ) {
       dispatch(requestToGetAccessToken());
-      // Since we have token when the user is open the app so we are redirecting user to the next screen
-      //checkResponse();
-
-      //getTimeMessage();
-      //props.navigation.navigate(appConstant.DRAWER_NAVIGATOR);
-    }
+   // }
   };
   // Getting device info from push controller
   const getDeviceInfo = value => {

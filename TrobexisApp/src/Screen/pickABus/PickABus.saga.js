@@ -1,39 +1,41 @@
-// import {takeLatest, take, call, put, select, all} from 'redux-saga/effects';
-// import {actionConstant, apiConstant, appConstant} from '../../constant';
-// import {ApiBase} from '../../api/apiBase';
-// import {successToGetAccessToken, failToGetAccessToken} from './Home.action';
-// import {getToken, getUserProfile} from './Home.api';
+import {takeLatest, call, put, select, all} from 'redux-saga/effects';
+import {actionConstant} from '../../constant';
 
-// export function* workerGetData() {
-//     console.log('call Here ');
-//     try {
-//       const accessToken = yield call(getToken);
-//       console.log(accessToken);
-//       console.log('  workerGetAccessToken in saga -======>>>>>>', accessToken);
-//       yield put({
-//         type: actionConstant.ACTION_GET_ACCESS_TOKEN_SUCCESS,
-//         payload: accessToken,
-//       });
-  
-//        yield call(workerGetUserProfile);
-//     } catch (error) {
-//       yield put({
-//         type: actionConstant.ACTION_GET_ACCESS_TOKEN_FAILURE,
-//         payload: error,
-//       });
-//     }
-//   }
+import {getBusRoute} from './PickABus.api';
 
-// function* watchGet() {
-//     yield all[
-//       takeLatest(
-//         actionConstant.ACTION_GET_ACCESS_TOKEN_REQUEST,
-//         workerGetAccessToken,
-//         actionConstant.ACTION_GET_USER_PROFILE_REQUEST,
-        
-//       )
-//     ];
-//   }
-  
-//   export default watchGet;
+///** Get bus route */
+export function* workerGetBusRoute(params) {
+  try {
+    const reducer = yield select();
+            //   console.log(' user profile in saga -======>>>>>>', reducer);
+
+    const token = reducer.LoginReducer.accessToken.token;
+    if (token) {
+      const busRoute = yield call(getBusRoute,token,params);
+      console.log(" bus route ", busRoute); 
+      if (busRoute) {
+        yield put({
+          type: actionConstant.ACTION_GET_BUS_ROUTE_SUCCESS,
+          payload: busRoute,
+        });
+      }
+     
+    }
+  } catch (error) {
+    // console.log(' worker saga called error  ', error);
+    yield put({
+      type: actionConstant.ACTION_GET_BUS_ROUTE_FAILURE,
+      payload: error,
+    });
+  }
+}
+
+export function* watchToGetBusRoute() {
+    yield takeLatest(
+      actionConstant.ACTION_GET_BUS_ROUTE_REQUEST,
+      workerGetBusRoute
+    );
+  }
+
+  export default watchToGetBusRoute;
   

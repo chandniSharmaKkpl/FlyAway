@@ -2,22 +2,22 @@
 
 // Access Token
 
- export const requestToGetUpcomingJourney = () => ({
-    type: actionConstant.ACTION_GET_ACCESS_TOKEN_REQUEST,
+ export const requestToCancelSiteTravelItinary = () => ({
+    type: actionConstant.ACTION_SITE_TRAVEL_ITINARY_CANCEL_REQUEST,
     payload: {
     },
   });
   
   
-  export const successToGetUpcomingJourney = (data) => ({
-    type: actionConstant.ACTION_GET_ACCESS_TOKEN_SUCCESS,
+  export const successToCancelSiteTravelItinary = (data) => ({
+    type: actionConstant.ACTION_SITE_TRAVEL_ITINARY_CANCEL_SUCCESS,
     payload: {
       data: data,
     },
   });
   
-  export const failToGetUpcomingJourney = (error) => ({
-    type: actionConstant.ACTION_GET_ACCESS_TOKEN_FAILURE,
+  export const failToCancelSiteTravelItinary = (error) => ({
+    type: actionConstant.ACTION_SITE_TRAVEL_ITINARY_CANCEL_FAILURE,
     payload: {
       data: error,
     },
@@ -29,7 +29,7 @@
 
 
 // export default{
-//     requestToGetUpcomingJourney, 
+  requestToCancelSiteTravelItinary 
 //     // successToGetAccessToken, 
 //     // failToGetAccessToken,
 //     // requestToGetUserProfile,

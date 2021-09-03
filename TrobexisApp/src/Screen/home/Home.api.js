@@ -6,13 +6,10 @@ import {ApiBase} from '../../api/apiBase';
 
   export const  getUserProfile = (token1) => {
       // Get access token
-//const accessToken = localDB.getAccessToken();
-
 
     let urlString = apiConstant.USER_PROFILE;
     console.log(urlString);
    urlString = urlString.replace(":userId","BM123" )
-   console.log(urlString);
 
     return ApiBase(token1)
       .get(urlString)
@@ -28,13 +25,10 @@ import {ApiBase} from '../../api/apiBase';
 
   export const  getItinaryList = (token1) => {
     // Get access token
-//const accessToken = localDB.getAccessToken();
-
 
   let urlString = apiConstant.GET_ITINARY_LIST;
   console.log(urlString);
  urlString = urlString.replace(":userId","BM123" )
- console.log(urlString);
 
   return ApiBase(token1)
     .get(urlString)
@@ -43,6 +37,7 @@ import {ApiBase} from '../../api/apiBase';
         data: response,
         //status: response.status
       }).then(response => {
+
         return response.data.data;
       }),
     );
@@ -50,13 +45,9 @@ import {ApiBase} from '../../api/apiBase';
 
 export const  getItinaryListAllJourney = (token1) => {
   // Get access token
-//const accessToken = localDB.getAccessToken();
-
 
 let urlString = apiConstant.GET_ITINARY_LIST_ALL_JOURNEY;
-console.log(urlString);
 urlString = urlString.replace(":userId","BM123" )
-console.log(urlString);
 
 return ApiBase(token1)
   .get(urlString)
@@ -76,9 +67,7 @@ export const  getApprovalList = (token1) => {
 //const accessToken = localDB.getAccessToken();
 
 let urlString = apiConstant.GET_APPROVAL_LIST;
-console.log(urlString);
 urlString = urlString.replace(":userId","BM123" )
-console.log(urlString);
 
 return ApiBase(token1)
   .get(urlString)
@@ -95,9 +84,6 @@ return ApiBase(token1)
 
   export const  getItinaryDetail = (token1, itinaryId) => {
     // Get access token
-//const accessToken = localDB.getAccessToken();
-
-console.log(' itinary detail token is ', token1);
 
   let urlString = apiConstant.GET_ITINARY_DETAIL;
   console.log(urlString);
@@ -111,7 +97,6 @@ console.log(' itinary detail token is ', token1);
         data: response,
         //status: response.status
       }).then(response => {
-        console.log('itinary detail is in response', response);
         return response.data.data;
       }),
     );

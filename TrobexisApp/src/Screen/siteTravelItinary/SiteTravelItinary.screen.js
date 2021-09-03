@@ -45,7 +45,6 @@ const SiteTravelItinary = props => {
         <BookingCard
           item={item}
           titleColor={appColor.NAVY_BLUE}
-          title={'Butler Park to Barrow Island'}
           viewName={appConstant.PICK_A_BUS}
         />
       </View>

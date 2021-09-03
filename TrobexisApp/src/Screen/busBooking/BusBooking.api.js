@@ -2,19 +2,46 @@ import {actionConstant, apiConstant, appConstant} from '../../constant';
 import localDB from '../../database/localDb';
 import {ApiBase} from '../../api/apiBase';
 
-export const get = () => {
-    return ApiBase()
-      .get(apiConstant.GET_ACCESS_TOKEN)
-      .then(response =>
-        Promise.resolve({
-          data: response,
-          //status: response.status
-        }).then(accessToken => {
-            console.log(' accessToken is', accessToken);
+export const  getBusRoute = (token1) => {
+  // Get access token
+//const accessToken = localDB.getAccessToken();
 
-          return accessToken.data.data;
-        }),
-      );
-  };
+
+let urlString = apiConstant.GET_BUS_ROUTE;
+console.log(urlString);
+
+return ApiBase(token1)
+  .get(urlString)
+  .then(response => 
+    Promise.resolve({
+      data: response,
+      //status: response.status
+    }).then(response => {
+      console.log(" bus route "); 
+      return response.data.data;
+    }),
+  );
+};
+
+export const  getBusStop = (token1) => {
+  // Get access token
+//const accessToken = localDB.getAccessToken();
+
+
+let urlString = apiConstant.GET_BUS_STOP;
+console.log(urlString);
+
+return ApiBase(token1)
+  .get(urlString)
+  .then(response => 
+    Promise.resolve({
+      data: response,
+      //status: response.status
+    }).then(response => {
+      console.log(" bus stop "); 
+      return response.data.data;
+    }),
+  );
+};
 
   

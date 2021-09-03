@@ -52,7 +52,6 @@ const BusBookingScreen = props => {
         <BookingCard
           item={item}
           titleColor={appColor.NAVY_BLUE}
-          title={'Bus Booking- Butler Park to Barrow Island'}
           viewName={appConstant.BUS_BOOKING}
         />
       </Pressable>

@@ -1,30 +1,40 @@
 import React, {useState, useCallback, useEffect} from 'react';
 import {View, Text, Image, FlatList, BackHandler, Pressable} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
+
 import stylesHome from '../home/Home.style';
 import stylesCommon from '../../common/common.style';
-import {HeaderCustom, BookingCard} from '../../component';
+import {HeaderCustom, BookingCard, Loader} from '../../component';
 import {Avatar} from 'react-native-elements';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {appColor, appConstant, imageConstant} from '../../constant';
+import { requestToGetBusRoute } from './PickABus.action';
+import { connect } from 'react-redux';
 
 const PickABus = props => {
   const [arrayBooking, setArrayBooking] = useState([1]);
+   const response = useSelector(state => state.PickABusReducer);
+   const dispatch = useDispatch();
 
   React.useEffect(() => {
     let array = [1, 2, 3];
     arrayBooking.push(array);
-    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    const unsubscribe = props.navigation.addListener("focus", () => {
 
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    dispatch(requestToGetBusRoute(props.route.params.busBookingData))
+    });
     return () => {
+      unsubscribe;
       BackHandler.removeEventListener(
         'hardwareBackPress',
         handleBackButtonClick,
       );
     };
-  }, []);
+  }, [props.route.params]);
 
   const handleBackButtonClick = () => {
     props.navigation.goBack();
@@ -32,12 +42,15 @@ const PickABus = props => {
 
 
   const renderItem = item => {
+   console.log(" render item puck a bus res", item)
+
     return (
-      <Pressable onPress={()=> props.navigation.navigate(appConstant.ADD_LUGGAGE, {data: item})}>
+      <Pressable 
+       onPress={()=> props.navigation.navigate(appConstant.ADD_LUGGAGE, 
+       {pickABusData:{"selectedBus":item, "busBookingData": props.route.params.busBookingData} })}>
         <BookingCard
-          item={item}
+          item={item.item}
           titleColor={appColor.NAVY_BLUE}
-          title={'Butler Park to Barrow Island'}
           viewName={appConstant.PICK_A_BUS}
         />
       </Pressable>
@@ -46,8 +59,10 @@ const PickABus = props => {
   const onClickBack = useCallback(() => {
     props.navigation.goBack();
   }, []);
+
   return (
     <>
+    {console.log(" render  pickk a bus res", response)}
       <View style={stylesHome.container}>
         <HeaderCustom
           title={'Pick a Bus'}
@@ -63,16 +78,20 @@ const PickABus = props => {
         <Text style={stylesCommon.textHeading}>Pick a Bus</Text>
 
         {/* Bookinng list  */}
-        <View style={{alignSelf: 'center', height: hp('18%')}}>
+        <View style={{alignSelf: 'center'}}>
           <FlatList
             renderItem={renderItem}
-            data={arrayBooking}
+            data={response.busRoute}
+            extraData={response.busRoute}
             keyExtractor={(item, index) => index.toString()}
           />
         </View>
+        {response.isRequesting ? <Loader loading={props.isRequesting} /> : null}
+
       </View>
     </>
   );
 };
 
-export default PickABus;
+
+export default PickABus; 

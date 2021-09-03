@@ -1,5 +1,5 @@
 import React, {useState, useCallback} from 'react';
-import {View, Text, Image, FlatList, Pressable} from 'react-native';
+import {View, Text, Image, FlatList, Pressable, BackHandler} from 'react-native';
 import stylesHome from '../home/Home.style';
 import styles from './BookingSummary.style';
 import {HeaderCustom, BookingCard} from '../../component';
@@ -15,10 +15,27 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import { useSelector, useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
+import { requestToPostBooking } from './BookingSummary.action';
 
 const BookingSummary = props => {
 
-    
+  React.useEffect(() => {
+   
+    console.log(" booking summary ", props); 
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
+  
+  const handleBackButtonClick = () => {
+    props.navigation.goBack();
+  };
 
   return (
     <>
@@ -108,9 +125,18 @@ const BookingSummary = props => {
 
         <Pressable
           style={stylesCommon.yellowButton}
-          onPress={() =>
-            props.navigation.navigate(appConstant.HOME_SCREEN)
-          }>
+          onPress={() => {
+            const {countLuggage, pickABusData} = props.route.params.luggageData;
+            let data = { 
+                 "piecesofluggage": countLuggage,
+                 "travelDate": pickABusData.busBookingData.travelDate,
+                 "pickuplocationcode": pickABusData.busBookingData.pickuplocationcode,
+                 "dropofflocationcode": pickABusData.busBookingData.dropofflocationcode,
+                 "transportId": pickABusData.selectedBus.transportId
+            }
+            dispatchEvent(requestToPostBooking(data))
+           // props.navigation.navigate(appConstant.HOME_SCREEN)
+          }}>
           <Text
             style={[
               styles.buttonSearchBusTitle,

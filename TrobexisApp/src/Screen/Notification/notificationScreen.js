@@ -37,7 +37,6 @@ const NotificationScreen = props => {
         <BookingCard
           item={item}
           titleColor={appColor.NAVY_BLUE}
-          title={'Butler Park to Barrow Island'}
           viewName={appConstant.NOTIFICATIONS}
         />
       </Pressable>

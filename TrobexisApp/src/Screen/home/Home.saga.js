@@ -1,8 +1,7 @@
-import {takeLatest, take, call, put, select, all} from 'redux-saga/effects';
-import {actionConstant, apiConstant, appConstant} from '../../constant';
-import {ApiBase} from '../../api/apiBase';
-import {successToGetAccessToken, failToGetAccessToken} from './Home.action';
-import {getToken, getUserProfile, getItinaryList, getItinaryListAllJourney, getApprovalList} from './Home.api';
+import {takeLatest, call, put, select, all} from 'redux-saga/effects';
+import {actionConstant} from '../../constant';
+
+import { getUserProfile, getItinaryList, getItinaryListAllJourney, getApprovalList} from './Home.api';
 
 
 export function* workerGetUserProfile() {
@@ -45,9 +44,6 @@ export function* workerGetItinaryList() {
         getItinaryList,
         token,
       );
-
-      console.log(' in saga -======>>>>>>', itinaryList);
-
       if (itinaryList) {
         yield put({
           type: actionConstant.ACTION_GET_ITINARY_LIST_SUCCESS,
@@ -73,9 +69,6 @@ export function* workerGetItinaryListAllJoureny() {
         getItinaryListAllJourney,
         token,
       );
-
-      console.log(' in saga all journey-======>>>>>>', itinaryList);
-
       if (itinaryList) {
         yield put({
           type: actionConstant.ACTION_GET_ITINARY_LIST_ALL_JOURNEY_SUCCESS,
@@ -101,9 +94,6 @@ export function* workerGetApprovalList() {
         getApprovalList,
         token,
       );
-
-      console.log(' in saga approval list -======>>>>>>', itinaryList);
-
       if (itinaryList) {
         yield put({
           type: actionConstant.ACTION_GET_APPROVAL_LIST_SUCCESS,

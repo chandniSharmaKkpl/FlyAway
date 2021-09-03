@@ -53,7 +53,6 @@ const HomeScreen = props => {
         <BookingCard
           item={item}
           titleColor={appColor.YELLOW}
-          title={item.index === 0 || item.index === 2 ? 'Bus Booking - Butler Park to Barrow Island' : 'Bus Booking - Sydney to Melbourne'}
           viewName={appConstant.HOME_SCREEN}
         />
       </Pressable>
@@ -97,7 +96,7 @@ const HomeScreen = props => {
 
   return (
     <>
-    {console.log(" response is", response)}
+    {/* {console.log(" response is in home screen", response)} */}
       <View style={styles.container}>
         <HeaderCustom
           title={''}
@@ -127,7 +126,7 @@ const HomeScreen = props => {
         </View>
 
         {/* Bookinng list  */}
-        {/* {response.itinaryList && response.itinaryList>0? */}
+        {response.itinaryList && response.itinaryList>0?
         <View
           style={{
             marginTop: hp('-8%'),
@@ -141,7 +140,7 @@ const HomeScreen = props => {
             keyExtractor={(item, index) => index.toString()}
           />
         </View>
-        {/* : null } */}
+         : null } 
         <Text style={styles.textTitleGoes}>Title Goes Here</Text>
 
         {/* Journeys / Approval and Bus Booking  */}

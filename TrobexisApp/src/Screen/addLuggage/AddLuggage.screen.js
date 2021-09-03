@@ -97,7 +97,10 @@ const AddLuggage = props => {
         <Pressable
           style={commonStyle.yellowButton}
           onPress={() =>
-            props.navigation.navigate(appConstant.BOOKING_SUMMARY)
+            props.navigation.navigate(appConstant.BOOKING_SUMMARY, {luggageData:{
+              "pickABusData": props.route.params.pickABusData,
+              "countLuggage":countLuggage
+            }})
           }>
           <Text style={stylesCommon.yellowButtonTitle}>Next</Text>
         </Pressable>

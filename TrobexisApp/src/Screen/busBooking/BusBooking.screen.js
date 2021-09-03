@@ -11,17 +11,25 @@ import {
   CustomTextInput,
   Calendar,
 } from '../../component';
-import {Avatar} from 'react-native-elements';
+import { useSelector, useDispatch } from 'react-redux';
+
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {appColor, appConstant, imageConstant} from '../../constant';
+import { requestToGetItinaryList } from '../home/Home.action';
 
 const BusBookingScreen = props => {
   const [arrayBooking, setArrayBooking] = useState([1]); // All bookings data will get in this array
   const [isCalendarShow, setIsCalendarShow] = useState(false); // Calendar view show/hide when click on calendar icon
   const [selectedDate, setSelectedDate] = useState(''); // Assign calendar selected date
+  const [fromLoc, setFromLoc] = useState('034'); // From location
+  const [toLoc, setToLoc] = useState('bwb'); // To location
+
+  const dispatch = useDispatch(); // Calling api
+  const response = useSelector(state => state.BusBookingReducer); // Getting api response
+  const responseItinaryList = useSelector(state => state.HomeReducer); // Getting api response
 
   const onClickBookingCard = useCallback(() => {
     props.navigation.navigate(appConstant.SITE_ITINARY, {
@@ -39,6 +47,7 @@ const BusBookingScreen = props => {
         let date = new Date();
         let currentDate = format(date, "EEEE, MMMM dd yyyy");
         setSelectedDate(currentDate);
+         dispatch(requestToGetItinaryList())
           });
     return () =>{
         BackHandler.removeEventListener('hardwareBackPress', handleBackButtonClick);
@@ -52,7 +61,6 @@ const BusBookingScreen = props => {
         <BookingCard
           item={item}
           titleColor={appColor.NAVY_BLUE}
-          title={'Bus Booking- Butler Park to Barrow Island'}
           viewName={appConstant.BUS_BOOKING}
         />
       </Pressable>
@@ -71,10 +79,21 @@ const BusBookingScreen = props => {
   };
   const onClickRightIcon = useCallback(()=>{
             props.navigation.navigate(appConstant.NOTIFICATIONS)
-},[])     
+},[])    
+
+const convertDate = (date) =>{
+  let convertedDate = ''
+
+  let dateTemp = Date.parse(selectedDate);
+   convertedDate = format(dateTemp, "yyyy'-'MM'-'dd'T'HH':'mm':'ss");
+   console.log(" converted date is ", convertedDate)
+  return convertedDate;
+}
 
   return (
     <>
+        {/* {console.log(" response is in busbooking screen", response, "Itinary list", responseItinaryList)} */}
+
       <View style={stylesHome.container}>
         <HeaderCustom
           title={'Make a Booking'}
@@ -128,20 +147,26 @@ const BusBookingScreen = props => {
           </View>
         </View>
 
-        <Pressable style={styles.buttonSearchBus} onPress={()=> props.navigation.navigate(appConstant.PICK_A_BUS) }>
+        <Pressable style={styles.buttonSearchBus} onPress={()=> 
+          props.navigation.navigate(appConstant.PICK_A_BUS, 
+            {busBookingData:{
+            'pickuplocationcode': fromLoc, "dropofflocationcode": toLoc, 'travelDate': convertDate(selectedDate)
+        }}) }>
             <Text style={styles.buttonSearchBusTitle}>Search Buses</Text>
           </Pressable>
 
         <>
           <Text style={stylesCommon.textHeading}>Upcoming Journeys</Text>
           {/* Booking list  */}
-          <View style={{alignSelf: 'center', height: hp('18%')}}>
+       {responseItinaryList && Array.isArray(responseItinaryList.itinaryList) && responseItinaryList.itinaryList.length>0?   
+       <View style={{alignSelf: 'center', height: hp('18%')}}>
             <FlatList
               renderItem={renderItem}
               data={arrayBooking}
               keyExtractor={(item, index) => index.toString()}
             />
-          </View>
+          </View> 
+         : null } 
         </>
       </View>
     </>
