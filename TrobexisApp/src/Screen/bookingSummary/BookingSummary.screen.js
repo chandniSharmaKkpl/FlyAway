@@ -83,11 +83,17 @@ const BookingSummary = props => {
       
       if ( !response.bookingResponse.success) {
         alert(response.bookingResponse.message);
+        let dictTemp = response.bookingResponse;
+        dictTemp.message = ""
+        props.navigation.popToTop()
       }else{
         Alert.alert("Alert", response.bookingResponse.message, [
           {
             text: "Ok",
-            onPress: () => props.navigation.popToTop(),
+            onPress: () =>  {
+              let dictTemp = response.bookingResponse;
+              dictTemp.message = ""
+              props.navigation.popToTop()}
           },
         ]);
       }
