@@ -1190,7 +1190,7 @@
   "resolved" "https://registry.npmjs.org/@react-native-community/netinfo/-/netinfo-6.0.0.tgz"
   "version" "6.0.0"
 
-"@react-native-community/push-notification-ios@^1.9.0":
+"@react-native-community/push-notification-ios@^1.10.0", "@react-native-community/push-notification-ios@^1.9.0":
   "integrity" "sha512-NPtJ9QtSI5ODLWfeT0UA9CiEJPsjw47WlZ4E5uViLjOb0P9iRtkb0Stavg9zwt3NpQA2KPxtZGd0GmLM7Rui3w=="
   "resolved" "https://registry.npmjs.org/@react-native-community/push-notification-ios/-/push-notification-ios-1.10.0.tgz"
   "version" "1.10.0"

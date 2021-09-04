@@ -3,14 +3,14 @@ import React, { useEffect, useReducer, useRef, useState } from "react";
 import { Alert, Platform } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
-import AuthContext from "../context/AuthContext";
+//import AuthContext from "../context/AuthContext";
 import DeviceInfo from "react-native-device-info";
 //import { getUniqueId, getManufacturer } from "react-native-device-info";
 
 function PushController(props) {
   const [permissions, setPermissions] = useState({});
-  const { user } = React.useContext(AuthContext);
-  const { setUserData } = React.useContext(AuthContext); // for updating user data of authcontext
+  // const { user } = React.useContext(AuthContext);
+  // const { setUserData } = React.useContext(AuthContext); // for updating user data of authcontext
 
   // Use effect for android notifications
   useEffect(() => {
@@ -171,16 +171,16 @@ function PushController(props) {
   };
 
   const onRegistrationError = (error) => {
-    // Alert.alert(
-    //   "Failed To Register For Remote Push",
-    //   `Error (${error.code}): ${error.message}`,
-    //   [
-    //     {
-    //       text: "Dismiss",
-    //       onPress: null,
-    //     },
-    //   ]
-    // );
+    Alert.alert(
+      "Failed To Register For Remote Push",
+      `Error (${error.code}): ${error.message}`,
+      [
+        {
+          text: "Dismiss",
+          onPress: null,
+        },
+      ]
+    );
   };
 
   const onRemoteNotification = (notification) => {

@@ -79,9 +79,7 @@ const BusBookingScreen = props => {
     if (isCalendarShow) {
       let dictTemp = {'travelDate':convertDate(selectedDate)}
       dispatch(requestToGetBusStop(dictTemp))
-    } else {
-      
-    }
+    } 
     setIsCalendarShow(!isCalendarShow);
 
   };
