@@ -2,13 +2,14 @@ import React from 'react';
 import {View, Text, Image} from 'react-native';
 import appColor from '../constant/colorConstant';
 import fontConstant from '../constant/fontConstant';
-import format from "date-fns/format";
+import format from 'date-fns/format';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import imageConstant from '../constant/imageConstant';
 import appConstant from '../constant/appConstant';
+import {getDateInFormat} from '../common/index';
 
 const BookingCard = props => {
   const {item, viewName} = props;
@@ -47,22 +48,39 @@ const BookingCard = props => {
               source={imageConstant.IMAGE_PATH}
             />
           </View>
-          <Text style={styles.textDetail}>{item.title ? item.title : ""} </Text>
+          <Text style={styles.textDetail}>{item.title ? item.title : ''} </Text>
         </View>
 
-        {viewName !== appConstant.PICK_A_BUS?  <View style={{flexDirection: 'row'}}>
-        <View style={styles.viewInside}>
-            <View style={styles.viewImages}>
-              <Image
-                style={styles.image}
-                resizeMode={'contain'}
-                source={imageConstant.IMAGE_CALENDAR_BLACK}
-              />
+        {viewName !== appConstant.PICK_A_BUS ? (
+          <View style={{flexDirection: 'row'}}>
+            <View style={styles.viewInside}>
+              <View style={styles.viewImages}>
+                <Image
+                  style={styles.image}
+                  resizeMode={'contain'}
+                  source={imageConstant.IMAGE_CALENDAR_BLACK}
+                />
+              </View>
+              <Text style={styles.textDetail}>
+                {getDateInFormat(item.startdatetime, false)}{' '}
+              </Text>
             </View>
-            <Text style={styles.textDetail}>{getDateInFormat(item.travelDate)} </Text>
-          </View> 
-         
-          <View style={styles.viewTime}>
+
+            <View style={styles.viewTime}>
+              <View style={styles.viewImages}>
+                <Image
+                  style={styles.image}
+                  resizeMode={'contain'}
+                  source={imageConstant.IMAGE_CLOCK_BLACK}
+                />
+              </View>
+              <Text style={styles.textDetail}>
+                {getTimeInFormat(item.startdatetime)}{' '}
+              </Text>
+            </View>
+          </View>
+        ) : (
+          <View style={styles.viewTimePickAbus}>
             <View style={styles.viewImages}>
               <Image
                 style={styles.image}
@@ -70,44 +88,39 @@ const BookingCard = props => {
                 source={imageConstant.IMAGE_CLOCK_BLACK}
               />
             </View>
-            {/* <Text style={styles.textDetail}>{getTimeInFormat(item.travelDate)} </Text> */}
+            <Text style={styles.textDetail}>
+              {getTimeInFormat(item.startdatetime)}{' '}
+            </Text>
+            <Text style={styles.textDetail}>
+              - {getTimeInFormat(item.enddatetime)}{' '}
+            </Text>
+            <Text style={styles.textDetail}>({item.durationMins}m)</Text>
           </View>
-        </View> :
-           <View style={ styles.viewTimePickAbus}>
-           <View style={styles.viewImages}>
-             <Image
-               style={styles.image}
-               resizeMode={'contain'}
-               source={imageConstant.IMAGE_CLOCK_BLACK}
-             />
-           </View>
-           <Text style={styles.textDetail}>{getTimeInFormat(item.startdatetime)} </Text>
-           <Text style={styles.textDetail}>- {getTimeInFormat(item.enddatetime)} </Text>
-           <Text style={styles.textDetail}>({item.durationMins}m)</Text>
-
-         </View>
-         }
+        )}
       </View>
     </View>
   );
 };
 
-export const getTimeDifference =(item) =>{
+export const getTimeDifference = item => {
   let parseDateStart = new Date(item.startdatetime);
   let parseDateEnd = new Date(item.enddatetime);
 
-  let seconds = Math.round((parseDateEnd.getTime() - parseDateStart.getTime()) / 1000);
-  // console.log(" secodns ", seconds); 
+  let seconds = Math.round(
+    (parseDateEnd.getTime() - parseDateStart.getTime()) / 1000,
+  );
+  // console.log(" secodns ", seconds);
+};
 
-}
-
-export const getTimeInFormat = (date) =>{
-  let tripTime = "";
-  let parseDate = Date.parse(date);
-  tripTime = format(parseDate, "hh:mm a"); 
-return tripTime;
-}
-
+export const getTimeInFormat = date => {
+  if (date) {
+    let tripTime = '';
+    let parseDate = Date.parse(date);
+    tripTime = format(parseDate, 'hh:mm a');
+    return tripTime;
+  }
+  return '';
+};
 
 export default BookingCard;
 
@@ -131,22 +144,22 @@ const styles = {
     // height:hp('5%'),
     backgroundColor: appColor.YELLOW,
   },
-  viewTimePickAbus:{
+  viewTimePickAbus: {
     flexDirection: 'row',
-  //  justifyContent: 'space-between',
+    //  justifyContent: 'space-between',
     alignItems: 'center',
   },
-  viewTime:{
+  viewTime: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingLeft: wp('3%')
+    paddingLeft: wp('3%'),
   },
   viewInside: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingLeft: wp('3%')
+    //  paddingLeft: wp('3%')
   },
   viewOutSide: {
     borderRadius: 14,
@@ -188,7 +201,6 @@ const styles = {
   image: {
     width: '100%',
     height: '100%',
-    tintColor: appColor.NAVY_BLUE
-
+    tintColor: appColor.NAVY_BLUE,
   },
 };

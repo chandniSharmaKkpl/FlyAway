@@ -19,6 +19,7 @@ import {
 } from 'react-native-responsive-screen';
 import {appColor, appConstant, imageConstant} from '../../constant';
 import { requestToGetItinaryList } from '../home/Home.action';
+import {requestToGetBusStop} from './BusBooking.action';
 
 const BusBookingScreen = props => {
   const [arrayBooking, setArrayBooking] = useState([1]); // All bookings data will get in this array
@@ -58,11 +59,11 @@ const BusBookingScreen = props => {
   const renderItem = item => {
     return (
       <Pressable onPress={onClickBookingCard}>
-        {/* <BookingCard
-          item={item}
+        <BookingCard
+          item={item.item}
           titleColor={appColor.NAVY_BLUE}
           viewName={appConstant.BUS_BOOKING}
-        /> */}
+        />
       </Pressable>
     );
   };
@@ -75,8 +76,16 @@ const BusBookingScreen = props => {
   };
 
   const onClickCalendarIcon = () => {
+    if (isCalendarShow) {
+      let dictTemp = {'travelDate':convertDate(selectedDate)}
+      dispatch(requestToGetBusStop(dictTemp))
+    } else {
+      
+    }
     setIsCalendarShow(!isCalendarShow);
+
   };
+
   const onClickRightIcon = useCallback(()=>{
             props.navigation.navigate(appConstant.NOTIFICATIONS)
 },[])    
@@ -104,12 +113,13 @@ const convertDate = (date) =>{
           onClickRightIcon = {onClickRightIcon}
           rightIconImage={''}
         />
+        <View>
         <Text style={stylesCommon.textHeading}>Make a Booking</Text>
 
         <View style={styles.viewCalendar1}>
           <CustomTextInput
-         title={selectedDate}
-            rightIcon={imageConstant.IMAGE_CALENDAR_BLACK}
+            title={selectedDate}
+            rightIcon={!isCalendarShow? imageConstant.IMAGE_CALENDAR_BLACK: imageConstant.IMAGE_CLOSE}
             width={wp('90%')}
             onClickRightIcon={onClickCalendarIcon}
           />
@@ -154,20 +164,21 @@ const convertDate = (date) =>{
         }}) }>
             <Text style={styles.buttonSearchBusTitle}>Search Buses</Text>
           </Pressable>
-
-        <>
+</View>
+        <View>
           <Text style={stylesCommon.textHeading}>Upcoming Journeys</Text>
           {/* Booking list  */}
        {responseItinaryList && Array.isArray(responseItinaryList.itinaryList) && responseItinaryList.itinaryList.length>0?   
-       <View style={{alignSelf: 'center', height: hp('18%')}}>
+       <View style={{alignSelf: 'center', height:hp('40%')}}>
             <FlatList
               renderItem={renderItem}
-              data={arrayBooking}
+              horizontal={true}
+              data={responseItinaryList.itinaryList}
               keyExtractor={(item, index) => index.toString()}
             />
           </View> 
          : null } 
-        </>
+        </View>
       </View>
     </>
   );

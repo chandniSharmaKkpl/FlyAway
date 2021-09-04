@@ -50,7 +50,7 @@ const HomeScreen = props => {
         params: { prevData: item },
       })}>
         <BookingCard
-          item={item}
+          item={item.item}
           titleColor={appColor.YELLOW}
           viewName={appConstant.HOME_SCREEN}
         />
@@ -118,14 +118,14 @@ const HomeScreen = props => {
               />
             </View>
             <View style={{ paddingLeft: wp('12%'), paddingTop: hp('1.2%') }}>
-              <Text style={styles.textHello}>Hello {response.userProfile.firstname}!</Text>
+              <Text style={styles.textHello}>Hello {response.userProfile && response.userProfile.firstname ? response.userProfile.firstname:''}!</Text>
               <Text style={styles.textTimeWish}>{getTimeMessage()}</Text>
             </View>
           </View>
         </View>
 
         {/* Bookinng list  */}
-        {response.itinaryList && response.itinaryList>0?
+        {response.itinaryList && response.itinaryList.length>0?
         <View
           style={{
             marginTop: hp('-8%'),
@@ -134,7 +134,7 @@ const HomeScreen = props => {
           }}>
           <FlatList
             renderItem={renderItem}
-            data={arrayBooking}
+            data={response.itinaryList}
             horizontal={true}
             keyExtractor={(item, index) => index.toString()}
           />

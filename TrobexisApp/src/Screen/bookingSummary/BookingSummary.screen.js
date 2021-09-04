@@ -78,7 +78,7 @@ const BookingSummary = props => {
   }
 
   const checkResponse = useCallback(() => {
-    console.log("in check response",response.bookingResponse)
+   
     if (response.bookingResponse && response.bookingResponse.message) {
       
       if ( !response.bookingResponse.success) {

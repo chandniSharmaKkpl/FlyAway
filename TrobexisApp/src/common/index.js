@@ -22,6 +22,7 @@ const getTimeMessage = () => {
 };
 
 export const getDateInFormat = (dateString, withDay) => {
+  if (dateString) {
   let dateTemp = Date.parse(dateString);
   if (withDay) {
     let formattedDate = format(dateTemp, 'EE, MMMM dd yyyy');
@@ -30,6 +31,8 @@ export const getDateInFormat = (dateString, withDay) => {
     let formattedDate = format(dateTemp, 'yyyy-MM-dd');
     return formattedDate;
   }
+}
+return ""
 };
 
 export default {

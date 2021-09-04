@@ -24,7 +24,7 @@ const CustomTextInput = props => {
           width: '100%',
         }}>
         <Text>{props.title}</Text>
-        {rightIcon === imageConstant.IMAGE_CALENDAR_BLACK ? (
+        {rightIcon === imageConstant.IMAGE_CALENDAR_BLACK || rightIcon === imageConstant.IMAGE_CLOSE ? (
           <Pressable
             style={styles.viewCalendarImages}
             onPress={onClickRightIcon}>

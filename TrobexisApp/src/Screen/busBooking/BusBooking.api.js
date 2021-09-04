@@ -19,25 +19,31 @@ return ApiBase(token1)
   );
 };
 
-export const  getBusStop = (token1) => {
+export const  getBusStop = (token1,argument) => {
   // Get access token
 //const accessToken = localDB.getAccessToken();
 
 
 let urlString = apiConstant.GET_BUS_STOP;
-console.log(urlString);
+
+let dictTemp = argument.payload.params
+dictTemp.userId = "BM123";
+argument.payload.params = dictTemp
+console.log(" param ---> ",argument);
 
 return ApiBase(token1)
-  .get(urlString)
-  .then(response => 
+  .post(urlString,argument.payload.params)
+  .then(response =>
     Promise.resolve({
       data: response,
       //status: response.status
-    }).then(response => {
-      console.log(" bus stop "); 
-      return response.data.data;
+    }).then(apiResponse => {
+      console.log(" response ---> ",apiResponse);
+      return apiResponse.data.data;
     }),
-  );
+  ).catch(err=>{
+      console.log("error ",err)
+  });
 };
 
   
