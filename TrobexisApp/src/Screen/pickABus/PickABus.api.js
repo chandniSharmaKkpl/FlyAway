@@ -11,9 +11,8 @@ export const getBusRoute = (token1, params) => {
       Promise.resolve({
         data: response,
         //status: response.status
-      }).then(accessToken => {
-        console.log("Route",accessToken);
-        return accessToken.data.data;
+      }).then(apiResponse => {
+        return apiResponse.data.data;
       }),
     ).catch(err=>{
         console.log("error ",err)

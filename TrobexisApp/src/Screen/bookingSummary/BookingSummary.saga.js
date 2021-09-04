@@ -7,17 +7,11 @@ import {postBooking} from './BookingSummary.api';
 export function* workerPostBooking(params) {
   try {
     const reducer = yield select();
-            //   console.log(' user profile in saga -======>>>>>>', reducer);
-
     const token = reducer.LoginReducer.accessToken.token;
     if (token) {
-      const bookingResponse = yield call(
-        postBooking,
-        token,
-        params
-      );
+      const bookingResponse = yield call(postBooking,token,params);
 
-      if (busRoute) {
+      if (bookingResponse) {
         yield put({
           type: actionConstant.ACTION_POST_BUS_BOOKING_SUCCESS,
           payload: bookingResponse,

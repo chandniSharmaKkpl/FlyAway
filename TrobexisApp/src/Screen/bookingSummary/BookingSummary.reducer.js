@@ -8,7 +8,7 @@ const initialState = {
 
 export default (state = initialState, { type, payload }) => {
     switch (type) {
-          // GET Bus Route
+// Booking summary 
           case actionConstant.ACTION_POST_BUS_BOOKING_REQUEST: {
             return {
               ...state,

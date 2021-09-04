@@ -97,7 +97,7 @@ export const getTimeDifference =(item) =>{
   let parseDateEnd = new Date(item.enddatetime);
 
   let seconds = Math.round((parseDateEnd.getTime() - parseDateStart.getTime()) / 1000);
-  console.log(" secodns ", seconds); 
+  // console.log(" secodns ", seconds); 
 
 }
 

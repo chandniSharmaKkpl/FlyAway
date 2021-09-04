@@ -3,9 +3,10 @@ import {actionConstant} from '../../constant';
 // Access Token
 
 
- export const requestToPostBooking = () => ({
+ export const requestToPostBooking = (params) => ({
     type: actionConstant.ACTION_POST_BUS_BOOKING_REQUEST,
     payload: {
+      params
     },
   });
   

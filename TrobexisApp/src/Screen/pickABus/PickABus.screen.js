@@ -42,8 +42,6 @@ const PickABus = props => {
 
 
   const renderItem = item => {
-   console.log(" render item puck a bus res", item)
-
     return (
       <Pressable 
        onPress={()=> props.navigation.navigate(appConstant.ADD_LUGGAGE, 
@@ -62,7 +60,6 @@ const PickABus = props => {
 
   return (
     <>
-    {console.log(" render  pickk a bus res", response)}
       <View style={stylesHome.container}>
         <HeaderCustom
           title={'Pick a Bus'}

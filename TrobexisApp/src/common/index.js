@@ -1,24 +1,37 @@
+import format from "date-fns/format";
+
 const getTimeMessage = () => {
-    var d = new Date();
-    var hour = d.getHours();
-    var amPm = ''
-    let stringToRead = "";
-    if (hour < 12) {
-        amPm = "am"
-        stringToRead = "Good morning!"
+  var d = new Date();
+  var hour = d.getHours();
+  var amPm = '';
+  let stringToRead = '';
+  if (hour < 12) {
+    amPm = 'am';
+    stringToRead = 'Good morning!';
+  } else {
+    amPm = 'pm';
+    if (hour >= 12 && hour <= 17) {
+      stringToRead = 'Good Afternoon!';
     } else {
-        amPm = "pm"
-        if (hour >= 12 && hour <= 17) {
-            stringToRead = "Good Afternoon!";
-        } else {
-            if (hour > 17 && hour <= 24) {
-                stringToRead = "Good Evening!";
-            }
-        }
+      if (hour > 17 && hour <= 24) {
+        stringToRead = 'Good Evening!';
+      }
     }
-    return stringToRead;
-}
+  }
+  return stringToRead;
+};
+
+export const getDateInFormat = (dateString, withDay) => {
+  let dateTemp = Date.parse(dateString);
+  if (withDay) {
+    let formattedDate = format(dateTemp, 'EE, MMMM dd yyyy');
+    return formattedDate;
+  } else {
+    let formattedDate = format(dateTemp, 'yyyy-MM-dd');
+    return formattedDate;
+  }
+};
 
 export default {
-    getTimeMessage
-}
+  getTimeMessage,
+};

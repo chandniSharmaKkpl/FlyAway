@@ -8,7 +8,6 @@ import {ApiBase} from '../../api/apiBase';
       // Get access token
 
     let urlString = apiConstant.USER_PROFILE;
-    console.log(urlString);
    urlString = urlString.replace(":userId","BM123" )
 
     return ApiBase(token1)
@@ -27,7 +26,6 @@ import {ApiBase} from '../../api/apiBase';
     // Get access token
 
   let urlString = apiConstant.GET_ITINARY_LIST;
-  console.log(urlString);
  urlString = urlString.replace(":userId","BM123" )
 
   return ApiBase(token1)
@@ -86,9 +84,7 @@ return ApiBase(token1)
     // Get access token
 
   let urlString = apiConstant.GET_ITINARY_DETAIL;
-  console.log(urlString);
  urlString = urlString.replace(":itineraryId","L4192" )
- console.log(urlString);
 
   return ApiBase(token1)
     .get(urlString)

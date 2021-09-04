@@ -58,11 +58,11 @@ const BusBookingScreen = props => {
   const renderItem = item => {
     return (
       <Pressable onPress={onClickBookingCard}>
-        <BookingCard
+        {/* <BookingCard
           item={item}
           titleColor={appColor.NAVY_BLUE}
           viewName={appConstant.BUS_BOOKING}
-        />
+        /> */}
       </Pressable>
     );
   };

@@ -19,7 +19,6 @@ import { appColor, appConstant, imageConstant } from '../../constant';
 import { requestToGetUserProfile } from './Home.action';
 import localDB from '../../database/localDb';
 import DeviceInfo from 'react-native-device-info';
-import commonStyles from '../../common/common.style'
 
 
 const HomeScreen = props => {

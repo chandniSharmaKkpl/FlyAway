@@ -6,10 +6,7 @@ export const  getBusRoute = (token1) => {
   // Get access token
 //const accessToken = localDB.getAccessToken();
 
-
 let urlString = apiConstant.GET_BUS_ROUTE;
-console.log(urlString);
-
 return ApiBase(token1)
   .get(urlString)
   .then(response => 
@@ -17,7 +14,6 @@ return ApiBase(token1)
       data: response,
       //status: response.status
     }).then(response => {
-      console.log(" bus route "); 
       return response.data.data;
     }),
   );

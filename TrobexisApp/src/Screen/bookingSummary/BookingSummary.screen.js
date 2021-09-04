@@ -1,29 +1,40 @@
 import React, {useState, useCallback} from 'react';
-import {View, Text, Image, FlatList, Pressable, BackHandler} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  FlatList,
+  Pressable,
+  BackHandler,
+  Alert
+} from 'react-native';
 import stylesHome from '../home/Home.style';
 import styles from './BookingSummary.style';
-import {HeaderCustom, BookingCard} from '../../component';
+import {HeaderCustom,Loader} from '../../component';
+
 import {Avatar} from 'react-native-elements';
 import stylesCommon from '../../common/common.style';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import IconEntypo from 'react-native-vector-icons/Entypo';
-import IconEvil from 'react-native-vector-icons/EvilIcons';
 import IconIonicons from 'react-native-vector-icons/Ionicons';
-import IconOcticons from 'react-native-vector-icons/Octicons';
 import {imageConstant, appColor, appConstant} from '../../constant';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { useSelector, useDispatch } from 'react-redux';
-import { connect } from 'react-redux';
-import { requestToPostBooking } from './BookingSummary.action';
+import {useSelector, useDispatch} from 'react-redux';
+import {requestToPostBooking} from './BookingSummary.action';
+import commonStyle from '../../common/common.style';
+import {getTimeInFormat} from '../../component/BookingCard';
+import {getDateInFormat} from '../../common/index'
 
 const BookingSummary = props => {
 
+ const response = useSelector(state => state.BookingSummaryReducer)
+   const dispatch = useDispatch();
+
   React.useEffect(() => {
-   
-    console.log(" booking summary ", props); 
+    console.log(' booking summary ', props);
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
     return () => {
       BackHandler.removeEventListener(
@@ -32,19 +43,67 @@ const BookingSummary = props => {
       );
     };
   }, []);
-  
+
+  const returnItinaryInfo = (info, isArrive) => {
+    let splitStr = info.split('-');
+    if (isArrive) {
+      return splitStr[0];
+    } else {
+      return splitStr[1];
+    }
+  };
+
+
   const handleBackButtonClick = () => {
     props.navigation.goBack();
   };
 
+  const onClickBookSeat =()=>{
+    
+      const {countLuggage, pickABusData} = props.route.params.luggageData;
+      console.log(" prev data ", pickABusData)
+      let data = {
+        'piecesofluggage': countLuggage,
+        'travelDate': pickABusData.busBookingData.travelDate,
+        'pickuplocationcode':
+          pickABusData.busBookingData.pickuplocationcode,
+        'dropofflocationcode':
+          pickABusData.busBookingData.dropofflocationcode,
+        'transportId': pickABusData.selectedBus.item.transportId,
+      };
+
+      dispatch(requestToPostBooking(data));
+      // props.navigation.navigate(appConstant.HOME_SCREEN)
+    
+  }
+
+  const checkResponse = useCallback(() => {
+    console.log("in check response",response.bookingResponse)
+    if (response.bookingResponse && response.bookingResponse.message) {
+      
+      if ( !response.bookingResponse.success) {
+        alert(response.bookingResponse.message);
+      }else{
+        Alert.alert("Alert", response.bookingResponse.message, [
+          {
+            text: "Ok",
+            onPress: () => props.navigation.popToTop(),
+          },
+        ]);
+      }
+    }},
+    [response.bookingResponse],
+  )
+
   return (
     <>
+    {checkResponse()}
       <View style={stylesHome.container}>
         <HeaderCustom
           title={'Booking Summary'}
           viewName={appConstant.BOOKING_SUMMARY}
           leftIcon={true}
-          onClickLeftIcon={()=> props.navigation.goBack()}
+          onClickLeftIcon={() => props.navigation.goBack()}
           rightIcon={false}
           centerTitle={true}
           onClickRightIcon={() => {}}
@@ -56,31 +115,41 @@ const BookingSummary = props => {
           <View style={{flexDirection: 'row', padding: '2%'}}>
             {/* View circle and line  */}
 
-            <View style={{backgroundColor: 'pink', height: hp('5%')}}>
-              <View style={styles.emptyCircle} />
-              <View style={styles.straightView} />
-              <View style={styles.filledCircle} />
-            </View>
+            {/* <View style={{backgroundColor: 'pink', height: hp('5%'), width:wp('5%')}}>
+             <Image source={imageConstant.IMAGE_TRACK_LOC} style={commonStyle.image}/>
+            </View> */}
 
             {/* Itinary detail */}
             <View style={{paddingLeft: wp('5%')}}>
               <View style={styles.viewLocation}>
                 <View>
-                  <Text style={styles.rowTtitle}>06:30</Text>
+                  <Text style={styles.rowTtitle}>
+                    {getTimeInFormat(
+                      props.route.params.luggageData.pickABusData.selectedBus
+                        .item.startdatetime,
+                    )}
+                  </Text>
                   <Text style={styles.textDescription}>Depart</Text>
                 </View>
                 <Text style={[styles.rowTtitle, {paddingLeft: wp('5%')}]}>
-                  Barrow Island
+                  {returnItinaryInfo(props.route.params.luggageData.pickABusData.selectedBus
+                        .item.title, true)}
                 </Text>
               </View>
 
               <View style={styles.viewLocation}>
                 <View>
-                  <Text style={styles.rowTtitle}>07:30</Text>
+                  <Text style={styles.rowTtitle}>
+                    {getTimeInFormat(
+                      props.route.params.luggageData.pickABusData.selectedBus
+                        .item.enddatetime,
+                    )}
+                  </Text>
                   <Text style={styles.textDescription}>arrive</Text>
                 </View>
                 <Text style={[styles.rowTtitle, {paddingLeft: wp('5%')}]}>
-                  Butler Park
+                {returnItinaryInfo(props.route.params.luggageData.pickABusData.selectedBus
+                        .item.title, false)}
                 </Text>
               </View>
             </View>
@@ -92,7 +161,7 @@ const BookingSummary = props => {
             <IconIonicons name="calendar" style={styles.iconRow} />
             <View style={styles.viewDate}>
               <Text style={styles.rowTtitle}>Date</Text>
-              <Text style={styles.textDescription}>Tue, July 20,2021</Text>
+              <Text style={styles.textDescription}>{getDateInFormat(props.route.params.luggageData.pickABusData.busBookingData.travelDate, true)}</Text>
             </View>
           </View>
 
@@ -100,7 +169,7 @@ const BookingSummary = props => {
             <IconAntDesign name="clockcircle" style={styles.iconRow} />
             <View style={styles.viewDate}>
               <Text style={styles.rowTtitle}>Duration</Text>
-              <Text style={styles.textDescription}>00h 10m</Text>
+              <Text style={styles.textDescription}>{props.route.params.luggageData.pickABusData.selectedBus.item.durationMins}m</Text>
             </View>
           </View>
 
@@ -109,7 +178,7 @@ const BookingSummary = props => {
             <View style={styles.viewDate}>
               <Text style={styles.rowTtitle}>Route</Text>
               <Text style={styles.textDescription}>
-                Barrow Island - Butter Park{' '}
+               {props.route.params.luggageData.pickABusData.selectedBus.item.title}
               </Text>
             </View>
           </View>
@@ -118,25 +187,14 @@ const BookingSummary = props => {
             <IconEntypo name="briefcase" style={styles.iconRow} />
             <View style={styles.viewDate}>
               <Text style={styles.rowTtitle}>Luggage</Text>
-              <Text style={styles.textDescription}>0 Pieces </Text>
+              <Text style={styles.textDescription}>{props.route.params.luggageData.countLuggage} Pieces </Text>
             </View>
           </View>
         </View>
 
         <Pressable
           style={stylesCommon.yellowButton}
-          onPress={() => {
-            const {countLuggage, pickABusData} = props.route.params.luggageData;
-            let data = { 
-                 "piecesofluggage": countLuggage,
-                 "travelDate": pickABusData.busBookingData.travelDate,
-                 "pickuplocationcode": pickABusData.busBookingData.pickuplocationcode,
-                 "dropofflocationcode": pickABusData.busBookingData.dropofflocationcode,
-                 "transportId": pickABusData.selectedBus.transportId
-            }
-            dispatchEvent(requestToPostBooking(data))
-           // props.navigation.navigate(appConstant.HOME_SCREEN)
-          }}>
+          onPress={() => onClickBookSeat()}>
           <Text
             style={[
               styles.buttonSearchBusTitle,
@@ -145,6 +203,8 @@ const BookingSummary = props => {
             Book a Seat
           </Text>
         </Pressable>
+        {response.isRequesting ? <Loader loading={response.isRequesting} /> : null}
+
       </View>
     </>
   );

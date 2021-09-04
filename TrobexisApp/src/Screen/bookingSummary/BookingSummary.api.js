@@ -1,27 +1,32 @@
 import {actionConstant, apiConstant, appConstant} from '../../constant';
 import {ApiBase} from '../../api/apiBase';
 
-export const  postBooking = (token1, params) => {
+export const  postBooking = (token1, argument) => {
   // Get access token
 //const accessToken = localDB.getAccessToken();
 
-console.log(" bus route param ", params); 
+let dictTemp = argument.payload.params
+dictTemp.userId = "BM123";
+argument.payload.params = dictTemp
+
+console.log(" bus bookin param ", argument); 
 
 let urlString = apiConstant.POST_BUS_BOOKING;
-console.log(urlString);
+console.log(argument.payload.params);
 
 return ApiBase(token1)
-  .post(urlString, params.payload.params)
-  .then(response => {
-    console.log(" post booking ", response); 
-
+  .post(urlString, argument.payload.params)
+  .then(response =>
     Promise.resolve({
       data: response,
       //status: response.status
-    }).then(response => {
-      console.log(" post booking 222", response); 
-      return response.data.data;
-    }) },
-  );
+    }).then(apiResponse => {
+    //  console.log(" response ---> ",apiResponse);
+      return apiResponse.data.data;
+    }),
+  ).catch(err=>{
+      console.log("error ",err)
+  });
+  
 };
 
