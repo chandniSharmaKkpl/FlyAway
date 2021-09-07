@@ -167,7 +167,7 @@ const BookingSummary = props => {
             <IconIonicons name="calendar" style={styles.iconRow} />
             <View style={styles.viewDate}>
               <Text style={styles.rowTtitle}>Date</Text>
-              <Text style={styles.textDescription}>{getDateInFormat(props.route.params.luggageData.pickABusData.busBookingData.travelDate, true)}</Text>
+              <Text style={styles.textDescription}>{getDateInFormat(props.route.params.luggageData.pickABusData.busBookingData.travelDate, true, false)}</Text>
             </View>
           </View>
 

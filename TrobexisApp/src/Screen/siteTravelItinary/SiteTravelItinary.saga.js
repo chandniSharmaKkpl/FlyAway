@@ -1,7 +1,7 @@
 import {takeLatest, call, put, select, all} from 'redux-saga/effects';
 import {actionConstant} from '../../constant';
 
-import {cancelSiteTravelItinary} from './SiteTravelItinary.api';
+import {cancelSiteTravelItinary, getItinaryDetail} from './SiteTravelItinary.api';
 
 ///** Get bus route */
 export function* workerCancelSiteTravelItinary(params) {
@@ -34,6 +34,45 @@ export function* workerCancelSiteTravelItinary(params) {
   }
 }
 
+
+export function* workerGetItinaryDetail(params) {
+  try {
+    const reducer = yield select();
+
+    const token = reducer.LoginReducer.accessToken.token;
+    if (token) {
+      const itinaryResponse = yield call(
+        getItinaryDetail,
+        token,
+        params
+      );
+
+      if (itinaryResponse) {
+        yield put({
+          type: actionConstant.ACTION_GET_ITINARY_DETAILS_SUCCESS,
+          payload: itinaryResponse,
+        });
+      }
+     
+    }
+  } catch (error) {
+    // console.log(' worker saga called error  ', error);
+    yield put({
+      type: actionConstant.ACTION_GET_DETAIL_OF_ITINARY_FAILURE,
+      payload: error,
+    });
+  }
+}
+
+export function* watchToGetItinaryDetail() {
+  yield takeLatest(
+    actionConstant.ACTION_GET_ITINARY_DETAILS_REQUEST,
+    workerGetItinaryDetail
+  );
+}
+
+
+
 export function* watchToCancelSiteTravelItinary() {
     yield takeLatest(
       actionConstant.ACTION_SITE_TRAVEL_ITINARY_CANCEL_REQUEST,
@@ -41,5 +80,5 @@ export function* watchToCancelSiteTravelItinary() {
     );
   }
 
-  export default watchToCancelSiteTravelItinary;
+  export default watchToGetItinaryDetail;
   

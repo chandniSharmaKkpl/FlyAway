@@ -10,21 +10,35 @@ import {
 import stylesHome from '../home/Home.style';
 import stylesCommon from '../../common/common.style';
 import styles from './SiteTravelItinary.style';
-import {HeaderCustom, BookingCard} from '../../component';
-import {Avatar} from 'react-native-elements';
+import {HeaderCustom, BookingCard, Loader} from '../../component';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import { useSelector, useDispatch } from 'react-redux';
+
 import {appColor, appConstant, imageConstant} from '../../constant';
 import {ScrollView} from 'react-native-gesture-handler';
+import {requestToCancelSiteTravelItinary, requestToGetDetailOfItinary} from './SiteTravelItinary.action';
+import { getDateInFormat } from '../../common';
+import { getTimeInFormat } from '../../component/BookingCard';
 
 const SiteTravelItinary = props => {
   const [arrayBooking, setArrayBooking] = useState([1]);
+  const dispatch = useDispatch();
+  const response = useSelector(state => state.SiteTravelItinaryReducer); // Getting api response
 
   React.useEffect(() => {
     let array = [1, 2, 3];
     arrayBooking.push(array);
+
+    if (props.route.params.itinaryDetail && props.route.params.itinaryDetail.id) {
+      console.log(" props are ====", props); 
+
+      dispatch(requestToGetDetailOfItinary(props.route.params.itinaryDetail.id));
+
+    }
+
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
 
     return () => {
@@ -33,7 +47,7 @@ const SiteTravelItinary = props => {
         handleBackButtonClick,
       );
     };
-  }, []);
+  }, [props.route.params.itinaryDetail]);
 
   const handleBackButtonClick = () => {
     props.navigation.navigate(viewName);
@@ -70,14 +84,15 @@ const SiteTravelItinary = props => {
 
   return (
     <>
+    {console.log(" response site travel ", response)}
       <View style={stylesHome.container}>
         <HeaderCustom
           title={'Site Travel Itinerary'}
           viewName={appConstant.SITE_ITINARY}
-          leftIcon={false}
-          rightIcon={true}
+          leftIcon={true}
+          rightIcon={false}
           centerTitle={true}
-          onClickRightIcon={() => onClickBack()}
+          onClickLeftIcon={() => onClickBack()}
           rightIconImage={imageConstant.IMAGE_ARROW_BACK}
         />
         <Text style={stylesCommon.textHeading}>Site Travel Itinerary</Text>
@@ -87,10 +102,10 @@ const SiteTravelItinary = props => {
           {/* View user information */}
           <View style={styles.viewOutSide}>
             <View style={styles.viewInside}>
-              {returnView('Name', 'Poole Boris')}
-              {returnView('Bus Booking', 'Butler Park to Barrow Island')}
-              {returnView('Date', 'Tue, July20,2021 to Tue, July 20, 2021')}
-              {returnView('TRV', '3123')}
+              {returnView('Name', response.itinaryDetail.GivenName)}
+              {returnView('Bus Booking', response.itinaryDetail.Title)}
+              {returnView('Date', getDateInFormat(response.itinaryDetail.StartDate, true, false))}
+              {returnView('TRV', response.itinaryDetail.TravelRequestId)}
             </View>
           </View>
 
@@ -109,7 +124,7 @@ const SiteTravelItinary = props => {
               </View>
               <View style={styles.viewLeft}>
                 <Text style={styles.textYellow}>Trobexis Coaches (BRW02)</Text>
-                <Text style={[styles.textBlack]}>Tuesday, July20,2021</Text>
+                <Text style={[styles.textBlack]}>{getDateInFormat(response.itinaryDetail.StartDate, false, true)}</Text>
               </View>
             </View>
             <View style={styles.viewSingleLine} />
@@ -139,7 +154,7 @@ const SiteTravelItinary = props => {
                   <Text style={styles.textBlack}>
                     Barrows Island(BWB)
                   </Text>
-                  <Text style={styles.textBlack}>12:00 PM</Text>
+                  <Text style={styles.textBlack}>{getTimeInFormat(response.itinaryDetail.StartDate)}</Text>
                 </View>
               </View>
             </View>
@@ -160,6 +175,9 @@ const SiteTravelItinary = props => {
             </View>
           )}
         </ScrollView>
+
+        {response.isRequesting ? <Loader loading={props.isRequesting} /> : null}
+
       </View>
     </>
   );

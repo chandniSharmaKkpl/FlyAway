@@ -21,7 +21,7 @@ return ApiBase(token1)
       data: response,
       //status: response.status
     }).then(apiResponse => {
-    //  console.log(" response ---> ",apiResponse);
+      console.log("booking summary response ---> ",apiResponse);
       return apiResponse.data.data;
     }),
   ).catch(err=>{

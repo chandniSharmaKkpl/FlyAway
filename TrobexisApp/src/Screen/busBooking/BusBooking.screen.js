@@ -32,9 +32,10 @@ const BusBookingScreen = props => {
   const response = useSelector(state => state.BusBookingReducer); // Getting api response
   const responseItinaryList = useSelector(state => state.HomeReducer); // Getting api response
 
-  const onClickBookingCard = useCallback(() => {
+  const onClickBookingCard = useCallback((itinaryDetail) => {
     props.navigation.navigate(appConstant.SITE_ITINARY, {
       viewName: appConstant.BUS_BOOKING,
+      itinaryDetail: itinaryDetail
     });
   }, []);
 
@@ -58,7 +59,7 @@ const BusBookingScreen = props => {
 
   const renderItem = item => {
     return (
-      <Pressable onPress={onClickBookingCard}>
+      <Pressable onPress={()=>onClickBookingCard(item.item)}>
         <BookingCard
           item={item.item}
           titleColor={appColor.NAVY_BLUE}

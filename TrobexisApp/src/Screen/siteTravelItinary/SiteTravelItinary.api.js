@@ -21,20 +21,19 @@ export const cancelSiteTravelItinary = (token1, params) => {
     });
 };
 
-export const itinaryDetail = (token1, params) => {
+export const getItinaryDetail = (token1, argument) => {
   let urlString = apiConstant.GET_ITINARY_DETAIL;
-  urlString = urlString.replace(":itineraryId","L4192" )
 
-  console.log(" site travel param ", params); 
+  urlString = urlString.replace(":itineraryId",argument.payload.params)
 
   return ApiBase(token1)
-    .post(urlString, params.payload.params)
+    .get(urlString)
     .then(response =>
       Promise.resolve({
         data: response,
         //status: response.status
       }).then(apiResponse => {
-        console.log("cancel site travel response ", apiResponse); 
+        console.log("trip detail response ", apiResponse); 
         return apiResponse.data.data;
       }),
     ).catch(err=>{

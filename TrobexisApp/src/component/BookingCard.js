@@ -62,7 +62,7 @@ const BookingCard = props => {
                 />
               </View>
               <Text style={styles.textDetail}>
-                {getDateInFormat(item.startdatetime, false)}{' '}
+                {getDateInFormat(item.startdatetime, false, false)}{' '}
               </Text>
             </View>
 

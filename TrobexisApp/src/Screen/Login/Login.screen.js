@@ -18,7 +18,7 @@ import { requestToGetAccessToken } from './Login.action';
 import { isEmailValid, isMobileNumberValid } from "../../helper/validations";
 import alertMsgConstant from '../../constant/alertMsgConstant';
 import AuthContext from "../../context/AuthContext";
-//import PushController from "../../component/PushController";
+import PushController from "../../component/PushControllerTemp";
 
 const LoginScreen = (props) => {
   const [isClickEye, setIsClickEye] = useState(false);
@@ -224,7 +224,7 @@ const LoginScreen = (props) => {
         {props.isRequesting ? <Loader loading={props.isRequesting} /> : null}
 
       </View>
-      {/* <PushController getDeviceInfo={getDeviceInfo} /> */}
+      <PushController  />
 
     </>
   );

@@ -1,6 +1,30 @@
  import {actionConstant} from '../../constant';
 
-// Access Token
+ // Getting detail of itinary 
+ export const requestToGetDetailOfItinary = (params) => ({
+  type: actionConstant.ACTION_GET_ITINARY_DETAILS_REQUEST,
+  payload: {
+    params
+  },
+});
+
+
+export const successToGetDetailOfItinary = (data) => ({
+  type: actionConstant.ACTION_GET_ITINARY_DETAILS_SUCCESS,
+  payload: {
+    data: data,
+  },
+});
+
+export const failToGetDetailOfItinary = (error) => ({
+  type: actionConstant.ACTION_GET_ITINARY_DETAILS_FAILURE,
+  payload: {
+    data: error,
+  },
+});
+
+
+// Cancel itinary 
 
  export const requestToCancelSiteTravelItinary = () => ({
     type: actionConstant.ACTION_SITE_TRAVEL_ITINARY_CANCEL_REQUEST,

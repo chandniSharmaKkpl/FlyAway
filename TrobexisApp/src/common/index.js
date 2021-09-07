@@ -21,13 +21,16 @@ const getTimeMessage = () => {
   return stringToRead;
 };
 
-export const getDateInFormat = (dateString, withDay) => {
+export const getDateInFormat = (dateString, isShortDayName, isCompleteDayName) => {
   if (dateString) {
   let dateTemp = Date.parse(dateString);
-  if (withDay) {
+  if (isShortDayName) {
     let formattedDate = format(dateTemp, 'EE, MMMM dd yyyy');
     return formattedDate;
-  } else {
+  } else if(isCompleteDayName){
+    let formattedDate = format(dateTemp, 'EEEE, MMMM dd yyyy');
+    return formattedDate;
+  }else {
     let formattedDate = format(dateTemp, 'yyyy-MM-dd');
     return formattedDate;
   }
