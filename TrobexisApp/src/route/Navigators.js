@@ -8,7 +8,7 @@ import HomeScreen from '../Screen/home/Home.screen';
 import BusBookingScreen from '../Screen/busBooking/BusBooking.screen';
 import HistoryScreen from '../Screen/history/History.screen';
 import PickABus from '../Screen/pickABus/PickABus.screen';
-import Notifications from '../Screen/Notification/notificationScreen';
+import Notifications from '../Screen/Notification/notification.screen';
 import SiteTravelItinary from '../Screen/siteTravelItinary/SiteTravelItinary.screen';
 import AddLuggage from '../Screen/addLuggage/AddLuggage.screen';
 import BookingSummary from '../Screen/bookingSummary/BookingSummary.screen';

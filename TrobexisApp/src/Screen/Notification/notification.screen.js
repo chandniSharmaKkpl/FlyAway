@@ -11,11 +11,11 @@ import {
 import {appColor, appConstant, imageConstant} from '../../constant';
 
 const NotificationScreen = props => {
-  const [arrayBooking, setArrayBooking] = useState([1]);
+  const [arrayBooking, setArrayBooking] = useState([]);
 
   React.useEffect(() => {
-    let array = [1, 2, 3];
-    arrayBooking.push(array);
+  //  let array = [1, 2, 3];
+   // arrayBooking.push(array);
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
 
     return () => {
@@ -63,11 +63,14 @@ const NotificationScreen = props => {
 
         {/* Bookinng list  */}
         <View style={{alignSelf: 'center',}}>
+          {arrayBooking.length>0? 
           <FlatList
             renderItem={renderItem}
             data={arrayBooking}
             keyExtractor={(item, index) => index.toString()}
-          />
+          />:
+          <Text style={stylesCommon.textHeading}>Coming Soon</Text>
+        }
         </View>
       </View>
     </>
