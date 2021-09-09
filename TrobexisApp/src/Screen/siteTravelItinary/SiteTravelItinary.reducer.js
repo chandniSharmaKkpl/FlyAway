@@ -21,9 +21,7 @@ export default (state = initialState, { type, payload }) => {
         };
       }
       case actionConstant.ACTION_GET_ITINARY_DETAILS_SUCCESS: {
-        
-        console.log(" Reducer   trip detail response ", payload); 
-        return {
+                return {
           ...state,
           itinaryDetail: payload,
           isRequesting: false,

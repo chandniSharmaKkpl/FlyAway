@@ -2,11 +2,15 @@ import {actionConstant, apiConstant, appConstant} from '../../constant';
 import {ApiBase} from '../../api/apiBase';
 
 
-export const cancelSiteTravelItinary = (token1, params) => {
-  let urlString = apiConstant.GET_BUS_ROUTE;
-  console.log(" site travel param ", params); 
+export const cancelSiteTravelItinary = (token1, argument) => {
+
+  let urlString = apiConstant.GET_ITINARY_DETAIL;
+  console.log("cancel  site travel param ", argument); 
+
+  urlString = urlString.replace(":itineraryId", argument.payload.params)
+
   return ApiBase(token1)
-    .post(urlString, params.payload.params)
+    .delete(urlString)
     .then(response =>
       Promise.resolve({
         data: response,

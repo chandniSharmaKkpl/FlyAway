@@ -6,6 +6,7 @@ import {
   FlatList,
   BackHandler,
   Pressable,
+  Alert
 } from 'react-native';
 import stylesHome from '../home/Home.style';
 import stylesCommon from '../../common/common.style';
@@ -22,11 +23,14 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {requestToCancelSiteTravelItinary, requestToGetDetailOfItinary} from './SiteTravelItinary.action';
 import { getDateInFormat } from '../../common';
 import { getTimeInFormat } from '../../component/BookingCard';
+import alertMsgConstant from '../../constant/alertMsgConstant';
 
 const SiteTravelItinary = props => {
   const [arrayBooking, setArrayBooking] = useState([1]);
   const dispatch = useDispatch();
-  const response = useSelector(state => state.SiteTravelItinaryReducer.itinaryDetail); // Getting api response
+  const response = useSelector(state => state.SiteTravelItinaryReducer.itinaryDetail); // Getting api response of itinary detail 
+  const responseCancelItinary = useSelector(state => state.SiteTravelItinaryReducer.cancelItinaryResponse); // Getting api response when itinary cancel
+
 const responseLoader = useSelector(state => state.SiteTravelItinaryReducer);
   React.useEffect(() => {
     let array = [1, 2, 3];
@@ -36,9 +40,7 @@ const responseLoader = useSelector(state => state.SiteTravelItinaryReducer);
       console.log(" props are ====", props); 
 
       dispatch(requestToGetDetailOfItinary(props.route.params.itinaryDetail.id));
-
     }
-
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
 
     return () => {
@@ -52,6 +54,26 @@ const responseLoader = useSelector(state => state.SiteTravelItinaryReducer);
   const handleBackButtonClick = () => {
     props.navigation.navigate(viewName);
   };
+
+  const cancelBookingApi =()=>{    
+    dispatch(requestToCancelSiteTravelItinary({'itinerayId':response.Itinerarys[0].ItineraryId}))
+  }
+
+  React.useEffect(() => {
+    
+    if (responseCancelItinary.message) {
+      Alert.alert("Alert", responseCancelItinary.message, [
+        {
+          text: "Ok",
+          onPress: () =>  {
+            let dictTemp = responseCancelItinary;
+            dictTemp.message = ""
+            props.navigation.goBack()}
+        },
+      ]);
+    }
+
+  }, [responseCancelItinary])
 
   const renderItem = item => {
     return (
@@ -141,7 +163,7 @@ const responseLoader = useSelector(state => state.SiteTravelItinaryReducer);
                 <Text style={styles.textBlack}> 
                 {response.MyRoute && Array.isArray(response.MyRoute) &&  response.MyRoute.length>0 ?response.MyRoute[0].Departure:""}
                   </Text>
-                <Text style={styles.textBlack}>{getTimeInFormat(response.StartDate)}</Text>
+                {/* <Text style={styles.textBlack}>{getTimeInFormat(response.StartDate)}</Text> */}
               </View>
 
               <View style={{width:'66%',flexDirection:'row'}}>
@@ -159,7 +181,7 @@ const responseLoader = useSelector(state => state.SiteTravelItinaryReducer);
                   <Text style={styles.textBlack}>
                   {response.MyRoute && Array.isArray(response.MyRoute) &&  response.MyRoute.length>0 ?response.MyRoute[0].Destination:""}
                   </Text>
-                  <Text style={styles.textBlack}>{getTimeInFormat(response.StartDate)}</Text>
+                  {/* <Text style={styles.textBlack}>{getTimeInFormat(response.StartDate)}</Text> */}
                 </View>
               </View>
             </View>
@@ -174,7 +196,7 @@ const responseLoader = useSelector(state => state.SiteTravelItinaryReducer);
           {/* Cancel Button */}
           {props.viewName === appConstant.BUS_BOOKING ? null : (
             <View style={styles.viewCancelButton}>
-              <Pressable style={styles.buttonRed}>
+              <Pressable style={styles.buttonRed} onPress={()=> cancelBookingApi()}>
                 <Text style={styles.textRedButton}>Cancel Booking</Text>
               </Pressable>
             </View>

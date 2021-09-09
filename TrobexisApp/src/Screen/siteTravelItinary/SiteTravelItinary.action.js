@@ -26,9 +26,9 @@ export const failToGetDetailOfItinary = (error) => ({
 
 // Cancel itinary 
 
- export const requestToCancelSiteTravelItinary = () => ({
+ export const requestToCancelSiteTravelItinary = (params) => ({
     type: actionConstant.ACTION_SITE_TRAVEL_ITINARY_CANCEL_REQUEST,
-    payload: {
+    payload: {params
     },
   });
   

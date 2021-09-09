@@ -7,7 +7,6 @@ import {cancelSiteTravelItinary, getItinaryDetail} from './SiteTravelItinary.api
 export function* workerCancelSiteTravelItinary(params) {
   try {
     const reducer = yield select();
-            //   console.log(' user profile in saga -======>>>>>>', reducer);
 
     const token = reducer.LoginReducer.accessToken.token;
     if (token) {
@@ -16,6 +15,7 @@ export function* workerCancelSiteTravelItinary(params) {
         token,
         params
       );
+      console.log(' workerCancelSiteTravelItinary saga -======>>>>>>', cancelResponse);
 
       if (cancelResponse) {
         yield put({

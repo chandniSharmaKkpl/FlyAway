@@ -4,4 +4,6 @@ export default{
     EMAIL_NOT_EMPTY: "Email cannot be empty",
     PASSWORD_NOT_EMPTY:"Password cannot be empty",
     EMAIL_NOT_VALID:"Email is not correct", 
+    ITINARY_CANCEL_TITLE:'Itinary Cancel',
+    
 }

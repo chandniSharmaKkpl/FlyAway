@@ -13,8 +13,7 @@ import {getDateInFormat} from '../common/index';
 
 const BookingCard = props => {
   const {item, viewName} = props;
-  let date = '20-07-2021';
-  let time = '10:30 AM';
+ 
   return (
     <View style={styles.viewOutSide}>
       <View style={styles.viewInside1}>
