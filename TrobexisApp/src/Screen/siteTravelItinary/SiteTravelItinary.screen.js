@@ -26,8 +26,8 @@ import { getTimeInFormat } from '../../component/BookingCard';
 const SiteTravelItinary = props => {
   const [arrayBooking, setArrayBooking] = useState([1]);
   const dispatch = useDispatch();
-  const response = useSelector(state => state.SiteTravelItinaryReducer); // Getting api response
-
+  const response = useSelector(state => state.SiteTravelItinaryReducer.itinaryDetail); // Getting api response
+const responseLoader = useSelector(state => state.SiteTravelItinaryReducer);
   React.useEffect(() => {
     let array = [1, 2, 3];
     arrayBooking.push(array);
@@ -77,7 +77,7 @@ const SiteTravelItinary = props => {
           paddingBottom: hp('1%'),
         }}>
         <Text style={styles.textBlue}>{title}: </Text>
-        <Text style={styles.textBlack}>{value}</Text>
+        <Text style={styles.textBusBookValue}>{value}</Text>
       </View>
     );
   };
@@ -102,10 +102,10 @@ const SiteTravelItinary = props => {
           {/* View user information */}
           <View style={styles.viewOutSide}>
             <View style={styles.viewInside}>
-              {returnView('Name', response.itinaryDetail.GivenName)}
-              {returnView('Bus Booking', response.itinaryDetail.Title)}
-              {returnView('Date', getDateInFormat(response.itinaryDetail.StartDate, true, false))}
-              {returnView('TRV', response.itinaryDetail.TravelRequestId)}
+              {returnView('Name', response.GivenName)}
+              {returnView('Bus Booking', response.Title)}
+              {returnView('Date', getDateInFormat(response.StartDate, true, false))}
+              {returnView('TRV', response.TravelRequestId)}
             </View>
           </View>
 
@@ -123,8 +123,11 @@ const SiteTravelItinary = props => {
                 </View>
               </View>
               <View style={styles.viewLeft}>
-                <Text style={styles.textYellow}>Trobexis Coaches (BRW02)</Text>
-                <Text style={[styles.textBlack]}>{getDateInFormat(response.itinaryDetail.StartDate, false, true)}</Text>
+                <Text style={styles.textYellow}>
+                  { Array.isArray(response.Itinerarys) && response.Itinerarys.length>0 && response.Itinerarys[0].Details && response.Itinerarys[0].Details.length>0 ? response.Itinerarys[0].Details[0].ServiceProvider: ""}
+                  
+                  </Text>
+                <Text style={[styles.textBlack]}>{getDateInFormat(response.StartDate, false, true)}</Text>
               </View>
             </View>
             <View style={styles.viewSingleLine} />
@@ -135,8 +138,10 @@ const SiteTravelItinary = props => {
               <View style={styles.viewLocation}>
                 <Text style={styles.textBlueBig}>Departs</Text>
 
-                <Text style={styles.textBlack}>Butler Park(034)</Text>
-                <Text style={styles.textBlack}>12:00 PM</Text>
+                <Text style={styles.textBlack}> 
+                {response.MyRoute && Array.isArray(response.MyRoute) &&  response.MyRoute.length>0 ?response.MyRoute[0].Departure:""}
+                  </Text>
+                <Text style={styles.textBlack}>{getTimeInFormat(response.StartDate)}</Text>
               </View>
 
               <View style={{width:'66%',flexDirection:'row'}}>
@@ -152,16 +157,16 @@ const SiteTravelItinary = props => {
                   <Text style={styles.textBlueBig}>Arrives</Text>
 
                   <Text style={styles.textBlack}>
-                    Barrows Island(BWB)
+                  {response.MyRoute && Array.isArray(response.MyRoute) &&  response.MyRoute.length>0 ?response.MyRoute[0].Destination:""}
                   </Text>
-                  <Text style={styles.textBlack}>{getTimeInFormat(response.itinaryDetail.StartDate)}</Text>
+                  <Text style={styles.textBlack}>{getTimeInFormat(response.StartDate)}</Text>
                 </View>
               </View>
             </View>
 
             <View style={styles.ViewBlueBottom}>
               <Text style={[styles.textWhite, {padding: '2%'}]}>
-                Total Time: 10m
+                {/* Total Time: 10m */}
               </Text>
             </View>
           </View>
@@ -176,7 +181,7 @@ const SiteTravelItinary = props => {
           )}
         </ScrollView>
 
-        {response.isRequesting ? <Loader loading={props.isRequesting} /> : null}
+        {responseLoader.isRequesting ? <Loader loading={responseLoader.isRequesting} /> : null}
 
       </View>
     </>

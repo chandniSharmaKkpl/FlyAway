@@ -136,6 +136,17 @@ export default StyleSheet.create({
     fontSize: fontConstant.TEXT_14_SIZE_REGULAR,
     color: appColor.BLACK,
     flexWrap: 'wrap',
+   
+  },
+
+  textBusBookValue : {
+    fontFamily: fontConstant.BARLOW_REGULAR,
+    fontSize: fontConstant.TEXT_14_SIZE_REGULAR,
+    color: appColor.BLACK,
+    flexWrap: 'wrap',
+  width:wp('60%'),
+   // backgroundColor:'pink'
+  
   },
 
   viewDepartsAndArrive: {
