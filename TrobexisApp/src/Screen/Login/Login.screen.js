@@ -97,10 +97,11 @@ const LoginScreen = (props) => {
         },
     );
 
-    // Temporary commit this condition 
-   // if (validate === 'ok' ) {
+    console.log(" validate is ===", validate); 
+   // Temporary commit this condition 
+   if (validate === 'ok' ) {
       dispatch(requestToGetAccessToken());
-   // }
+    }
   };
   // Getting device info from push controller
   const getDeviceInfo = value => {
@@ -158,6 +159,7 @@ const LoginScreen = (props) => {
                 value={userTemp.email}
                 error={error.emailErr}
                 onChangeText={e => setUserTemp({ ...userTemp, email: e })}
+                showEye={false}
               />
               {/* { emailErr ? (
                 <Text style={[styles.error, {color:appColor.RED}]}>
@@ -174,7 +176,7 @@ const LoginScreen = (props) => {
                   onChangeText={e => setUserTemp({ ...userTemp, password: e })}
                   isClickEye={isClickEye}
                   onPressRight={onPressRight}
-                  right={true}
+                  showEye={true}
                 />
               ) : (
                   <LoginTextView
@@ -185,7 +187,7 @@ const LoginScreen = (props) => {
                     onChangeText={e => setUserTemp({ ...userTemp, password: e })}
                     isClickEye={isClickEye}
                     onPressRight={onPressRight}
-                    right={true}
+                    showEye={true}
                   />
                 )}
 
@@ -224,7 +226,7 @@ const LoginScreen = (props) => {
         {props.isRequesting ? <Loader loading={props.isRequesting} /> : null}
 
       </View>
-      <PushController  />
+      {/* <PushController getDeviceInfo={getDeviceInfo} /> */}
 
     </>
   );

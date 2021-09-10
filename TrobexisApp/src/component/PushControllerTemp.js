@@ -1,5 +1,5 @@
 import PushNotification from "react-native-push-notification";
-import React, { useEffect, useReducer, useRef, useState } from "react";
+import React, { useEffect,  useState } from "react";
 import { Alert, Platform } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
@@ -41,7 +41,7 @@ function PushController(props) {
           // Windows: ?
         });
 
-        props.getDeviceInfo(device_info);
+        // props.getDeviceInfo(device_info);
       },
 
       // (required) Called when a remote or local notification is opened or received

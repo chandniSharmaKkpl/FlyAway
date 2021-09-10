@@ -45,10 +45,12 @@ const HomeScreen = props => {
 
   const renderItem = item => {
     return (
-      <Pressable onPress={() => props.navigation.navigate(appConstant.BUS_BOOKING_STACK, {
-        screen: appConstant.SITE_ITINARY,
-        params: { prevData: item },
-      })}>
+      <Pressable 
+      // onPress={() => props.navigation.navigate(appConstant.BUS_BOOKING_STACK, {
+      //   screen: appConstant.SITE_ITINARY,
+      //   params: { prevData: item },
+      // })}
+      >
         <BookingCard
           item={item.item}
           titleColor={appColor.YELLOW}
