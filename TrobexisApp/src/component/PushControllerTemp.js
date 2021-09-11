@@ -14,11 +14,18 @@ function PushController(props) {
 
   // Use effect for android notifications
   useEffect(() => {
+
+    console.log(" use effect  toek n ====");
+
     PushNotification.configure({
+
       // (optional) Called when Token is generated (iOS and Android)
       onRegister: function (token) {
         let device_info = {};
         if (token) {
+
+          console.log(" fcm toek n ====", token);
+
           device_info.device_token = token.token;
         }
         DeviceInfo.syncUniqueId().then((uniqueId) => {

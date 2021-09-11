@@ -27,8 +27,8 @@ const LoginScreen = (props) => {
 
   const [deviceInfo, setDeviceInfo] = useState({}); // Getting user device info from push controller.
   const [userTemp, setUserTemp] = React.useState({
-    email: '',
-    password: '',
+    email: 'test@gmail.com',
+    password: '1234',
   });
 
   const [token, setToken] = React.useState({});
@@ -226,7 +226,7 @@ const LoginScreen = (props) => {
         {props.isRequesting ? <Loader loading={props.isRequesting} /> : null}
 
       </View>
-      {/* <PushController getDeviceInfo={getDeviceInfo} /> */}
+      <PushController getDeviceInfo={getDeviceInfo} />
 
     </>
   );

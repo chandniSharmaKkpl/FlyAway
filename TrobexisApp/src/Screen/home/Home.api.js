@@ -6,6 +6,7 @@ import {ApiBase} from '../../api/apiBase';
 
   export const  getUserProfile = (token1) => {
       // Get access token
+    //  let token1 = "20210911025309760e4a87aae0ed146f0a8a94d8d3106a597v";
 
     let urlString = apiConstant.USER_PROFILE;
    urlString = urlString.replace(":userId","BM123" )
@@ -24,6 +25,8 @@ import {ApiBase} from '../../api/apiBase';
 
   export const  getItinaryList = (token1) => {
     // Get access token
+//let token1 = "20210911025309760e4a87aae0ed146f0a8a94d8d3106a597v";
+
 
   let urlString = apiConstant.GET_ITINARY_LIST;
  urlString = urlString.replace(":userId","BM123" )
@@ -43,6 +46,7 @@ import {ApiBase} from '../../api/apiBase';
 
 export const  getItinaryListAllJourney = (token1) => {
   // Get access token
+  // let token1 = "20210911025309760e4a87aae0ed146f0a8a94d8d3106a597v";
 
 let urlString = apiConstant.GET_ITINARY_LIST_ALL_JOURNEY;
 urlString = urlString.replace(":userId","BM123" )
@@ -63,6 +67,7 @@ return ApiBase(token1)
 export const  getApprovalList = (token1) => {
   // Get access token
 //const accessToken = localDB.getAccessToken();
+// let token1 = "20210911025309760e4a87aae0ed146f0a8a94d8d3106a597v";
 
 let urlString = apiConstant.GET_APPROVAL_LIST;
 urlString = urlString.replace(":userId","BM123" )
@@ -80,13 +85,13 @@ return ApiBase(token1)
 };
 
 
-  export const  getItinaryDetail = (token1, itinaryId) => {
+  export const  getItinaryDetail = (token, itinaryId) => {
     // Get access token
 
   let urlString = apiConstant.GET_ITINARY_DETAIL;
  urlString = urlString.replace(":itineraryId","L4192" )
 
-  return ApiBase(token1)
+  return ApiBase(token)
     .get(urlString)
     .then(response => 
       Promise.resolve({
