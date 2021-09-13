@@ -125,6 +125,8 @@ const LoginScreen = (props) => {
   };
 
   const movetToScreen  = useCallback((token) => {
+  //  console.log(" token are ===", token); 
+
     if (token && token.token) {
       //setUserData(token)
       props.navigation.navigate(appConstant.DRAWER_NAVIGATOR);
@@ -135,6 +137,7 @@ const LoginScreen = (props) => {
   return (
     <>
       <View style={stylesHome.container}>
+      
         {movetToScreen(props.accessToken)}
         <ImageBackground
           source={imageConstant.IMAGE_LOGIN_BACKGROUND}
@@ -156,7 +159,7 @@ const LoginScreen = (props) => {
               <LoginTextView
                 keyboardType="email-address"
                 placeholder="Enter Email Address"
-                value={userTemp.email}
+                value= "chandni@gmail.com" //{userTemp.email}
                 error={error.emailErr}
                 onChangeText={e => setUserTemp({ ...userTemp, email: e })}
                 showEye={false}
@@ -182,7 +185,7 @@ const LoginScreen = (props) => {
                   <LoginTextView
                     secureTextEntry={true}
                     placeholder="Enter Password"
-                    value={userTemp.password}
+                    value= "100"//{userTemp.password}
                     error={error.passwordErr}
                     onChangeText={e => setUserTemp({ ...userTemp, password: e })}
                     isClickEye={isClickEye}

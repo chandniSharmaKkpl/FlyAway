@@ -7,7 +7,6 @@ const initialState = {
    
 
 export default (state = initialState, { type, payload }) => {
-
     switch (type) {
         case actionConstant.ACTION_GET_ACCESS_TOKEN_REQUEST: {
             return {

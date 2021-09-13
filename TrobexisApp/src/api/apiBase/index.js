@@ -1,20 +1,22 @@
 import axios from 'axios';
 import { apiConstant } from '../../constant';
+import { Buffer } from "buffer";
+
 
 export const ApiBase = (token = null) => {
+  var username = apiConstant.USER_NAME_API;
+  var password = apiConstant.PASSWORD_API;  
+  
+  const tokenCred = Buffer.from(`${username}:${password}`, 'utf8').toString('base64')
   
   let instance = axios.create({
     baseURL: apiConstant.BASE_URL,
+    timeout: 30000,
     headers: {
       'Content-Type': 'application/json',
-    },
-    timeout: 30000,
-    auth: {
-      username: apiConstant.USER_NAME_API,
-      password: apiConstant.PASSWORD_API,
+      'Authorization': `Basic ${tokenCred}`
     },
   });
-
 
   if (token && token !== null) {
     instance = axios.create({

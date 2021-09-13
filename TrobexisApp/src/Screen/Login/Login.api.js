@@ -1,24 +1,25 @@
 import {actionConstant, apiConstant, appConstant} from '../../constant';
 import localDB from '../../database/localDb';
 import {ApiBase} from '../../api/apiBase';
+import axios from 'axios';
 
 export const getToken = () => {
-  let data = {
-    "token": "202109110610177083178a1aaad3e4681b2b15aa58e765886b",
-    "expirydatetimeutc": "2021-09-11T08:06:19Z"
-}
-  return data;
-  console.log("token","call hhere");
+
+let urlString = apiConstant.GET_ACCESS_TOKEN;
+
     return ApiBase()
-      .get(apiConstant.GET_ACCESS_TOKEN)
-      .then(response =>
+      .get(urlString)
+      .then(response => 
         Promise.resolve({
-          data: response
-        }).then(accessToken => {
-          console.log("token",accessToken);
-          return accessToken.data.data;
+          data: response,
+       
+        }).then(response => {
+          console.log('Authenticated=====', response.data.data);
+          return response.data.data;
+        }).catch(error=> {
+          console.log('Error on Authentication', error);
         }),
-      ).catch(err=>{
-          console.log("error in Login api ===> ",err)
-      });
-  };
+      );
+
+
+}
