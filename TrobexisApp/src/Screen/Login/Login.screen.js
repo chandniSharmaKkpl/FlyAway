@@ -159,7 +159,7 @@ const LoginScreen = (props) => {
               <LoginTextView
                 keyboardType="email-address"
                 placeholder="Enter Email Address"
-                value= "chandni@gmail.com" //{userTemp.email}
+                value= {userTemp.email}
                 error={error.emailErr}
                 onChangeText={e => setUserTemp({ ...userTemp, email: e })}
                 showEye={false}
@@ -185,7 +185,7 @@ const LoginScreen = (props) => {
                   <LoginTextView
                     secureTextEntry={true}
                     placeholder="Enter Password"
-                    value= "100"//{userTemp.password}
+                    value= {userTemp.password}
                     error={error.passwordErr}
                     onChangeText={e => setUserTemp({ ...userTemp, password: e })}
                     isClickEye={isClickEye}
