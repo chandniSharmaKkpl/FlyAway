@@ -27,8 +27,8 @@ const LoginScreen = (props) => {
 
   const [deviceInfo, setDeviceInfo] = useState({}); // Getting user device info from push controller.
   const [userTemp, setUserTemp] = React.useState({
-    email: 'test@gmail.com',
-    password: '1234',
+    email: '',
+    password: '',
   });
 
   const [token, setToken] = React.useState({});

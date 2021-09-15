@@ -55,8 +55,15 @@ const responseLoader = useSelector(state => state.SiteTravelItinaryReducer);
     props.navigation.navigate(viewName);
   };
 
-  const cancelBookingApi =()=>{    
-    dispatch(requestToCancelSiteTravelItinary({'itinerayId':response.Itinerarys[0].ItineraryId}))
+  const cancelBookingApi =()=>{  
+    console.log(" response ===", response); 
+    if (response && Array.isArray(response.Itinerarys) && response.Itinerarys.length>0) {
+      dispatch(requestToCancelSiteTravelItinary({'itinerayId':response.Itinerarys[0].ItineraryId}))
+    }  
+   // else temporary
+    {
+    props.navigation.goBack();
+    }
   }
 
   React.useEffect(() => {
