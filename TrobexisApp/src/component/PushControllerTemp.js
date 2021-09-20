@@ -26,6 +26,13 @@ function PushController(props) {
 
           console.log(" fcm toek n ====", token);
 
+          // Alert.alert("Device Token", token.token, [
+          //   {
+          //     text: "Dismiss",
+          //     onPress: null,
+          //   },
+          // ]);
+
           device_info.device_token = token.token;
         }
         DeviceInfo.syncUniqueId().then((uniqueId) => {
