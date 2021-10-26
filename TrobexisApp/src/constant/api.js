@@ -1,6 +1,9 @@
 export default {
   USER_NAME_API: 'T1MOBARQDEV',
   PASSWORD_API: '8E43E4037E0C48D5B2CF96CE074B4238',
+  USER_NAME_API_CLIENT_CODE:'T1ApiMobileUAT',
+  PASSWORD_API_CLIENT_CODE:'4rGECCEbmVuZJngZTVt4K8jyLgBQGPf4fFeXGrx9LBzsy5usU6', 
+
   BASE_URL: 'https://app-aue.trobexisuat.com/T1DEVMobile/api/',
   GET_ACCESS_TOKEN: 'account/accesstoken/',
   USER_PROFILE: 'users/:userId/profile',
@@ -12,5 +15,9 @@ export default {
   CANCEL_BUS_BOOKING:'itineraries/:itinerayId',
   GET_ITINARY_LIST_ALL_JOURNEY: 'users/:userId/itineraries?cancancel=false',
   GET_APPROVAL_LIST:'users/:userId/approvals',
-  
+  // Authorisation Apis 
+  BASE_URL_GET_API_BASE:'https://app-au.trobexis.com/T1MobileService/api/',
+  URL_TO_GET_API_BASE:'account/:client/baseapiurl',
+  GET_TOKEN_BASED_ON_CLIENT_CODE:'/api/account/:client/accesstoken',
+  ACCOUNT_URL:'/api/account/url',
 };

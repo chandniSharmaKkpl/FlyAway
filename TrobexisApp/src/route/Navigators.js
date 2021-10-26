@@ -24,7 +24,8 @@ import DeviceInfo from 'react-native-device-info';
 import LoginScreen from '../Screen/login/Login.screen';
 import ForgotPassword from '../Screen/ForgotPassword/ForgotPassword.screen';
 import AuthContext from '../context/AuthContext'
-
+import ClientCodeScreen from '../Screen/clientCode/ClientCode.screen';
+import ApprovalListScreen from '../Screen/approvalList/ApprovalList.screen'; 
 
 
 const Stack = createStackNavigator();
@@ -46,6 +47,17 @@ function DrawerNavigator() {
 const AuthStack = () => {
   return (
     <Stack.Navigator>
+ {/* <Stack.Screen
+        options={{ headerShown: false }}
+        name={appConstant.APPROVALS}
+        component={ApprovalListScreen}
+      /> */}
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name={appConstant.CLIENT_CODE}
+        component={ClientCodeScreen}
+      />
+
       <Stack.Screen
         options={{ headerShown: false }}
         name={appConstant.LOGIN}

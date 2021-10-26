@@ -8,4 +8,6 @@ export default {
     BORDER:'#0000000D',
 GRAY:'#2E3642',
 RED:'#C32130',
+GREEN:'#40C321'
+
 }

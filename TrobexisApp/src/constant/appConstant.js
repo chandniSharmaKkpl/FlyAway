@@ -17,5 +17,7 @@ export default {
   FORGOT_PASSWORD: 'Forgot Password',
   AUTH_STACK: 'AuthStack',
   DRAWER_NAVIGATOR:"DrawerNavigator",
-  
+  CLIENT_CODE: 'ClientCode',
+  APPROVALS:'Approvals',
+  API_BASE_URL:'apiBaseUrl'
 };

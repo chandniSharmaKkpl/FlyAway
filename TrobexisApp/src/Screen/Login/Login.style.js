@@ -11,6 +11,19 @@ export default StyleSheet.create({
     height: '100%',
     backgroundColor: appColor.LIGH_BLUE,
   },
+  textDeviceToken:{
+   backgroundColor:'white',
+   height:'30%',
+   color: appColor.BLACK,
+   padding: '2%'
+  },
+
+  textDeviceToken:{
+    fontFamily: fontConstant.BARLOW_BOLD,
+    fontSize: fontConstant.TEXT_H3_SIZE_BOLD,
+    color: appColor.WHITE,
+    backgroundColor:appColor.YELLOW
+  },
   textHello: {
     fontFamily: fontConstant.BARLOW_BOLD,
     fontSize: fontConstant.TEXT_H1_SIZE_BOLD,

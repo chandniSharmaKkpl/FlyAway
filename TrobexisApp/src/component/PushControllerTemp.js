@@ -26,12 +26,12 @@ function PushController(props) {
 
           console.log(" fcm toek n ====", token);
 
-          Alert.alert("Device Token", token.token, [
-            {
-              text: "Dismiss",
-              onPress: null,
-            },
-          ]);
+          // Alert.alert("Device Token", token.token, [
+          //   {
+          //     text: "Dismiss",
+          //     onPress: null,
+          //   },
+          // ]);
 
           device_info.device_token = token.token;
         }
@@ -55,7 +55,7 @@ function PushController(props) {
           // Windows: ?
         });
 
-        // props.getDeviceInfo(device_info);
+        props.getDeviceInfo(device_info);
       },
 
       // (required) Called when a remote or local notification is opened or received
@@ -143,10 +143,10 @@ function PushController(props) {
   const onRegistered = (deviceToken) => {
     if (deviceToken) {
       //   user.device_token = deviceToken;
-      //  console.log(
-      //    "deviceToken",
-      //    deviceToken
-      //  );
+       console.log(
+         "deviceToken",
+         deviceToken
+       );
     }
     // DeviceInfo.syncUniqueId().then((uniqueId) => {
     //   user.user_detail.device_uuid = uniqueId;

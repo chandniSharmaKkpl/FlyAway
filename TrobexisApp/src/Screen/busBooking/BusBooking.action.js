@@ -52,12 +52,5 @@ export const failToGetBusStop = (error) => ({
 export default{
   requestToGetBusRoute, 
   requestToGetBusStop,
-    // successToGetAccessToken, 
-    // failToGetAccessToken,
-    // requestToGetUserProfile,
-    // successToGetUserProfile,
-    // failToGetUserProfile,
-    // requestToGetItinaryList,
-    // successToGetItinaryList,
-    // failToGetItinaryList
+
   }

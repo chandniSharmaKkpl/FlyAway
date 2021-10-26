@@ -15,7 +15,7 @@ export function* workerCancelSiteTravelItinary(params) {
         token,
         params
       );
-      console.log(' workerCancelSiteTravelItinary saga -======>>>>>>', cancelResponse);
+   //   console.log(' workerCancelSiteTravelItinary saga -======>>>>>>', cancelResponse);
 
       if (cancelResponse) {
         yield put({

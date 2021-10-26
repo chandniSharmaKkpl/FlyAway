@@ -6,3 +6,4 @@ export {default as fontConstant} from './fontConstant';
 export {default as msgConstant} from './alertMsgConstant'; 
 export {default as apiConstant} from './api';
 export {default as actionConstant} from './actionConstant';
+export {default as alertMsgConstant} from './alertMsgConstant';
