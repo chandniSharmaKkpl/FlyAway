@@ -1,4 +1,5 @@
-import format from "date-fns/format";
+import format from 'date-fns/format';
+import {errorCodeConstant} from '../constant';
 
 const getTimeMessage = () => {
   var d = new Date();
@@ -21,23 +22,54 @@ const getTimeMessage = () => {
   return stringToRead;
 };
 
-export const getDateInFormat = (dateString, isShortDayName, isCompleteDayName) => {
+export const getDateInFormat = (
+  dateString,
+  isShortDayName,
+  isCompleteDayName,
+) => {
   if (dateString) {
-  let dateTemp = Date.parse(dateString);
-  if (isShortDayName) {
-    let formattedDate = format(dateTemp, 'EE, MMMM dd yyyy');
-    return formattedDate;
-  } else if(isCompleteDayName){
-    let formattedDate = format(dateTemp, 'EEEE, MMMM dd yyyy');
-    return formattedDate;
-  }else {
-    let formattedDate = format(dateTemp, 'yyyy-MM-dd');
-    return formattedDate;
+    let dateTemp = Date.parse(dateString);
+    if (isShortDayName) {
+      let formattedDate = format(dateTemp, 'EE, MMMM dd yyyy');
+      return formattedDate;
+    } else if (isCompleteDayName) {
+      let formattedDate = format(dateTemp, 'EEEE, MMMM dd yyyy');
+      return formattedDate;
+    } else {
+      let formattedDate = format(dateTemp, 'yyyy-MM-dd');
+      return formattedDate;
+    }
+  }
+  return '';
+};
+
+export function isError(params) {
+  if (params.code && Number.isInteger(params.code)) {
+    switch (params.code) {
+      case errorCodeConstant.BAD_REQUEST:
+        return true;
+
+      case errorCodeConstant.UNAUTHORIZED:
+        return true;
+
+      case errorCodeConstant.FORBIDDEN:
+        return true;
+
+      case errorCodeConstant.NOT_FOUND:
+        return true;
+
+      case errorCodeConstant.INTERNAL_SERVER_ERROR:
+        return true;
+
+      default:
+        return false;
+    }
+  } else {
+    return false;
   }
 }
-return ""
-};
 
 export default {
   getTimeMessage,
+  isError,
 };

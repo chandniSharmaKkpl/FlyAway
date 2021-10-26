@@ -8,6 +8,7 @@ const initialState = {
   responseAccountUrl: '',
 };
 export default (state = initialState, {type, payload}) => {
+  
   switch (type) {
     case actionConstant.ACTION_GET_API_BASE_REQUEST: {
       return {
@@ -28,9 +29,9 @@ export default (state = initialState, {type, payload}) => {
     case actionConstant.ACTION_GET_API_BASE_FAILURE: {
       return {
         ...state,
-        apiBaseData: payload.error,
+        apiBaseData: {},
         isRequesting: false,
-        error: {},
+        error: payload,
       };
     }
     case actionConstant.ACTION_GET_CLIENT_TOKEN_REQUEST: {

@@ -4,3 +4,4 @@ export {default as CustomTextInput} from './CustomTextInput';
 export {default as Calendar} from './Calendar'; 
 export {default as Loader} from './Loader'; 
 export {default as LoginTextView} from './LoginTextView';
+export {default as NotifyMessage} from './NotifyMessage'; 

@@ -38,10 +38,15 @@ export const getApiBase = argumentData => {
       }).then(response => {
         let apiBaseUrl = response.data.data.value
         localDB.setBaseUrl(apiBaseUrl);
+
         return response.data.data; 
         //getClientTokenBasedOnApiBase(argumentData, apiBaseUrl)
-      }),
-    );
+      })
+    )
+    .catch((err) =>{
+      console.log("api Erorr: ", err.response)
+      return err.response.data
+    })
 };
 
 export const getClientTokenBasedOnApiBase = (argumentData, apiBaseUrl) => {
@@ -79,7 +84,11 @@ export const getClientTokenBasedOnApiBase = (argumentData, apiBaseUrl) => {
           let clientToken = response.data.data.token; 
           return clientToken
         }),
-      );
+      ).catch((err) =>{
+        console.log("api Erorr: ", err.response)
+        return err.response.data
+      })
+      ;
   };
 
   export const getAccountURL = (argumentData, apiBaseUrl, clientToken) => {
@@ -111,5 +120,8 @@ export const getClientTokenBasedOnApiBase = (argumentData, apiBaseUrl) => {
             console.log(" response to ACCunt url ====  ", response); 
           return response.data.data;
         }),
-      );
+      ).catch((err) =>{
+        console.log("api Erorr: ", err.response)
+        return err.response.data
+      });
   };

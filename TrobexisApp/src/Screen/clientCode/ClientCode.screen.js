@@ -10,7 +10,7 @@ import {
 import stylesHome from '../home/Home.style';
 import commonStyle from '../../common/common.style';
 import styles from './ClientCode.style';
-import {LoginTextView, Loader} from '../../component';
+import {LoginTextView, Loader, NotifyMessage} from '../../component';
 import { appColor, appConstant, imageConstant, alertMsgConstant} from '../../constant';
 import localDB from '../../database/localDb';
 import {
@@ -50,6 +50,11 @@ const ClientCodeScreen = props => {
   };
 
   const checkResponseCode = () => {
+    if (responseData.error && Object.keys(responseData.error).length !== 0) {
+       console.log(" errr", responseData); 
+       NotifyMessage(responseData.error); 
+       return;
+    }
     if (
       responseData &&
       responseData.responseAccountUrl &&
@@ -59,9 +64,7 @@ const ClientCodeScreen = props => {
     ) {
       localDB.saveClientCode(clientCode);
       props.navigation.navigate(appConstant.DRAWER_NAVIGATOR);
-    } else {
-      console.log(' api response is coming ...');
-    }
+    } 
   };
   return (
     <>
