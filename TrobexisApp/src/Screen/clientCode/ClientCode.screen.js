@@ -50,7 +50,6 @@ const ClientCodeScreen = props => {
   };
 
   const checkResponseCode = () => {
-    console.log(' isre---------', responseData);
     if (
       responseData &&
       responseData.responseAccountUrl &&
@@ -61,7 +60,7 @@ const ClientCodeScreen = props => {
       localDB.saveClientCode(clientCode);
       props.navigation.navigate(appConstant.DRAWER_NAVIGATOR);
     } else {
-      console.log(' something is wrong in 3 apis ');
+      console.log(' api response is coming ...');
     }
   };
   return (
