@@ -27,7 +27,6 @@ useEffect(() => {
   const onClickDecline = () => {};
 
   const renderItem = item => {
-    console.log(" teim ", item);
     let itemDetail = item.item; 
     let date = itemDetail.requestdate;
     let requestdate = date? getDateInFormat(date, false, false): "";
