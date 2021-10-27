@@ -1,11 +1,12 @@
 import {actionConstant} from '../../constant';
 
 
- export const requestToGetApiBase = (param) => ({
+ export const requestToGetApiBase = (param,navigation) => ({
     type: actionConstant.ACTION_GET_API_BASE_REQUEST,
     payload: {
         param
     },
+    navigation
   });
   
   

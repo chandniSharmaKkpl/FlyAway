@@ -36,7 +36,7 @@ export const getDateInFormat = (
       let formattedDate = format(dateTemp, 'EEEE, MMMM dd yyyy');
       return formattedDate;
     } else {
-      let formattedDate = format(dateTemp, 'yyyy-MM-dd');
+      let formattedDate = format(dateTemp, 'dd-MM-yyyy');
       return formattedDate;
     }
   }

@@ -173,7 +173,7 @@ const HomeScreen = props => {
             <View style={styles.viewYellowBox}>
               <Text style={styles.textNumber}>{response.approvalList.length}</Text>
             </View>: null}
-            <View style={styles.viewInsideSmallBox}>
+            <Pressable style={styles.viewInsideSmallBox} onPress={()=> { props.navigation.navigate(appConstant.APPROVALS)}}>
               <View style={styles.imageIcon}>
                 <Image
                   style={styles.image}
@@ -182,7 +182,7 @@ const HomeScreen = props => {
                 />
               </View>
               <Text style={styles.textButtonTitle}>Approvals</Text>
-            </View>
+            </Pressable>
           </View>
 
           <Pressable

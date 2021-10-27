@@ -4,18 +4,19 @@ import {appConstant} from '../constant';
 const getAccessToken = async () => {
   const temp = await AsyncStorage.getItem(appConstant.ACCESS_TOKEN);
 
-  let user;
+  let token;
   if (temp) {
-    user = JSON.parse(temp);
-    console.log(' data ===', user);
-    return user;
+    token = temp;
+    console.log(' data get toekn===', token);
+    return token;
   } else {
   }
-  return user;
+  return token;
 };
 
 const setAccessToken = async data => {
-  await AsyncStorage.setItem(appConstant.ACCESS_TOKEN, JSON.stringify(data))
+  console.log(" save token ", data )
+  await AsyncStorage.setItem(appConstant.ACCESS_TOKEN, data)
     .then(() => {
       return true;
     })

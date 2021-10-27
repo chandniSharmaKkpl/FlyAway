@@ -23,6 +23,7 @@ export default StyleSheet.create({
   viewRow: {
     flexDirection: 'row',
     alignItems: 'center',
+    width:wp('70%')
   },
   buttonTitle: {
     fontFamily: fontConstant.BARLOW_BOLD,
@@ -82,6 +83,7 @@ export default StyleSheet.create({
     fontSize: fontConstant.TEXT_H3_SIZE_BOLD,
     color: appColor.NAVY_BLUE,
     flexWrap: 'wrap',
+    paddingBottom:hp('1%')
   },
   textDetail: {
     fontFamily: fontConstant.BARLOW_REGULAR,
@@ -114,7 +116,7 @@ export default StyleSheet.create({
     //  width:'75%'
   },
   viewButtons: {
-    justifyContent: 'space-between',
+    justifyContent: 'space-evenly',
     // backgroundColor:'pink'
   },
 });

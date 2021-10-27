@@ -26,6 +26,7 @@ import ForgotPassword from '../Screen/ForgotPassword/ForgotPassword.screen';
 import AuthContext from '../context/AuthContext'
 import ClientCodeScreen from '../Screen/clientCode/ClientCode.screen';
 import ApprovalListScreen from '../Screen/approvalList/ApprovalList.screen'; 
+import localDb from '../database/localDb';
 
 
 const Stack = createStackNavigator();
@@ -88,11 +89,15 @@ const HomeStack = () => {
         name={appConstant.HOME_SCREEN}
         component={HomeScreen}
       />
-
       <Stack.Screen
         options={{ headerShown: false }}
         name={appConstant.NOTIFICATIONS}
         component={Notifications}
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name={appConstant.APPROVALS}
+        component={ApprovalListScreen}
       />
     </Stack.Navigator>
   );
@@ -208,6 +213,9 @@ function TabNavigator() {
 function NavigationSetup() {
 
   const { user } = React.useContext(AuthContext)
+
+  //const dbPromise  = localDb.getAccessToken(); 
+  
 
   return (
 

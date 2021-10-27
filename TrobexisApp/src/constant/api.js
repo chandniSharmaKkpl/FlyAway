@@ -20,4 +20,5 @@ export default {
   URL_TO_GET_API_BASE:'account/:client/baseapiurl',
   GET_TOKEN_BASED_ON_CLIENT_CODE:'/api/account/:client/accesstoken',
   ACCOUNT_URL:'/api/account/url',
+  ACCESS_TOKEN_BASED_CLIENT_TOKEN: '/api/account/accesstokenuser',
 };

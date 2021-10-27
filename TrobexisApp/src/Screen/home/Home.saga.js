@@ -7,9 +7,8 @@ import { getUserProfile, getItinaryList, getItinaryListAllJourney, getApprovalLi
 export function* workerGetUserProfile() {
   try {
     const reducer = yield select();
-            //   console.log(' user profile in saga -======>>>>>>', reducer);
-
-    const token = reducer.LoginReducer.accessToken.token;
+             // console.log(' user profile in saga -======>>>>>>', reducer);
+    const token = reducer.ClientCodeReducer.clientToken;
     if (token) {
       const userProfile = yield call(
         getUserProfile,
@@ -38,7 +37,7 @@ export function* workerGetUserProfile() {
 export function* workerGetItinaryList() {
   try {
     const reducer = yield select();
-    const token = reducer.LoginReducer.accessToken.token;
+    const token = reducer.ClientCodeReducer.clientToken;
     if (token) {
       const itinaryList = yield call(
         getItinaryList,
@@ -63,7 +62,7 @@ export function* workerGetItinaryList() {
 export function* workerGetItinaryListAllJoureny() {
   try {
     const reducer = yield select();
-    const token = reducer.LoginReducer.accessToken.token;
+    const token = reducer.ClientCodeReducer.clientToken;
     if (token) {
       const itinaryList = yield call(
         getItinaryListAllJourney,
@@ -88,7 +87,7 @@ export function* workerGetItinaryListAllJoureny() {
 export function* workerGetApprovalList() {
   try {
     const reducer = yield select();
-    const token = reducer.LoginReducer.accessToken.token;
+    const token = reducer.ClientCodeReducer.clientToken;
     if (token) {
       const itinaryList = yield call(
         getApprovalList,

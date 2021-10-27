@@ -1,8 +1,10 @@
+
 import {actionConstant, apiConstant, appConstant} from '../../constant';
 import localDB from '../../database/localDb';
 import {ApiBase} from '../../api/apiBase';
 import axios from 'axios';
 import {Buffer} from 'buffer';
+import localDb from '../../database/localDb';
 
 export const getApiBase = argumentData => {
   let platform = argumentData.platform;
@@ -44,7 +46,7 @@ export const getApiBase = argumentData => {
       })
     )
     .catch((err) =>{
-      console.log("api Erorr: ", err.response)
+      console.log("47 api Erorr: ", err.response)
       return err.response.data
     })
 };
@@ -82,10 +84,11 @@ export const getClientTokenBasedOnApiBase = (argumentData, apiBaseUrl) => {
           data: response,
         }).then(response => {
           let clientToken = response.data.data.token; 
+          localDb.setAccessToken(clientToken);
           return clientToken
         }),
       ).catch((err) =>{
-        console.log("api Erorr: ", err.response)
+        console.log("88 api Erorr: ", err.response)
         return err.response.data
       })
       ;
@@ -121,7 +124,42 @@ export const getClientTokenBasedOnApiBase = (argumentData, apiBaseUrl) => {
           return response.data.data;
         }),
       ).catch((err) =>{
-        console.log("api Erorr: ", err.response)
+        console.log("124 api Erorr: ", err.response)
         return err.response.data
       });
   };
+
+  export const getAccessTokenBaseOnClientToken = (argumentData, apiBaseUrl, clientToken) => {
+
+    console.log(" req to getAccountURL e ", apiBaseUrl, clientToken ); 
+ 
+   let platform = argumentData.platform;
+   let deviceId = argumentData.deviceId;
+
+   let instance = axios.create({
+     baseURL: apiBaseUrl,
+     timeout: 30000,
+     headers: {
+       'Content-Type': 'application/json',
+       'Authorization': `Bearer ${clientToken}`,
+       'DeviceId': deviceId,
+       'DeviceType': platform
+     },
+   });
+ 
+   let urlString = apiConstant.ACCESS_TOKEN_BASED_CLIENT_TOKEN;  
+   return instance
+     .get(urlString)
+     .then(response =>
+       Promise.resolve({
+         data: response,
+         //status: response.status
+       }).then(response => {
+           console.log(" response to ACCunt url ====  ", response); 
+         return response.data.data;
+       }),
+     ).catch((err) =>{
+       console.log("124 api Erorr: ", err.response)
+       return err.response.data
+     });
+ };

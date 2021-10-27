@@ -1,6 +1,6 @@
 import {takeLatest, take, call, put, select, all} from 'redux-saga/effects';
 import {actionConstant, apiConstant, appConstant, errorCodeConstant} from '../../constant';
-import {getApiBase, getClientTokenBasedOnApiBase, getAccountURL} from './ClientCode.api';
+import {getApiBase, getClientTokenBasedOnApiBase, getAccountURL, getAccessTokenBaseOnClientToken} from './ClientCode.api';
 import {isError} from '../../common';
 
 //** Worker Get Api Base  */
@@ -77,7 +77,7 @@ export function* workerGetAccountUrl (argumentData, apiBase, clientToken) {
   try{
 
     const responseAccountUrl = yield call(getAccountURL,argumentData, apiBase, clientToken); 
-    console.log("Final Response : ",responseAccountUrl)
+    console.log("Final Response 1111 : ",responseAccountUrl)
 
     if (isError(responseAccountUrl)) {
       console.log("86 isError ", isError()); 
@@ -94,9 +94,43 @@ export function* workerGetAccountUrl (argumentData, apiBase, clientToken) {
       payload: responseAccountUrl,
     });
 
+    //yield call(workerGetAccessTokenBaseOnClientToken,argumentData,apiBase.value, clientToken)
+
+
   }catch(error){
     yield put({
       type: actionConstant.ACTION_GET_ACCOUNT_URL_FAILURE, 
+      payload: error
+    })
+  }
+}
+
+export function* workerGetAccessTokenBaseOnClientToken (argumentData, apiBase, clientToken) {
+  try{
+
+    const responseAccessToken = yield call(getAccessTokenBaseOnClientToken,argumentData, apiBase, clientToken); 
+    console.log("Final Response222 : ",responseAccessToken)
+
+    if (isError(responseAccessToken)) {
+      console.log("112 isError ", isError()); 
+
+      yield put({
+        type: actionConstant.ACTION_GET_ACCESS_TOKEN_FAILURE,
+        payload: responseAccessToken.message
+      })
+      return; 
+    }
+
+    yield put({
+      type: actionConstant.ACTION_GET_ACCESS_TOKEN_SUCCESS,
+      payload: responseAccessToken,
+    });
+
+    
+
+  }catch(error){
+    yield put({
+      type: actionConstant.ACTION_GET_ACCESS_TOKEN_FAILURE, 
       payload: error
     })
   }
