@@ -20,6 +20,14 @@ export default StyleSheet.create({
     flex: 1,
   },
 
+  viewSegmentControl:{
+    padding:'5%',
+
+  },
+  segmentControl:{
+   width:'100%',
+   height:hp('6%')
+  },
   viewRow: {
     flexDirection: 'row',
     alignItems: 'center',

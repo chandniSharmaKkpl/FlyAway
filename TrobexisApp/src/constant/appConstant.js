@@ -19,5 +19,7 @@ export default {
   DRAWER_NAVIGATOR:"DrawerNavigator",
   CLIENT_CODE: 'ClientCode',
   APPROVALS:'Approvals',
-  API_BASE_URL:'apiBaseUrl'
+  API_BASE_URL:'apiBaseUrl',
+  USER:'User',
+  REASON:'Reason',
 };

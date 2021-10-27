@@ -3,34 +3,45 @@ import {View, Text, Image, FlatList, Pressable} from 'react-native';
 import stylesHome from '../home/Home.style';
 import styles from './ApprovalList.style';
 import {HeaderCustom, BookingCard} from '../../component';
-import {useSelector, useDispatch} from 'react-redux'; 
+import {useSelector, useDispatch} from 'react-redux';
 import {Avatar} from 'react-native-elements';
 import {appColor, appConstant, imageConstant} from '../../constant';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+
 import {getDateInFormat} from '../../common';
+import {
+  requestAcceptApproval,
+  requestDeclineApproval,
+} from './ApprovalList.action';
+import AuthContext from '../../context/AuthContext';
+import localDb from '../../database/localDb';
+import SegmentedControl from '@react-native-segmented-control/segmented-control';
 
 const ApprovalList = props => {
-  const responseData = useSelector(state=> state.HomeReducer);
+  const responseData = useSelector(state => state.HomeReducer);
+  const dispatch = useDispatch();
+  const [approvalList, setApprovalList] = useState(responseData.approvalList); // Getting approval list data from the home screen reducer
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const onClickAccept = approvalId => {
+    const tempUser = localDb.getUser();
 
-  const [approvalList, setApprovalList] = useState(responseData.approvalList); // For getting data of approval 
+    Promise.resolve(tempUser).then(response => {
+      let param = {approvalId: approvalId, user: response};
+      dispatch(requestAcceptApproval(param));
+    });
+  };
 
-useEffect(() => {
-
- //console.log(" approval list ==", responseData )
-}, [])
-
-  const onClickAccept = () => {};
-
-  const onClickDecline = () => {};
+  const onClickDecline = approvalId => {
+    Promise.resolve(tempUser).then(response => {
+      let param = {approvalId: approvalId, user: response};
+      dispatch(requestDeclineApproval(param));
+    });
+  };
 
   const renderItem = item => {
-    let itemDetail = item.item; 
+    let itemDetail = item.item;
     let date = itemDetail.requestdate;
-    let requestdate = date? getDateInFormat(date, false, false): "";
-    
+    let requestdate = date ? getDateInFormat(date, false, false) : '';
+
     return (
       <View style={styles.viewOutSide}>
         <View style={styles.viewInside1}>
@@ -47,7 +58,7 @@ useEffect(() => {
                 </View>
                 <Text style={styles.textDetail}>{itemDetail.description}</Text>
               </View>
-                <View style={styles.viewRow}>
+              <View style={styles.viewRow}>
                 <View style={styles.viewImages}>
                   <Image
                     style={styles.image}
@@ -70,14 +81,16 @@ useEffect(() => {
             </View>
             <View style={styles.viewButtons}>
               <View style={styles.buttonGreen}>
-                <Pressable onPress={() => onClickAccept}>
-                <Text style={styles.textButtonTitle}>Accept</Text>
+                <Pressable
+                  onPress={() => {
+                    onClickAccept(itemDetail.id);
+                  }}>
+                  <Text style={styles.textButtonTitle}>Accept</Text>
                 </Pressable>
               </View>
-
               <View style={styles.buttonRed}>
                 <Pressable onPress={() => onClickDecline}>
-                <Text style={styles.textButtonTitle}>Decline</Text>
+                  <Text style={styles.textButtonTitle}>Decline</Text>
                 </Pressable>
               </View>
             </View>
@@ -87,9 +100,9 @@ useEffect(() => {
     );
   };
 
-  const moveBack = ()=>{
-    props.navigation.goBack(); 
-  }
+  const moveBack = () => {
+    props.navigation.goBack();
+  };
 
   return (
     <>
@@ -98,12 +111,25 @@ useEffect(() => {
           title={'Approvals'}
           viewName={appConstant.APPROVALS}
           leftIcon={true}
-          onClickLeftIcon={()=> moveBack()}
+          onClickLeftIcon={() => moveBack()}
           rightIcon={false}
           centerTitle={true}
           onClickRightIcon={() => {}}
           rightIconImage={''}
         />
+        <View style={styles.viewSegmentControl}>
+          <SegmentedControl
+            values={['Pending Approvals', 'Approved', 'Decline']}
+            selectedIndex={selectedIndex}
+            backgroundColor={appColor.NAVY_BLUE}
+            tintColor={appColor.WHITE}
+            onChange={event => {
+              setSelectedIndex(event.nativeEvent.selectedSegmentIndex);
+            }}
+          style={styles.segmentControl}
+          fontStyle={{fontSize:12, color:appColor.WHITE}}
+          />
+        </View>
         <View style={styles.viewFlatList}>
           <FlatList
             data={approvalList}

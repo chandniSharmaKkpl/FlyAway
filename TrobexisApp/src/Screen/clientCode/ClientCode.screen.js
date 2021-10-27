@@ -74,9 +74,15 @@ const {setUserData} = React.useContext(AuthContext)
        responseData.responseAccountUrl[0].code &&
        responseData.responseAccountUrl[0].code === 'Authenticate'
      ) {
+       console.log(" response data ", responseData); 
 
-       setUserData(responseData.clientToken);
-       localDB.saveClientCode(clientCode);
+      let user = {'clientToken': responseData.clientToken, 'deviceId': 
+      'AAAA4fgIYKU:APA91bGXNo_Z0_F4CH1LXxt1gIdwZME-RmCUh_RVppfuTmYEHPxi5Cicx_M3A2iUyQcsFOOGb1Q5dfl8_qDROhvOfHjfnl0rf70aY5TJxR_DsIAabq-W_DJ1Mm5FcyBKQ66Fbpknyty5', //deviceInfo.device_uuid,
+      'apiBaseUrl': responseData.apiBaseData.value
+    }
+       //setUserData(user);
+       console.log(" user pass ", user);
+       localDB.setUser(user);
        NotifyMessage(alertMsgConstant.LOGIN_SUCCESSFUL); 
        navigation.navigate(appConstant.DRAWER_NAVIGATOR);
      } 

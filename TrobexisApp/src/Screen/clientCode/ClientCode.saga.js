@@ -20,7 +20,6 @@ export function* workerGetApiBase(argumentData) {
       })
       //return; 
     }
-
     yield put({
       type: actionConstant.ACTION_GET_API_BASE_SUCCESS,
       payload: apiBaseResponse,
@@ -94,9 +93,6 @@ export function* workerGetAccountUrl (argumentData, apiBase, clientToken) {
       payload: responseAccountUrl,
     });
 
-    //yield call(workerGetAccessTokenBaseOnClientToken,argumentData,apiBase.value, clientToken)
-
-
   }catch(error){
     yield put({
       type: actionConstant.ACTION_GET_ACCOUNT_URL_FAILURE, 
@@ -105,36 +101,7 @@ export function* workerGetAccountUrl (argumentData, apiBase, clientToken) {
   }
 }
 
-export function* workerGetAccessTokenBaseOnClientToken (argumentData, apiBase, clientToken) {
-  try{
 
-    const responseAccessToken = yield call(getAccessTokenBaseOnClientToken,argumentData, apiBase, clientToken); 
-    console.log("Final Response222 : ",responseAccessToken)
-
-    if (isError(responseAccessToken)) {
-      console.log("112 isError ", isError()); 
-
-      yield put({
-        type: actionConstant.ACTION_GET_ACCESS_TOKEN_FAILURE,
-        payload: responseAccessToken.message
-      })
-      return; 
-    }
-
-    yield put({
-      type: actionConstant.ACTION_GET_ACCESS_TOKEN_SUCCESS,
-      payload: responseAccessToken,
-    });
-
-    
-
-  }catch(error){
-    yield put({
-      type: actionConstant.ACTION_GET_ACCESS_TOKEN_FAILURE, 
-      payload: error
-    })
-  }
-}
 
 export function* watchGetApiBase() {
   yield takeLatest(

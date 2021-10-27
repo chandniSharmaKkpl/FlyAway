@@ -27,6 +27,7 @@ import AuthContext from '../context/AuthContext'
 import ClientCodeScreen from '../Screen/clientCode/ClientCode.screen';
 import ApprovalListScreen from '../Screen/approvalList/ApprovalList.screen'; 
 import localDb from '../database/localDb';
+import ReasonScreen from '../Screen/approvalList/reasonForDecline/Reason.screen';
 
 
 const Stack = createStackNavigator();
@@ -48,11 +49,11 @@ function DrawerNavigator() {
 const AuthStack = () => {
   return (
     <Stack.Navigator>
- {/* <Stack.Screen
+ <Stack.Screen
         options={{ headerShown: false }}
-        name={appConstant.APPROVALS}
-        component={ApprovalListScreen}
-      /> */}
+        name={appConstant.REASON}
+        component={ReasonScreen}
+      />
       <Stack.Screen
         options={{ headerShown: false }}
         name={appConstant.CLIENT_CODE}

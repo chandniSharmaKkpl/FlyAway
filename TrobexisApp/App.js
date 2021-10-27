@@ -49,7 +49,7 @@ const App = () => {
 
   return (
     <SafeAreaProvider style={backgroundStyle}>
-      {/* <AuthContext.Provider value={{ user, setUserData: setUser}}> */}
+      <AuthContext.Provider value={{ user, setUserData: setUser}}>
 
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       <Provider store={StoreRoot}>
@@ -58,7 +58,7 @@ const App = () => {
       </NavigationContainer>
       </Provider>
 
-      {/* </AuthContext.Provider> */}
+      </AuthContext.Provider>
     </SafeAreaProvider>
   );
 };
