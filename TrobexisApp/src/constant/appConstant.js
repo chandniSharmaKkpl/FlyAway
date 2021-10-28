@@ -22,4 +22,5 @@ export default {
   API_BASE_URL:'apiBaseUrl',
   USER:'User',
   REASON:'Reason',
+  COMMENT_MAX_LIMIT:500
 };

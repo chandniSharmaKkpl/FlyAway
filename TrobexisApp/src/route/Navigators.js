@@ -26,7 +26,7 @@ import ForgotPassword from '../Screen/ForgotPassword/ForgotPassword.screen';
 import AuthContext from '../context/AuthContext'
 import ClientCodeScreen from '../Screen/clientCode/ClientCode.screen';
 import ApprovalListScreen from '../Screen/approvalList/ApprovalList.screen'; 
-import localDb from '../database/localDb';
+//import localDb from '../database/localDb';
 import ReasonScreen from '../Screen/approvalList/reasonForDecline/Reason.screen';
 
 

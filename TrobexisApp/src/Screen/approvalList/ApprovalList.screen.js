@@ -41,7 +41,6 @@ const ApprovalList = props => {
     let itemDetail = item.item;
     let date = itemDetail.requestdate;
     let requestdate = date ? getDateInFormat(date, false, false) : '';
-
     return (
       <View style={styles.viewOutSide}>
         <View style={styles.viewInside1}>

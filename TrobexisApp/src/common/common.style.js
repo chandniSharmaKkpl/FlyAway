@@ -19,7 +19,7 @@ export default StyleSheet.create({
   },
   yellowButtonTitle: {
     fontFamily: fontConstant.BARLOW_BOLD,
-    fontSize: fontConstant.TEXT_14_SIZE_BOLD,
+    fontSize: fontConstant.TEXT_20_SIZE_BOLD,
     color: appColor.WHITE,
     paddingTop: hp('1.5%'),
     paddingBottom: hp('1.5%'),
