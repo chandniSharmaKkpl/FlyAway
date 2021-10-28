@@ -1,38 +1,47 @@
 import {takeLatest, take, call, put, select, all} from 'redux-saga/effects';
 import {actionConstant, apiConstant, appConstant} from '../../../constant';
-import {ApiBase} from '../../api/apiBase';
-import {successToGetAccessToken, failToGetAccessToken} from './Home.action';
-import {getToken, getUserProfile} from './Home.api';
+import {ApiBase} from '../../../api/apiBase';
+import {getDeclineReasons, getUserProfile} from './Reason.api';
 
-export function* workerGetData() {
-    console.log('call Here ');
-    try {
-      const accessToken = yield call(getToken);
-      console.log(accessToken);
-      console.log('  workerGetAccessToken in saga -======>>>>>>', accessToken);
+export function* workerGetDeclineReason (argumentData) {
+  try{
+
+    console.log("worker  Response 1111 : ",argumentData)
+
+    const responseDeclineReason = yield call(getDeclineReasons,argumentData.payload); 
+    console.log("Final Response 1111 : ",responseDeclineReason)
+
+    if (isError(responseDeclineReason)) {
+      console.log("13 isError ", isError()); 
+
       yield put({
-        type: actionConstant.ACTION_GET_ACCESS_TOKEN_SUCCESS,
-        payload: accessToken,
-      });
-  
-       yield call(workerGetUserProfile);
-    } catch (error) {
-      yield put({
-        type: actionConstant.ACTION_GET_ACCESS_TOKEN_FAILURE,
-        payload: error,
-      });
+        type: actionConstant.ACTION_GET_DECLINE_REASON_FAILURE,
+        payload: responseDeclineReason.message
+      })
+      return; 
     }
-  }
 
-function* watchGet() {
+    yield put({
+      type: actionConstant.ACTION_GET_DECLINE_REASON_SUCCESS,
+      payload: responseDeclineReason,
+    });
+
+  }catch(error){
+    yield put({
+      type: actionConstant.ACTION_GET_DECLINE_REASON_FAILURE, 
+      payload: error
+    })
+  }
+}
+
+ export function* watchGetDeclineReason() {
     yield 
       takeLatest(
-        actionConstant.ACTION_GET_ACCESS_TOKEN_REQUEST,
-        workerGetAccessToken,
-        
+        actionConstant.ACTION_GET_DECLINE_REASON_REQUEST,
+        workerGetDeclineReason,
       )
     
   }
   
-  export default watchGet;
+  export default watchGetDeclineReason;
   

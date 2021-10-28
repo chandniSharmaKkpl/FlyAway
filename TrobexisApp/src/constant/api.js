@@ -22,5 +22,6 @@ export default {
   ACCOUNT_URL:'/api/account/url',
   ACCESS_TOKEN_BASED_CLIENT_TOKEN: '/api/account/accesstokenuser',
   APPROVAL_ACCEPT_API:'api/approvals/:approvalId/approve',
-  APPROVAL_DECLINE_API:'/api/approvals/:approvalId/decline'
+  APPROVAL_DECLINE_API:'/api/approvals/:approvalId/decline',
+  GET_DECLINE_REASONS:'/api/schema/approval/declinereasons',
 };

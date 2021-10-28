@@ -7,12 +7,14 @@ import BookingSummaryReducer from '../../Screen/bookingSummary/BookingSummary.re
 import SiteTravelItinaryReducer from '../../Screen/siteTravelItinary/SiteTravelItinary.reducer';
 import ClientCodeReducer from '../../Screen/clientCode/ClientCode.reducer';
 import ApprovalReducer from '../../Screen/approvalList/ApprovalList.reducer';
+import ReasonReducer from '../../Screen/approvalList/reasonForDecline/Reason.reducer';
 
 
 const ReducerRoot = combineReducers({
     ClientCodeReducer,
     LoginReducer,
     ApprovalReducer,
+    ReasonReducer,
     HomeReducer,
     BusBookingReducer,
     PickABusReducer,

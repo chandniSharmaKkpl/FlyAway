@@ -10,8 +10,13 @@ import {
 import stylesHome from '../home/Home.style';
 import commonStyle from '../../common/common.style';
 import styles from './ClientCode.style';
-import {LoginTextView, Loader, NotifyMessage} from '../../component';
-import { appColor, appConstant, imageConstant, alertMsgConstant} from '../../constant';
+import {LoginTextView, Loader, NotifyMessage, AlertView} from '../../component';
+import {
+  appColor,
+  appConstant,
+  imageConstant,
+  alertMsgConstant,
+} from '../../constant';
 import localDB from '../../database/localDb';
 import {
   widthPercentageToDP as wp,
@@ -21,28 +26,25 @@ import {useDispatch, useSelector} from 'react-redux';
 import {requestToGetApiBase} from './ClientCode.action';
 import {Platform} from 'react-native';
 import PushController from '../../component/PushControllerTemp';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import AuthContext from '../../context/AuthContext';
-
 
 const ClientCodeScreen = props => {
   const navigation = useNavigation();
-const {setUserData} = React.useContext(AuthContext)
+  const {setUserData} = React.useContext(AuthContext);
   const [clientCode, setClientCode] = useState('TONEAPPUAT');
   const [error, setError] = useState('');
   const dispatch = useDispatch();
   const responseData = useSelector(state => state.ClientCodeReducer);
   const [deviceInfo, setDeviceInfo] = useState({}); // Getting user device info from push controller.
-
+  const [isAlertShow, setIsAlertShow] = useState(true);
   // Getting device info from push controller
   const getDeviceInfo = value => {
     setDeviceInfo(value);
   };
 
   // React.useEffect(() => {
-
-  //   console.log(" in effect", responseData); 
-
+  //   console.log(" in effect", responseData);
   //   checkResponseCode()
   // },[responseData, responseData.responseAccountUrl])
 
@@ -57,44 +59,44 @@ const {setUserData} = React.useContext(AuthContext)
         DeviceId:
           'AAAA4fgIYKU:APA91bGXNo_Z0_F4CH1LXxt1gIdwZME-RmCUh_RVppfuTmYEHPxi5Cicx_M3A2iUyQcsFOOGb1Q5dfl8_qDROhvOfHjfnl0rf70aY5TJxR_DsIAabq-W_DJ1Mm5FcyBKQ66Fbpknyty5', //deviceInfo.device_uuid,
       };
-      dispatch(requestToGetApiBase(param,navigation));
+      dispatch(requestToGetApiBase(param, navigation));
     }
   };
 
-  const checkResponseCode = useCallback(
-    () => {
-      if (responseData.error && Object.keys(responseData.error).length !== 0) {
-        console.log(" errr", responseData); 
-        NotifyMessage(responseData.error); 
-        return;
-     }
-     if (
-       responseData && responseData.responseAccountUrl &&
-       responseData.responseAccountUrl.length > 0 &&
-       responseData.responseAccountUrl[0].code &&
-       responseData.responseAccountUrl[0].code === 'Authenticate'
-     ) {
-       console.log(" response data ", responseData); 
-
-      let user = {'clientToken': responseData.clientToken, 'deviceId': 
-      'AAAA4fgIYKU:APA91bGXNo_Z0_F4CH1LXxt1gIdwZME-RmCUh_RVppfuTmYEHPxi5Cicx_M3A2iUyQcsFOOGb1Q5dfl8_qDROhvOfHjfnl0rf70aY5TJxR_DsIAabq-W_DJ1Mm5FcyBKQ66Fbpknyty5', //deviceInfo.device_uuid,
-      'apiBaseUrl': responseData.apiBaseData.value
+  const checkResponseCode = useCallback(() => {
+    if (responseData.error && Object.keys(responseData.error).length !== 0) {
+      console.log(' errr', responseData);
+      NotifyMessage(responseData.error);
+      return;
     }
-       //setUserData(user);
-       console.log(" user pass ", user);
-       localDB.setUser(user);
-       NotifyMessage(alertMsgConstant.LOGIN_SUCCESSFUL); 
-       navigation.navigate(appConstant.DRAWER_NAVIGATOR);
-     } 
-    },
-    [responseData],
-  );
+    if (
+      responseData &&
+      responseData.responseAccountUrl &&
+      responseData.responseAccountUrl.length > 0 &&
+      responseData.responseAccountUrl[0].code &&
+      responseData.responseAccountUrl[0].code === 'Authenticate'
+    ) {
+      console.log(' response data ', responseData);
 
-  // const checkResponseCode = () => 
+      let user = {
+        clientToken: responseData.clientToken,
+        deviceId:
+          'AAAA4fgIYKU:APA91bGXNo_Z0_F4CH1LXxt1gIdwZME-RmCUh_RVppfuTmYEHPxi5Cicx_M3A2iUyQcsFOOGb1Q5dfl8_qDROhvOfHjfnl0rf70aY5TJxR_DsIAabq-W_DJ1Mm5FcyBKQ66Fbpknyty5', //deviceInfo.device_uuid,
+        apiBaseUrl: responseData.apiBaseData.value,
+      };
+      //setUserData(user);
+      console.log(' user pass ', user);
+      localDB.setUser(user);
+      NotifyMessage(alertMsgConstant.LOGIN_SUCCESSFUL);
+      navigation.navigate(appConstant.DRAWER_NAVIGATOR);
+    }
+  }, [responseData]);
+
+  // const checkResponseCode = () =>
   // };
   return (
     <>
-     {checkResponseCode()}
+      {checkResponseCode()}
       <View style={stylesHome.container}>
         <ImageBackground
           source={imageConstant.IMAGE_LOGIN_BACKGROUND}
@@ -132,6 +134,25 @@ const {setUserData} = React.useContext(AuthContext)
           <Loader loading={responseData.isRequesting} />
         ) : null}
       </View>
+      {isAlertShow ? (
+        <AlertView
+          title={alertMsgConstant.PLEASE_CONFIRM}
+          subtitle={alertMsgConstant.DO_YOU_SURE_WANT_TO_CANCEL_JOURNEY}
+          confirmBtnTxt={alertMsgConstant.YES}
+          cancelBtnTxt={alertMsgConstant.NO}
+          buttonCount={2}
+          bigBtnText={''}
+          onPressConfirmBtn={() => {
+            setIsAlertShow(false);
+          }}
+          onPressCancel={() => {
+            setIsAlertShow(false);
+          }}
+          onPressBigBtn={() => {
+            setIsAlertShow(false);
+          }}
+        />
+      ) : null}
       <PushController getDeviceInfo={getDeviceInfo} />
     </>
   );

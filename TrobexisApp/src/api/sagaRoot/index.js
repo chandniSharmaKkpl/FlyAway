@@ -8,6 +8,7 @@ import {watchToCancelSiteTravelItinary, watchToGetItinaryDetail} from '../../Scr
 import {watchPostBooking} from '../../Screen/bookingSummary/BookingSummary.saga';
 import {watchGetApiBase} from '../../Screen/clientCode/ClientCode.saga';
 import { watchAcceptApprovalApi, watchDeclineApproval } from "../../Screen/approvalList/ApprovalList.saga";;
+import {watchGetDeclineReason} from '../../Screen/approvalList/reasonForDecline/Reason.saga';
 
 export default function* sagaRoot() {
 
@@ -15,6 +16,7 @@ export default function* sagaRoot() {
     fork(watchGetApiBase),
     fork(watchGetAccessToken),
     fork(watchAcceptApprovalApi),
+    fork(watchGetDeclineReason),
     fork(watchDeclineApproval),
     fork(watchItinaryList),
     fork(watchGetUserProfile),

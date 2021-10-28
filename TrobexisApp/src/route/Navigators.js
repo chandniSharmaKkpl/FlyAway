@@ -1,9 +1,9 @@
-import React from 'react';
-import { View, Image } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import React, {useEffect, useState} from 'react';
+import {View, Image} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeScreen from '../Screen/home/Home.screen';
 import BusBookingScreen from '../Screen/busBooking/BusBooking.screen';
 import HistoryScreen from '../Screen/history/History.screen';
@@ -12,7 +12,7 @@ import Notifications from '../Screen/Notification/notification.screen';
 import SiteTravelItinary from '../Screen/siteTravelItinary/SiteTravelItinary.screen';
 import AddLuggage from '../Screen/addLuggage/AddLuggage.screen';
 import BookingSummary from '../Screen/bookingSummary/BookingSummary.screen';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import appConstant from '../constant/appConstant';
 import appColor from '../constant/colorConstant';
 import imageConstant from '../constant/imageConstant';
@@ -23,11 +23,13 @@ import {
 import DeviceInfo from 'react-native-device-info';
 import LoginScreen from '../Screen/login/Login.screen';
 import ForgotPassword from '../Screen/ForgotPassword/ForgotPassword.screen';
-import AuthContext from '../context/AuthContext'
+import AuthContext from '../context/AuthContext';
 import ClientCodeScreen from '../Screen/clientCode/ClientCode.screen';
-import ApprovalListScreen from '../Screen/approvalList/ApprovalList.screen'; 
-//import localDb from '../database/localDb';
+import ApprovalListScreen from '../Screen/approvalList/ApprovalList.screen';
+import localDb from '../database/localDb';
 import ReasonScreen from '../Screen/approvalList/reasonForDecline/Reason.screen';
+import JourneyList from '../Screen/Jorneys/Journeys.screen';
+import ApprovalDetail from '../Screen/approvalDetail/ApprovalDetail.screen';
 
 
 const Stack = createStackNavigator();
@@ -49,56 +51,67 @@ function DrawerNavigator() {
 const AuthStack = () => {
   return (
     <Stack.Navigator>
- <Stack.Screen
-        options={{ headerShown: false }}
-        name={appConstant.REASON}
-        component={ReasonScreen}
+      
+     <Stack.Screen
+        options={{headerShown: false}}
+        name={appConstant.APPROVAL_DETAIL}
+        component={ApprovalDetail}
       />
+
       <Stack.Screen
-        options={{ headerShown: false }}
+        options={{headerShown: false}}
         name={appConstant.CLIENT_CODE}
         component={ClientCodeScreen}
       />
 
       <Stack.Screen
-        options={{ headerShown: false }}
+        options={{headerShown: false}}
         name={appConstant.LOGIN}
         component={LoginScreen}
       />
 
       <Stack.Screen
-        options={{ headerShown: false }}
+        options={{headerShown: false}}
         name={appConstant.DRAWER_NAVIGATOR}
         component={DrawerNavigator}
       />
 
       <Stack.Screen
-        options={{ headerShown: false }}
+        options={{headerShown: false}}
         name={appConstant.FORGOT_PASSWORD}
         component={ForgotPassword}
       />
-
-    </Stack.Navigator>)
-}
+    </Stack.Navigator>
+  );
+};
 
 const HomeStack = () => {
   return (
     <Stack.Navigator>
-
       <Stack.Screen
-        options={{ headerShown: false }}
+        options={{headerShown: false}}
         name={appConstant.HOME_SCREEN}
         component={HomeScreen}
       />
+       <Stack.Screen
+        options={{headerShown: false}}
+        name={appConstant.JOURNEY_LIST}
+        component={JourneyList}
+      />
       <Stack.Screen
-        options={{ headerShown: false }}
+        options={{headerShown: false}}
         name={appConstant.NOTIFICATIONS}
         component={Notifications}
       />
       <Stack.Screen
-        options={{ headerShown: false }}
+        options={{headerShown: false}}
         name={appConstant.APPROVALS}
         component={ApprovalListScreen}
+      />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name={appConstant.REASON}
+        component={ReasonScreen}
       />
     </Stack.Navigator>
   );
@@ -113,28 +126,28 @@ const BusBookingStack = () => {
         component={BookingSummary}
       /> */}
       <Stack.Screen
-        options={{ headerShown: false }}
+        options={{headerShown: false}}
         name={appConstant.BUS_BOOKING}
         component={BusBookingScreen}
       />
       <Stack.Screen
-        options={{ headerShown: false }}
+        options={{headerShown: false}}
         name={appConstant.SITE_ITINARY}
         component={SiteTravelItinary}
       />
       <Stack.Screen
-        options={{ headerShown: false }}
+        options={{headerShown: false}}
         name={appConstant.PICK_A_BUS}
         component={PickABus}
       />
 
       <Stack.Screen
-        options={{ headerShown: false }}
+        options={{headerShown: false}}
         name={appConstant.ADD_LUGGAGE}
         component={AddLuggage}
       />
       <Stack.Screen
-        options={{ headerShown: false }}
+        options={{headerShown: false}}
         name={appConstant.BOOKING_SUMMARY}
         component={BookingSummary}
       />
@@ -145,9 +158,8 @@ const BusBookingStack = () => {
 function TabNavigator() {
   return (
     <TabObject.Navigator
-
       name={appConstant.TAB}
-      options={{ tabBarVisible: true }}
+      options={{tabBarVisible: true}}
       tabBarOptions={{
         activeTintColor: appColor.WHITE,
         inactiveTintColor: appColor.NAVY_BLUE,
@@ -159,13 +171,12 @@ function TabNavigator() {
       sceneAnimationEnabled={false}
       activeColor={appColor.WHITE}
       inactiveColor={appColor.WHITE}
-      barStyle={{ backgroundColor: appColor.NAVY_BLUE }}
+      barStyle={{backgroundColor: appColor.NAVY_BLUE}}
       initialRouteName={appConstant.HOME_SCREEN}>
-
       <TabObject.Screen
         name={appConstant.HOME_SCREEN}
         options={{
-          tabBarIcon: ({ tintColor }) => (
+          tabBarIcon: ({tintColor}) => (
             <View style={styles.viewImage}>
               <Image
                 source={imageConstant.IMAGE_HOME_WHITE}
@@ -181,7 +192,7 @@ function TabNavigator() {
         name={appConstant.BUS_BOOKING}
         component={BusBookingStack}
         options={{
-          tabBarIcon: ({ tintColor }) => (
+          tabBarIcon: ({tintColor}) => (
             <View style={styles.viewImage}>
               <Image
                 source={imageConstant.IMAGE_BUS_WHITE}
@@ -196,7 +207,7 @@ function TabNavigator() {
         name={appConstant.HISTORY}
         component={HistoryScreen}
         options={{
-          tabBarIcon: ({ tintColor }) => (
+          tabBarIcon: ({tintColor}) => (
             <View style={styles.viewImage}>
               <Image
                 source={imageConstant.IMAGE_CLOCK_WHITE}
@@ -212,16 +223,22 @@ function TabNavigator() {
 }
 
 function NavigationSetup() {
-
-  const { user } = React.useContext(AuthContext)
-
-  //const dbPromise  = localDb.getAccessToken(); 
-  
+  const [currentUser,setCurrentUser] = useState(null);
+  // When Dashboard page will update for api this will also update 
+  // useEffect(() => {
+  //   const temp = AsyncStorage.getItem(appConstant.USER);
+  //   if (temp) {
+  //     setCurrentUser(temp);
+  //   } else {
+  //     setCurrentUser(null);
+  //   }
+  // }, []);
 
   return (
-
-    <Stack.Navigator initialRouteName={appConstant.LOGIN} options={{ gestureEnabled: true }} >
-      {user == null ?
+    <Stack.Navigator
+      initialRouteName={appConstant.LOGIN}
+      options={{gestureEnabled: true}}>
+      {currentUser == null || currentUser === '' ? (
         <>
           <Stack.Screen
             name={appConstant.AUTH_STACK}
@@ -233,14 +250,13 @@ function NavigationSetup() {
             }}
           />
         </>
-        :
+      ) : (
         <Stack.Screen
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
           name={appConstant.DRAWER_NAVIGATOR}
           component={DrawerNavigator}
-
         />
-      }
+      )}
     </Stack.Navigator>
   );
 }
@@ -257,7 +273,7 @@ const styles = {
     height: hp('5%'),
     marginTop: hp('1%'),
     // backgroundColor:'red',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
   },
   tabBar: {
     height: DeviceInfo.isTablet() ? hp('8%') : hp('10%'),

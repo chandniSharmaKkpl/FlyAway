@@ -1,38 +1,24 @@
 import React, {useState, useCallback, useEffect} from 'react';
 import {View, Text, Image, FlatList, Pressable} from 'react-native';
 import stylesHome from '../home/Home.style';
-import styles from './ApprovalList.style';
+import styles from './Journeys.style';
 import {HeaderCustom, BookingCard} from '../../component';
 import {useSelector, useDispatch} from 'react-redux';
 import {Avatar} from 'react-native-elements';
 import {appColor, appConstant, imageConstant} from '../../constant';
 
 import {getDateInFormat} from '../../common';
-import {
-  requestAcceptApproval,
-  requestDeclineApproval,
-} from './ApprovalList.action';
+
 import AuthContext from '../../context/AuthContext';
 import localDb from '../../database/localDb';
-import SegmentedControl from '@react-native-segmented-control/segmented-control';
 
-const ApprovalList = props => {
+const JourneyList = props => {
   const responseData = useSelector(state => state.HomeReducer);
   const dispatch = useDispatch();
-  const [approvalList, setApprovalList] = useState(responseData.approvalList); // Getting approval list data from the home screen reducer
+  const [journeyList, setJourneyList] = useState(responseData.itinaryListAllJourney); // Getting approval list data from the home screen reducer
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const onClickAccept = approvalId => {
-    const tempUser = localDb.getUser();
-    Promise.resolve(tempUser).then(response => {
-      let param = {approvalId: approvalId, user: response};
-      dispatch(requestAcceptApproval(param));
-    });
-  };
-
-  const onClickDecline = () => {
-   props.navigation.navigate(appConstant.REASON);
-  };
+  
 
   const renderItem = item => {
     let itemDetail = item.item;
@@ -75,21 +61,7 @@ const ApprovalList = props => {
                 <Text style={styles.textDetail}>{requestdate}</Text>
               </View>
             </View>
-            <View style={styles.viewButtons}>
-              <View style={styles.buttonGreen}>
-                <Pressable
-                  onPress={() => {
-                    onClickAccept(itemDetail.id);
-                  }}>
-                  <Text style={styles.textButtonTitle}>Accept</Text>
-                </Pressable>
-              </View>
-              <View style={styles.buttonRed}>
-                <Pressable onPress={() => onClickDecline()}>
-                  <Text style={styles.textButtonTitle}>Decline</Text>
-                </Pressable>
-              </View>
-            </View>
+           
           </View>
         </View>
       </View>
@@ -104,8 +76,8 @@ const ApprovalList = props => {
     <>
       <View style={stylesHome.container}>
         <HeaderCustom
-          title={'Approvals'}
-          viewName={appConstant.APPROVALS}
+          title={'Journeys'}
+          viewName={appConstant.JOURNEY_LIST}
           leftIcon={true}
           onClickLeftIcon={() => moveBack()}
           rightIcon={false}
@@ -113,22 +85,10 @@ const ApprovalList = props => {
           onClickRightIcon={() => {}}
           rightIconImage={''}
         />
-        <View style={styles.viewSegmentControl}>
-          <SegmentedControl
-            values={['Pending Approvals', 'Approved', 'Decline']}
-            selectedIndex={selectedIndex}
-            backgroundColor={appColor.NAVY_BLUE}
-            tintColor={appColor.WHITE}
-            onChange={event => {
-              setSelectedIndex(event.nativeEvent.selectedSegmentIndex);
-            }}
-          style={styles.segmentControl}
-          fontStyle={{fontSize:12, color:appColor.WHITE}}
-          />
-        </View>
+       
         <View style={styles.viewFlatList}>
           <FlatList
-            data={approvalList}
+            data={journeyList}
             renderItem={renderItem}
             keyExtractor={(item, index) => index.toString()}
           />
@@ -138,4 +98,4 @@ const ApprovalList = props => {
   );
 };
 
-export default ApprovalList;
+export default JourneyList;

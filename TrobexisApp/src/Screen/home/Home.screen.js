@@ -155,7 +155,7 @@ const HomeScreen = props => {
                 </Text>
             </View>: null }
 
-            <View style={styles.viewInsideSmallBox}>
+            <Pressable style={styles.viewInsideSmallBox} onPress={()=> { props.navigation.navigate(appConstant.JOURNEY_LIST)}}>
               <View style={styles.imageIcon}>
                 <Image
                   style={styles.image}
@@ -164,7 +164,7 @@ const HomeScreen = props => {
                 />
               </View>
               <Text style={styles.textButtonTitle}>Journeys</Text>
-            </View>
+            </Pressable>
           </View>
 
           <View style={styles.viewSmallBox}>

@@ -24,6 +24,28 @@ import {actionConstant} from '../../../constant';
     },
   });
 
+  export const requestToSubmitDeclineReason = (data) => ({
+    type: actionConstant.ACTION_SUBMIT_DECLINE_REASON_REQUEST,
+    payload: {
+        data: data
+    },
+  });
+  
+  
+  export const successToSubmitDeclineReason = (data) => ({
+    type: actionConstant.ACTION_SUBMIT_DECLINE_REASON_SUCCESS,
+    payload: {
+      data: data,
+    },
+  });
+  
+  export const failToSubmitDeclineReason = (error) => ({
+    type: actionConstant.ACTION_SUBMIT_DECLINE_REASON_FAILURE,
+    payload: {
+      data: error,
+    },
+  });
+
 
 
 

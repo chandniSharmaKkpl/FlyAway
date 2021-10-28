@@ -8,52 +8,53 @@ const initialState = {
 };
 
 export default (state = initialState, { type, payload }) => {
-    switch (type) {
+  console.log(" reducer type ", type); 
 
-        case actionConstant.ACTION_GET_API_BASE_REQUEST: {
+    switch (type) {
+        case actionConstant.ACTION_SUBMIT_DECLINE_REASON_REQUEST: {
             return {
               ...state,
-             responseReasons: {},
+             responseSubmit: {},
               isRequesting: true,
               error: {},
             };
           }
-          case actionConstant.ACTION_GET_API_BASE_SUCCESS: {
+          case actionConstant.ACTION_SUBMIT_DECLINE_REASON_SUCCESS: {
             return {
               ...state,
-             responseReasons: payload,
+             responseSubmit: payload,
               isRequesting: true,
               error: {},
             };
           }
-          case actionConstant.ACTION_GET_API_BASE_FAILURE: {
+          case actionConstant.ACTION_SUBMIT_DECLINE_REASON_FAILURE: {
             return {
               ...state,
-             responseReasons: {},
+             responseSubmit: {},
               isRequesting: false,
               error: payload,
             };
           }
-          case actionConstant.ACTION_GET_API_BASE_REQUEST: {
+          case actionConstant.ACTION_GET_DECLINE_REASON_REQUEST: {
             return {
               ...state,
-              responseSubmit: {},
+              responseReasons: payload,
               isRequesting: true,
               error: {},
             };
           }
-          case actionConstant.ACTION_GET_API_BASE_SUCCESS: {
+          case actionConstant.ACTION_GET_DECLINE_REASON_SUCCESS: {
             return {
               ...state,
-              responseSubmit: payload,
+              responseReasons: payload,
               isRequesting: true,
               error: {},
             };
           }
-          case actionConstant.ACTION_GET_API_BASE_FAILURE: {
+          case actionConstant.ACTION_GET_DECLINE_REASON_FAILURE: {
             return {
               ...state,
-              responseSubmit: {},
+              responseReasons: {},
               isRequesting: false,
               error: payload,
             };

@@ -1,5 +1,6 @@
 import {takeLatest, call, put, select, all} from 'redux-saga/effects';
 import {actionConstant} from '../../constant';
+import localDb from '../../database/localDb'
 
 import { getUserProfile, getItinaryList, getItinaryListAllJourney, getApprovalList} from './Home.api';
 
@@ -7,7 +8,13 @@ import { getUserProfile, getItinaryList, getItinaryListAllJourney, getApprovalLi
 export function* workerGetUserProfile() {
   try {
     const reducer = yield select();
-             // console.log(' user profile in saga -======>>>>>>', reducer);
+
+    const tempUser = localDb.getUser();
+    // Promise.resolve(tempUser).then(response => {
+    //   console.log(" tempUser ", tempUser)
+    //   dispatch(requestToGetDeclineReason(response));
+    // });       // console.log(' user profile in saga -======>>>>>>', reducer);
+
     const token = reducer.ClientCodeReducer.clientToken;
     if (token) {
       const userProfile = yield call(

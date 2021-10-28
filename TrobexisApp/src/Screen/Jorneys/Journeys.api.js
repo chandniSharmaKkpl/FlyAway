@@ -2,7 +2,7 @@ import { Platform } from 'react-native';
 import {apiConstant, appConstant} from '../../constant'
 import axios from 'axios'; 
 
-export const acceptApprovalApi = (argumentData) => {
+export const getJourneysListApi = (argumentData) => {
 
   let approvalId = argumentData.data.approvalId
     let deviceId = argumentData.data.user.deviceId;
