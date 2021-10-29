@@ -6,6 +6,7 @@ import {
   FlatList,
   ImageBackground,
   Pressable,
+  BackHandler
 } from 'react-native';
 import stylesHome from '../home/Home.style';
 import commonStyle from '../../common/common.style';
@@ -38,15 +39,32 @@ const ClientCodeScreen = props => {
   const responseData = useSelector(state => state.ClientCodeReducer);
   const [deviceInfo, setDeviceInfo] = useState({}); // Getting user device info from push controller.
   const [isAlertShow, setIsAlertShow] = useState(false);
+  //const [countBack, setCountBack] = React.useState(0)
+var countBack = 0;
   // Getting device info from push controller
   const getDeviceInfo = value => {
     setDeviceInfo(value);
   };
+  const handleBackButtonClick = () => {
+    countBack = countBack + 1;
+    console.log(' back count   ', countBack);
 
-  // React.useEffect(() => {
-  //   console.log(" in effect", responseData);
-  //   checkResponseCode()
-  // },[responseData, responseData.responseAccountUrl])
+    if (countBack > 1) {
+     setIsAlertShow(true)
+    } 
+    return true;
+  };
+
+
+  React.useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        "hardwareBackPress",
+        handleBackButtonClick
+      );
+    };
+  },[])
 
   const submitForm = () => {
     if (clientCode === '') {
@@ -56,8 +74,7 @@ const ClientCodeScreen = props => {
       let param = {
         client: clientCode,
         DeviceType: Platform.OS === 'android' ? 'ANDROID' : 'IOS',
-        DeviceId:
-          'AAAA4fgIYKU:APA91bGXNo_Z0_F4CH1LXxt1gIdwZME-RmCUh_RVppfuTmYEHPxi5Cicx_M3A2iUyQcsFOOGb1Q5dfl8_qDROhvOfHjfnl0rf70aY5TJxR_DsIAabq-W_DJ1Mm5FcyBKQ66Fbpknyty5', //deviceInfo.device_uuid,
+        DeviceId: deviceInfo.device_token,
       };
       dispatch(requestToGetApiBase(param, navigation));
     }
@@ -80,8 +97,7 @@ const ClientCodeScreen = props => {
 
       let user = {
         clientToken: responseData.clientToken,
-        deviceId:
-          'AAAA4fgIYKU:APA91bGXNo_Z0_F4CH1LXxt1gIdwZME-RmCUh_RVppfuTmYEHPxi5Cicx_M3A2iUyQcsFOOGb1Q5dfl8_qDROhvOfHjfnl0rf70aY5TJxR_DsIAabq-W_DJ1Mm5FcyBKQ66Fbpknyty5', //deviceInfo.device_uuid,
+        deviceId:deviceInfo.device_token,
         apiBaseUrl: responseData.apiBaseData.value,
       };
       //setUserData(user);
@@ -137,19 +153,20 @@ const ClientCodeScreen = props => {
       {isAlertShow ? (
         <AlertView
           title={alertMsgConstant.PLEASE_CONFIRM}
-          subtitle={alertMsgConstant.DO_YOU_SURE_WANT_TO_CANCEL_JOURNEY}
+          subtitle={alertMsgConstant.EXIT_CONFIRM}
           confirmBtnTxt={alertMsgConstant.YES}
           cancelBtnTxt={alertMsgConstant.NO}
           buttonCount={2}
           bigBtnText={''}
           onPressConfirmBtn={() => {
             setIsAlertShow(false);
+            BackHandler.exitApp()
           }}
           onPressCancel={() => {
             setIsAlertShow(false);
+            countBack = 0;
           }}
           onPressBigBtn={() => {
-            setIsAlertShow(false);
           }}
         />
       ) : null}

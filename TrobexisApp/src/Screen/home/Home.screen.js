@@ -9,26 +9,34 @@ import {
   BackHandler,
 } from 'react-native';
 import styles from './Home.style';
-import { HeaderCustom, BookingCard, Loader } from '../../component';
+import { HeaderCustom, BookingCard, Loader, AlertView } from '../../component';
 import { Avatar } from 'react-native-elements';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { appColor, appConstant, imageConstant } from '../../constant';
+import { alertMsgConstant, appColor, appConstant, imageConstant } from '../../constant';
 import { requestToGetUserProfile } from './Home.action';
 import localDB from '../../database/localDb';
 import DeviceInfo from 'react-native-device-info';
 
 
 const HomeScreen = props => {
+  var countBack = 0;
+
   const response = useSelector(state => state.HomeReducer); // Getting api response
   const dispatch = useDispatch(); // Calling api
-
   const [arrayBooking, setArrayBooking] = useState([1, 2, 3, 4, 5, 6]);
   const [userProfile, setUserProfile] = useState({});
+  const [isAlertShow, setIsAlertShow] = useState(false);
 
   const handleBackButtonClick = () => {
+    countBack = countBack + 1;
+    console.log(' back count  in home ', countBack);
+
+    if (countBack > 1) {
+     setIsAlertShow(true)
+    } 
     return true;
   };
   useEffect(() => {
@@ -185,13 +193,13 @@ const HomeScreen = props => {
             </Pressable>
           </View>
 
-          <Pressable
+          {/* <Pressable
             style={[styles.viewSmallBox]}
             onPress={() => onClickBusBooking()}>
             {/* <View style={styles.viewYellowBox}>
                             <Text style={styles.textNumber}>1</Text>
                         </View> */}
-            <View style={styles.viewInsideSmallBox}>
+            {/* <View style={styles.viewInsideSmallBox}>
               <View style={styles.imageIcon}>
                 <Image
                   style={styles.image}
@@ -201,10 +209,31 @@ const HomeScreen = props => {
               </View>
               <Text style={styles.textButtonTitle}>Bus Bookings</Text>
             </View>
-          </Pressable>
+          </Pressable>  */}
         </View>
+       
         {response.isRequesting ? <Loader loading={response.isRequesting} /> : null}
       </View>
+      {isAlertShow ? (
+        <AlertView
+          title={alertMsgConstant.PLEASE_CONFIRM}
+          subtitle={alertMsgConstant.EXIT_CONFIRM}
+          confirmBtnTxt={alertMsgConstant.YES}
+          cancelBtnTxt={alertMsgConstant.NO}
+          buttonCount={2}
+          bigBtnText={''}
+          onPressConfirmBtn={() => {
+            setIsAlertShow(false);
+            BackHandler.exitApp()
+          }}
+          onPressCancel={() => {
+            setIsAlertShow(false);
+            countBack = 0;
+          }}
+          onPressBigBtn={() => {
+          }}
+        />
+      ) : null}
     </>
   );
 };

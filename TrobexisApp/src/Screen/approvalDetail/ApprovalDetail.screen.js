@@ -41,7 +41,7 @@ const ApprovalDetail = props => {
     return (
       <View style={styles.viewRow}>
         <Text style={styles.textBlue}>{title}</Text>
-        <Text style={styles.textBlack}>{subTitle}</Text>
+        <Text style={styles.textSubTitle}>{subTitle}</Text>
       </View>
     );
   };
@@ -78,14 +78,14 @@ const ApprovalDetail = props => {
               </Text>
               <View style={styles.viewInside}>
                 <View style={styles.viewInsideTitle}>
-                  <Text style={styles.textYellow}>John</Text>
+                  <Text style={styles.textYellow}>John Lewis (BM123)</Text>
                   <Text style={styles.textRed}>Pending Approval</Text>
                 </View>
                 <View style={styles.viewContainRow}>
-                  {returnRowView('Request Creation Date:', '')}
-                  {returnRowView('Company Name:', '')}
-                  {returnRowView('Sub Contractor:', '')}
-                  {returnRowView('Position:', '')}
+                  {returnRowView('Request Creation Date:', '19-10-2021')}
+                  {returnRowView('Company Name:', 'Trobexis Pty Ltd')}
+                  {returnRowView('Sub Contractor:', 'N/A')}
+                  {returnRowView('Position:', 'Rigger Leading Head')}
                 </View>
               </View>
             </View>
@@ -94,11 +94,11 @@ const ApprovalDetail = props => {
               <Text style={styles.textBlackTitle}>Site Access Detail</Text>
               <View style={styles.viewInside}>
                 <View style={styles.viewContainRow}>
-                  {returnRowView('Request Title:', '')}
-                  {returnRowView('Site Location:', '')}
-                  {returnRowView('Access Dates:', '')}
-                  {returnRowView('Roaster Pattern:', '')}
-                  {returnRowView('Travel Requirements:', '')}
+                  {returnRowView('Request Title:', 'Master Rotation')}
+                  {returnRowView('Site Location:', 'Barrow Island')}
+                  {returnRowView('Access Dates:', '20-11-2021 to 25-12-2021')}
+                  {returnRowView('Roaster Pattern:', '3 Weeks On - 3 Weeks Off')}
+                  {returnRowView('Travel Requirements:', 'Adelaide > Perth > Barrow Island (Camp) + Return (76)')}
                 </View>
               </View>
             </View>

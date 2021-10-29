@@ -19,5 +19,6 @@ export default {
   CANCEL: 'Cancel',
   OK: 'Ok',
   CONFIRMATION_NO_SHOW:"Are you sure you want to register a No-Show for this flight?",
+  EXIT_CONFIRM: "Do you want to exit the application?",
   
 };

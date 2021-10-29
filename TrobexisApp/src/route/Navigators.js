@@ -55,8 +55,8 @@ const AuthStack = () => {
       
       {/* <Stack.Screen
         options={{headerShown: false}}
-        name={appConstant.JOURNEY_DETAIL}
-        component={JourneyDetail}
+        name={appConstant.APPROVAL_DETAIL}
+        component={ApprovalDetail}
       /> */}
 
       <Stack.Screen

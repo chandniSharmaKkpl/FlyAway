@@ -15,9 +15,9 @@ import localDb from '../../database/localDb';
 const JourneyList = props => {
   const responseData = useSelector(state => state.HomeReducer);
   const dispatch = useDispatch();
-  const [journeyList, setJourneyList] = useState(
-    responseData.itinaryListAllJourney,
-  ); // Getting approval list data from the home screen reducer
+  // const [journeyList, setJourneyList] = useState(
+  //   responseData.itinaryListAllJourney,
+  // ); // Getting approval list data from the home screen reducer
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const moveToDetailView = (item) => {

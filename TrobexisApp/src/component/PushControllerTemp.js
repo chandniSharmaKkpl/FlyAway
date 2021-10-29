@@ -32,8 +32,11 @@ function PushController(props) {
           //     onPress: null,
           //   },
           // ]);
+        const temp =  'AAAA4fgIYKU:APA91bGXNo_Z0_F4CH1LXxt1gIdwZME-RmCUh_RVppfuTmYEHPxi5Cicx_M3A2iUyQcsFOOGb1Q5dfl8_qDROhvOfHjfnl0rf70aY5TJxR_DsIAabq-W_DJ1Mm5FcyBKQ66Fbpknyty5';
 
-          device_info.device_token = token.token;
+          device_info.device_token = token.token? token.token: temp;
+          console.log(" fcm toek n ====", device_info);
+
         }
         DeviceInfo.syncUniqueId().then((uniqueId) => {
           device_info.device_uuid = uniqueId;

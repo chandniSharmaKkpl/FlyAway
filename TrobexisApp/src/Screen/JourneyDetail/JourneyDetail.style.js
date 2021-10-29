@@ -83,6 +83,7 @@ paddingTop:'5%'
   viewSection: {
     padding: '3%',
   },
+  
   viewInside: {
     //  height: hp('35%'),
     backgroundColor: appColor.WHITE,
@@ -113,6 +114,11 @@ paddingTop:'5%'
     fontFamily: fontConstant.BARLOW_REGULAR,
     fontSize: fontConstant.TEXT_H1_SIZE_REGULAR,
     color: appColor.RED,
+  },
+  textSubTitle:{
+    fontFamily: fontConstant.BARLOW_REGULAR,
+    fontSize: fontConstant.TEXT_H1_SIZE_REGULAR,
+    color: appColor.GRAY,
   },
   textBlue: {
     fontFamily: fontConstant.BARLOW_SEMI_BOLD,

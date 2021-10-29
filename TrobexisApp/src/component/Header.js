@@ -1,11 +1,27 @@
-import React from 'react';
-import { View, TextInput, Image, Text, Pressable, Platform } from 'react-native';
+import React,{useEffect} from 'react';
+import { View, TextInput, Image, Text, Pressable, Platform,  BackHandler} from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { appConstant, imageConstant, appColor, fontConstant } from '../constant';
+import { useNavigation, useRoute, useNavigationState } from "@react-navigation/native";
 
 const HeaderCustom = (props) => {
-  const { title, leftIcon, rightIcon, viewName, centerTitle, onClickRightIcon, rightIconImage, onClickLeftIcon } = props
 
+  const { title, leftIcon, rightIcon, viewName, centerTitle, onClickRightIcon, rightIconImage, onClickLeftIcon } = props
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", handleBackInHeader);
+    return function cleanup() {
+      BackHandler.removeEventListener(
+        "hardwareBackPress",
+        handleBackInHeader()
+      );
+    };
+  }, []);
+
+  const handleBackInHeader = () => {
+     props.onClickLeftIcon(); 
+    return true
+  } 
+  
   return (
     <View style={Platform.OS === 'android'? styles.topHeaderStyleAndroid: styles.topHeaderStyleIos}>
 

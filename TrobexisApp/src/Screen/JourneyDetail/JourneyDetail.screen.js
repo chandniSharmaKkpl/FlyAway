@@ -50,7 +50,7 @@ const JourneyDetail = props => {
     return (
       <View style={styles.viewRow}>
         <Text style={styles.textBlue}>{title}</Text>
-        <Text style={styles.textBlack}>{subTitle}</Text>
+        <Text style={styles.textSubTitle}>{subTitle}</Text>
       </View>
     );
   };
@@ -253,9 +253,9 @@ const JourneyDetail = props => {
             <View style={{paddingTop:'3%'}}/>
             <Text style={styles.textBlackTitle}>Itinerary Details</Text>
             {returnGreenButtonView(imageConstant.IMAGE_PLANE)}
-            {returnGreenButtonView(imageConstant.IMAGE_PLANE)}
+            {returnGreenButtonView(imageConstant.IMAGE_PLANE_HORIZONTAL)}
             {returnBlueButtonView(imageConstant.IMAGE_BUS_WHITE)}
-            {returnBlueButtonView(imageConstant.IMAGE_PLANE)}
+            {returnBlueButtonView(imageConstant.BED)}
 
             </View>
         </ScrollView>

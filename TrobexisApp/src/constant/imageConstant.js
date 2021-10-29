@@ -29,6 +29,8 @@ IMAGE_ARROW_BACK : require('../../assets/image/pick_a_bus_page/up-arrow-svgrepo-
 IMAGE_LOGO: require('../../assets/image/login_page/logo_dark_email.png'),
 IMAGE_TRACK_LOC : require('../../assets/image/make_a_booking_page/track_loc.png'),
 IMAGE_CLOSE : require('../../assets/image/make_a_booking_page/close.png'),
+IMAGE_PLANE_HORIZONTAL : require('../../assets/image/add_booking_page/plane_horizontal.png'),
+BED : require('../../assets/image/add_booking_page/bed.png'),
 
 }
 

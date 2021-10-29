@@ -45,7 +45,8 @@ export default StyleSheet.create({
     },
     viewRow:{
         flexDirection:'row',
-        padding: '1%'
+        padding: '1%',
+        flexWrap:'wrap'
     },
     textYellow:{
         fontFamily: fontConstant.BARLOW_BOLD,
@@ -64,9 +65,14 @@ export default StyleSheet.create({
     },
     textBlack:{
         fontFamily: fontConstant.BARLOW_BOLD,
+    fontSize: fontConstant.TEXT_H1_SIZE_REGULAR,
+    color: appColor.GRAY,
+    },
+    textSubTitle:{
+        fontFamily: fontConstant.BARLOW_REGULAR,
         fontSize: fontConstant.TEXT_H1_SIZE_REGULAR,
         color: appColor.GRAY,
-    },
+      },
 viewInsideTitle:{
   padding:'5%'
 },

@@ -92,7 +92,7 @@ export default StyleSheet.create({
 
     viewContainSmallBox:{
       padding:hp('2%'), 
-      justifyContent:'center',
+    //  justifyContent:'center',
       flexDirection:'row', 
 
     },

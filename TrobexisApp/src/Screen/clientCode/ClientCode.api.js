@@ -42,7 +42,6 @@ export const getApiBase = argumentData => {
         localDB.setBaseUrl(apiBaseUrl);
 
         return response.data.data; 
-        //getClientTokenBasedOnApiBase(argumentData, apiBaseUrl)
       })
     )
     .catch((err) =>{
@@ -53,6 +52,7 @@ export const getApiBase = argumentData => {
 
 export const getClientTokenBasedOnApiBase = (argumentData, apiBaseUrl) => {
 
+  console.log(" argume da", argumentData); 
   
     let platform = argumentData.platform;
     let deviceId = argumentData.deviceId;
