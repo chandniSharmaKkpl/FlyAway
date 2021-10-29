@@ -14,9 +14,11 @@ export default StyleSheet.create({
         color: appColor.WHITE,
     },
     textBlackTitle:{
-        fontFamily: fontConstant.BARLOW_SEMI_BOLD,
+        fontFamily: fontConstant.BARLOW_BOLD,
         fontSize: fontConstant.TEXT_H2_5_SIZE_BOLD,
         color: appColor.BLACK,
+        paddingBottom:'2%',
+        paddingLeft:'2%',
     },
     viewOutSide:{
       
@@ -93,7 +95,7 @@ textAreaContainer: {
     //alignItems:'center'
   },
   textArea: {
-    //height: hp('10%'),
+    height: hp('10%'),
    // justifyContent: 'flex-start',
     fontFamily: fontConstant.BARLOW_REGULAR,
     fontSize: fontConstant.TEXT_14_SIZE_BOLD,
@@ -102,6 +104,10 @@ textAreaContainer: {
     padding:'5%'
    // paddingTop:hp('2%')
   },
+  viewButtonBottom:{
+      paddingTop:'5%', 
+      paddingBottom:'5%'
+  }
 
 }
 )

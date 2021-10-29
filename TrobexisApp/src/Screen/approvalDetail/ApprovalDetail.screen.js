@@ -1,9 +1,18 @@
-import React, {useState, useCallback} from 'react';
-import {View, Text, Image, FlatList, ScrollView,TextInput} from 'react-native';
+import React, {useState, useCallback, useEffect} from 'react';
+import {
+  View,
+  Text,
+  Image,
+  FlatList,
+  ScrollView,
+  TextInput,
+  BackHandler,
+  Pressable,
+} from 'react-native';
 import stylesHome from '../home/Home.style';
 import styles from './ApprovalDetail.style';
 import {HeaderCustom, BookingCard} from '../../component';
-import {Avatar} from 'react-native-elements';
+import stylesCommon from '../../common/common.style';
 
 import {appColor, appConstant, imageConstant} from '../../constant';
 import {
@@ -12,6 +21,22 @@ import {
 } from 'react-native-responsive-screen';
 
 const ApprovalDetail = props => {
+  const handleBackButtonClick = () => {
+    moveBack();
+    return true;
+  };
+
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
+
   const returnRowView = (title, subTitle) => {
     return (
       <View style={styles.viewRow}>
@@ -20,6 +45,18 @@ const ApprovalDetail = props => {
       </View>
     );
   };
+
+  const moveBack = () => {
+    props.navigation.goBack();
+  };
+
+  const onClickApprove = () => {
+    moveBack();
+  };
+  const onClickDecline = () => {
+    props.navigation.navigate(appConstant.REASON);
+  };
+
   return (
     <>
       <View style={stylesHome.container}>
@@ -37,7 +74,7 @@ const ApprovalDetail = props => {
           <View style={styles.viewOutSide}>
             <View style={styles.viewSection}>
               <Text style={styles.textBlackTitle}>
-              Site Access Request (SAR #1563)
+                Site Access Request (SAR #1563)
               </Text>
               <View style={styles.viewInside}>
                 <View style={styles.viewInsideTitle}>
@@ -49,58 +86,56 @@ const ApprovalDetail = props => {
                   {returnRowView('Company Name:', '')}
                   {returnRowView('Sub Contractor:', '')}
                   {returnRowView('Position:', '')}
-
                 </View>
               </View>
             </View>
 
             <View style={styles.viewSection}>
-              <Text style={styles.textBlackTitle}>
-              Site Access Detail
-              </Text>
+              <Text style={styles.textBlackTitle}>Site Access Detail</Text>
               <View style={styles.viewInside}>
-               
                 <View style={styles.viewContainRow}>
                   {returnRowView('Request Title:', '')}
                   {returnRowView('Site Location:', '')}
                   {returnRowView('Access Dates:', '')}
                   {returnRowView('Roaster Pattern:', '')}
                   {returnRowView('Travel Requirements:', '')}
-
                 </View>
               </View>
             </View>
 
             <View style={styles.viewSection}>
-              <Text style={styles.textBlackTitle}>
-Comments / Messages
-              </Text>
+              <Text style={styles.textBlackTitle}>Comments / Messages</Text>
               <View style={styles.viewInside}>
-               
-              {/* <View style={styles.textAreaContainer}> */}
-                  <Text style={styles.textArea}>
-Site Shut down
-                  </Text>
-            {/* <TextInput
-              style={styles.textArea}
-              underlineColorAndroid="transparent"
-              placeholder="Add additional comment"
-              placeholderTextColor="grey"
-              numberOfLines={10}
-              multiline={true}
-              value={comments}
-              onChangeText={(value)=>{
-                if (value.length<=appConstant.COMMENT_MAX_LIMIT) {
-                  setComments(value);
-                 setTextLimit(value.length)
-                }
-                
-              }}
-            >
-              </TextInput> */}
-
-          </View>
+                {/* <View style={styles.textAreaContainer}> */}
+                <Text style={styles.textArea}>Site Shut down</Text>
+              </View>
               {/* </View> */}
+            </View>
+
+            <View style={styles.viewButtonBottom}>
+              <Pressable
+                style={stylesCommon.greenButton}
+                onPress={() => onClickApprove()}>
+                <Text
+                  style={[
+                    styles.buttonSearchBusTitle,
+                    stylesCommon.yellowButtonTitle,
+                  ]}>
+                  Approve
+                </Text>
+              </Pressable>
+
+              <Pressable
+                style={stylesCommon.redButton}
+                onPress={() => onClickDecline()}>
+                <Text
+                  style={[
+                    styles.buttonSearchBusTitle,
+                    stylesCommon.yellowButtonTitle,
+                  ]}>
+                  Decline
+                </Text>
+              </Pressable>
             </View>
           </View>
         </ScrollView>

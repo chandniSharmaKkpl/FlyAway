@@ -30,6 +30,7 @@ import localDb from '../database/localDb';
 import ReasonScreen from '../Screen/approvalList/reasonForDecline/Reason.screen';
 import JourneyList from '../Screen/Jorneys/Journeys.screen';
 import ApprovalDetail from '../Screen/approvalDetail/ApprovalDetail.screen';
+import JourneyDetail from '../Screen/JourneyDetail/JourneyDetail.screen';
 
 
 const Stack = createStackNavigator();
@@ -52,11 +53,11 @@ const AuthStack = () => {
   return (
     <Stack.Navigator>
       
-     <Stack.Screen
+      {/* <Stack.Screen
         options={{headerShown: false}}
-        name={appConstant.APPROVAL_DETAIL}
-        component={ApprovalDetail}
-      />
+        name={appConstant.JOURNEY_DETAIL}
+        component={JourneyDetail}
+      /> */}
 
       <Stack.Screen
         options={{headerShown: false}}
@@ -98,6 +99,11 @@ const HomeStack = () => {
         name={appConstant.JOURNEY_LIST}
         component={JourneyList}
       />
+       <Stack.Screen
+        options={{headerShown: false}}
+        name={appConstant.JOURNEY_DETAIL}
+        component={JourneyDetail}
+      />
       <Stack.Screen
         options={{headerShown: false}}
         name={appConstant.NOTIFICATIONS}
@@ -108,6 +114,12 @@ const HomeStack = () => {
         name={appConstant.APPROVALS}
         component={ApprovalListScreen}
       />
+       <Stack.Screen
+        options={{headerShown: false}}
+        name={appConstant.APPROVAL_DETAIL}
+        component={ApprovalDetail}
+      />
+
       <Stack.Screen
         options={{headerShown: false}}
         name={appConstant.REASON}

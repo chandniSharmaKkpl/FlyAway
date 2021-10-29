@@ -25,6 +25,7 @@ export default {
   REASON: 'Reason',
   JOURNEY_LIST: 'Journey List',
   APPROVAL_DETAIL: 'Approval Detail',
+  JOURNEY_DETAIL:"Journey Detail",
 
   // Word constant
   COMMENT_MAX_LIMIT: 500,

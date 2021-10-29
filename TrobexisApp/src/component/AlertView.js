@@ -16,24 +16,29 @@ const AlertView = props => {
 
   return (
     <View style={styles.viewOutSide}>
-      <View style={styles.viewInside1}>
+      <View style={buttonCount === 2? styles.viewInside1: styles.viewInsideWithBigButton}>
         <Text style={styles.textTitle}>{title}</Text>
         <Text style={styles.textSubtitle}>{subtitle}</Text>
 
         <View style={styles.viewButtons}>
+          
+          <Pressable style={buttonCount === 3? styles.buttonGray : styles.buttonRed} onPress={onPressCancel}>
+            <Text style={styles.textButtons}>{cancelBtnTxt}</Text>
+          </Pressable>
+
           <Pressable style={styles.buttonYellow} onPress={onPressConfirmBtn}>
             <Text style={styles.textButtons}>{confirmBtnTxt}</Text>
           </Pressable>
-          <Pressable style={styles.buttonRed} onPress={onPressCancel}>
-            <Text style={styles.textButtons}>{cancelBtnTxt}</Text>
-          </Pressable>
-         
-         {buttonCount === 3? <View>
-            <Pressable style={styles.buttonRed} onPress={onPressBigBtn}>
-            <Text style={styles.textButtons}>{bigBtnText}</Text>
-          </Pressable>
-          </View>: null }
+        
         </View>
+
+        {buttonCount === 3? 
+        <View style={styles.viewButtons}>
+            <Pressable style={styles.buttonRedBig} onPress={onPressBigBtn}>
+            <Text style={styles.textBtnBigRed}>{bigBtnText}</Text>
+          </Pressable>
+          </View>
+          : null }
       </View>
     </View>
   );
@@ -43,13 +48,14 @@ const styles = {
   viewButtons: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    //backgroundColor:'pink',
+   // backgroundColor:'pink',
     width:'100%', 
     paddingLeft:'2%',
     paddingRight:'2%',
     alignItems:'center',
-    height:'25%',
-    marginTop:'5%'
+   // height:'15%',
+    marginTop:'5%',
+    paddingBottom:'5%'
   },
   viewOutSide: {
     width: wp('100%'),
@@ -61,7 +67,15 @@ const styles = {
   viewInside1: {
     backgroundColor: appColor.WHITE,
     width: wp('90%'),
-    height: hp('20%'),
+   // height: hp('35%'),
+    borderRadius: 10,
+    alignItems:'center',
+    alignSelf:'center'
+  },
+  viewInsideWithBigButton:{
+    backgroundColor: appColor.WHITE,
+    width: wp('90%'),
+   // height: hp('30%'),
     borderRadius: 10,
     alignItems:'center',
     alignSelf:'center'
@@ -77,26 +91,38 @@ const styles = {
     fontFamily: fontConstant.BARLOW_REGULAR,
     fontSize: fontConstant.TEXT_17_SIZE_REGULAR,
     color: appColor.GRAY,
-    paddingBottom:'2%',
-    paddingTop:'2%'
+   padding:'2%',
+   textAlign:'center'
   },
   textButtons: {
     fontFamily: fontConstant.BARLOW_BOLD,
     fontSize: fontConstant.TEXT_H3_SIZE_BOLD,
     color: appColor.WHITE,
-   // padding:'5%'
+    textAlign:'center',
+    paddingTop:'7%',
+    paddingBottom:'7%'
+  },
+  textBtnBigRed: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 8,
+    alignSelf: 'center',
+    paddingTop:'5%',
+    paddingBottom:'5%',
+    fontFamily: fontConstant.BARLOW_BOLD,
+    fontSize: fontConstant.TEXT_H3_SIZE_BOLD,
+    color: appColor.WHITE,
+    textAlign:'center',
+   
   },
   buttonYellow: {
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 8,
     width: '45%',
-    height:'100%',
+  //  height:'100%',
     alignSelf: 'center',
-    // marginTop: '2%',
-    // marginBottom: '2%',
-    // width:wp('15%'),
-    // height:hp('5%'),
+    
     backgroundColor: appColor.YELLOW,
   },
   buttonRed: {
@@ -104,12 +130,23 @@ const styles = {
     alignItems: 'center',
     borderRadius: 8,
     width: '45%',
-    height:'100%',
     alignSelf: 'center',
-    // marginTop: '2%',
-    // marginBottom: '2%',
-    // width:wp('15%'),
-    // height:hp('5%'),
+    backgroundColor: appColor.RED,
+  },
+  buttonGray: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 8,
+    width: '45%',
+    alignSelf: 'center',
+    backgroundColor: appColor.GRAY_LIGHT,
+  },
+  buttonRedBig: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 8,
+    width: '95%',
+    alignSelf: 'center',
     backgroundColor: appColor.RED,
   },
 };

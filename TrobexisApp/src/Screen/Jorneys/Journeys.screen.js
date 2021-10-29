@@ -15,10 +15,14 @@ import localDb from '../../database/localDb';
 const JourneyList = props => {
   const responseData = useSelector(state => state.HomeReducer);
   const dispatch = useDispatch();
-  const [journeyList, setJourneyList] = useState(responseData.itinaryListAllJourney); // Getting approval list data from the home screen reducer
+  const [journeyList, setJourneyList] = useState(
+    responseData.itinaryListAllJourney,
+  ); // Getting approval list data from the home screen reducer
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  
+  const moveToDetailView = (item) => {
+    props.navigation.navigate(appConstant.JOURNEY_DETAIL);
+  };
 
   const renderItem = item => {
     let itemDetail = item.item;
@@ -26,7 +30,11 @@ const JourneyList = props => {
     let requestdate = date ? getDateInFormat(date, false, false) : '';
     return (
       <View style={styles.viewOutSide}>
-        <View style={styles.viewInside1}>
+        <Pressable
+          style={styles.viewInside1}
+          onPress={() => {
+            moveToDetailView(itemDetail);
+          }}>
           <View style={styles.viewInside2}>
             <View>
               <Text style={styles.textTitle}>{itemDetail.requestor}</Text>
@@ -61,9 +69,8 @@ const JourneyList = props => {
                 <Text style={styles.textDetail}>{requestdate}</Text>
               </View>
             </View>
-           
           </View>
-        </View>
+        </Pressable>
       </View>
     );
   };
@@ -85,7 +92,7 @@ const JourneyList = props => {
           onClickRightIcon={() => {}}
           rightIconImage={''}
         />
-       
+
         <View style={styles.viewFlatList}>
           <FlatList
             data={journeyList}

@@ -37,7 +37,7 @@ const ClientCodeScreen = props => {
   const dispatch = useDispatch();
   const responseData = useSelector(state => state.ClientCodeReducer);
   const [deviceInfo, setDeviceInfo] = useState({}); // Getting user device info from push controller.
-  const [isAlertShow, setIsAlertShow] = useState(true);
+  const [isAlertShow, setIsAlertShow] = useState(false);
   // Getting device info from push controller
   const getDeviceInfo = value => {
     setDeviceInfo(value);

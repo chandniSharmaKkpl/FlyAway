@@ -18,4 +18,6 @@ export default {
     'If you go back you will loose any information on this page.',
   CANCEL: 'Cancel',
   OK: 'Ok',
+  CONFIRMATION_NO_SHOW:"Are you sure you want to register a No-Show for this flight?",
+  
 };

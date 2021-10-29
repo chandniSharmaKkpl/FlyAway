@@ -39,4 +39,30 @@ export default StyleSheet.create({
     // height:hp('5%'),
     backgroundColor: appColor.YELLOW,
   },
+  greenButton: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 8,
+    width: wp('90%'),
+    alignSelf: 'center',
+    marginTop: '2%',
+    marginBottom: '2%',
+    // width:wp('15%'),
+    // height:hp('5%'),
+    backgroundColor: appColor.GREEN,
+  },
+
+  redButton: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 8,
+    width: wp('90%'),
+    alignSelf: 'center',
+    marginTop: '2%',
+    marginBottom: '2%',
+    // width:wp('15%'),
+    // height:hp('5%'),
+    backgroundColor: appColor.RED,
+  },
+  
 });

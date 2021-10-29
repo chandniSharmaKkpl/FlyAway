@@ -11,8 +11,6 @@ import {
 import stylesHome from '../home/Home.style';
 import styles from './BookingSummary.style';
 import {HeaderCustom,Loader} from '../../component';
-
-import {Avatar} from 'react-native-elements';
 import stylesCommon from '../../common/common.style';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import IconEntypo from 'react-native-vector-icons/Entypo';

@@ -34,13 +34,16 @@ const ApprovalList = props => {
    props.navigation.navigate(appConstant.REASON);
   };
 
+  const moveToDetailView=()=>{
+     props.navigation.navigate(appConstant.APPROVAL_DETAIL)
+  }
   const renderItem = item => {
     let itemDetail = item.item;
     let date = itemDetail.requestdate;
     let requestdate = date ? getDateInFormat(date, false, false) : '';
     return (
       <View style={styles.viewOutSide}>
-        <View style={styles.viewInside1}>
+        <Pressable style={styles.viewInside1} onPress={()=> moveToDetailView()}>
           <View style={styles.viewInside2}>
             <View>
               <Text style={styles.textTitle}>{itemDetail.requestor}</Text>
@@ -91,7 +94,7 @@ const ApprovalList = props => {
               </View>
             </View>
           </View>
-        </View>
+        </Pressable>
       </View>
     );
   };
