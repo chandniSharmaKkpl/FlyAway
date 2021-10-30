@@ -5,7 +5,7 @@ import { appConstant, imageConstant, appColor, fontConstant } from '../constant'
 import { useNavigation, useRoute, useNavigationState } from "@react-navigation/native";
 
 const HeaderCustom = (props) => {
-
+const navigation = useNavigation();
   const { title, leftIcon, rightIcon, viewName, centerTitle, onClickRightIcon, rightIconImage, onClickLeftIcon } = props
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", handleBackInHeader);
@@ -18,10 +18,10 @@ const HeaderCustom = (props) => {
   }, []);
 
   const handleBackInHeader = () => {
-     props.onClickLeftIcon(); 
+     navigation.goBack();
     return true
   } 
-  
+
   return (
     <View style={Platform.OS === 'android'? styles.topHeaderStyleAndroid: styles.topHeaderStyleIos}>
 

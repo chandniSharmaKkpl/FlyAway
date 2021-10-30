@@ -6,19 +6,43 @@ import {
 import fontConstant from '../../constant/fontConstant';
 import appColor from '../../constant/colorConstant';
 export default StyleSheet.create({
+  viewDashedLine:{
+    height: '100%',
+     width: 1,
+     borderRadius: 1,
+     borderWidth: 1,
+     borderColor: appColor.GREEN,
+     borderStyle: 'dashed',
+     zIndex: 0,
+   },
+   viewDotted:{
+    position: 'absolute',
+    left: 0,
+    bottom: 0,
+    width: 1,
+    height: '100%',
+    backgroundColor: 'white',
+    zIndex: 1,
+  },
   viewRowOutSide: {
     flexDirection: 'row',
     //alignItems: 'center',
     justifyContent: 'space-between',
+    height:'22%'
+  },
+  viewLeftLine:{
+   alignItems:'center',
+   //backgroundColor:'green',
+  // paddingTop:"18%"
   },
   viewCircleBlue: {
     backgroundColor: appColor.NAVY_BLUE,
     justifyContent: 'center',
     alignItems: 'center',
-    width: 45,
-    height: 45,
-    borderRadius: 22.5,
-    marginTop: '15%',
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    marginTop: hp('5%'),
   },
   viewDetail:{
 paddingTop:'5%'
@@ -56,7 +80,7 @@ paddingTop:'5%'
     width: 50,
     height: 50,
     borderRadius: 25,
-    marginTop: '10%',
+    marginTop: hp('5%'),
   },
   iconInCircle: {
     width: '5%',
@@ -358,6 +382,6 @@ paddingTop:'5%'
     // backgroundColor:'pink'
   },
   scrollView: {
-    marginBottom: '15%',
-  },
+     paddingBottom: hp('20%')
+    },
 });

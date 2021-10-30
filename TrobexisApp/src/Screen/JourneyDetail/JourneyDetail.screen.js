@@ -55,22 +55,30 @@ const JourneyDetail = props => {
     );
   };
 
-  const returnGreenButtonView = (imageName) => {
+  const returnGreenButtonView = imageName => {
     return (
       <View style={styles.viewRowOutSide}>
         {/* Side bus view  */}
-        <View style={styles.viewCircleGreen}>
-          <View style={styles.viewPlaneImg}>
-            <Image
-              source={imageName}
-              style={styles.imageSideColomn}
-              resizeMode={'contain'}
+        <View style={styles.viewLeftLine}>
+          <View style={styles.viewCircleGreen}>
+            <View style={styles.viewPlaneImg}>
+              <Image
+                source={imageName}
+                style={styles.imageSideColomn}
+                resizeMode={'contain'}
+              />
+            </View>
+          </View>
+          {/* Single vertical Dashed Line*/}
+          <View style={styles.viewDashedLine}>
+            <View
+              style={styles.viewDotted}
             />
           </View>
         </View>
 
         {/* Detail Section */}
-        <View style={[styles.viewOutSide, {marginTop: hp('3%')}]}>
+        <View style={[styles.viewOutSide]}>
           <View style={styles.viewRowTop}>
             <View style={styles.viewLeft}>
               <Text style={styles.textYellow}>
@@ -135,26 +143,34 @@ const JourneyDetail = props => {
             </Text>
           </View>
         </View>
-       
       </View>
     );
   };
-  const returnBlueButtonView = (imageName) => {
+  const returnBlueButtonView = imageName => {
     return (
       <View style={styles.viewRowOutSide}>
         {/* Side bus view  */}
-        <View style={styles.viewCircleBlue}>
-          <View style={styles.viewPlaneImg}>
-            <Image
-              source={imageName}
-              style={styles.imageSideColomn}
-              resizeMode={'contain'}
-            />
+        {/* Side bus view  */}
+        <View style={styles.viewLeftLine}>
+          <View style={styles.viewCircleBlue}>
+            <View style={styles.viewPlaneImg}>
+              <Image
+                source={imageName}
+                style={styles.imageSideColomn}
+                resizeMode={'contain'}
+              />
+            </View>
           </View>
+          {/* Single vertical Dashed Line*/}
+          {imageName === imageConstant.BED? null:  <View style={styles.viewDashedLine}>
+            <View
+              style={styles.viewDotted}
+            />
+          </View>}
         </View>
 
         {/* Detail Section */}
-        <View style={[styles.viewOutSide, {marginTop: hp('3%')}]}>
+        <View style={[styles.viewOutSide]}>
           <View style={styles.viewRowTop}>
             <View style={styles.viewLeft}>
               <Text style={styles.textYellow}>
@@ -236,28 +252,27 @@ const JourneyDetail = props => {
           onClickRightIcon={() => {}}
           rightIconImage={''}
         />
-        <ScrollView style={styles.scrollView}>
+        <ScrollView  contentContainerStyle={styles.scrollView}>
           <View style={styles.viewSection}>
             {/* Itinerary Details */}
             <Text style={styles.textBlackTitle}>Traveller Details</Text>
             <View style={styles.viewInside2}>
-                <View style={styles.viewContainRow}>
-                  {returnRowView('Name:', 'John Lewis')}
-                  {returnRowView('Bus Booking:', 'Butler Park to Barrow Island')}
-                  {returnRowView('Date:', 'Tue, July 20, 2021')}
-                  {returnRowView('TVR:', '3134')}
-                </View>
+              <View style={styles.viewContainRow}>
+                {returnRowView('Name:', 'John Lewis')}
+                {returnRowView('Bus Booking:', 'Butler Park to Barrow Island')}
+                {returnRowView('Date:', 'Tue, July 20, 2021')}
+                {returnRowView('TVR:', '3134')}
               </View>
+            </View>
 
             {/* Itinerary Details */}
-            <View style={{paddingTop:'3%'}}/>
+            <View style={{paddingTop: '3%'}} />
             <Text style={styles.textBlackTitle}>Itinerary Details</Text>
             {returnGreenButtonView(imageConstant.IMAGE_PLANE)}
             {returnGreenButtonView(imageConstant.IMAGE_PLANE_HORIZONTAL)}
             {returnBlueButtonView(imageConstant.IMAGE_BUS_WHITE)}
             {returnBlueButtonView(imageConstant.BED)}
-
-            </View>
+          </View>
         </ScrollView>
       </View>
 
