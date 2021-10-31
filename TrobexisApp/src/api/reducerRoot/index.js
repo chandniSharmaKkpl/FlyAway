@@ -8,12 +8,15 @@ import SiteTravelItinaryReducer from '../../Screen/siteTravelItinary/SiteTravelI
 import ClientCodeReducer from '../../Screen/clientCode/ClientCode.reducer';
 import ApprovalReducer from '../../Screen/approvalList/ApprovalList.reducer';
 import ReasonReducer from '../../Screen/approvalList/reasonForDecline/Reason.reducer';
-
+import ApprovalDetailReducer from '../../Screen/approvalDetail/ApprovalDetail.reducer';
+import JourneyDetailReducer from '../../Screen/JourneyDetail/JourneyDetail.reducer';
 
 const ReducerRoot = combineReducers({
     ClientCodeReducer,
     LoginReducer,
     ApprovalReducer,
+    ApprovalDetailReducer,
+    JourneyDetailReducer,
     ReasonReducer,
     HomeReducer,
     BusBookingReducer,

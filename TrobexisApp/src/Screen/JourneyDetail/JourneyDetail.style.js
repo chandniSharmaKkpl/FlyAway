@@ -28,7 +28,8 @@ export default StyleSheet.create({
     flexDirection: 'row',
     //alignItems: 'center',
     justifyContent: 'space-between',
-    height:'22%'
+  height:'22%',
+   // backgroundColor:'pink'
   },
   viewLeftLine:{
    alignItems:'center',
@@ -106,8 +107,11 @@ paddingTop:'5%'
   },
   viewSection: {
     padding: '3%',
+marginBottom:hp('20%')
   },
-  
+  viewItineraryList: {
+   // paddingTop: '3%'
+  },
   viewInside: {
     //  height: hp('35%'),
     backgroundColor: appColor.WHITE,
@@ -256,6 +260,8 @@ paddingTop:'5%'
   viewLeft: {
     paddingLeft: wp('2%'),
     paddingRight: wp('2%'),
+    width:wp('55%'),
+    //backgroundColor:'pink'
   },
 
   ViewBlueBottom: {
@@ -382,6 +388,7 @@ paddingTop:'5%'
     // backgroundColor:'pink'
   },
   scrollView: {
-     paddingBottom: hp('20%')
+     paddingBottom: hp('20%'),
+    // height:hp('90%')
     },
 });

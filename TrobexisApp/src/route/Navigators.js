@@ -31,6 +31,7 @@ import ReasonScreen from '../Screen/approvalList/reasonForDecline/Reason.screen'
 import JourneyList from '../Screen/Jorneys/Journeys.screen';
 import ApprovalDetail from '../Screen/approvalDetail/ApprovalDetail.screen';
 import JourneyDetail from '../Screen/JourneyDetail/JourneyDetail.screen';
+import ApprovalList from '../Screen/approvalList/ApprovalList.screen';
 
 
 const Stack = createStackNavigator();
@@ -55,8 +56,8 @@ const AuthStack = () => {
       
       {/* <Stack.Screen
         options={{headerShown: false}}
-        name={appConstant.JOURNEY_DETAIL}
-        component={JourneyDetail}
+        name={appConstant.APPROVALS}
+        component={ApprovalList}
       /> */}
 
       <Stack.Screen

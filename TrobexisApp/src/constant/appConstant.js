@@ -29,4 +29,6 @@ export default {
 
   // Word constant
   COMMENT_MAX_LIMIT: 500,
+  CHARTER_FLIGHT:'Charter Flight',
+  CAMP_ACCOMODATION:'Camp Accommodation',
 };

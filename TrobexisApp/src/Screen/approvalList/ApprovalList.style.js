@@ -20,18 +20,17 @@ export default StyleSheet.create({
     flex: 1,
   },
 
-  viewSegmentControl:{
-    padding:'5%',
-
+  viewSegmentControl: {
+    padding: '5%',
   },
-  segmentControl:{
-   width:'100%',
-   height:hp('6%')
+  segmentControl: {
+    width: '100%',
+    height: hp('6%'),
   },
   viewRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    width:wp('70%')
+    width: wp('70%'),
   },
   buttonTitle: {
     fontFamily: fontConstant.BARLOW_BOLD,
@@ -91,7 +90,7 @@ export default StyleSheet.create({
     fontSize: fontConstant.TEXT_H3_SIZE_BOLD,
     color: appColor.NAVY_BLUE,
     flexWrap: 'wrap',
-    paddingBottom:hp('1%')
+    paddingBottom: hp('1%'),
   },
   textDetail: {
     fontFamily: fontConstant.BARLOW_REGULAR,
@@ -115,7 +114,16 @@ export default StyleSheet.create({
     color: appColor.WHITE,
     padding: '2%',
   },
-
+  segmentText: {
+    fontSize: fontConstant.TEXT_15_SIZE_BOLD,
+    color: appColor.WHITE,
+    fontFamily: fontConstant.BARLOW_BOLD,
+  },
+  segmentTextActive: {
+    fontSize: fontConstant.TEXT_15_SIZE_BOLD,
+    color: appColor.BLACK,
+    fontFamily: fontConstant.BARLOW_BOLD,
+  },
   viewInside2: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -126,5 +134,44 @@ export default StyleSheet.create({
   viewButtons: {
     justifyContent: 'space-evenly',
     // backgroundColor:'pink'
+  },
+
+  tabsContainerStyle: {
+    //custom styles
+    //  backgroundColor:appColor.NAVY_BLUE
+    borderRadius: 20,
+  },
+  tabStyle: {
+    //custom styles
+  },
+  firstTabStyle: {
+    //custom styles
+  },
+  lastTabStyle: {
+    //custom styles
+  },
+  tabTextStyle: {
+    //custom styles
+  },
+  activeTabStyle: {
+    //custom styles
+    backgroundColor: appColor.NAVY_BLUE,
+    height: hp('8%'),
+  },
+  activeTabTextStyle: {
+    //custom styles
+    flexWrap: 'wrap',
+  },
+  tabBadgeContainerStyle: {
+    //custom styles
+  },
+  activeTabBadgeContainerStyle: {
+    //custom styles
+  },
+  tabBadgeStyle: {
+    //custom styles
+  },
+  activeTabBadgeStyle: {
+    //custom styles
   },
 });

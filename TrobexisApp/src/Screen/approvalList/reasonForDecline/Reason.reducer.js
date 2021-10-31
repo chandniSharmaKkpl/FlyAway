@@ -8,7 +8,6 @@ const initialState = {
 };
 
 export default (state = initialState, { type, payload }) => {
-  console.log(" reducer type ", type); 
 
     switch (type) {
         case actionConstant.ACTION_SUBMIT_DECLINE_REASON_REQUEST: {

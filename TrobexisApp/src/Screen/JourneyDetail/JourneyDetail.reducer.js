@@ -3,34 +3,33 @@ import {actionConstant} from '../../constant';
 const initialState = {
   isRequesting: false,
   error: {},
-  apiBaseData: '',
-  clientToken: '',
-  responseAccountUrl: '',
+  journeyDetail: '',
 };
 
 export default (state = initialState, { type, payload }) => {
+  console.log(" payload ---->", payload);
     switch (type) {
 
-        case actionConstant.ACTION_GET_API_BASE_REQUEST: {
+        case actionConstant.ACTION_GET_DETAIL_OF_ITINARY_REQUEST: {
             return {
               ...state,
-              apiBaseData: {},
+              journeyDetail: {},
               isRequesting: true,
               error: {},
             };
           }
-          case actionConstant.ACTION_GET_API_BASE_SUCCESS: {
+          case actionConstant.ACTION_GET_DETAIL_OF_ITINARY_SUCCESS: {
             return {
               ...state,
-              apiBaseData: payload,
-              isRequesting: true,
+              journeyDetail: payload,
+              isRequesting: false,
               error: {},
             };
           }
-          case actionConstant.ACTION_GET_API_BASE_FAILURE: {
+          case actionConstant.ACTION_GET_DETAIL_OF_ITINARY_FAILURE: {
             return {
               ...state,
-              apiBaseData: {},
+              journeyDetail: {},
               isRequesting: false,
               error: payload,
             };

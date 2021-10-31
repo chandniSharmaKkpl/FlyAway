@@ -6,6 +6,7 @@ import {HeaderCustom, BookingCard} from '../../component';
 import {useSelector, useDispatch} from 'react-redux';
 import {Avatar} from 'react-native-elements';
 import {appColor, appConstant, imageConstant} from '../../constant';
+import format from 'date-fns/format';
 
 import {getDateInFormat} from '../../common';
 
@@ -15,17 +16,28 @@ import localDb from '../../database/localDb';
 const JourneyList = props => {
   const responseData = useSelector(state => state.HomeReducer);
   const dispatch = useDispatch();
-  // const [journeyList, setJourneyList] = useState(
-  //   responseData.itinaryListAllJourney,
-  // ); // Getting approval list data from the home screen reducer
+  const [journeyList, setJourneyList] = useState(
+    responseData.itinaryListAllJourney,
+  ); // Getting approval list data from the home screen reducer
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const moveToDetailView = (item) => {
-    props.navigation.navigate(appConstant.JOURNEY_DETAIL);
+  const moveToDetailView = (itemDetail) => {
+    props.navigation.navigate(appConstant.JOURNEY_DETAIL, {itineraryId: itemDetail.id});
+  };
+   const getTimeInFormat = date => {
+    if (date) {
+      let tripTime = '';
+      let parseDate = Date.parse(date);
+      tripTime = format(parseDate, 'hh:mm a');
+      return tripTime;
+    }
+    return '';
   };
 
+  
   const renderItem = item => {
     let itemDetail = item.item;
+    console.log(" item detail", itemDetail); 
     let date = itemDetail.requestdate;
     let requestdate = date ? getDateInFormat(date, false, false) : '';
     return (
@@ -37,7 +49,7 @@ const JourneyList = props => {
           }}>
           <View style={styles.viewInside2}>
             <View>
-              <Text style={styles.textTitle}>{itemDetail.requestor}</Text>
+              <Text style={styles.textTitle}>{itemDetail.departure} to {itemDetail.destination}</Text>
               <View style={styles.viewRow}>
                 <View style={styles.viewImages}>
                   <Image
@@ -46,17 +58,7 @@ const JourneyList = props => {
                     source={imageConstant.IMAGE_PATH}
                   />
                 </View>
-                <Text style={styles.textDetail}>{itemDetail.description}</Text>
-              </View>
-              <View style={styles.viewRow}>
-                <View style={styles.viewImages}>
-                  <Image
-                    style={styles.image}
-                    resizeMode={'contain'}
-                    source={imageConstant.IMAGE_BUS_BLUE}
-                  />
-                </View>
-                <Text style={styles.textDetail}>#{itemDetail.id}</Text>
+                <Text style={styles.textDetail}>{itemDetail.departure} to {itemDetail.destination}</Text>
               </View>
               <View style={styles.viewRow}>
                 <View style={styles.viewImages}>
@@ -66,7 +68,18 @@ const JourneyList = props => {
                     source={imageConstant.IMAGE_CALENDAR_BLUE}
                   />
                 </View>
-                <Text style={styles.textDetail}>{requestdate}</Text>
+                <Text style={styles.textDetail}>{getDateInFormat(itemDetail.startdatetime)} to {getDateInFormat(itemDetail.enddatetime)}</Text>
+              </View>
+              <View style={styles.viewRow}>
+                <View style={styles.viewImages}>
+                  <Image
+                    style={styles.image}
+                    resizeMode={'contain'}
+                    tintColor={appColor.NAVY_BLUE}
+                    source={imageConstant.IMAGE_CLOCK_BLACK}
+                  />
+                </View>
+                <Text style={styles.textDetail}>{getTimeInFormat(itemDetail.startdatetime)} to {getTimeInFormat(itemDetail.enddatetime)}</Text>
               </View>
             </View>
           </View>

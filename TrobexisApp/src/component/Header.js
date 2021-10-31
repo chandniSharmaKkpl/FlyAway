@@ -18,8 +18,8 @@ const navigation = useNavigation();
   }, []);
 
   const handleBackInHeader = () => {
-     navigation.goBack();
-    return true
+    //  navigation.goBack();
+    // return true
   } 
 
   return (

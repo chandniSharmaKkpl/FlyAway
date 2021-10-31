@@ -1,34 +1,31 @@
-// import {actionConstant} from '../../constant';
+import {actionConstant} from '../../constant';
 
-// // Access Token
+// Access Token
 
-//  export const requestToGetUpcomingJourney = () => ({
-//     type: actionConstant.ACTION_GET_ACCESS_TOKEN_REQUEST,
-//     payload: {
-//     },
-//   });
+ export const requestToGetJourneyDetail = (argumentData) => ({
+    type: actionConstant.ACTION_GET_DETAIL_OF_ITINARY_REQUEST,
+    payload: {
+      data: argumentData
+    },
+  });
   
   
-//   export const successToGetUpcomingJourney = (data) => ({
-//     type: actionConstant.ACTION_GET_ACCESS_TOKEN_SUCCESS,
-//     payload: {
-//       data: data,
-//     },
-//   });
+  export const successToGetJourneyDetail = (data) => ({
+    type: actionConstant.ACTION_GET_DETAIL_OF_ITINARY_SUCCESS,
+    payload: {
+      data: data,
+    },
+  });
   
-//   export const failToGetUpcomingJourney = (error) => ({
-//     type: actionConstant.ACTION_GET_ACCESS_TOKEN_FAILURE,
-//     payload: {
-//       data: error,
-//     },
-//   });
+  export const failToGetJourneyDetail = (error) => ({
+    type: actionConstant.ACTION_GET_DETAIL_OF_ITINARY_FAILURE,
+    payload: {
+      data: error,
+    },
+  });
 
 
-//   // USER PROFILE
+export default{
+    requestToGetJourneyDetail, 
 
-
-
-// export default{
-//     requestToGetUpcomingJourney, 
-
-//   }
+  }

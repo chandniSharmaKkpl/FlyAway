@@ -6020,6 +6020,11 @@
   dependencies:
     "warn-once" "^0.1.0"
 
+"react-native-segmented-control-tab@^4.0.0":
+  "integrity" "sha512-Iyxabn5T7HGFGjLAvOWUL6K/o0r+UglAUDDQzMgqlHcz3tCnK9C6QUgZaAkzMTSgB/2JO9yLgk3XROPmb8064A=="
+  "resolved" "https://registry.npmjs.org/react-native-segmented-control-tab/-/react-native-segmented-control-tab-4.0.0.tgz"
+  "version" "4.0.0"
+
 "react-native-size-matters@^0.3.1":
   "integrity" "sha512-mKOfBLIBFBcs9br1rlZDvxD5+mAl8Gfr5CounwJtxI6Z82rGrMO+Kgl9EIg3RMVf3G855a85YVqHJL2f5EDRlw=="
   "resolved" "https://registry.npmjs.org/react-native-size-matters/-/react-native-size-matters-0.3.1.tgz"

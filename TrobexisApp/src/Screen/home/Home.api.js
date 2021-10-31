@@ -1,104 +1,207 @@
 import {actionConstant, apiConstant, appConstant} from '../../constant';
 import localDB from '../../database/localDb';
 import {ApiBase} from '../../api/apiBase';
+import axios from 'axios';
 
+const USER_ID_TEMP = "TestUser.Three";
 
+export const getUserProfile = argumentData => {
+  console.log('getUserProfile argument data in api : ', argumentData);
 
-  export const  getUserProfile = (token1) => {
-      // Get access token
-    //  let token1 = "20210911025309760e4a87aae0ed146f0a8a94d8d3106a597v";
+  let deviceId = argumentData.user.deviceId;
+  let apiBaseUrl = argumentData.user.apiBaseUrl;
+  let clientToken = argumentData.user.clientToken;
 
-    let urlString = apiConstant.USER_PROFILE;
-   urlString = urlString.replace(":userId","BM123" )
+  let instance = axios.create({
+    baseURL: apiBaseUrl,
+    timeout: 30000,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${clientToken}`,
+      DeviceId: deviceId,
+      DeviceType: Platform.OS === 'android' ? 'ANDROID' : 'IOS',
+    },
+  });
 
-    return ApiBase(token1)
-      .get(urlString)
-      .then(response => 
-        Promise.resolve({
-          data: response,
-          //status: response.status
-        }).then(response => {
-          return response.data.data;
-        }),
-      );
-  };
+  let urlString = apiConstant.USER_PROFILE;
+  urlString = urlString.replace(':userId', USER_ID_TEMP);
+  console.log(' url  data  : ', urlString);
 
-  export const  getItinaryList = (token1) => {
-    // Get access token
-//let token1 = "20210911025309760e4a87aae0ed146f0a8a94d8d3106a597v";
+  return instance
+    .get(urlString)
+    .then(response =>
+      Promise.resolve({
+        data: response,
+      }).then(response => {
+        let response1 = response.data.data;
+        console.log(' response : ', response1);
 
+        return response1;
+      }),
+    )
+    .catch(err => {
+      console.log('88 api Erorr: ', err.response);
+      return err.response.data;
+    });
+};
+
+export const getItinaryList = argumentData => {
+  console.log('getUserProfile argument data in api : ', argumentData);
+
+  let deviceId = argumentData.user.deviceId;
+  let apiBaseUrl = argumentData.user.apiBaseUrl;
+  let clientToken = argumentData.user.clientToken;
+
+  let instance = axios.create({
+    baseURL: apiBaseUrl,
+    timeout: 30000,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${clientToken}`,
+      DeviceId: deviceId,
+      DeviceType: Platform.OS === 'android' ? 'ANDROID' : 'IOS',
+    },
+  });
 
   let urlString = apiConstant.GET_ITINARY_LIST;
- urlString = urlString.replace(":userId","BM123" )
+  urlString = urlString.replace(':userId', USER_ID_TEMP);
+  console.log(' url  data  : ', urlString);
 
-  return ApiBase(token1)
+  return instance
     .get(urlString)
-    .then(response => 
+    .then(response =>
       Promise.resolve({
         data: response,
-        //status: response.status
       }).then(response => {
+        let response1 = response.data.data;
+        console.log(' response : ', response1);
 
-        return response.data.data;
+        return response1;
       }),
-    );
+    )
+    .catch(err => {
+      console.log('88 api Erorr: ', err.response);
+      return err.response.data;
+    });
 };
 
-export const  getItinaryListAllJourney = (token1) => {
-  // Get access token
-  // let token1 = "20210911025309760e4a87aae0ed146f0a8a94d8d3106a597v";
+export const getItinaryListAllJourney = argumentData => {
+  console.log('getUserProfile argument data in api : ', argumentData);
 
-let urlString = apiConstant.GET_ITINARY_LIST_ALL_JOURNEY;
-urlString = urlString.replace(":userId","BM123" )
+  let deviceId = argumentData.user.deviceId;
+  let apiBaseUrl = argumentData.user.apiBaseUrl;
+  let clientToken = argumentData.user.clientToken;
 
-return ApiBase(token1)
-  .get(urlString)
-  .then(response => 
-    Promise.resolve({
-      data: response,
-      //status: response.status
-    }).then(response => {
-      return response.data.data;
-    }),
-  );
+  let instance = axios.create({
+    baseURL: apiBaseUrl,
+    timeout: 30000,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${clientToken}`,
+      DeviceId: deviceId,
+      DeviceType: Platform.OS === 'android' ? 'ANDROID' : 'IOS',
+    },
+  });
+
+  let urlString = apiConstant.GET_ITINARY_LIST_ALL_JOURNEY;
+  urlString = urlString.replace(':userId', USER_ID_TEMP);
+  console.log(' url  data  : ', urlString);
+
+  return instance
+    .get(urlString)
+    .then(response =>
+      Promise.resolve({
+        data: response,
+      }).then(response => {
+        let response1 = response.data.data;
+        console.log(' response : ', response1);
+
+        return response1;
+      }),
+    )
+    .catch(err => {
+      console.log('88 api Erorr: ', err.response);
+      return err.response.data;
+    });
 };
 
+export const getApprovalList = argumentData => {
+  console.log('getUserProfile argument data in api : ', argumentData);
 
-export const  getApprovalList = (token1) => {
-  // Get access token
-//const accessToken = localDB.getAccessToken();
-// let token1 = "20210911025309760e4a87aae0ed146f0a8a94d8d3106a597v";
+  let deviceId = argumentData.user.deviceId;
+  let apiBaseUrl = argumentData.user.apiBaseUrl;
+  let clientToken = argumentData.user.clientToken;
 
-let urlString = apiConstant.GET_APPROVAL_LIST;
-urlString = urlString.replace(":userId","BM123" )
+  let instance = axios.create({
+    baseURL: apiBaseUrl,
+    timeout: 30000,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${clientToken}`,
+      DeviceId: deviceId,
+      DeviceType: Platform.OS === 'android' ? 'ANDROID' : 'IOS',
+    },
+  });
 
-return ApiBase(token1)
-  .get(urlString)
-  .then(response => 
-    Promise.resolve({
-      data: response,
-      //status: response.status
-    }).then(response => {
-      return response.data.data;
-    }),
-  );
+  let urlString = apiConstant.GET_APPROVAL_LIST;
+  urlString = urlString.replace(':userId', USER_ID_TEMP);
+  console.log(' url  data  : ', urlString);
+
+  return instance
+    .get(urlString)
+    .then(response =>
+      Promise.resolve({
+        data: response,
+      }).then(response => {
+        let response1 = response.data.data;
+        console.log(' response : ', response1);
+
+        return response1;
+      }),
+    )
+    .catch(err => {
+      console.log('88 api Erorr: ', err.response);
+      return err.response.data;
+    });
 };
 
+export const getItinaryDetail = argumentData => {
+  console.log('getUserProfile argument data in api : ', argumentData);
 
-  export const  getItinaryDetail = (token, itinaryId) => {
-    // Get access token
+  let deviceId = argumentData.user.deviceId;
+  let apiBaseUrl = argumentData.user.apiBaseUrl;
+  let clientToken = argumentData.user.clientToken;
+
+  let instance = axios.create({
+    baseURL: apiBaseUrl,
+    timeout: 30000,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${clientToken}`,
+      DeviceId: deviceId,
+      DeviceType: Platform.OS === 'android' ? 'ANDROID' : 'IOS',
+    },
+  });
 
   let urlString = apiConstant.GET_ITINARY_DETAIL;
- urlString = urlString.replace(":itineraryId","L4192" )
+  urlString = urlString.replace(':itineraryId', 'L4192');
+  console.log(' url  data  : ', urlString);
 
-  return ApiBase(token)
+  return instance
     .get(urlString)
-    .then(response => 
+    .then(response =>
       Promise.resolve({
         data: response,
-        //status: response.status
       }).then(response => {
-        return response.data.data;
+        let response1 = response.data.data;
+        console.log(' response : ', response1);
+
+        return response1;
       }),
-    );
+    )
+    .catch(err => {
+      console.log('88 api Erorr: ', err.response);
+      return err.response.data;
+    });
 };
+

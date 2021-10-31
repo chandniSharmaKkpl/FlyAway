@@ -2,10 +2,11 @@ import React, {useState, useCallback, useEffect} from 'react';
 import {View, Text, Image, FlatList, Pressable} from 'react-native';
 import stylesHome from '../home/Home.style';
 import styles from './ApprovalList.style';
-import {HeaderCustom, BookingCard} from '../../component';
+import {HeaderCustom, BookingCard, Loader} from '../../component';
 import {useSelector, useDispatch} from 'react-redux';
 import {Avatar} from 'react-native-elements';
 import {appColor, appConstant, imageConstant} from '../../constant';
+import SegmentedControlTab from 'react-native-segmented-control-tab';
 
 import {getDateInFormat} from '../../common';
 import {
@@ -31,19 +32,21 @@ const ApprovalList = props => {
   };
 
   const onClickDecline = () => {
-   props.navigation.navigate(appConstant.REASON);
+    props.navigation.navigate(appConstant.REASON);
   };
 
-  const moveToDetailView=()=>{
-     props.navigation.navigate(appConstant.APPROVAL_DETAIL)
-  }
+  const moveToDetailView = (id) => {
+    props.navigation.navigate(appConstant.APPROVAL_DETAIL,{approvalId:id});
+  };
   const renderItem = item => {
     let itemDetail = item.item;
     let date = itemDetail.requestdate;
     let requestdate = date ? getDateInFormat(date, false, false) : '';
     return (
       <View style={styles.viewOutSide}>
-        <Pressable style={styles.viewInside1} onPress={()=> moveToDetailView()}>
+        <Pressable
+          style={styles.viewInside1}
+          onPress={() => moveToDetailView(itemDetail.id)}>
           <View style={styles.viewInside2}>
             <View>
               <Text style={styles.textTitle}>{itemDetail.requestor}</Text>
@@ -118,16 +121,31 @@ const ApprovalList = props => {
         />
         <View style={styles.viewSegmentControl}>
           <SegmentedControl
-            values={['Pending Approvals', 'Approved', 'Decline']}
+            values={['Pending', 'Approved', 'Decline']}
             selectedIndex={selectedIndex}
             backgroundColor={appColor.NAVY_BLUE}
             tintColor={appColor.WHITE}
             onChange={event => {
               setSelectedIndex(event.nativeEvent.selectedSegmentIndex);
             }}
-          style={styles.segmentControl}
-          fontStyle={{fontSize:12, color:appColor.WHITE}}
+            activeFontStyle={styles.segmentTextActive}
+            style={styles.segmentControl}
+            fontStyle={styles.segmentText}
           />
+          {/* <SegmentedControlTab
+            tabsContainerStyle={styles.tabsContainerStyle}
+            tabStyle={styles.tabStyle}
+            firstTabStyle={styles.firstTabStyle}
+            lastTabStyle={styles.lastTabStyle}
+            tabTextStyle={styles.tabTextStyle}
+            activeTabStyle={styles.activeTabStyle}
+            activeTabTextStyle={styles.activeTabTextStyle}
+            selectedIndex={selectedIndex}
+            allowFontScaling={false}
+            values={['Pending Approvals', 'Approved', 'Decline']}
+            onTabPress={index => setSelectedIndex(index)}
+            borderRadius={10}
+          /> */}
         </View>
         <View style={styles.viewFlatList}>
           <FlatList
@@ -136,6 +154,9 @@ const ApprovalList = props => {
             keyExtractor={(item, index) => index.toString()}
           />
         </View>
+        {responseData.isRequesting ? (
+          <Loader loading={responseData.isRequesting} />
+        ) : null}
       </View>
     </>
   );

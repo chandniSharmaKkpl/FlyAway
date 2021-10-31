@@ -23,7 +23,7 @@ export default (state = initialState, { type, payload }) => {
             return {
               ...state,
               apiBaseData: payload,
-              isRequesting: true,
+              isRequesting: false,
               error: {},
             };
           }

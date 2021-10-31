@@ -17,7 +17,7 @@ import {
 } from 'react-native-responsive-screen';
 import { alertMsgConstant, appColor, appConstant, imageConstant } from '../../constant';
 import { requestToGetUserProfile } from './Home.action';
-import localDB from '../../database/localDb';
+import localDb from '../../database/localDb';
 import DeviceInfo from 'react-native-device-info';
 
 
@@ -42,12 +42,22 @@ const HomeScreen = props => {
   useEffect(() => {
 
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
-    dispatch(requestToGetUserProfile());
+
+    const unsubscribe = props.navigation.addListener('focus', () => {
+      const tempUser = localDb.getUser();
+      Promise.resolve(tempUser).then(response => {
+        let param = {
+          user: response,
+        };
+        dispatch(requestToGetUserProfile(param));
+      });
+    });
     return () => {
       BackHandler.removeEventListener(
         'hardwareBackPress',
         handleBackButtonClick,
       );
+      unsubscribe;
     };
   }, []);
 

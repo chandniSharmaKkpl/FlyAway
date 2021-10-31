@@ -6,15 +6,15 @@ export default {
 
   BASE_URL: 'https://app-aue.trobexisuat.com/T1DEVMobile/api/',
   GET_ACCESS_TOKEN: 'account/accesstoken/',
-  USER_PROFILE: 'users/:userId/profile',
-  GET_ITINARY_LIST: 'users/:userId/itineraries?cancancel=true',
-  GET_ITINARY_DETAIL: 'itineraries/:itineraryId',
+  USER_PROFILE: '/api/users/:userId/profile',
+  GET_ITINARY_LIST: '/api/users/:userId/itineraries?cancancel=true',
+  GET_ITINARY_DETAIL: '/api/itineraries/:itineraryId',
   GET_BUS_STOP: 'bus/stops',
   GET_BUS_ROUTE:'bus/routes',
   POST_BUS_BOOKING:'bus/bookings',
   CANCEL_BUS_BOOKING:'itineraries/:itinerayId',
-  GET_ITINARY_LIST_ALL_JOURNEY: 'users/:userId/itineraries?cancancel=false',
-  GET_APPROVAL_LIST:'users/:userId/approvals',
+  GET_ITINARY_LIST_ALL_JOURNEY: '/api/users/:userId/itineraries?cancancel=false',
+  GET_APPROVAL_LIST:'/api/users/:userId/approvals',
   // Authorisation Apis 
   BASE_URL_GET_API_BASE:'https://app-au.trobexis.com/T1MobileService/api/',
   URL_TO_GET_API_BASE:'account/:client/baseapiurl',
@@ -24,4 +24,5 @@ export default {
   APPROVAL_ACCEPT_API:'api/approvals/:approvalId/approve',
   APPROVAL_DECLINE_API:'/api/approvals/:approvalId/decline',
   GET_DECLINE_REASONS:'/api/schema/approval/declinereasons',
+  GET_APPROVAL_DETAIL: '/api/approvals/:approvalId',
 };
