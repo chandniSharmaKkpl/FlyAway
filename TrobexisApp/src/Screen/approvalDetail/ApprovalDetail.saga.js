@@ -16,8 +16,6 @@ export function* workerGetApprovalDetail(argumentData ) {
         })
         return; 
       }
-  
-      console.log( 'Sagag approvaldetail', approvalResponse,' approval detail  in saga -======>>>>>>' );
 
       yield put({
         type: actionConstant.ACTION_APPROVAL_DETAIL_SUCCESS,

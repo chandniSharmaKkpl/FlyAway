@@ -30,19 +30,11 @@ const HomeScreen = props => {
   const [userProfile, setUserProfile] = useState({});
   const [isAlertShow, setIsAlertShow] = useState(false);
 
-  const handleBackButtonClick = () => {
-    countBack = countBack + 1;
-    console.log(' back count  in home ', countBack);
-
-    if (countBack > 1) {
-     setIsAlertShow(true)
-    } 
-    return true;
-  };
+ 
+  setAlertShowFromHeader =(value)=>{
+    setIsAlertShow(value)
+  }
   useEffect(() => {
-
-    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
-
     const unsubscribe = props.navigation.addListener('focus', () => {
       const tempUser = localDb.getUser();
       Promise.resolve(tempUser).then(response => {
@@ -53,13 +45,10 @@ const HomeScreen = props => {
       });
     });
     return () => {
-      BackHandler.removeEventListener(
-        'hardwareBackPress',
-        handleBackButtonClick,
-      );
+      
       unsubscribe;
     };
-  }, []);
+  }, [props.navigation, props.route]);
 
   const renderItem = item => {
     return (
@@ -125,6 +114,8 @@ const HomeScreen = props => {
           centerTitle={false}
           onClickRightIcon={onClickRightIcon}
           rightIconImage={''}
+          viewProps={props}
+          setAlertShowFromHeader ={(value)=>setIsAlertShow(value)}
         />
         {/* Title view */}
         <View style={styles.viewTopBackground}>
@@ -145,7 +136,7 @@ const HomeScreen = props => {
         </View>
 
         {/* Bookinng list  */}
-        {response.itinaryList && response.itinaryList.length>0?
+        {response.itinaryListAllJourney && response.itinaryListAllJourney.length>0?
         <View
           style={{
             marginTop: hp('-8%'),
@@ -154,7 +145,7 @@ const HomeScreen = props => {
           }}>
           <FlatList
             renderItem={renderItem}
-            data={response.itinaryList}
+            data={response.itinaryListAllJourney}
             horizontal={true}
             keyExtractor={(item, index) => index.toString()}
           />

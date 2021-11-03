@@ -26,30 +26,14 @@ const ApprovalDetail = props => {
   const route = useRoute();
   const dispatch = useDispatch();
   const responseDetail = useSelector(state => state.ApprovalDetailReducer);
-  const [arrayItems, setArrayItems] = useState([]);
   const [isApiCall, setIsApiCall] = useState(false);
-  const [status, setStatus] = useState('N/A');
-  const [requestor, setRequestor] = useState('N/A');
-  const [creationDate, setCreationDate] = useState('N/A');
-  const [subContractor, setSubContractor] = useState('N/A');
-  const [position, setPosition] = useState('N/A');
-  const [requestTitle, setRequestTitle] = useState('N/A');
-  const [siteLocation, setSiteLocation] = useState('N/A');
-  const [accessDates, setAccessDates] = useState('N/A');
-  const [roasterPattern, setRoasterPattern] = useState('N/A');
-  const [travelRequirement, setTravelRequirement] = useState('N/A');
-  const [comment, setComment] = useState('N/A');
-  const [travellerId, setTravellerId] = useState('N/A');
-
-  const [companyName, setCompanyName] = useState('N/A');
-
+ 
   const handleBackButtonClick = () => {
     moveBack();
     return true;
   };
 
   useEffect(() => {
-    console.log(' route params ', route.params);
 
     const unsubscribe = props.navigation.addListener('focus', () => {
       const tempUser = localDb.getUser();
@@ -93,10 +77,30 @@ const ApprovalDetail = props => {
     props.navigation.navigate(appConstant.REASON);
   };
 
-  const checkResponseCode = useCallback(() => {
-    if (isApiCall) {
-      // console.log(' responseDetail ---->', responseDetail);
+const getDataFromResponse=(responseDetail, value)=>{
+   {
+    // console.log(' responseDetail ---->', responseDetail);
 
+    if (responseDetail) {
+    
+      let itemsData = responseDetail.responseDetail;
+      if (value === 'Description') {
+        return itemsData.Description; 
+      } else {
+        let tempArray = itemsData.Items;
+      if (tempArray) {
+        return  findIdByValue(tempArray, value);
+       }else{
+         return "N/A";
+       }
+      }
+    }else{
+      return "N/A"
+    }
+  }
+}
+  const checkResponseCode = ()=> {
+    if (isApiCall) {
       if (
         responseDetail.error &&
         Object.keys(responseDetail.error).length !== 0
@@ -106,52 +110,21 @@ const ApprovalDetail = props => {
         NotifyMessage(responseDetail.error);
         return;
       }
-      if (responseDetail) {
-        setIsApiCall(false);
-        let itemsData = responseDetail.responseDetail;
-        console.log(' responseDetail ---->', responseDetail);
-        if (itemsData.Description) {
-          setRequestTitle(itemsData.Description);
-        }
-        let tempArray = itemsData.Items;
-        if (tempArray) {
-          let value1 = findIdByValue(tempArray, 'Requestor');
-          if (value1) {
-            setRequestor(value1);
-          }
-          let value2 = findIdByValue(tempArray, 'EscalationDate');
-          // let dateValue =  getDateInFormat(value2, false, false);
-          value2 ? setCreationDate(value2) : '';
-
-          findIdByValue(tempArray, 'Status')
-            ? setStatus(findIdByValue(tempArray, 'Status'))
-            : '';
-
-          findIdByValue(tempArray, 'TravellerID')
-            ? setTravellerId(findIdByValue(tempArray, 'TravellerID'))
-            : '';
-          findIdByValue(tempArray, 'CompanyName')
-            ? setCompanyName(findIdByValue(tempArray, 'CompanyName'))
-            : '';
-          findIdByValue(tempArray, 'AdditionalDetails')
-            ? setComment(findIdByValue(tempArray, 'AdditionalDetails'))
-            : '';
-        }
-      }
+     
     }
-  });
+  }
 
   const findIdByValue = (data, value) => {
     const el = data.find(el => el.Label === value); // Possibly returns `undefined`
-    console.log(' emlnet is ------', el);
     return el && el.Data; // so check result is truthy and extract `id`
   };
+
   return (
     <>
-      {checkResponseCode()}
+     {checkResponseCode()}
       <View style={stylesHome.container}>
         <HeaderCustom
-          title={'Approval Detail'}
+          title={'Approval Details'}
           viewName={appConstant.APPROVAL_DETAIL}
           leftIcon={true}
           onClickLeftIcon={() => moveBack()}
@@ -159,6 +132,8 @@ const ApprovalDetail = props => {
           centerTitle={true}
           onClickRightIcon={() => {}}
           rightIconImage={''}
+          viewProps={props}
+
         />
         <ScrollView>
           <View style={styles.viewOutSide}>
@@ -173,28 +148,28 @@ const ApprovalDetail = props => {
               <View style={styles.viewInside}>
                 <View style={styles.viewInsideTitle}>
                   <Text style={styles.textYellow}>
-                    {requestor} ({travellerId})
+                    {getDataFromResponse(responseDetail, "Requestor")} ({getDataFromResponse(responseDetail, "TravellerID")})
                   </Text>
-                  <Text style={styles.textRed}>{status}</Text>
+                  <Text style={styles.textRed}>{getDataFromResponse(responseDetail, "Status")}</Text>
                 </View>
                 <View style={styles.viewContainRow}>
-                  {returnRowView('Request Creation Date:', creationDate)}
-                  {returnRowView('Company Name:', companyName)}
-                  {returnRowView('Sub Contractor:', subContractor)}
-                  {returnRowView('Position:', position)}
+                  {returnRowView('Request Creation Date:', getDataFromResponse(responseDetail,"EscalationDate"))}
+                  {returnRowView('Company Name:', getDataFromResponse(responseDetail,"CompanyName"))}
+                  {returnRowView('Sub Contractor:', getDataFromResponse(responseDetail,"Sub"))}
+                  {returnRowView('Position:', getDataFromResponse(responseDetail,"Position"))}
                 </View>
               </View>
             </View>
 
             <View style={styles.viewSection}>
-              <Text style={styles.textBlackTitle}>Site Access Detail</Text>
+              <Text style={styles.textBlackTitle}>Site Access Details</Text>
               <View style={styles.viewInside}>
                 <View style={styles.viewContainRow}>
-                  {returnRowView('Request Title:', requestTitle)}
-                  {returnRowView('Site Location:', siteLocation)}
-                  {returnRowView('Access Dates:', accessDates)}
-                  {returnRowView('Roaster Pattern:', roasterPattern)}
-                  {returnRowView('Travel Requirements:', travelRequirement)}
+                  {returnRowView('Request Title:', getDataFromResponse(responseDetail,"TripReason"))}
+                  {returnRowView('Site Location:', getDataFromResponse(responseDetail,"SiteLocation"))}
+                  {returnRowView('Access Dates:', getDataFromResponse(responseDetail,"EscalationDate"))}
+                  {returnRowView('Roaster Pattern:', getDataFromResponse(responseDetail,"Roaster"))}
+                  {returnRowView('Travel Requirements:', getDataFromResponse(responseDetail,"Req"))}
                 </View>
               </View>
             </View>
@@ -203,7 +178,7 @@ const ApprovalDetail = props => {
               <Text style={styles.textBlackTitle}>Comments / Messages</Text>
               <View style={styles.viewInside}>
                 {/* <View style={styles.textAreaContainer}> */}
-                <Text style={styles.textArea}>{comment}</Text>
+                <Text style={styles.textArea}>{ getDataFromResponse(responseDetail,"AdditionalDetails")}</Text>
               </View>
               {/* </View> */}
             </View>

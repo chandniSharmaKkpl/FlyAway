@@ -3,10 +3,11 @@ import localDB from '../../database/localDb';
 import {ApiBase} from '../../api/apiBase';
 import axios from 'axios';
 
-const USER_ID_TEMP = "TestUser.Three";
+const USER_ID_TEMP = "BM123";
+const USER_ID_JOURNEY = "TestUser.Three";
+
 
 export const getUserProfile = argumentData => {
-  console.log('getUserProfile argument data in api : ', argumentData);
 
   let deviceId = argumentData.user.deviceId;
   let apiBaseUrl = argumentData.user.apiBaseUrl;
@@ -25,7 +26,6 @@ export const getUserProfile = argumentData => {
 
   let urlString = apiConstant.USER_PROFILE;
   urlString = urlString.replace(':userId', USER_ID_TEMP);
-  console.log(' url  data  : ', urlString);
 
   return instance
     .get(urlString)
@@ -34,19 +34,18 @@ export const getUserProfile = argumentData => {
         data: response,
       }).then(response => {
         let response1 = response.data.data;
-        console.log(' response : ', response1);
 
         return response1;
       }),
     )
     .catch(err => {
-      console.log('88 api Erorr: ', err.response);
+      //console.log('88 api Erorr: ', err.response);
       return err.response.data;
     });
 };
 
 export const getItinaryList = argumentData => {
-  console.log('getUserProfile argument data in api : ', argumentData);
+  //console.log('getUserProfile argument data in api : ', argumentData);
 
   let deviceId = argumentData.user.deviceId;
   let apiBaseUrl = argumentData.user.apiBaseUrl;
@@ -64,8 +63,8 @@ export const getItinaryList = argumentData => {
   });
 
   let urlString = apiConstant.GET_ITINARY_LIST;
-  urlString = urlString.replace(':userId', USER_ID_TEMP);
-  console.log(' url  data  : ', urlString);
+  urlString = urlString.replace(':userId', USER_ID_JOURNEY);
+  //console.log(' url  data  : ', urlString);
 
   return instance
     .get(urlString)
@@ -74,19 +73,19 @@ export const getItinaryList = argumentData => {
         data: response,
       }).then(response => {
         let response1 = response.data.data;
-        console.log(' response : ', response1);
+        //console.log(' response : ', response1);
 
         return response1;
       }),
     )
     .catch(err => {
-      console.log('88 api Erorr: ', err.response);
+      //console.log('88 api Erorr: ', err.response);
       return err.response.data;
     });
 };
 
 export const getItinaryListAllJourney = argumentData => {
-  console.log('getUserProfile argument data in api : ', argumentData);
+  //console.log('getUserProfile argument data in api : ', argumentData);
 
   let deviceId = argumentData.user.deviceId;
   let apiBaseUrl = argumentData.user.apiBaseUrl;
@@ -104,8 +103,8 @@ export const getItinaryListAllJourney = argumentData => {
   });
 
   let urlString = apiConstant.GET_ITINARY_LIST_ALL_JOURNEY;
-  urlString = urlString.replace(':userId', USER_ID_TEMP);
-  console.log(' url  data  : ', urlString);
+  urlString = urlString.replace(':userId', USER_ID_JOURNEY);
+  //console.log(' url  data  : ', urlString);
 
   return instance
     .get(urlString)
@@ -114,19 +113,19 @@ export const getItinaryListAllJourney = argumentData => {
         data: response,
       }).then(response => {
         let response1 = response.data.data;
-        console.log(' response : ', response1);
+        //console.log(' response : ', response1);
 
         return response1;
       }),
     )
     .catch(err => {
-      console.log('88 api Erorr: ', err.response);
+      //console.log('88 api Erorr: ', err.response);
       return err.response.data;
     });
 };
 
 export const getApprovalList = argumentData => {
-  console.log('getUserProfile argument data in api : ', argumentData);
+  //console.log('getUserProfile argument data in api : ', argumentData);
 
   let deviceId = argumentData.user.deviceId;
   let apiBaseUrl = argumentData.user.apiBaseUrl;
@@ -145,7 +144,7 @@ export const getApprovalList = argumentData => {
 
   let urlString = apiConstant.GET_APPROVAL_LIST;
   urlString = urlString.replace(':userId', USER_ID_TEMP);
-  console.log(' url  data  : ', urlString);
+  //console.log(' url  data  : ', urlString);
 
   return instance
     .get(urlString)
@@ -154,19 +153,19 @@ export const getApprovalList = argumentData => {
         data: response,
       }).then(response => {
         let response1 = response.data.data;
-        console.log(' response : ', response1);
+        //console.log(' response : ', response1);
 
         return response1;
       }),
     )
     .catch(err => {
-      console.log('88 api Erorr: ', err.response);
+      //console.log('88 api Erorr: ', err.response);
       return err.response.data;
     });
 };
 
 export const getItinaryDetail = argumentData => {
-  console.log('getUserProfile argument data in api : ', argumentData);
+  //console.log('getUserProfile argument data in api : ', argumentData);
 
   let deviceId = argumentData.user.deviceId;
   let apiBaseUrl = argumentData.user.apiBaseUrl;
@@ -185,7 +184,7 @@ export const getItinaryDetail = argumentData => {
 
   let urlString = apiConstant.GET_ITINARY_DETAIL;
   urlString = urlString.replace(':itineraryId', 'L4192');
-  console.log(' url  data  : ', urlString);
+  //console.log(' url  data  : ', urlString);
 
   return instance
     .get(urlString)
@@ -194,13 +193,13 @@ export const getItinaryDetail = argumentData => {
         data: response,
       }).then(response => {
         let response1 = response.data.data;
-        console.log(' response : ', response1);
+        //console.log(' response : ', response1);
 
         return response1;
       }),
     )
     .catch(err => {
-      console.log('88 api Erorr: ', err.response);
+      //console.log('88 api Erorr: ', err.response);
       return err.response.data;
     });
 };

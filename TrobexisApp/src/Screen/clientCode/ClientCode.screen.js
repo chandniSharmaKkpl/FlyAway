@@ -33,7 +33,7 @@ import AuthContext from '../../context/AuthContext';
 const ClientCodeScreen = props => {
   const navigation = useNavigation();
   const {setUserData} = React.useContext(AuthContext);
-  const [clientCode, setClientCode] = useState('TONEAPPUAT');
+  const [clientCode, setClientCode] = useState(''); //TONEAPPUAT
   const [error, setError] = useState('');
   const dispatch = useDispatch();
   const responseData = useSelector(state => state.ClientCodeReducer);

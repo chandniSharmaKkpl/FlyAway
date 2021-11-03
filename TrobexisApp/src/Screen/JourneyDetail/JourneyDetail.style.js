@@ -7,10 +7,13 @@ import fontConstant from '../../constant/fontConstant';
 import appColor from '../../constant/colorConstant';
 export default StyleSheet.create({
   viewDashedLine:{
-    height: '100%',
+    height: 270,
      width: 1,
+     position: 'absolute',
      borderRadius: 1,
      borderWidth: 1,
+     left: '6%',
+     top:'29%',
      borderColor: appColor.GREEN,
      borderStyle: 'dashed',
      zIndex: 0,
@@ -27,12 +30,10 @@ export default StyleSheet.create({
   viewRowOutSide: {
     flexDirection: 'row',
     //alignItems: 'center',
-    justifyContent: 'space-between',
-  height:'22%',
    // backgroundColor:'pink'
   },
   viewLeftLine:{
-   alignItems:'center',
+    zIndex:9999
    //backgroundColor:'green',
   // paddingTop:"18%"
   },
@@ -75,6 +76,7 @@ paddingTop:'5%'
     height: hp('6%'),
   },
   viewCircleGreen: {
+
     backgroundColor: appColor.GREEN,
     justifyContent: 'center',
     alignItems: 'center',
@@ -107,7 +109,6 @@ paddingTop:'5%'
   },
   viewSection: {
     padding: '3%',
-marginBottom:hp('20%')
   },
   viewItineraryList: {
    // paddingTop: '3%'
@@ -216,6 +217,8 @@ marginBottom:hp('20%')
     // height: hp('15%'),
     backgroundColor: appColor.WHITE,
     // margin: 10,
+    marginLeft:'3%',
+    marginTop:'10%',
     flexWrap: 'wrap',
     alignSelf: 'center',
 

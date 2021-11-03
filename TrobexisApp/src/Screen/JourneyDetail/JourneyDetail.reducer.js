@@ -7,7 +7,7 @@ const initialState = {
 };
 
 export default (state = initialState, { type, payload }) => {
-  console.log(" payload ---->", payload);
+  // console.log(" payload ---->", payload);
     switch (type) {
 
         case actionConstant.ACTION_GET_DETAIL_OF_ITINARY_REQUEST: {

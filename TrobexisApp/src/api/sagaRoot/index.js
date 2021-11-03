@@ -8,7 +8,7 @@ import {watchToCancelSiteTravelItinary, watchToGetItinaryDetail} from '../../Scr
 import {watchPostBooking} from '../../Screen/bookingSummary/BookingSummary.saga';
 import {watchGetApiBase} from '../../Screen/clientCode/ClientCode.saga';
 import { watchAcceptApprovalApi, watchDeclineApproval } from "../../Screen/approvalList/ApprovalList.saga";;
-import {watchGetDeclineReason} from '../../Screen/approvalList/reasonForDecline/Reason.saga';
+import {watchGetDeclineReason} from '../../Screen/declineReasons/declineReason.saga';
 import {watchApprovalDetail} from '../../Screen/approvalDetail/ApprovalDetail.saga';
 import {watchJourneyDetail} from '../../Screen/JourneyDetail/JourneyDetail.saga';
 

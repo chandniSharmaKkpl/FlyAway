@@ -1,4 +1,4 @@
-import React, {useState, useCallback, useEffect} from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import {
   View,
   Text,
@@ -18,8 +18,8 @@ import {
   NotifyMessage,
   Loader,
 } from '../../component';
-import {useSelector, useDispatch} from 'react-redux';
-import {Avatar} from 'react-native-elements';
+import { useSelector, useDispatch } from 'react-redux';
+import { Avatar } from 'react-native-elements';
 import localDb from '../../database/localDb';
 import {
   appColor,
@@ -27,11 +27,11 @@ import {
   imageConstant,
   alertMsgConstant,
 } from '../../constant';
-import {getDateInFormat} from '../../common';
-import {useRoute, useNavigation} from '@react-navigation/core';
+import { getDateInFormat } from '../../common';
+import { useRoute, useNavigation } from '@react-navigation/core';
 
-import {requestToGetJourneyDetail} from './JourneyDetail.action';
-import {getTimeInFormat} from '../../component/BookingCard';
+import { requestToGetJourneyDetail } from './JourneyDetail.action';
+import { getTimeInFormat } from '../../component/BookingCard';
 
 const JourneyDetail = props => {
   const [isAlertShow, setIsAlertShow] = useState(false);
@@ -43,12 +43,11 @@ const JourneyDetail = props => {
   const [busBooking, setBusBooking] = useState('');
   const [travellerDetailDate, setTravellerDetailDate] = useState('');
   const [tvr, setTvr] = useState('');
-  const [arrayRoutes, setArrayRoutes] = useState('');
+  const [arrayRoutes, setArrayRoutes] = useState([]);
 
   useEffect(() => {
     const unsubscribe = props.navigation.addListener('focus', () => {
       const tempUser = localDb.getUser();
-      console.log(' rout param', route);
       Promise.resolve(tempUser).then(response => {
         let param = {
           itineraryId: route.params.itineraryId ? route.params.itineraryId : '',
@@ -83,9 +82,7 @@ const JourneyDetail = props => {
       </View>
     );
   };
-  const itemViews = (item, index) => {
-    console.log(' item', item, index);
-
+  const itemViews = (item, type,index) => {
     let iconImage = '';
 
     if (item.Type === appConstant.CHARTER_FLIGHT) {
@@ -100,7 +97,12 @@ const JourneyDetail = props => {
       <View style={styles.viewRowOutSide}>
         {/* Side bus view  */}
         <View style={styles.viewLeftLine}>
-          <View style={item.Type === appConstant.CHARTER_FLIGHT? styles.viewCircleGreen: styles.viewCircleBlue}>
+          <View
+            style={
+              item.Type === appConstant.CHARTER_FLIGHT
+                ? styles.viewCircleGreen
+                : styles.viewCircleBlue
+            }>
             <View style={styles.viewPlaneImg}>
               <Image
                 source={iconImage}
@@ -109,12 +111,6 @@ const JourneyDetail = props => {
               />
             </View>
           </View>
-          {/* Single vertical Dashed Line*/}
-          {/* ( */}
-            <View style={styles.viewDashedLine}>
-              <View style={styles.viewDotted} />
-            </View>
-          {/* ) : null} */}
         </View>
 
         {/* Detail Section */}
@@ -123,23 +119,23 @@ const JourneyDetail = props => {
             <View style={styles.viewLeft}>
               <Text style={styles.textYellow}>
                 {item.Details &&
-                item.Details.length > 0 &&
-                item.Details[0].ServiceProvider
+                  item.Details.length > 0 &&
+                  item.Details[0].ServiceProvider
                   ? item.Details[0].ServiceProvider
                   : ''}{' '}
                 (
                 {item.Details &&
-                item.Details.length > 0 &&
-                item.Details[0].Flight
+                  item.Details.length > 0 &&
+                  item.Details[0].Flight
                   ? item.Details[0].Flight
                   : ''}
                 )
               </Text>
-              {/* <Text style={[styles.textBlack]}>{getDateInFormat(response.StartDate, false, true)}</Text> */}
+
               <Text style={[styles.textBlack]}>
                 {item.Details &&
-                item.Details.length > 0 &&
-                item.Details[0].StartDate
+                  item.Details.length > 0 &&
+                  item.Details[0].StartDate
                   ? getDateInFormat(item.Details[0].StartDate, false, true)
                   : ''}
               </Text>
@@ -156,7 +152,7 @@ const JourneyDetail = props => {
           </View>
           <View style={styles.viewSingleLine} />
 
-          {/* View Departs and Arrive */}
+
           <View style={styles.viewDepartsAndArrive}></View>
           <View style={styles.viewItinerary}>
             <View style={styles.viewLocation}>
@@ -164,23 +160,22 @@ const JourneyDetail = props => {
 
               <Text style={styles.textBlack}>
                 {item.Details &&
-                item.Details.length > 0 &&
-                item.Details[0].Origin
+                  item.Details.length > 0 &&
+                  item.Details[0].Origin
                   ? item.Details[0].Origin
                   : ''}
               </Text>
-              {/* <Text style={styles.textBlack}>{getTimeInFormat(response.StartDate)}</Text> */}
               <Text style={styles.textBlack}>
                 {item.Details &&
-                item.Details.length > 0 &&
-                item.Details[0].StartDate
+                  item.Details.length > 0 &&
+                  item.Details[0].StartDate
                   ? getTimeInFormat(item.Details[0].StartDate, false, true)
                   : ''}
               </Text>
             </View>
 
-            <View style={{width: '66%', flexDirection: 'row'}}>
-              <View style={[styles.viewArrow, {flex: 3}]}>
+            <View style={{ width: '66%', flexDirection: 'row' }}>
+              <View style={[styles.viewArrow, { flex: 3 }]}>
                 <Image
                   resizeMode={'contain'}
                   source={imageConstant.IMAGE_ARROW_RIGHT}
@@ -193,168 +188,54 @@ const JourneyDetail = props => {
 
                 <Text style={styles.textBlack}>
                   {item.Details &&
-                  item.Details.length > 0 &&
-                  item.Details[0].Destination
+                    item.Details.length > 0 &&
+                    item.Details[0].Destination
                     ? item.Details[0].Destination
                     : ''}
                 </Text>
                 <Text style={styles.textBlack}>
                   {item.Details &&
-                  item.Details.length > 0 &&
-                  item.Details[0].EndDate
+                    item.Details.length > 0 &&
+                    item.Details[0].EndDate
                     ? getTimeInFormat(item.Details[0].EndDate, false, true)
                     : ''}
                 </Text>
-
-                {/* <Text style={styles.textBlack}>{getTimeInFormat(response.StartDate)}</Text> */}
               </View>
             </View>
           </View>
 
-          <View style={styles.ViewGreenBottom}>
-            <Text style={[styles.textWhite, {padding: '2%'}]}>
+          <View style={item.Type === appConstant.CHARTER_FLIGHT? styles.ViewGreenBottom: styles.ViewBlueBottom}>
+            <Text style={[styles.textWhite, { padding: '2%' }]}>
               Total Time: 10m
             </Text>
           </View>
         </View>
+
+        {index === responseDetail.journeyDetail.Itinerarys.length - 1?
+          null :
+          <View style={styles.viewDashedLine}>
+            <View style={styles.viewDotted} />
+          </View>}
       </View>
     );
   };
 
-  const blueButtonView1 = (item, iconImage, index) => {
-    return (
-      <View style={styles.viewRowOutSide}>
-        {/* Side bus view  */}
-        {/* Side bus view  */}
-        <View style={styles.viewLeftLine}>
-          <View style={styles.viewCircleBlue}>
-            <View style={styles.viewPlaneImg}>
-              <Image
-                source={iconImage}
-                style={styles.imageSideColomn}
-                resizeMode={'contain'}
-              />
-            </View>
-          </View>
-          {/* Single vertical Dashed Line*/}
-          {iconImage === imageConstant.BED ? null : (
-            <View style={styles.viewDashedLine}>
-              <View style={styles.viewDotted} />
-            </View>
-          )}
-        </View>
 
-        {/* Detail Section */}
-        <View style={[styles.viewOutSide]}>
-          <View style={styles.viewRowTop}>
-            <View style={styles.viewLeft}>
-              <Text style={styles.textYellow}>
-                {/* { Array.isArray(response.Itinerarys) && response.Itinerarys.length>0 && response.Itinerarys[0].Details && response.Itinerarys[0].Details.length>0 ? response.Itinerarys[0].Details[0].ServiceProvider: ""} */}
-                Trobexis coaches
-              </Text>
-              {/* <Text style={[styles.textBlack]}>{getDateInFormat(response.StartDate, false, true)}</Text> */}
-              <Text style={[styles.textBlack]}>Tuesday, July 20,2021</Text>
-            </View>
 
-            <Pressable
-              style={styles.buttonTextRed}
-              onPress={() => {
-                setIsAlertShow(true);
-              }}>
-              <Text style={styles.textNoShow}>No</Text>
-              <Text style={styles.textNoShow}>Show</Text>
-            </Pressable>
-          </View>
-          <View style={styles.viewSingleLine} />
-
-          {/* View Departs and Arrive */}
-          <View style={styles.viewDepartsAndArrive}></View>
-          <View style={styles.viewItinerary}>
-            <View style={styles.viewLocation}>
-              <Text style={styles.textBlueBig}>Departs</Text>
-
-              <Text style={styles.textBlack}>
-                Butler park
-                {/* {response.MyRoute && Array.isArray(response.MyRoute) &&  response.MyRoute.length>0 ?response.MyRoute[0].Departure:""} */}
-              </Text>
-              {/* <Text style={styles.textBlack}>{getTimeInFormat(response.StartDate)}</Text> */}
-              <Text style={styles.textBlack}>12:10pm</Text>
-            </View>
-
-            <View style={{width: '66%', flexDirection: 'row'}}>
-              <View style={[styles.viewArrow, {flex: 3}]}>
-                <Image
-                  resizeMode={'contain'}
-                  source={imageConstant.IMAGE_ARROW_RIGHT}
-                  style={stylesCommon.image}
-                />
-              </View>
-
-              <View style={styles.viewRightLocation}>
-                <Text style={styles.textBlueBig}>Arrives</Text>
-
-                <Text style={styles.textBlack}>
-                  Barrow island
-                  {/* {response.MyRoute && Array.isArray(response.MyRoute) &&  response.MyRoute.length>0 ?response.MyRoute[0].Destination:""} */}
-                </Text>
-                <Text style={styles.textBlack}>12:10pm</Text>
-
-                {/* <Text style={styles.textBlack}>{getTimeInFormat(response.StartDate)}</Text> */}
-              </View>
-            </View>
-          </View>
-
-          <View style={styles.ViewBlueBottom}>
-            <Text style={[styles.textWhite, {padding: '2%'}]}>
-              Total Time: 10m
-            </Text>
-          </View>
-        </View>
-      </View>
-    );
-  };
-
-  const checkResponseCode = useCallback(() => {
-    if (isApiCall) {
-      setIsApiCall(false);
-      console.log(' responseDetail -in joureny detail--->', responseDetail);
-      if (
-        responseDetail.error &&
-        Object.keys(responseDetail.error).length !== 0
-      ) {
-        console.log(' errr', responseDetail);
-        NotifyMessage(responseDetail.error);
-        return;
+  const getDataFromResponse = (responseDetail, type) => {
+    if (responseDetail && responseDetail[type]) {
+      if (type === 'StartDate') {
+        return getDateInFormat(responseDetail[type], true, false);
+      } else {
+        return responseDetail[type];
       }
-      if (responseDetail && responseDetail.journeyDetail) {
-        responseDetail.journeyDetail.GivenName
-          ? seTtravellerName(responseDetail.journeyDetail.GivenName)
-          : null;
-        responseDetail.journeyDetail.Title
-          ? setBusBooking(responseDetail.journeyDetail.Title)
-          : null;
-        responseDetail.journeyDetail.StartDate
-          ? setTravellerDetailDate(
-              getDateInFormat(
-                responseDetail.journeyDetail.StartDate,
-                true,
-                false,
-              ),
-            )
-          : null;
-        responseDetail.journeyDetail.TravelRequestId
-          ? setTvr(responseDetail.journeyDetail.TravelRequestId)
-          : null;
-        responseDetail.journeyDetail.Itinerarys
-          ? setArrayRoutes(responseDetail.journeyDetail.Itinerarys)
-          : null;
-      }
+    } else {
+      return 'N/A';
     }
-  });
+  };
 
   return (
     <>
-      {checkResponseCode()}
       <View style={stylesHome.container}>
         <HeaderCustom
           title={'Travel Itinerary'}
@@ -363,8 +244,10 @@ const JourneyDetail = props => {
           onClickLeftIcon={() => moveBack()}
           rightIcon={false}
           centerTitle={true}
-          onClickRightIcon={() => {}}
+          onClickRightIcon={() => { }}
           rightIconImage={''}
+          viewProps={props}
+
         />
         <ScrollView contentContainerStyle={styles.scrollView}>
           <View style={styles.viewSection}>
@@ -372,10 +255,31 @@ const JourneyDetail = props => {
             <Text style={styles.textBlackTitle}>Traveller Details</Text>
             <View style={styles.viewInside2}>
               <View style={styles.viewContainRow}>
-                {returnRowView('Name: ', travellerName)}
-                {returnRowView('Bus Booking: ', busBooking)}
-                {returnRowView('Date: ', travellerDetailDate)}
-                {returnRowView('TVR: ', tvr)}
+                {returnRowView(
+                  'Name: ',
+                  getDataFromResponse(
+                    responseDetail.journeyDetail,
+                    'GivenName',
+                  ),
+                )}
+                {returnRowView(
+                  'Bus Booking: ',
+                  getDataFromResponse(responseDetail.journeyDetail, 'Title'),
+                )}
+                {returnRowView(
+                  'Date: ',
+                  getDataFromResponse(
+                    responseDetail.journeyDetail,
+                    'StartDate',
+                  ),
+                )}
+                {returnRowView(
+                  'TVR: ',
+                  getDataFromResponse(
+                    responseDetail.journeyDetail,
+                    'TravelRequestId',
+                  ),
+                )}
               </View>
             </View>
 
@@ -383,12 +287,18 @@ const JourneyDetail = props => {
             <View style={styles.viewItineraryList} />
             <Text style={styles.textBlackTitle}>Itinerary Details</Text>
 
-            {arrayRoutes && arrayRoutes.length > 0
-              ? arrayRoutes.map(function (item, index) {
-                  console.log('test*********', item.Type, index);
+            {responseDetail &&
+              responseDetail.journeyDetail &&
+              responseDetail.journeyDetail.Itinerarys &&
+              responseDetail.journeyDetail.Itinerarys.length > 0
+              ? responseDetail.journeyDetail.Itinerarys.map(function (
+                item,
+                index,
+              ) {
+        
 
-                  return itemViews(item, imageConstant.IMAGE_PLANE, index);
-                })
+                return itemViews(item, imageConstant.IMAGE_PLANE, index);
+              })
               : null}
             {/* {greenButtonView(imageConstant.IMAGE_PLANE)}
             {greenButtonView(imageConstant.IMAGE_PLANE_HORIZONTAL)}

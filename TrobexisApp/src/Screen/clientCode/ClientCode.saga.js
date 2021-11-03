@@ -8,10 +8,6 @@ import {isError} from '../../common';
 export function* workerGetApiBase(argumentData) {
   try {
     const apiBaseResponse = yield call(getApiBase,argumentData.payload.param);
-    console.log(
-      '  workerGetapiBaseResponse in saga -======>>>>>>',
-      apiBaseResponse,
-    );
 
     if (isError(apiBaseResponse)) {
       yield put({
@@ -76,11 +72,8 @@ export function* workerGetAccountUrl (argumentData, apiBase, clientToken) {
   try{
 
     const responseAccountUrl = yield call(getAccountURL,argumentData, apiBase, clientToken); 
-    console.log("Final Response 1111 : ",responseAccountUrl)
 
     if (isError(responseAccountUrl)) {
-      console.log("86 isError ", isError()); 
-
       yield put({
         type: actionConstant.ACTION_GET_ACCOUNT_URL_FAILURE,
         payload: responseAccountUrl.message

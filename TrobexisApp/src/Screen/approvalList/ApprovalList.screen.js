@@ -31,8 +31,8 @@ const ApprovalList = props => {
     });
   };
 
-  const onClickDecline = () => {
-    props.navigation.navigate(appConstant.REASON);
+  const onClickDecline = (item) => {
+    props.navigation.navigate(appConstant.REASON, {approvalItem: item});
   };
 
   const moveToDetailView = (id) => {
@@ -91,7 +91,7 @@ const ApprovalList = props => {
                 </Pressable>
               </View>
               <View style={styles.buttonRed}>
-                <Pressable onPress={() => onClickDecline()}>
+                <Pressable onPress={() => onClickDecline(item)}>
                   <Text style={styles.textButtonTitle}>Decline</Text>
                 </Pressable>
               </View>
@@ -108,6 +108,7 @@ const ApprovalList = props => {
 
   return (
     <>
+    {console.log(" approval list ---", approvalList)}
       <View style={stylesHome.container}>
         <HeaderCustom
           title={'Approvals'}
@@ -118,6 +119,8 @@ const ApprovalList = props => {
           centerTitle={true}
           onClickRightIcon={() => {}}
           rightIconImage={''}
+          viewProps={props}
+
         />
         <View style={styles.viewSegmentControl}>
           <SegmentedControl
@@ -132,20 +135,7 @@ const ApprovalList = props => {
             style={styles.segmentControl}
             fontStyle={styles.segmentText}
           />
-          {/* <SegmentedControlTab
-            tabsContainerStyle={styles.tabsContainerStyle}
-            tabStyle={styles.tabStyle}
-            firstTabStyle={styles.firstTabStyle}
-            lastTabStyle={styles.lastTabStyle}
-            tabTextStyle={styles.tabTextStyle}
-            activeTabStyle={styles.activeTabStyle}
-            activeTabTextStyle={styles.activeTabTextStyle}
-            selectedIndex={selectedIndex}
-            allowFontScaling={false}
-            values={['Pending Approvals', 'Approved', 'Decline']}
-            onTabPress={index => setSelectedIndex(index)}
-            borderRadius={10}
-          /> */}
+         
         </View>
         <View style={styles.viewFlatList}>
           <FlatList

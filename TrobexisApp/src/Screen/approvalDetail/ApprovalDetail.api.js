@@ -8,9 +8,6 @@ export const acceptApprovalApi = (argumentData) => {
     let deviceId = argumentData.data.user.deviceId;
     let apiBaseUrl = argumentData.data.user.apiBaseUrl
     let clientToken = argumentData.data.user.clientToken; 
-
-    console.log(" argument data  : ", argumentData); 
-
     let instance = axios.create({
       baseURL: apiBaseUrl,
       timeout: 30000,
@@ -24,7 +21,6 @@ export const acceptApprovalApi = (argumentData) => {
   
     let urlString = apiConstant.APPROVAL_ACCEPT_API;
    // urlString =  urlString.replace(':approvalId', approvalId);  
-    console.log(" url  data  : ", urlString); 
 
     return instance
       .put(urlString,{'approverId':approvalId})
@@ -34,7 +30,6 @@ export const acceptApprovalApi = (argumentData) => {
           data: response,
         }).then(response => {
           let response1 = response.data.data; 
-          console.log(" response : ", response1)
 
           return response1
         }),
@@ -49,8 +44,6 @@ export const acceptApprovalApi = (argumentData) => {
 
 
   export const getApprovalDetail = (argumentData) => {
-
-    console.log(" argument data in api : ", argumentData); 
 
     let approvalId = argumentData.data.approvalId
       let deviceId = argumentData.data.user.deviceId;
@@ -71,7 +64,6 @@ export const acceptApprovalApi = (argumentData) => {
     
       let urlString = apiConstant.GET_APPROVAL_DETAIL;
      urlString =  urlString.replace(':approvalId', approvalId);  
-      console.log(" url  data  : ", urlString); 
   
       return instance
         .get(urlString)
@@ -80,7 +72,6 @@ export const acceptApprovalApi = (argumentData) => {
             data: response,
           }).then(response => {
             let response1 = response.data.data; 
-            console.log(" response : ", response1)
   
             return response1
           }),

@@ -13,7 +13,7 @@ export default{
     TEXT_H2_5_SIZE_BOLD:hp("2.5%"), //17+
 
     TEXT_H3_SIZE_BOLD:hp("2.25%"), //17
-    TEXT_15_SIZE_BOLD:hp('2.1%'),  //14
+    TEXT_15_SIZE_BOLD:hp('2.1%'),  //15
 
     TEXT_14_SIZE_BOLD:hp('2%'),  //14
 

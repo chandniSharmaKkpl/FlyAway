@@ -7,7 +7,6 @@ const getAccessToken = async () => {
   let token;
   if (temp) {
     token = temp;
-    console.log(' data get toekn===', token);
     return token;
   } else {
   }
@@ -15,7 +14,6 @@ const getAccessToken = async () => {
 };
 
 const setAccessToken = async data => {
-  console.log(" save token ", data )
   await AsyncStorage.setItem(appConstant.ACCESS_TOKEN, data)
     .then(() => {
       return true;
@@ -79,17 +77,12 @@ const getUser = async () => {
 
 export  const getUser1 = () => {
   const user = getUser();
-  console.log(' data get toekn===', user);
-
   Promise.resolve(user).then(response => {
-    console.log(' data get toekn123345===', response);
-
     return response;
   });
 }
 
 const setUser = async data => {
-  console.log(" save token ", data )
   await AsyncStorage.setItem(appConstant.USER, JSON.stringify(data))
     .then(() => {
       return true;

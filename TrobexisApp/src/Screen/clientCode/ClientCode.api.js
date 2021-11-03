@@ -51,8 +51,6 @@ export const getApiBase = argumentData => {
 };
 
 export const getClientTokenBasedOnApiBase = (argumentData, apiBaseUrl) => {
-
-  console.log(" argume da", argumentData); 
   
     let platform = argumentData.platform;
     let deviceId = argumentData.deviceId;
@@ -95,8 +93,6 @@ export const getClientTokenBasedOnApiBase = (argumentData, apiBaseUrl) => {
   };
 
   export const getAccountURL = (argumentData, apiBaseUrl, clientToken) => {
-
-     console.log(" req to getAccountURL e ", apiBaseUrl, clientToken ); 
   
     let platform = argumentData.platform;
     let deviceId = argumentData.deviceId;
@@ -130,8 +126,6 @@ export const getClientTokenBasedOnApiBase = (argumentData, apiBaseUrl) => {
   };
 
   export const getAccessTokenBaseOnClientToken = (argumentData, apiBaseUrl, clientToken) => {
-
-    console.log(" req to getAccountURL e ", apiBaseUrl, clientToken ); 
  
    let platform = argumentData.platform;
    let deviceId = argumentData.deviceId;
@@ -155,7 +149,6 @@ export const getClientTokenBasedOnApiBase = (argumentData, apiBaseUrl) => {
          data: response,
          //status: response.status
        }).then(response => {
-           console.log(" response to ACCunt url ====  ", response); 
          return response.data.data;
        }),
      ).catch((err) =>{

@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Image} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
+import {View, Image, Text, Platform} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -15,6 +14,7 @@ import BookingSummary from '../Screen/bookingSummary/BookingSummary.screen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import appConstant from '../constant/appConstant';
 import appColor from '../constant/colorConstant';
+import fontConstant from '../constant/fontConstant';
 import imageConstant from '../constant/imageConstant';
 import {
   widthPercentageToDP as wp,
@@ -27,7 +27,7 @@ import AuthContext from '../context/AuthContext';
 import ClientCodeScreen from '../Screen/clientCode/ClientCode.screen';
 import ApprovalListScreen from '../Screen/approvalList/ApprovalList.screen';
 import localDb from '../database/localDb';
-import ReasonScreen from '../Screen/approvalList/reasonForDecline/Reason.screen';
+import ReasonScreen from '../Screen/declineReasons/declineReason.screen';
 import JourneyList from '../Screen/Jorneys/Journeys.screen';
 import ApprovalDetail from '../Screen/approvalDetail/ApprovalDetail.screen';
 import JourneyDetail from '../Screen/JourneyDetail/JourneyDetail.screen';
@@ -178,7 +178,7 @@ function TabNavigator() {
         inactiveTintColor: appColor.NAVY_BLUE,
         activeBackgroundColor: appColor.NAVY_BLUE,
         inactiveBackgroundColor: appColor.NAVY_BLUE,
-        showLabel: DeviceInfo.isTablet() ? false : true,
+        showLabel: false,
         style: styles.tabBar,
       }}
       sceneAnimationEnabled={false}
@@ -189,7 +189,8 @@ function TabNavigator() {
       <TabObject.Screen
         name={appConstant.HOME_SCREEN}
         options={{
-          tabBarIcon: ({tintColor}) => (
+          tabBarIcon: ({tintColor, focused}) => (
+            <>
             <View style={styles.viewImage}>
               <Image
                 source={imageConstant.IMAGE_HOME_WHITE}
@@ -197,6 +198,8 @@ function TabNavigator() {
                 style={styles.image}
               />
             </View>
+            <Text style={styles.tabBarLabel}>{focused? appConstant.HOME_SCREEN: ""}</Text>
+            </>
           ),
         }}
         component={HomeStack}
@@ -205,7 +208,8 @@ function TabNavigator() {
         name={appConstant.BUS_BOOKING}
         component={BusBookingStack}
         options={{
-          tabBarIcon: ({tintColor}) => (
+          tabBarIcon: ({tintColor, focused}) => (
+            <>
             <View style={styles.viewImage}>
               <Image
                 source={imageConstant.IMAGE_BUS_WHITE}
@@ -213,6 +217,8 @@ function TabNavigator() {
                 style={styles.image}
               />
             </View>
+            <Text style={styles.tabBarLabel}>{focused? appConstant.BUS_BOOKING: ""}</Text>
+            </>
           ),
         }}
       />
@@ -220,7 +226,8 @@ function TabNavigator() {
         name={appConstant.HISTORY}
         component={HistoryScreen}
         options={{
-          tabBarIcon: ({tintColor}) => (
+          tabBarIcon: ({tintColor, focused}) => (
+            <>
             <View style={styles.viewImage}>
               <Image
                 source={imageConstant.IMAGE_CLOCK_WHITE}
@@ -228,6 +235,8 @@ function TabNavigator() {
                 style={styles.image}
               />
             </View>
+            <Text style={styles.tabBarLabel}>{focused? appConstant.HISTORY: ""}</Text>
+            </>
           ),
         }}
       />
@@ -238,14 +247,14 @@ function TabNavigator() {
 function NavigationSetup() {
   const [currentUser,setCurrentUser] = useState(null);
   // When Dashboard page will update for api this will also update 
-  // useEffect(() => {
-  //   const temp = AsyncStorage.getItem(appConstant.USER);
-  //   if (temp) {
-  //     setCurrentUser(temp);
-  //   } else {
-  //     setCurrentUser(null);
-  //   }
-  // }, []);
+  useEffect(() => {
+    const temp = AsyncStorage.getItem(appConstant.USER);
+    if (temp) {
+      setCurrentUser(temp);
+    } else {
+      setCurrentUser(null);
+    }
+  }, []);
 
   return (
     <Stack.Navigator
@@ -277,16 +286,22 @@ function NavigationSetup() {
 export default NavigationSetup;
 
 const styles = {
+  tabBarLabel:{
+    fontFamily: fontConstant.BARLOW_REGULAR,
+    fontSize: fontConstant.TEXT_H2_SIZE_REGULAR,
+    color: appColor.WHITE,
+   // backgroundColor:'pink'
+  },
   image: {
     width: '100%',
     height: '100%',
   },
   viewImage: {
     width: wp('6%'),
-    height: hp('5%'),
-    marginTop: hp('1%'),
-    // backgroundColor:'red',
-    justifyContent: 'flex-end',
+    height: hp('4.5%'),
+    marginTop: Platform.OS === 'android'? hp('0.5%'): hp('1%'),
+  //  backgroundColor:'red',
+   // justifyContent: 'flex-end',
   },
   tabBar: {
     height: DeviceInfo.isTablet() ? hp('8%') : hp('10%'),

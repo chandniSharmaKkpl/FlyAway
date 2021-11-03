@@ -1,7 +1,7 @@
 import {takeLatest, take, call, put, select, all} from 'redux-saga/effects';
 import {actionConstant, apiConstant, appConstant} from '../../constant';
 import {successToGetAccessToken, failToGetAccessToken} from './Home.action';
-import {acceptApprovalApi} from './ApprovalList.api';
+import {acceptApprovalApi, declineApprovalApi} from './ApprovalList.api';
 import {isError} from '../../common';
 
 export function* workerAcceptApproval(argumentData ) {
@@ -38,25 +38,25 @@ export function* workerAcceptApproval(argumentData ) {
     try {
      console.log( 'Sagag arge', argumentData,' dec list  in saga -======>>>>>>' );
           
-      const declineResponse = yield call(acceptApprovalApi,argumentData.payload);
+      const declineResponse = yield call(declineApprovalApi,argumentData.payload);
      
       if (isError(declineResponse)) {
         yield put({
-          type: actionConstant.ACTION_ACCEPT_APPROVAL_FAILURE,
+          type: actionConstant.ACTION_DECLINE_APPROVAL_FAILURE,
           payload: declineResponse.message
         })
         return; 
       }
   
       yield put({
-        type: actionConstant.ACTION_ACCEPT_APPROVAL_SUCCESS,
+        type: actionConstant.ACTION_DECLINE_APPROVAL_SUCCESS,
         payload: declineResponse,
       });
   
       
     } catch (error) {
       yield put({
-        type: actionConstant.ACTION_ACCEPT_APPROVAL_FAILURE,
+        type: actionConstant.ACTION_DECLINE_APPROVAL_FAILURE,
         payload: error,
       });
     }

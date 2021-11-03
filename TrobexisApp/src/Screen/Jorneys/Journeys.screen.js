@@ -104,6 +104,8 @@ const JourneyList = props => {
           centerTitle={true}
           onClickRightIcon={() => {}}
           rightIconImage={''}
+          viewProps={props}
+
         />
 
         <View style={styles.viewFlatList}>
