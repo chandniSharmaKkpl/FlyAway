@@ -248,21 +248,35 @@ function NavigationSetup() {
   const [currentUser,setCurrentUser] = useState(null);
   // When Dashboard page will update for api this will also update 
   useEffect(() => {
-    const temp = AsyncStorage.getItem(appConstant.USER);
-    if (temp) {
-      setCurrentUser(temp);
-    } else {
-      setCurrentUser(null);
-    }
-  }, []);
+    const tempUser = localDb.getUser();
+    Promise.resolve(tempUser).then(response => {
+      if (response) {
+        setCurrentUser(response);
+      } else {
+        setCurrentUser(null);
+      }
+      
+    });
 
+   // const temp = AsyncStorage.getItem(appConstant.USER);
+   
+  }, [currentUser]);
+
+  console.log(" user is --->", currentUser); 
   return (
     <Stack.Navigator
       initialRouteName={appConstant.LOGIN}
       options={{gestureEnabled: true}}>
-      {currentUser == null || currentUser === '' ? (
-        <>
-          <Stack.Screen
+      {currentUser?(
+       
+        <Stack.Screen
+          options={{headerShown: false}}
+          name={appConstant.DRAWER_NAVIGATOR}
+          component={DrawerNavigator}
+        />
+      
+      ) : (
+        <Stack.Screen
             name={appConstant.AUTH_STACK}
             component={AuthStack}
             options={{
@@ -271,13 +285,6 @@ function NavigationSetup() {
               headerTransparent: true,
             }}
           />
-        </>
-      ) : (
-        <Stack.Screen
-          options={{headerShown: false}}
-          name={appConstant.DRAWER_NAVIGATOR}
-          component={DrawerNavigator}
-        />
       )}
     </Stack.Navigator>
   );
