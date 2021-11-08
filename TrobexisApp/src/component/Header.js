@@ -34,34 +34,35 @@ const HeaderCustom = props => {
     onClickLeftIcon,
   } = props;
 
-  useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', handleBackInHeader);
-    return function cleanup() {
-      BackHandler.removeEventListener(
-        'hardwareBackPress',
-        handleBackInHeader(),
-      );
-    };
-  }, []);
+  // useEffect(() => {
+  //   BackHandler.addEventListener('hardwareBackPress', handleBackInHeader);
+  //   return function cleanup() {
+  //     BackHandler.removeEventListener(
+  //       'hardwareBackPress',
+  //       handleBackInHeader(),
+  //     );
+  //   };
+  // }, []);
 
   const handleBackInHeader = () => {
-    console.log(' navigation---->', props);
-    if (
-      props.viewName === appConstant.HOME_SCREEN ||
-      props.viewName === appConstant.BUS_BOOKING ||
-      props.viewName === appConstant.HISTORY
-    ) {
-      countBack = countBack + 1;
-      console.log(' back count  in home ', countBack);
+    // console.log(' navigation---->', props);
+    
+    // if (
+    //   props.viewName === appConstant.HOME_SCREEN ||
+    //   props.viewName === appConstant.BUS_BOOKING ||
+    //   props.viewName === appConstant.HISTORY
+    // ) {
+    //   countBack = countBack + 1;
+    //   console.log(' back count  in home ', countBack);
 
-      if (countBack > 1) {
-        props.setAlertShowFromHeader(true);
-      }
-      return true;
-    } else {
-      props.viewProps.navigation.goBack();
-      return true;
-    }
+    //   if (countBack > 1) {
+    //     props.setAlertShowFromHeader(true);
+    //   }
+    //   return true;
+    // } else {
+    //   props.viewProps.navigation.goBack();
+    //   return true;
+    // }
   };
 
   return (

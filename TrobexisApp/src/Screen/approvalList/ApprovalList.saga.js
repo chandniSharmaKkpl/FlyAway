@@ -1,16 +1,16 @@
-import {takeLatest, take, call, put, select, all} from 'redux-saga/effects';
+import {takeLatest, take, call, put, select, all,delay} from 'redux-saga/effects';
 import {actionConstant, apiConstant, appConstant} from '../../constant';
-import {successToGetAccessToken, failToGetAccessToken} from './Home.action';
-import {acceptApprovalApi, declineApprovalApi} from './ApprovalList.api';
+import {acceptApprovalApi, declineApprovalApi, getApprovalListInList} from './ApprovalList.api';
 import {isError} from '../../common';
 
 export function* workerAcceptApproval(argumentData ) {
 
     try {
-     console.log( 'Sagag arge', argumentData,' approval list  in saga -======>>>>>>' );
           
       const approvalResponse = yield call(acceptApprovalApi,argumentData.payload);
      
+      console.log( ' 12 Sagag  approval list  in saga -======>>>>>>', approvalResponse );
+
       if (isError(approvalResponse)) {
         yield put({
           type: actionConstant.ACTION_ACCEPT_APPROVAL_FAILURE,
@@ -36,7 +36,6 @@ export function* workerAcceptApproval(argumentData ) {
   export function* workerDeclineApproval(argumentData ) {
 
     try {
-     console.log( 'Sagag arge', argumentData,' dec list  in saga -======>>>>>>' );
           
       const declineResponse = yield call(declineApprovalApi,argumentData.payload);
      
@@ -62,6 +61,37 @@ export function* workerAcceptApproval(argumentData ) {
     }
   }
 
+  export function* workerGetApprovalList(argumentData) {
+    console.log( 'Sagag arge', argumentData,' dec list  in saga -======>>>>>>' );
+
+      try {
+       
+           const itinaryList = yield call(
+            getApprovalListInList,
+            argumentData.payload,
+          );
+          if (itinaryList) {
+            yield put({
+              type: actionConstant.ACTION_GET_APPROVAL_LIST_SUCCESS,
+              payload: itinaryList,
+            });
+          }
+        
+      } catch (error) {
+        // console.log(' worker saga called error  ', error);
+        yield put({
+          type: actionConstant.ACTION_GET_APPROVAL_LIST_FAILURE,
+          payload: error,
+        });
+      }
+    }
+
+    export function* watchApprovalListInList() {
+      yield takeLatest(
+        actionConstant.ACTION_GET_APPROVAL_LIST_REQUEST,
+        workerGetApprovalList
+      );
+    }
 
 export function* watchAcceptApprovalApi () {
     yield takeLatest(

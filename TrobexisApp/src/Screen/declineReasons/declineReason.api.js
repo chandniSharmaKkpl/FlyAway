@@ -2,6 +2,8 @@ import { Platform } from 'react-native';
 import {apiConstant, appConstant} from '../../constant'
 import axios from 'axios'; 
 
+const TEMP_APPROVAR_ID = 'BM123';
+
 export const getDeclineReasonsApi = async(argumentData) => {
   console.log(" argument data  : ", argumentData); 
 
@@ -50,9 +52,6 @@ export const getDeclineReasonsApi = async(argumentData) => {
     }
 
 
-
-
-
   //let arg = {'approvalId': approvalId}
     return instance
       .get(urlString,{'approvalId': approvalId})
@@ -72,47 +71,92 @@ export const getDeclineReasonsApi = async(argumentData) => {
   };
 
    // Submit Decline with Reasons calling by reason view 
+   export const declineApprovalApi = async argumentData => {
 
-
-  // export const declineApprovalApi = (argumentData) => {
-
-  //   let approvalId = argumentData.data.approvalId
-  //     let deviceId = argumentData.data.user.deviceId;
-  //     let apiBaseUrl = argumentData.data.user.apiBaseUrl
-  //     let clientToken = argumentData.data.user.clientToken; 
+    console.log('decline argument data --> : ', argumentData);
   
-  //     console.log(" argument data  : ", argumentData); 
+    let reasonId = argumentData.reasonId;
+    // let approvalId = argumentData.approvalId
+      let deviceId = argumentData.user.deviceId;
+      let apiBaseUrl = argumentData.user.apiBaseUrl
+      let clientToken = argumentData.user.clientToken; 
+   
+    let urlString = apiBaseUrl + apiConstant.APPROVAL_DECLINE_API;
+    console.log(' url  data  : ', urlString);
+    const raw = {
+      approverId: TEMP_APPROVAR_ID? TEMP_APPROVAR_ID: 'BM123',
+      ReasonId:reasonId
+    };
   
-  //     let instance = axios.create({
-  //       baseURL: apiBaseUrl,
-  //       timeout: 30000,
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         'Authorization': `Bearer ${clientToken}`,
-  //         'DeviceId': deviceId,
-  //         'DeviceType': Platform.OS === 'android'? 'ANDROID': 'IOS'
-  //       },
-  //     });
+    let instance = axios.create({
+      baseURL: apiBaseUrl,
+      timeout: 30000,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${clientToken}`,
+        DeviceId: deviceId,
+        DeviceType: Platform.OS === 'android' ? 'ANDROID' : 'IOS',
+      },
+    });
+  
+    try {
+     
+      return instance
+      .put(urlString,raw)
+      .then(response =>
+        Promise.resolve({
+          data: response,
+        }).then(response => {
+          let response1 = response.data.data;
+          return response1;
+        }),
+      )
+      .catch(err => {
+        //console.log('88 api Erorr: ', err.response);
+        return err.response.data;
+      });
+    } catch (error) {
+      console.log('88 api Erorr: ', err.response);
+      return error.response.data;
+    }
+  };
+   export const declineApprovalApi1 = (argumentData) => {
+
+    let approvalId = argumentData.data.approvalId
+      let deviceId = argumentData.data.user.deviceId;
+      let apiBaseUrl = argumentData.data.user.apiBaseUrl
+      let clientToken = argumentData.data.user.clientToken; 
     
-  //     let urlString = apiConstant.APPROVAL_DECLINE_API;
-  //    // urlString =  urlString.replace(':approvalId', approvalId);  
-  //     console.log(" url  data  : ", urlString); 
+      let instance = axios.create({
+        baseURL: apiBaseUrl,
+        timeout: 30000,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${clientToken}`,
+          'DeviceId': deviceId,
+          'DeviceType': Platform.OS === 'android'? 'ANDROID': 'IOS'
+        },
+      });
+    
+      let urlString = apiConstant.APPROVAL_DECLINE_API;
+     // urlString =  urlString.replace(':approvalId', approvalId);  
+      console.log(" url  data  : ", urlString); 
   
-  //     return instance
-  //       .put(urlString,{'approverId':approvalId})
+      return instance
+        .put(urlString,{'approverId':approvalId})
         
-  //       .then(response =>
-  //         Promise.resolve({
-  //           data: response,
-  //         }).then(response => {
-  //           let response1 = response.data.data; 
-  //           console.log(" response : ", response1)
+        .then(response =>
+          Promise.resolve({
+            data: response,
+          }).then(response => {
+            let response1 = response.data.data; 
+            console.log(" response : ", response1)
   
-  //           return response1
-  //         }),
-  //       ).catch((err) =>{
-  //         console.log("88 api Erorr: ", err.response)
-  //         return err.response.data
-  //       })
-  //       ;
-  //   };
+            return response1
+          }),
+        ).catch((err) =>{
+          console.log("88 api Erorr: ", err.response)
+          return err.response.data
+        })
+        ;
+    };

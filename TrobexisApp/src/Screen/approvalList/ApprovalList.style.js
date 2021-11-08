@@ -19,7 +19,11 @@ export default StyleSheet.create({
   viewFlatList: {
     flex: 1,
   },
-
+  iconNumber:{
+    fontSize:20, 
+    color: appColor.NAVY_BLUE,
+    //width:'100%'
+  },
   viewSegmentControl: {
     padding: '5%',
   },
@@ -103,6 +107,7 @@ export default StyleSheet.create({
     width: wp('3%'),
     height: hp('3%'),
   },
+  
   image: {
     width: '100%',
     height: '100%',

@@ -77,10 +77,12 @@ export function* workerGetItinaryListAllJoureny(argumentData) {
 }
 
 export function* workerGetApprovalList(argumentData) {
+const dictParam = {data: argumentData.payload}
   try {
+   
        const itinaryList = yield call(
         getApprovalList,
-        argumentData.payload,
+        dictParam,
       );
       if (itinaryList) {
         yield put({

@@ -256,18 +256,14 @@ function NavigationSetup() {
         setCurrentUser(null);
       }
       
-    });
-
-   // const temp = AsyncStorage.getItem(appConstant.USER);
-   
+    });   
   }, [currentUser]);
 
-  console.log(" user is --->", currentUser); 
   return (
     <Stack.Navigator
       initialRouteName={appConstant.LOGIN}
       options={{gestureEnabled: true}}>
-      {currentUser?(
+      {/* {currentUser?(
        
         <Stack.Screen
           options={{headerShown: false}}
@@ -275,7 +271,7 @@ function NavigationSetup() {
           component={DrawerNavigator}
         />
       
-      ) : (
+      ) : ( */}
         <Stack.Screen
             name={appConstant.AUTH_STACK}
             component={AuthStack}
@@ -285,7 +281,7 @@ function NavigationSetup() {
               headerTransparent: true,
             }}
           />
-      )}
+      {/* )} */}
     </Stack.Navigator>
   );
 }

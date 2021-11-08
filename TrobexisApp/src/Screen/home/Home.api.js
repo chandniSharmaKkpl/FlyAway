@@ -4,7 +4,7 @@ import {ApiBase} from '../../api/apiBase';
 import axios from 'axios';
 
 const USER_ID_TEMP = "BM123";
-const USER_ID_JOURNEY = "TestUser.Three";
+const USER_ID_JOURNEY = "BM123";
 
 
 export const getUserProfile = argumentData => {
@@ -125,11 +125,11 @@ export const getItinaryListAllJourney = argumentData => {
 };
 
 export const getApprovalList = argumentData => {
-  //console.log('getUserProfile argument data in api : ', argumentData);
+console.log('get approval list  argument data in api : ', argumentData);
 
-  let deviceId = argumentData.user.deviceId;
-  let apiBaseUrl = argumentData.user.apiBaseUrl;
-  let clientToken = argumentData.user.clientToken;
+  let deviceId = argumentData.data.user.deviceId;
+  let apiBaseUrl = argumentData.data.user.apiBaseUrl;
+  let clientToken = argumentData.data.user.clientToken;
 
   let instance = axios.create({
     baseURL: apiBaseUrl,
@@ -153,8 +153,6 @@ export const getApprovalList = argumentData => {
         data: response,
       }).then(response => {
         let response1 = response.data.data;
-        //console.log(' response : ', response1);
-
         return response1;
       }),
     )

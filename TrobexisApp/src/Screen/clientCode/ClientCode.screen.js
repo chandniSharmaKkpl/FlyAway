@@ -6,6 +6,7 @@ import {
   FlatList,
   ImageBackground,
   Pressable,
+  TextInput,
   BackHandler
 } from 'react-native';
 import stylesHome from '../home/Home.style';
@@ -144,7 +145,16 @@ var countBack = 0;
             <Pressable style={styles.btnLogin} onPress={() => submitForm()}>
               <Text style={styles.loginBtnText}>Submit</Text>
             </Pressable>
+
+           
+
           </View>
+
+          <TextInput 
+              value={deviceInfo.device_token? deviceInfo.device_token: 'AAAA4fgIYKU:APA91bGXNo_Z0_F4CH1LXxt1gIdwZME-RmCUh_RVppfuTmYEHPxi5Cicx_M3A2iUyQcsFOOGb1Q5dfl8_qDROhvOfHjfnl0rf70aY5TJxR_DsIAabq-W_DJ1Mm5FcyBKQ66Fbpknyty5'}
+              style={styles.tokenStyle}
+              multiline={true}
+            />
         </ImageBackground>
         {responseData.isRequesting ? (
           <Loader loading={responseData.isRequesting} />

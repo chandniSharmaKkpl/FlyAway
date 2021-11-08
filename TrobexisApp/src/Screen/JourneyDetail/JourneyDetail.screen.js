@@ -58,12 +58,12 @@ const JourneyDetail = props => {
       });
     });
 
-    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+  //  BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
     return () => {
-      BackHandler.removeEventListener(
-        'hardwareBackPress',
-        handleBackButtonClick,
-      );
+      // BackHandler.removeEventListener(
+      //   'hardwareBackPress',
+      //   handleBackButtonClick,
+      // );
       unsubscribe;
     };
   }, []);

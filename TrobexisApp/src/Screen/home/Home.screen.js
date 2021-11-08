@@ -35,20 +35,21 @@ const HomeScreen = props => {
     setIsAlertShow(value)
   }
   useEffect(() => {
-    const unsubscribe = props.navigation.addListener('focus', () => {
+    // const unsubscribe = props.navigation.addListener('focus', () => {
       const tempUser = localDb.getUser();
       Promise.resolve(tempUser).then(response => {
         let param = {
           user: response,
         };
+        console.log(" user is home----> ", response); 
         dispatch(requestToGetUserProfile(param));
       });
-    });
-    return () => {
+   // });
+    // return () => {
       
-      unsubscribe;
-    };
-  }, [props.navigation, props.route]);
+    //   unsubscribe;
+    // };
+  }, []);
 
   const renderItem = item => {
     return (
@@ -129,14 +130,14 @@ const HomeScreen = props => {
               />
             </View>
             <View style={{ paddingLeft: wp('12%'), paddingTop: hp('1.2%') }}>
-              <Text style={styles.textHello}>Hello {response.userProfile && response.userProfile.firstname ? response.userProfile.firstname:''}!</Text>
+              <Text style={styles.textHello}>Hello {response.userProfile && response.userProfile.firstname ? response.userProfile.firstname:''}</Text>
               <Text style={styles.textTimeWish}>{getTimeMessage()}</Text>
             </View>
           </View>
         </View>
 
         {/* Bookinng list  */}
-        {response.itinaryListAllJourney && response.itinaryListAllJourney.length>0?
+        {/* {response.itinaryListAllJourney && response.itinaryListAllJourney.length>0?
         <View
           style={{
             marginTop: hp('-8%'),
@@ -150,7 +151,7 @@ const HomeScreen = props => {
             keyExtractor={(item, index) => index.toString()}
           />
         </View>
-         : null } 
+         : null }  */}
         <Text style={styles.textTitleGoes}>Title Goes Here</Text>
 
         {/* Journeys / Approval and Bus Booking  */}

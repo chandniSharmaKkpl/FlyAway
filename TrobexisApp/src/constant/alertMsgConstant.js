@@ -7,7 +7,7 @@ export default {
   ITINARY_CANCEL_TITLE: 'Itinary Cancel',
   CLIENT_CODE_NOT_EMPTY: 'Client code cannot be empty',
   SURE_TO_DECLINE: 'Are you sure to decline?',
-  LOGIN_SUCCESSFUL: 'You are successfully loggedin',
+  LOGIN_SUCCESSFUL: 'You are successfully logged in',
   PLEASE_CONFIRM: 'Please Confirm?',
   DO_YOU_SURE_WANT_TO_CANCEL_JOURNEY:
     'Are you sure want to cancel this journey?',

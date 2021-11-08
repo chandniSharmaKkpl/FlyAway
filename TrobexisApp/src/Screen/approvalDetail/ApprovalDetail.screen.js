@@ -16,16 +16,20 @@ import {HeaderCustom, BookingCard, Loader, NotifyMessage} from '../../component'
 import stylesCommon from '../../common/common.style';
 import localDb from '../../database/localDb';
 import {useRoute, useNavigation} from '@react-navigation/core';
-
+import {
+  requestAcceptApproval,
+  requestDeclineApproval,
+} from '../approvalList/ApprovalList.action';
 import {appColor, appConstant, imageConstant} from '../../constant';
-
 import {requestToGetApprovalDetail} from './ApprovalDetail.action';
 import {getDateInFormat} from '../../common';
+import notifyMessage from '../../component/NotifyMessage';
 
 const ApprovalDetail = props => {
   const route = useRoute();
   const dispatch = useDispatch();
   const responseDetail = useSelector(state => state.ApprovalDetailReducer);
+  const responseApprovalData = useSelector(state => state.ApprovalListReducer);
   const [isApiCall, setIsApiCall] = useState(false);
  
   const handleBackButtonClick = () => {
@@ -47,12 +51,12 @@ const ApprovalDetail = props => {
       });
     });
 
-    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+   // BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
     return () => {
-      BackHandler.removeEventListener(
-        'hardwareBackPress',
-        handleBackButtonClick,
-      );
+      // BackHandler.removeEventListener(
+      //   'hardwareBackPress',
+      //   handleBackButtonClick,
+      // );
       unsubscribe;
     };
   }, []);
@@ -71,7 +75,12 @@ const ApprovalDetail = props => {
   };
 
   const onClickApprove = () => {
-    moveBack();
+    setIsApiCall(true); 
+    const tempUser = localDb.getUser();
+    Promise.resolve(tempUser).then(response => {
+      let param = {approvalId: route.params.approvalId ? route.params.approvalId : '', user: response};
+      dispatch(requestAcceptApproval(param));
+    });
   };
   const onClickDecline = () => {
     props.navigation.navigate(appConstant.REASON);
@@ -101,17 +110,38 @@ const getDataFromResponse=(responseDetail, value)=>{
 }
   const checkResponseCode = ()=> {
     if (isApiCall) {
+      setIsApiCall(false);
       if (
         responseDetail.error &&
         Object.keys(responseDetail.error).length !== 0
       ) {
-        setIsApiCall(false);
+       
         console.log(' errr', responseDetail);
         NotifyMessage(responseDetail.error);
         return;
       }
+
+      if (responseApprovalData && responseApprovalData.error && Object.keys(responseApprovalData.error).length !== 0) {
+        console.log(' errr', responseApprovalData);
+        notifyMessage(responseApprovalData.error);
+        return;
+      }
+      if (responseApprovalData && responseApprovalData.acceptResponse) {
+        // console.log("  get data",responseApprovalData ); 
+        if (responseApprovalData.acceptResponse.message) {
+  
+           //  moveBack();
+             notifyMessage(responseApprovalData.acceptResponse.message)
+          let dict = responseApprovalData.acceptResponse
+          dict.message = "",
+          responseApprovalData.acceptResponse = dict; 
+       
+        }
+      } 
+
      
     }
+
   }
 
   const findIdByValue = (data, value) => {
@@ -210,8 +240,8 @@ const getDataFromResponse=(responseDetail, value)=>{
             </View>
           </View>
         </ScrollView>
-        {responseDetail.isRequesting ? (
-          <Loader loading={responseDetail.isRequesting} />
+        {responseDetail.isRequesting || responseApprovalData.isRequesting ? (
+          <Loader loading={responseDetail.isRequesting || responseApprovalData.isRequesting} />
         ) : null}
       </View>
     </>

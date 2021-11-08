@@ -27,7 +27,7 @@ export default (state = initialState, { type, payload }) => {
             return {
               ...state,
               userProfile: payload,
-              isRequesting: false,
+              isRequesting: true,
               error: {},
             };
           }
@@ -55,7 +55,7 @@ export default (state = initialState, { type, payload }) => {
             return {
               ...state,
               itinaryList: payload,
-              isRequesting: false,
+              isRequesting: true,
               error: {},
             };
           }
@@ -82,7 +82,7 @@ export default (state = initialState, { type, payload }) => {
               return {
                 ...state,
                 itinaryListAllJourney: payload,
-                isRequesting: false,
+                isRequesting: true,
                 error: {},
               };
             }

@@ -8,7 +8,7 @@ import {
   Pressable,
   TextInput,
   Keyboard,
-  ActivityIndicator
+  ActivityIndicator,
 } from 'react-native';
 import stylesCommon from '../../common/common.style';
 import {useDispatch, useSelector} from 'react-redux';
@@ -24,11 +24,14 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {requestToGetDeclineReasons} from './declineReason.action';
-import {requestDeclineApproval} from '../approvalList/ApprovalList.action';
+import {
+  requestToGetDeclineReasons,
+  requestDeclineApproval,
+} from './declineReason.action';
 import localDb from '../../database/localDb';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useRoute, useNavigation} from '@react-navigation/core';
+import notifyMessage from '../../component/NotifyMessage';
 
 const ReasonDecline = props => {
   const dispatch = useDispatch();
@@ -38,11 +41,9 @@ const ReasonDecline = props => {
   // const responseDecline = useSelector(state => state.ApprovalListReducer);
   const route = useRoute();
 
-  const [reason, setReason] = useState(
-    'Select Reason For Decline',
-  );
+  const [reason, setReason] = useState('Select Reason For Decline');
   const [reasonId, setReasonId] = useState('');
-  
+
   const [showReasonList, setShowReasonList] = useState(false);
   const [comments, setComments] = useState('');
   const [textLimit, setTextLimit] = useState(0);
@@ -88,16 +89,32 @@ const ReasonDecline = props => {
     );
   };
 
-  const getDataFromResponse = (responseGetReasonList)=>{
- if (responseGetReasonList && responseGetReasonList.declineReason && Array.isArray(responseGetReasonList.declineReason) && responseGetReasonList.declineReason.length>0) {
-   return(responseGetReasonList.declineReason[0].reason)
- } else {
-   return "";
- }
-  }
+  const getDataFromResponse = () => {
+    if (responseGetReasonList.error && Object.keys(responseGetReasonList.error).length !== 0) {
+      console.log(' errr', responseGetReasonList);
+      NotifyMessage(responseGetReasonList.error);
+      return;
+    }
+    if (responseGetReasonList.declineSubmitRes) {
+     // console.log("  get data",responseGetReasonList ); 
+     
+      if (responseGetReasonList.declineSubmitRes.message) {
+
+        notifyMessage(responseGetReasonList.declineSubmitRes.message)
+        let dict = responseGetReasonList.declineSubmitRes
+        dict.message = "",
+        responseGetReasonList.declineSubmitRes = dict; 
+        if (responseGetReasonList.success) {
+        moveBack();
+        }
+      }
+    
+    } 
+  };
 
   return (
     <>
+      {getDataFromResponse()}
       <Pressable
         style={stylesHome.container}
         onPress={() => Keyboard.dismiss()}>
@@ -111,7 +128,6 @@ const ReasonDecline = props => {
           onClickRightIcon={() => {}}
           rightIconImage={''}
           viewProps={props}
-
         />
         <View>
           <View style={styles.viewTextInput}>
@@ -124,7 +140,7 @@ const ReasonDecline = props => {
                 <View style={styles.buttonInsideReason}>
                   <Text multiline="true" style={styles.reasonText}>
                     {/* {reason === 'Select Reason For Decline'?  getDataFromResponse(responseGetReasonList): reason} */}
-                 {reason}
+                    {reason}
                   </Text>
                   {showReasonList ? (
                     <IconAntDesing name="caretdown" style={styles.iconCaret} />
@@ -198,6 +214,9 @@ const ReasonDecline = props => {
             </View>
           ) : null}
         </View>
+        {responseGetReasonList.isRequesting ? (
+          <Loader loading={responseGetReasonList.isRequesting} />
+        ) : null}
       </Pressable>
     </>
   );
