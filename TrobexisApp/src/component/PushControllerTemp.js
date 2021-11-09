@@ -9,29 +9,19 @@ import DeviceInfo from "react-native-device-info";
 
 function PushController(props) {
   const [permissions, setPermissions] = useState({});
-  // const { user } = React.useContext(AuthContext);
-  // const { setUserData } = React.useContext(AuthContext); // for updating user data of authcontext
-
-  // Use effect for android notifications
+    // Use effect for android notifications
   useEffect(() => {
 
+    console.log(" inn effect toek n ====");
 
     PushNotification.configure({
-
-      // (optional) Called when Token is generated (iOS and Android)
+      // (optional) Called when Token is generated  Android
       onRegister: function (token) {
         let device_info = {};
         if (token) {
 
-          //console.log(" fcm toek n ====", token);
-
-          // Alert.alert("Device Token", token.token, [
-          //   {
-          //     text: "Dismiss",
-          //     onPress: null,
-          //   },
-          // ]);
-        const temp =  'AAAA4fgIYKU:APA91bGXNo_Z0_F4CH1LXxt1gIdwZME-RmCUh_RVppfuTmYEHPxi5Cicx_M3A2iUyQcsFOOGb1Q5dfl8_qDROhvOfHjfnl0rf70aY5TJxR_DsIAabq-W_DJ1Mm5FcyBKQ66Fbpknyty5';
+          console.log(" fcm toek n ====", token);
+         const temp =  '';
 
           device_info.device_token = token.token? token.token: temp;
          // console.log(" fcm toek n ====", device_info);
@@ -98,7 +88,11 @@ function PushController(props) {
   // For iOS notifications
 
   useEffect(() => {
-    if (Platform.OS === "ios") {
+    let device_info = {};
+    if (Platform.OS === 'ios') {
+
+      console.log(" useEffect ios ====");
+
       PushNotificationIOS.addEventListener("register", onRegistered);
 
       PushNotificationIOS.addEventListener(
@@ -112,10 +106,10 @@ function PushController(props) {
 
       PushNotificationIOS.requestPermissions().then(
         (data) => {
-         // console.log("PushNotificationIOS.requestPermissions", data);
+         console.log("PushNotificationIOS.requestPermissions", data);
         },
         (data) => {
-         // console.log("PushNotificationIOS.requestPermissions failed", data);
+          console.log("PushNotificationIOS.requestPermissions failed", data);
         }
       );
 
@@ -143,47 +137,43 @@ function PushController(props) {
   };
 
   const onRegistered = (deviceToken) => {
+
+    console.log(" onRegistered toek n ====");
+
+    let device_info = {};
     if (deviceToken) {
-      //   user.device_token = deviceToken;
-       console.log(
-         "deviceToken",
-         deviceToken
-       );
+      device_info.device_token = deviceToken? deviceToken: "";
+
+       console.log(  "deviceToken", deviceToken);
     }
-    // DeviceInfo.syncUniqueId().then((uniqueId) => {
-    //   user.user_detail.device_uuid = uniqueId;
-    //   console.log(
-    //     "device_uuid",
-    //     uniqueId
-    //   );
-    //   // iOS: "FCDBD8EF-62FC-4ECB-B2F5-92C9E79AC7F9"
-    //   // Android: "dd96dec43fb81c97"
-    //   // Windows: ?
-    // });
+    DeviceInfo.syncUniqueId().then((uniqueId) => {
+      device_info.device_uuid = uniqueId;
+      // iOS: "FCDBD8EF-62FC-4ECB-B2F5-92C9E79AC7F9"
+      // Android: "dd96dec43fb81c97"
+      // Windows: ?
+    });
 
     if (Platform.OS === "android") {
-      //  user.device_type = "android";
+      device_info.device_type = "android";
     } else {
-      //  user.device_type = "ios";
+      device_info.device_type = "ios";
     }
 
-    // DeviceInfo.getDeviceName().then((deviceName) => {
-    //   user.user_detail.device_name = deviceName;
-    //   console.log(
-    //     "device_name",
-    //     deviceName
-    //   );
-    //   // iOS: "Becca's iPhone 6"
-    //   // Android: ?
-    //   // Windows: ?
-    // });
+    DeviceInfo.getDeviceName().then((deviceName) => {
+      device_info.device_name = deviceName;
+      // iOS: "Becca's iPhone 6"
+      // Android: ?
+      // Windows: ?
+    });
 
-    Alert.alert("Registered For Remote Push", `Device Token: ${deviceToken}`, [
-      {
-        text: "Dismiss",
-        onPress: null,
-      },
-    ]);
+    props.getDeviceInfo(device_info);
+
+    // Alert.alert("Registered For Remote Push", `Device Token: ${deviceToken}`, [
+    //   {
+    //     text: "Dismiss",
+    //     onPress: null,
+    //   },
+    // ]);
   };
 
   const onRegistrationError = (error) => {

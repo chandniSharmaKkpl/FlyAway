@@ -7,7 +7,8 @@ import {
   ImageBackground,
   Pressable,
   TextInput,
-  BackHandler
+  BackHandler,
+  Keyboard
 } from 'react-native';
 import stylesHome from '../home/Home.style';
 import commonStyle from '../../common/common.style';
@@ -30,6 +31,8 @@ import {Platform} from 'react-native';
 import PushController from '../../component/PushControllerTemp';
 import {useNavigation} from '@react-navigation/native';
 import AuthContext from '../../context/AuthContext';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+
 
 const ClientCodeScreen = props => {
   const navigation = useNavigation();
@@ -45,6 +48,7 @@ var countBack = 0;
   // Getting device info from push controller
   const getDeviceInfo = value => {
     setDeviceInfo(value);
+    console.log(" device info=====>", value); 
   };
   const handleBackButtonClick = () => {
     countBack = countBack + 1;
@@ -114,11 +118,13 @@ var countBack = 0;
   return (
     <>
       {checkResponseCode()}
-      <View style={stylesHome.container}>
+      <Pressable style={stylesHome.container} onPress={()=> Keyboard.dismiss()}>
+       
         <ImageBackground
           source={imageConstant.IMAGE_LOGIN_BACKGROUND}
           style={commonStyle.image}
           resizeMode={'cover'}>
+ <KeyboardAwareScrollView>
           <View style={styles.logoImage}>
             <Image
               source={imageConstant.IMAGE_LOGO}
@@ -146,20 +152,20 @@ var countBack = 0;
               <Text style={styles.loginBtnText}>Submit</Text>
             </Pressable>
 
-           
-
           </View>
 
           <TextInput 
-              value={deviceInfo.device_token? deviceInfo.device_token: 'AAAA4fgIYKU:APA91bGXNo_Z0_F4CH1LXxt1gIdwZME-RmCUh_RVppfuTmYEHPxi5Cicx_M3A2iUyQcsFOOGb1Q5dfl8_qDROhvOfHjfnl0rf70aY5TJxR_DsIAabq-W_DJ1Mm5FcyBKQ66Fbpknyty5'}
+              value={deviceInfo.device_token? deviceInfo.device_token: ''}
               style={styles.tokenStyle}
               multiline={true}
             />
+            </KeyboardAwareScrollView>
         </ImageBackground>
+        
         {responseData.isRequesting ? (
           <Loader loading={responseData.isRequesting} />
         ) : null}
-      </View>
+      </Pressable>
       {isAlertShow ? (
         <AlertView
           title={alertMsgConstant.PLEASE_CONFIRM}
