@@ -6,3 +6,4 @@ export {default as Loader} from './Loader';
 export {default as LoginTextView} from './LoginTextView';
 export {default as NotifyMessage} from './NotifyMessage'; 
 export {default as AlertView} from './AlertView'; 
+export {default as backHandler} from './BackHandler'; 

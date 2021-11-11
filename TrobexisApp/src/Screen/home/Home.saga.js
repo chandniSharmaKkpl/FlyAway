@@ -21,7 +21,7 @@ export function* workerGetUserProfile(argumentData) {
       }
       yield call(workerGetItinaryList, argumentData);
       yield call (workerGetItinaryListAllJoureny, argumentData);
-      yield call (workerGetApprovalList,argumentData);
+     // yield call (workerGetApprovalList,argumentData);
     
   } catch (error) {
     // console.log(' worker saga called error  ', error);
@@ -77,12 +77,12 @@ export function* workerGetItinaryListAllJoureny(argumentData) {
 }
 
 export function* workerGetApprovalList(argumentData) {
-const dictParam = {data: argumentData.payload}
+
   try {
    
        const itinaryList = yield call(
         getApprovalList,
-        dictParam,
+        argumentData.payload,
       );
       if (itinaryList) {
         yield put({

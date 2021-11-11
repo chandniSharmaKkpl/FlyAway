@@ -12,13 +12,13 @@ import {
 } from 'react-native';
 import stylesCommon from '../../common/common.style';
 import {useDispatch, useSelector} from 'react-redux';
-import {Loader, NotifyMessage, AlertView} from '../../component';
+import {Loader, AlertView} from '../../component';
 
 import stylesHome from '../home/Home.style';
 import styles from './declineReason.style';
 import {HeaderCustom, BookingCard} from '../../component';
 import {Avatar} from 'react-native-elements';
-import {appConstant, appColor} from '../../constant';
+import {appConstant, appColor, alertMsgConstant} from '../../constant';
 import IconAntDesing from 'react-native-vector-icons/AntDesign';
 import {
   widthPercentageToDP as wp,
@@ -31,7 +31,6 @@ import {
 import localDb from '../../database/localDb';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useRoute, useNavigation} from '@react-navigation/core';
-import notifyMessage from '../../component/NotifyMessage';
 
 const ReasonDecline = props => {
   const dispatch = useDispatch();
@@ -92,7 +91,8 @@ const ReasonDecline = props => {
   const getDataFromResponse = () => {
     if (responseGetReasonList.error && Object.keys(responseGetReasonList.error).length !== 0) {
       console.log(' errr', responseGetReasonList);
-      NotifyMessage(responseGetReasonList.error);
+      toast.show(responseGetReasonList.error,{type: alertMsgConstant.TOAST_DANGER})
+
       return;
     }
     if (responseGetReasonList.declineSubmitRes) {
@@ -100,7 +100,8 @@ const ReasonDecline = props => {
      
       if (responseGetReasonList.declineSubmitRes.message) {
 
-        notifyMessage(responseGetReasonList.declineSubmitRes.message)
+        toast.show(responseGetReasonList.declineSubmitRes.message,{type: alertMsgConstant.TOAST_SUCCESS})
+
         let dict = responseGetReasonList.declineSubmitRes
         dict.message = "",
         responseGetReasonList.declineSubmitRes = dict; 
@@ -108,7 +109,6 @@ const ReasonDecline = props => {
         moveBack();
         }
       }
-    
     } 
   };
 

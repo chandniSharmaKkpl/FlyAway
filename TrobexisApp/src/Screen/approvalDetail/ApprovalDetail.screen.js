@@ -12,7 +12,7 @@ import {
 import stylesHome from '../home/Home.style';
 import {useDispatch, useSelector} from 'react-redux';
 import styles from './ApprovalDetail.style';
-import {HeaderCustom, BookingCard, Loader, NotifyMessage} from '../../component';
+import {HeaderCustom, BookingCard, Loader, backHandler} from '../../component';
 import stylesCommon from '../../common/common.style';
 import localDb from '../../database/localDb';
 import {useRoute, useNavigation} from '@react-navigation/core';
@@ -20,10 +20,9 @@ import {
   requestAcceptApproval,
   requestDeclineApproval,
 } from '../approvalList/ApprovalList.action';
-import {appColor, appConstant, imageConstant} from '../../constant';
+import {appColor, appConstant, alertMsgConstant} from '../../constant';
 import {requestToGetApprovalDetail} from './ApprovalDetail.action';
 import {getDateInFormat} from '../../common';
-import notifyMessage from '../../component/NotifyMessage';
 
 const ApprovalDetail = props => {
   const route = useRoute();
@@ -117,13 +116,15 @@ const getDataFromResponse=(responseDetail, value)=>{
       ) {
        
         console.log(' errr', responseDetail);
-        NotifyMessage(responseDetail.error);
+        toast.show(responseDetail.error,{type: alertMsgConstant.TOAST_DANGER})
+
         return;
       }
 
       if (responseApprovalData && responseApprovalData.error && Object.keys(responseApprovalData.error).length !== 0) {
         console.log(' errr', responseApprovalData);
-        notifyMessage(responseApprovalData.error);
+        toast.show(responseApprovalData.error,{type: alertMsgConstant.TOAST_DANGER})
+
         return;
       }
       if (responseApprovalData && responseApprovalData.acceptResponse) {
@@ -131,17 +132,13 @@ const getDataFromResponse=(responseDetail, value)=>{
         if (responseApprovalData.acceptResponse.message) {
   
            //  moveBack();
-             notifyMessage(responseApprovalData.acceptResponse.message)
+          toast.show(responseApprovalData.error,{type: alertMsgConstant.TOAST_SUCCESS})
           let dict = responseApprovalData.acceptResponse
           dict.message = "",
           responseApprovalData.acceptResponse = dict; 
-       
         }
       } 
-
-     
     }
-
   }
 
   const findIdByValue = (data, value) => {
@@ -151,7 +148,9 @@ const getDataFromResponse=(responseDetail, value)=>{
 
   return (
     <>
-     {checkResponseCode()}
+     {checkResponseCode(),
+     backHandler(moveBack)
+     }
       <View style={stylesHome.container}>
         <HeaderCustom
           title={'Approval Details'}

@@ -33,6 +33,7 @@ import HomeScreen from './src/Screen/home/Home.screen'
 import NavigationSetup from './src/route/Navigators';
 import SplashScreen from 'react-native-splash-screen';
 import AuthContext from './src/context/AuthContext';
+import Toast from "react-native-toast-notifications";
 
 
 const App = () => {
@@ -59,6 +60,8 @@ const App = () => {
       </Provider>
 
       </AuthContext.Provider>
+      <Toast ref={(ref) => global['toast'] = ref} />
+
     </SafeAreaProvider>
   );
 };

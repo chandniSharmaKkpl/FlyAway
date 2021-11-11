@@ -61,37 +61,37 @@ export function* workerAcceptApproval(argumentData ) {
     }
   }
 
-  export function* workerGetApprovalList(argumentData) {
-    console.log( 'Sagag arge', argumentData,' dec list  in saga -======>>>>>>' );
+  // export function* workerGetApprovalList(argumentData) {
+  //   console.log( 'Sagag arge', argumentData,' dec list  in saga -======>>>>>>' );
 
-      try {
+  //     try {
        
-           const itinaryList = yield call(
-            getApprovalListInList,
-            argumentData.payload,
-          );
-          if (itinaryList) {
-            yield put({
-              type: actionConstant.ACTION_GET_APPROVAL_LIST_SUCCESS,
-              payload: itinaryList,
-            });
-          }
+  //          const itinaryList = yield call(
+  //           getApprovalListInList,
+  //           argumentData.payload,
+  //         );
+  //         if (itinaryList) {
+  //           yield put({
+  //             type: actionConstant.ACTION_GET_APPROVAL_LIST_SUCCESS,
+  //             payload: itinaryList,
+  //           });
+  //         }
         
-      } catch (error) {
-        // console.log(' worker saga called error  ', error);
-        yield put({
-          type: actionConstant.ACTION_GET_APPROVAL_LIST_FAILURE,
-          payload: error,
-        });
-      }
-    }
+  //     } catch (error) {
+  //       // console.log(' worker saga called error  ', error);
+  //       yield put({
+  //         type: actionConstant.ACTION_GET_APPROVAL_LIST_FAILURE,
+  //         payload: error,
+  //       });
+  //     }
+  //   }
 
-    export function* watchApprovalListInList() {
-      yield takeLatest(
-        actionConstant.ACTION_GET_APPROVAL_LIST_REQUEST,
-        workerGetApprovalList
-      );
-    }
+  //   export function* watchApprovalListInList() {
+  //     yield takeLatest(
+  //       actionConstant.ACTION_GET_APPROVAL_LIST_REQUEST,
+  //       workerGetApprovalList
+  //     );
+  //   }
 
 export function* watchAcceptApprovalApi () {
     yield takeLatest(

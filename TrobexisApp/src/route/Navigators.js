@@ -281,7 +281,7 @@ function NavigationSetup() {
               headerTransparent: true,
             }}
           />
-      {/* )} */}
+       {/* )}  */}
     </Stack.Navigator>
   );
 }

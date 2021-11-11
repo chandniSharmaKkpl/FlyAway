@@ -47,28 +47,28 @@ export const requestDeclineApproval = (argument) => ({
       data: error,
     },
   });
-//Get Approval List 
-export const requestToGetApprovalList = (argumentData) => ({
-  type: actionConstant.ACTION_GET_APPROVAL_LIST_REQUEST,
-  payload: {
-    data: argumentData
-  },
-});
+// //Get Approval List 
+// export const requestToGetApprovalList = (argumentData) => ({
+//   type: actionConstant.ACTION_GET_APPROVAL_LIST_REQUEST,
+//   payload: {
+//     data: argumentData
+//   },
+// });
 
 
-export const successToGetApprovalList = (data) => ({
-  type: actionConstant.ACTION_GET_APPROVAL_LIST_SUCCESS,
-  payload: {
-    data: data,
-  },
-});
+// export const successToGetApprovalList = (data) => ({
+//   type: actionConstant.ACTION_GET_APPROVAL_LIST_SUCCESS,
+//   payload: {
+//     data: data,
+//   },
+// });
 
-export const failToGetApprovalList = (error) => ({
-  type: actionConstant.ACTION_GET_APPROVAL_LIST_FAILURE,
-  payload: {
-    data: error,
-  },
-});
+// export const failToGetApprovalList = (error) => ({
+//   type: actionConstant.ACTION_GET_APPROVAL_LIST_FAILURE,
+//   payload: {
+//     data: error,
+//   },
+// });
 
 
 

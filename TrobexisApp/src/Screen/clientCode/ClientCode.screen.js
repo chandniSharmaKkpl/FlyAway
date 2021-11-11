@@ -13,7 +13,7 @@ import {
 import stylesHome from '../home/Home.style';
 import commonStyle from '../../common/common.style';
 import styles from './ClientCode.style';
-import {LoginTextView, Loader, NotifyMessage, AlertView} from '../../component';
+import {LoginTextView, Loader, AlertView} from '../../component';
 import {
   appColor,
   appConstant,
@@ -37,7 +37,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 const ClientCodeScreen = props => {
   const navigation = useNavigation();
   const {setUserData} = React.useContext(AuthContext);
-  const [clientCode, setClientCode] = useState(''); //TONEAPPUAT
+  const [clientCode, setClientCode] = useState('TONEAPPUAT'); //TONEAPPUAT
   const [error, setError] = useState('');
   const dispatch = useDispatch();
   const responseData = useSelector(state => state.ClientCodeReducer);
@@ -72,6 +72,7 @@ var countBack = 0;
   },[])
 
   const submitForm = () => {
+    
     if (clientCode === '') {
       setError(alertMsgConstant.CLIENT_CODE_NOT_EMPTY);
     } else {
@@ -88,7 +89,8 @@ var countBack = 0;
   const checkResponseCode = useCallback(() => {
     if (responseData.error && Object.keys(responseData.error).length !== 0) {
       console.log(' errr', responseData);
-      NotifyMessage(responseData.error);
+      toast.show(responseData.error,{type: alertMsgConstant.TOAST_DANGER})
+
       return;
     }
     if (
@@ -108,7 +110,7 @@ var countBack = 0;
       //setUserData(user);
       console.log(' user pass ', user);
       localDB.setUser(user);
-      NotifyMessage(alertMsgConstant.LOGIN_SUCCESSFUL);
+      toast.show(alertMsgConstant.LOGIN_SUCCESSFUL,{type: alertMsgConstant.TOAST_SUCCESS})
       navigation.navigate(appConstant.DRAWER_NAVIGATOR);
     }
   }, [responseData]);

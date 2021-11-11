@@ -35,32 +35,32 @@ export default (state = initialState, { type, payload }) => {
             };
           }
          // APPROVAL LIST 
-         case actionConstant.ACTION_GET_APPROVAL_LIST_REQUEST: {
-          return {
-            ...state,
-            approvalList:payload,
-            isRequesting: true,
-            error: {},
-          };
-        }
-        case actionConstant.ACTION_GET_APPROVAL_LIST_SUCCESS: {
-          return {
-            ...state,
-            approvalList: payload,
-            isRequesting: false,
-            error: {},
-          };
-        }
-        case actionConstant.ACTION_GET_APPROVAL_LIST_FAILURE: {
-          console.log(" failed ", payload); 
+        //  case actionConstant.ACTION_GET_APPROVAL_LIST_REQUEST: {
+        //   return {
+        //     ...state,
+        //     approvalList:payload,
+        //     isRequesting: true,
+        //     error: {},
+        //   };
+        // }
+        // case actionConstant.ACTION_GET_APPROVAL_LIST_SUCCESS: {
+        //   return {
+        //     ...state,
+        //     approvalList: payload,
+        //     isRequesting: false,
+        //     error: {},
+        //   };
+        // }
+        // case actionConstant.ACTION_GET_APPROVAL_LIST_FAILURE: {
+        //   console.log(" failed ", payload); 
 
-          return {
-            ...state,
-            approvalList: payload.error,
-            isRequesting: false,
-            error: {},
-          };
-        }
+        //   return {
+        //     ...state,
+        //     approvalList: payload.error,
+        //     isRequesting: false,
+        //     error: {},
+        //   };
+        // }
     default:
         return state
     }

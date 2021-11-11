@@ -2,14 +2,14 @@ import React, {useState, useCallback, useEffect} from 'react';
 import {View, Text, Image, FlatList, Pressable} from 'react-native';
 import stylesHome from '../home/Home.style';
 import styles from './ApprovalList.style';
-import {HeaderCustom, BookingCard, Loader} from '../../component';
+import {HeaderCustom, BookingCard, Loader, backHandler} from '../../component';
 import {useSelector, useDispatch} from 'react-redux';
 import {Avatar} from 'react-native-elements';
-import {appColor, appConstant, imageConstant} from '../../constant';
+import {appColor, appConstant, imageConstant, alertMsgConstant} from '../../constant';
 import SegmentedControlTab from 'react-native-segmented-control-tab';
-import {requestToGetApprovalList} from './ApprovalList.action'; 
+import {requestToGetApprovalList} from '../home/Home.action'; 
 
-import {getDateInFormat} from '../../common';
+import {getDateInFormat, useBackButton1} from '../../common';
 import {
   requestAcceptApproval,
   requestDeclineApproval,
@@ -17,7 +17,6 @@ import {
 import AuthContext from '../../context/AuthContext';
 import localDb from '../../database/localDb';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
-import notifyMessage from '../../component/NotifyMessage';
 
 
 const ApprovalList = props => {
@@ -29,6 +28,9 @@ const ApprovalList = props => {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   useEffect(() => {
+
+   
+
     const unsubscribe = props.navigation.addListener('focus', () => {
       const tempUser = localDb.getUser();
       Promise.resolve(tempUser).then(response => {
@@ -36,14 +38,13 @@ const ApprovalList = props => {
           user: response,
         };
 
-     // dispatch(requestToGetApprovalList(param));
+     dispatch(requestToGetApprovalList(param));
       });
     });
     return () => {
       unsubscribe;
     };
   }, [props.navigation, props.route]);
-
 
   const onClickAccept = approvalId => {
     const tempUser = localDb.getUser();
@@ -130,18 +131,20 @@ const ApprovalList = props => {
     props.navigation.goBack();
   };
 
+
   const getDataFromResponse = () => {
-   
     if (responseApprovalData && responseApprovalData.error && Object.keys(responseApprovalData.error).length !== 0) {
       console.log(' errr', responseApprovalData);
-      notifyMessage(responseApprovalData.error);
+      toast.show(responseApprovalData.error,{type: alertMsgConstant.TOAST_DANGER})
+
       return;
     }
     if (responseApprovalData && responseApprovalData.acceptResponse) {
     //  console.log("  get data",responseApprovalData ); 
       if (responseApprovalData.acceptResponse.message) {
 
-        notifyMessage(responseApprovalData.acceptResponse.message)
+        toast.show(responseApprovalData.acceptResponse.message,{type: alertMsgConstant.TOAST_SUCCESS})
+
         let dict = responseApprovalData.acceptResponse
         dict.message = "",
         responseApprovalData.acceptResponse = dict; 
@@ -150,11 +153,11 @@ const ApprovalList = props => {
     } 
   }
 
- 
-
   return (
     <>
-    {getDataFromResponse()}
+    {getDataFromResponse(),
+     backHandler(moveBack)
+    }
       <View style={stylesHome.container}>
         <HeaderCustom
           title={'Approvals'}
@@ -190,8 +193,8 @@ const ApprovalList = props => {
             keyExtractor={(item, index) => index.toString()}
           />
         </View>
-        {responseApprovalData.isRequesting ? (
-          <Loader loading={responseApprovalData.isRequesting} />
+        {responseApprovalData.isRequesting || responseData.isRequesting ? (
+          <Loader loading={responseApprovalData.isRequesting || responseData.isRequesting} />
         ) : null}
       </View>
     </>

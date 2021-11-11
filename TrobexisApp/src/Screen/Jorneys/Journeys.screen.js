@@ -2,7 +2,7 @@ import React, {useState, useCallback, useEffect} from 'react';
 import {View, Text, Image, FlatList, Pressable} from 'react-native';
 import stylesHome from '../home/Home.style';
 import styles from './Journeys.style';
-import {HeaderCustom, BookingCard} from '../../component';
+import {HeaderCustom, BookingCard, backHandler} from '../../component';
 import {useSelector, useDispatch} from 'react-redux';
 import {Avatar} from 'react-native-elements';
 import {appColor, appConstant, imageConstant} from '../../constant';
@@ -94,6 +94,7 @@ const JourneyList = props => {
 
   return (
     <>
+    { backHandler(moveBack)}
       <View style={stylesHome.container}>
         <HeaderCustom
           title={'Journeys'}

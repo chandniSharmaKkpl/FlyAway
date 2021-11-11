@@ -15,7 +15,6 @@ import {
   HeaderCustom,
   BookingCard,
   AlertView,
-  NotifyMessage,
   Loader,
 } from '../../component';
 import { useSelector, useDispatch } from 'react-redux';

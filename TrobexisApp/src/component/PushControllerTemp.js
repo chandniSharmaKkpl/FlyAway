@@ -88,7 +88,7 @@ function PushController(props) {
   // For iOS notifications
 
   useEffect(() => {
-    let device_info = {};
+    
     if (Platform.OS === 'ios') {
 
       console.log(" useEffect ios ====");
@@ -191,6 +191,8 @@ function PushController(props) {
 
   const onRemoteNotification = (notification) => {
     const isClicked = notification.getData().userInteraction === 1;
+
+    alert("onRemoteNotification "); 
 
     const result = `
     Title:  ${notification.getTitle()};\n

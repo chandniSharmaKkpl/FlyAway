@@ -20,5 +20,12 @@ export default {
   OK: 'Ok',
   CONFIRMATION_NO_SHOW:"Are you sure you want to register a No-Show for this flight?",
   EXIT_CONFIRM: "Do you want to exit the application?",
-  
+
+  // Toast types 
+
+  TOAST_SUCCESS:"success",
+  TOAST_NORMAL:"normal",
+  TOAST_WARNING:"warning",
+  TOAST_DANGER:"danger",
+  TOAST_CUSTOM:"custom",
 };

@@ -16,7 +16,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import { alertMsgConstant, appColor, appConstant, imageConstant } from '../../constant';
-import { requestToGetUserProfile } from './Home.action';
+import { requestToGetApprovalList, requestToGetUserProfile } from './Home.action';
 import localDb from '../../database/localDb';
 import DeviceInfo from 'react-native-device-info';
 
@@ -35,7 +35,7 @@ const HomeScreen = props => {
     setIsAlertShow(value)
   }
   useEffect(() => {
-    // const unsubscribe = props.navigation.addListener('focus', () => {
+     const unsubscribe = props.navigation.addListener('focus', () => {
       const tempUser = localDb.getUser();
       Promise.resolve(tempUser).then(response => {
         let param = {
@@ -43,12 +43,13 @@ const HomeScreen = props => {
         };
         console.log(" user is home----> ", response); 
         dispatch(requestToGetUserProfile(param));
+        dispatch(requestToGetApprovalList(param));
       });
-   // });
-    // return () => {
+   });
+    return () => {
       
-    //   unsubscribe;
-    // };
+      unsubscribe;
+    };
   }, []);
 
   const renderItem = item => {

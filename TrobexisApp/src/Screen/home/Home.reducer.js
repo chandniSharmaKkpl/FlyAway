@@ -82,7 +82,7 @@ export default (state = initialState, { type, payload }) => {
               return {
                 ...state,
                 itinaryListAllJourney: payload,
-                isRequesting: true,
+                isRequesting: false,
                 error: {},
               };
             }
@@ -101,7 +101,7 @@ export default (state = initialState, { type, payload }) => {
                 return {
                   ...state,
                   approvalList:{},
-                  isRequesting: true,
+                  isRequesting: false,
                   error: {},
                 };
               }
