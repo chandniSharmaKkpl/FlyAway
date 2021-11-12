@@ -25,10 +25,13 @@ export default {
   REASON: 'Reason',
   JOURNEY_LIST: 'Journey List',
   APPROVAL_DETAIL: 'Approval Detail',
-  JOURNEY_DETAIL:"Journey Detail",
+  JOURNEY_DETAIL: 'Journey Detail',
+  SETTING: 'Setting',
+  SCAN: 'Scan',
+  SUPPORT: 'Support',
 
   // Word constant
   COMMENT_MAX_LIMIT: 500,
-  CHARTER_FLIGHT:'Charter Flight',
-  CAMP_ACCOMODATION:'Camp Accommodation',
+  CHARTER_FLIGHT: 'Charter Flight',
+  CAMP_ACCOMODATION: 'Camp Accommodation',
 };

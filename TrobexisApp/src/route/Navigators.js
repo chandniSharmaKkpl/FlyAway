@@ -32,7 +32,7 @@ import JourneyList from '../Screen/Jorneys/Journeys.screen';
 import ApprovalDetail from '../Screen/approvalDetail/ApprovalDetail.screen';
 import JourneyDetail from '../Screen/JourneyDetail/JourneyDetail.screen';
 import ApprovalList from '../Screen/approvalList/ApprovalList.screen';
-
+import CustomDrawer from '../route/CustomDrawer';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -43,8 +43,11 @@ function DrawerNavigator() {
     <Drawer.Navigator
       name={appConstant.DRAWER_NAVIGATOR}
       initialRouteName={appConstant.TAB}
-      // drawerContent={() => <CustomDrawer />}
+      drawerContent={() => <CustomDrawer />}
       drawerType="slide">
+      
+      <Drawer.Screen name={appConstant.HOME_SCREEN} component={HomeScreen} />
+
       <Drawer.Screen name={appConstant.TAB} component={TabNavigator} />
     </Drawer.Navigator>
   );
@@ -53,7 +56,6 @@ function DrawerNavigator() {
 const AuthStack = () => {
   return (
     <Stack.Navigator>
-      
       {/* <Stack.Screen
         options={{headerShown: false}}
         name={appConstant.APPROVALS}
@@ -95,12 +97,12 @@ const HomeStack = () => {
         name={appConstant.HOME_SCREEN}
         component={HomeScreen}
       />
-       <Stack.Screen
+      <Stack.Screen
         options={{headerShown: false}}
         name={appConstant.JOURNEY_LIST}
         component={JourneyList}
       />
-       <Stack.Screen
+      <Stack.Screen
         options={{headerShown: false}}
         name={appConstant.JOURNEY_DETAIL}
         component={JourneyDetail}
@@ -115,7 +117,7 @@ const HomeStack = () => {
         name={appConstant.APPROVALS}
         component={ApprovalListScreen}
       />
-       <Stack.Screen
+      <Stack.Screen
         options={{headerShown: false}}
         name={appConstant.APPROVAL_DETAIL}
         component={ApprovalDetail}
@@ -191,14 +193,16 @@ function TabNavigator() {
         options={{
           tabBarIcon: ({tintColor, focused}) => (
             <>
-            <View style={styles.viewImage}>
-              <Image
-                source={imageConstant.IMAGE_HOME_WHITE}
-                resizeMode={'contain'}
-                style={styles.image}
-              />
-            </View>
-            <Text style={styles.tabBarLabel}>{focused? appConstant.HOME_SCREEN: ""}</Text>
+              <View style={styles.viewImage}>
+                <Image
+                  source={imageConstant.IMAGE_HOME_WHITE}
+                  resizeMode={'contain'}
+                  style={styles.image}
+                />
+              </View>
+              <Text style={styles.tabBarLabel}>
+                {focused ? appConstant.HOME_SCREEN : ''}
+              </Text>
             </>
           ),
         }}
@@ -210,14 +214,16 @@ function TabNavigator() {
         options={{
           tabBarIcon: ({tintColor, focused}) => (
             <>
-            <View style={styles.viewImage}>
-              <Image
-                source={imageConstant.IMAGE_BUS_WHITE}
-                resizeMode={'contain'}
-                style={styles.image}
-              />
-            </View>
-            <Text style={styles.tabBarLabel}>{focused? appConstant.BUS_BOOKING: ""}</Text>
+              <View style={styles.viewImage}>
+                <Image
+                  source={imageConstant.IMAGE_BUS_WHITE}
+                  resizeMode={'contain'}
+                  style={styles.image}
+                />
+              </View>
+              <Text style={styles.tabBarLabel}>
+                {focused ? appConstant.BUS_BOOKING : ''}
+              </Text>
             </>
           ),
         }}
@@ -228,14 +234,16 @@ function TabNavigator() {
         options={{
           tabBarIcon: ({tintColor, focused}) => (
             <>
-            <View style={styles.viewImage}>
-              <Image
-                source={imageConstant.IMAGE_CLOCK_WHITE}
-                resizeMode={'contain'}
-                style={styles.image}
-              />
-            </View>
-            <Text style={styles.tabBarLabel}>{focused? appConstant.HISTORY: ""}</Text>
+              <View style={styles.viewImage}>
+                <Image
+                  source={imageConstant.IMAGE_CLOCK_WHITE}
+                  resizeMode={'contain'}
+                  style={styles.image}
+                />
+              </View>
+              <Text style={styles.tabBarLabel}>
+                {focused ? appConstant.HISTORY : ''}
+              </Text>
             </>
           ),
         }}
@@ -245,8 +253,8 @@ function TabNavigator() {
 }
 
 function NavigationSetup() {
-  const [currentUser,setCurrentUser] = useState(null);
-  // When Dashboard page will update for api this will also update 
+  const [currentUser, setCurrentUser] = useState(null);
+  // When Dashboard page will update for api this will also update
   useEffect(() => {
     const tempUser = localDb.getUser();
     Promise.resolve(tempUser).then(response => {
@@ -255,33 +263,30 @@ function NavigationSetup() {
       } else {
         setCurrentUser(null);
       }
-      
-    });   
+    });
   }, [currentUser]);
 
   return (
     <Stack.Navigator
       initialRouteName={appConstant.LOGIN}
       options={{gestureEnabled: true}}>
-      {/* {currentUser?(
-       
+      {currentUser ? (
         <Stack.Screen
           options={{headerShown: false}}
           name={appConstant.DRAWER_NAVIGATOR}
           component={DrawerNavigator}
         />
-      
-      ) : ( */}
+      ) : (
         <Stack.Screen
-            name={appConstant.AUTH_STACK}
-            component={AuthStack}
-            options={{
-              header: () => null,
-              gestureEnabled: false,
-              headerTransparent: true,
-            }}
-          />
-       {/* )}  */}
+          name={appConstant.AUTH_STACK}
+          component={AuthStack}
+          options={{
+            header: () => null,
+            gestureEnabled: false,
+            headerTransparent: true,
+          }}
+        />
+      )}
     </Stack.Navigator>
   );
 }
@@ -289,11 +294,11 @@ function NavigationSetup() {
 export default NavigationSetup;
 
 const styles = {
-  tabBarLabel:{
+  tabBarLabel: {
     fontFamily: fontConstant.BARLOW_REGULAR,
     fontSize: fontConstant.TEXT_H2_SIZE_REGULAR,
     color: appColor.WHITE,
-   // backgroundColor:'pink'
+    // backgroundColor:'pink'
   },
   image: {
     width: '100%',
@@ -302,9 +307,9 @@ const styles = {
   viewImage: {
     width: wp('6%'),
     height: hp('4.5%'),
-    marginTop: Platform.OS === 'android'? hp('0.5%'): hp('1%'),
-  //  backgroundColor:'red',
-   // justifyContent: 'flex-end',
+    marginTop: Platform.OS === 'android' ? hp('0.5%') : hp('1%'),
+    //  backgroundColor:'red',
+    // justifyContent: 'flex-end',
   },
   tabBar: {
     height: DeviceInfo.isTablet() ? hp('8%') : hp('10%'),

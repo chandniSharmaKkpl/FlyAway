@@ -117,7 +117,11 @@ const HomeScreen = props => {
           onClickRightIcon={onClickRightIcon}
           rightIconImage={''}
           viewProps={props}
-          setAlertShowFromHeader ={(value)=>setIsAlertShow(value)}
+          onClickLeftIcon={()=> {
+            console.log(" open drawer ")
+             props.navigation.toggleDrawer()}}
+          setAlertShowFromHeader ={(value)=>setIsAlertShow(value)
+          }
         />
         {/* Title view */}
         <View style={styles.viewTopBackground}>
@@ -138,7 +142,7 @@ const HomeScreen = props => {
         </View>
 
         {/* Bookinng list  */}
-        {/* {response.itinaryListAllJourney && response.itinaryListAllJourney.length>0?
+        {response.itinaryListAllJourney && response.itinaryListAllJourney.length>0?
         <View
           style={{
             marginTop: hp('-8%'),
@@ -152,7 +156,7 @@ const HomeScreen = props => {
             keyExtractor={(item, index) => index.toString()}
           />
         </View>
-         : null }  */}
+         : null } 
         <Text style={styles.textTitleGoes}>Title Goes Here</Text>
 
         {/* Journeys / Approval and Bus Booking  */}
