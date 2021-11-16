@@ -32,7 +32,10 @@ export default CustomDrawer = () => {
     return (
       <View style={styles.drawerSection}>
         <Pressable style={styles.btnDrawer}>
-
+<View style={styles.viewCircleBlue}>
+  {icon}
+</View>
+<Text style={styles.textDrawerTitle}>{title}</Text>
 		</Pressable>
 		<View style={styles.singleLine}/>
       </View>
@@ -96,16 +99,25 @@ export default CustomDrawer = () => {
 };
 
 const styles = StyleSheet.create({
+  textDrawerTitle:{
+    fontFamily: fontConstant.BARLOW_REGULAR,
+    fontSize: fontConstant.TEXT_12_SIZE_BOLD,
+    color: appColor.NAVY_BLUE,
+    paddingLeft:wp('1%')
+  },
 	singleLine:{
-  backgroundColor: appColor.GRAY_LIGHT
+  backgroundColor: appColor.GRAY_LIGHT,
+  height:hp('0.2%')
 	},
   drawerSection: {
     backgroundColor: 'pink',
+    height:'20%', 
+    marginBottom:5
   },
   viewTitle: {
     flexDirection: 'row',
     alignItems: 'center',
-    // backgroundColor: 'pink',
+    
   },
   viewImageUser: {
     width: wp('9%'),
@@ -139,7 +151,7 @@ const styles = StyleSheet.create({
     //backgroundColor: 'red',
   },
   iconDrawerMenu: {
-    fontSize: 20,
+    fontSize: 10,
     tintColor: appColor.WHITE,
   },
   viewCircleBlue: {
@@ -147,15 +159,18 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     borderRadius: 15,
+    justifyContent:'center',
+    alignItems:'center'
   },
   btnDrawer: {
     flexDirection: 'row',
+    alignItems:'center',
     //backgroundColor:appColor.RED
   },
 
   textUserName: {
-    fontFamily: fontConstant.BARLOW_reg,
-    fontSize: fontConstant.TEXT_H1_SIZE_BOLD,
+    fontFamily: fontConstant.BARLOW_BOLD,
+    fontSize: fontConstant.TEXT_H3_SIZE_BOLD,
     color: appColor.WHITE,
   },
   viewTop: {

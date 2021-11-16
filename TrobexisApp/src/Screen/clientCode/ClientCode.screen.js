@@ -37,7 +37,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 const ClientCodeScreen = props => {
   const navigation = useNavigation();
   const {setUserData} = React.useContext(AuthContext);
-  const [clientCode, setClientCode] = useState('TONEAPPUAT'); //TONEAPPUAT
+  const [clientCode, setClientCode] = useState(''); //TONEAPPUAT
   const [error, setError] = useState('');
   const dispatch = useDispatch();
   const responseData = useSelector(state => state.ClientCodeReducer);
@@ -82,6 +82,7 @@ var countBack = 0;
         DeviceType: Platform.OS === 'android' ? 'ANDROID' : 'IOS',
         DeviceId: deviceInfo.device_token,
       };
+      console.log(" param --->", param); 
       dispatch(requestToGetApiBase(param, navigation));
     }
   };
@@ -90,7 +91,6 @@ var countBack = 0;
     if (responseData.error && Object.keys(responseData.error).length !== 0) {
       console.log(' errr', responseData);
       toast.show(responseData.error,{type: alertMsgConstant.TOAST_DANGER})
-
       return;
     }
     if (

@@ -270,13 +270,13 @@ function NavigationSetup() {
     <Stack.Navigator
       initialRouteName={appConstant.LOGIN}
       options={{gestureEnabled: true}}>
-      {currentUser ? (
+      {/* {currentUser ? (
         <Stack.Screen
           options={{headerShown: false}}
           name={appConstant.DRAWER_NAVIGATOR}
           component={DrawerNavigator}
         />
-      ) : (
+      ) : ( */}
         <Stack.Screen
           name={appConstant.AUTH_STACK}
           component={AuthStack}
@@ -286,7 +286,7 @@ function NavigationSetup() {
             headerTransparent: true,
           }}
         />
-      )}
+      {/* )} */}
     </Stack.Navigator>
   );
 }

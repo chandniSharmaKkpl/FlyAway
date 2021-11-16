@@ -13,7 +13,7 @@ export default (state = initialState, {type, payload}) => {
     case actionConstant.ACTION_GET_API_BASE_REQUEST: {
       return {
         ...state,
-        apiBaseData: {},
+        apiBaseData: {payload},
         isRequesting: true,
         error: {},
       };

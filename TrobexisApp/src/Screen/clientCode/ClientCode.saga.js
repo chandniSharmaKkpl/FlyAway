@@ -7,7 +7,8 @@ import {isError} from '../../common';
 
 export function* workerGetApiBase(argumentData) {
   try {
-    const apiBaseResponse = yield call(getApiBase,argumentData.payload.param);
+    console.log("workerGetApiBase ---> ", argumentData); 
+    const apiBaseResponse = yield call(getApiBase,argumentData.payload.data);
 
     if (isError(apiBaseResponse)) {
       yield put({
@@ -20,7 +21,7 @@ export function* workerGetApiBase(argumentData) {
       type: actionConstant.ACTION_GET_API_BASE_SUCCESS,
       payload: apiBaseResponse,
     });
-    yield call(workerGetClientTokenBaseOnApiBase,argumentData.payload.param, apiBaseResponse); 
+    yield call(workerGetClientTokenBaseOnApiBase,argumentData.payload.data, apiBaseResponse); 
 
   } catch (error) {
     console.log(" Response Error : ",error)
