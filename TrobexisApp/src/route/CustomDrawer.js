@@ -16,11 +16,12 @@ import {Avatar} from 'react-native-elements';
 import commonStyle from '../common/common.style';
 import {imageConstant, appColor, fontConstant, appConstant} from '../constant';
 import IconIonicons from 'react-native-vector-icons/Ionicons';
-import IconAntDesgin from 'react-native-vector-icons/AntDesign'; 
+import IconAntDesgin from 'react-native-vector-icons/AntDesign';
+import IconMaterial from 'react-native-vector-icons/MaterialCommunityIcons'; 
+import IconFontAwesome from 'react-native-vector-icons/FontAwesome'; 
 import DeviceInfo from 'react-native-device-info';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/core';
-
 
 export default CustomDrawer = () => {
   const navigation = useNavigation();
@@ -32,12 +33,10 @@ export default CustomDrawer = () => {
     return (
       <View style={styles.drawerSection}>
         <Pressable style={styles.btnDrawer}>
-<View style={styles.viewCircleBlue}>
-  {icon}
-</View>
-<Text style={styles.textDrawerTitle}>{title}</Text>
-		</Pressable>
-		<View style={styles.singleLine}/>
+          <View style={styles.viewCircleBlue}>{icon}</View>
+          <Text style={styles.textDrawerTitle}>{title}</Text>
+        </Pressable>
+        <View style={styles.singleLine} />
       </View>
     );
   };
@@ -79,19 +78,30 @@ export default CustomDrawer = () => {
 
           {/* Creating Drawer sections */}
 
-          {returnDrawerSection('Scan QR Code',  <IconIonicons name="scan" style={styles.iconClose} /> , appConstant.SCAN)}
-		  {returnDrawerSection('Settings',  <IconIonicons name="settings-sharp" style={styles.iconClose} /> , appConstant.SETTING)}
-		  {returnDrawerSection('Support',  <IconAntDesgin name="question" style={styles.iconClose} /> , appConstant.SUPPORT)}
-
+          {returnDrawerSection(
+            'Scan QR Code',
+            <IconIonicons name="scan-sharp" style={styles.iconDrawerMenu} />,
+            appConstant.SCAN,
+          )}
+          {returnDrawerSection(
+            'Settings',
+            <IconIonicons name="settings-sharp" style={styles.iconDrawerMenu} />,
+            appConstant.SETTING,
+          )}
+          {returnDrawerSection(
+            'Support',
+            <IconFontAwesome name="question" style={styles.iconDrawerMenu} />,
+            appConstant.SUPPORT,
+          )}
         </View>
       </View>
 
       <View style={styles.viewLogout}>
-        <Pressable>
-          <View>
-            <Image style={commonStyle.image} />
+      <Pressable style={styles.btnDrawer}>
+          <View >
+            <IconMaterial name="logout" style={styles.iconLogout}/>
           </View>
-          <Text>Logout</Text>
+          <Text style={styles.textLogout}>Logout</Text>
         </Pressable>
       </View>
     </View>
@@ -99,25 +109,42 @@ export default CustomDrawer = () => {
 };
 
 const styles = StyleSheet.create({
-  textDrawerTitle:{
-    fontFamily: fontConstant.BARLOW_REGULAR,
-    fontSize: fontConstant.TEXT_12_SIZE_BOLD,
-    color: appColor.NAVY_BLUE,
-    paddingLeft:wp('1%')
+  iconLogout:{
+    fontSize: 25,
+    color: appColor.WHITE,
+    fontWeight: 'bold'
   },
-	singleLine:{
-  backgroundColor: appColor.GRAY_LIGHT,
-  height:hp('0.2%')
-	},
+  viewLogout:{
+    backgroundColor: appColor.RED,
+    height:hp('8%'), 
+  },
+  textLogout:{
+    fontFamily: fontConstant.BARLOW_REGULAR,
+    fontSize: fontConstant.TEXT_H3_SIZE_BOLD,
+    color: appColor.WHITE,
+    paddingLeft: wp('1%'),
+    fontWeight: 'bold'
+  },
+  textDrawerTitle: {
+    fontFamily: fontConstant.BARLOW_REGULAR,
+    fontSize: fontConstant.TEXT_H3_SIZE_BOLD,
+    color: appColor.NAVY_BLUE,
+    paddingLeft: wp('1%'),
+    fontWeight: 'bold'
+  },
+  singleLine: {
+    backgroundColor: appColor.LIGH_ORANGE,
+    height: hp('0.2%'),
+   // paddingBottom:0
+  },
   drawerSection: {
-    backgroundColor: 'pink',
-    height:'20%', 
-    marginBottom:5
+    
+    height: '25%',
+    marginBottom: 5,
   },
   viewTitle: {
     flexDirection: 'row',
     alignItems: 'center',
-    
   },
   viewImageUser: {
     width: wp('9%'),
@@ -151,20 +178,23 @@ const styles = StyleSheet.create({
     //backgroundColor: 'red',
   },
   iconDrawerMenu: {
-    fontSize: 10,
-    tintColor: appColor.WHITE,
+    fontSize: 15,
+    color: appColor.WHITE,
+    fontWeight: 'bold'
   },
   viewCircleBlue: {
     backgroundColor: appColor.BLUE_DARK,
     width: 30,
     height: 30,
     borderRadius: 15,
-    justifyContent:'center',
-    alignItems:'center'
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   btnDrawer: {
     flexDirection: 'row',
-    alignItems:'center',
+    alignItems: 'center',
+    height:'100%',
+    paddingLeft:wp('2%')
     //backgroundColor:appColor.RED
   },
 
@@ -175,7 +205,7 @@ const styles = StyleSheet.create({
   },
   viewTop: {
     height: hp('20%'),
-    backgroundColor: 'pink',
+    //backgroundColor: 'pink',
   },
   imageBgd: {
     width: wp('5%'),
@@ -186,10 +216,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
   },
-
   appDrawer: {
     flex: 1,
-
     //backgroundColor: '#3389df',
   },
   drawer: {

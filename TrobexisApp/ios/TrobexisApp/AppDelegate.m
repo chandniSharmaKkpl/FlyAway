@@ -19,7 +19,7 @@
 #import <FlipperKitReactPlugin/FlipperKitReactPlugin.h>
 #import <RNSplashScreen.h>
 
-
+@import Firebase;
 
 static void InitializeFlipper(UIApplication *application) {
   FlipperClient *client = [FlipperClient sharedClient];
@@ -44,6 +44,44 @@ static void InitializeFlipper(UIApplication *application) {
 #if RCT_DEV
   [bridge moduleForClass:[RCTDevLoadingView class]];
 #endif
+  
+  
+    
+    if ([UNUserNotificationCenter class] != nil) {
+      // iOS 10 or later
+      // For iOS 10 display notification (sent via APNS)
+      [UNUserNotificationCenter currentNotificationCenter].delegate = self;
+      UNAuthorizationOptions authOptions = UNAuthorizationOptionAlert |
+          UNAuthorizationOptionSound | UNAuthorizationOptionBadge;
+      [[UNUserNotificationCenter currentNotificationCenter]
+          requestAuthorizationWithOptions:authOptions
+          completionHandler:^(BOOL granted, NSError * _Nullable error) {
+            // ...
+          }];
+    } else {
+      // iOS 10 notifications aren't available; fall back to iOS 8-9 notifications.
+      UIUserNotificationType allNotificationTypes =
+      (UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge);
+      UIUserNotificationSettings *settings =
+      [UIUserNotificationSettings settingsForTypes:allNotificationTypes categories:nil];
+      [application registerUserNotificationSettings:settings];
+    }
+
+    [application registerForRemoteNotifications];
+    
+//    [FIRMessaging messaging].delegate = self;
+//
+//    [[FIRInstanceID instanceID] instanceIDWithHandler:^(FIRInstanceIDResult * _Nullable result,
+       //                                                 NSError * _Nullable error) {
+//      if (error != nil) {
+//        NSLog(@"Error fetching remote instance ID: %@", error);
+//      } else {
+//        NSLog(@"Remote instance ID token: %@", result.token);
+//      }
+//    }];
+    
+   // [FIRMessaging messaging].autoInitEnabled = YES;
+  
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"TrobexisApp"
                                             initialProperties:nil];
@@ -60,8 +98,8 @@ static void InitializeFlipper(UIApplication *application) {
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
-  UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
-    center.delegate = self;
+//  UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+//    center.delegate = self;
 
   //  [RNSplashScreen show];
   return YES;

@@ -143,9 +143,9 @@ const ReasonDecline = props => {
                     {reason}
                   </Text>
                   {showReasonList ? (
-                    <IconAntDesing name="caretdown" style={styles.iconCaret} />
-                  ) : (
                     <IconAntDesing name="caretup" style={styles.iconCaret} />
+                  ) : (
+                    <IconAntDesing name="caretdown" style={styles.iconCaret} />
                   )}
                 </View>
               </TouchableOpacity>

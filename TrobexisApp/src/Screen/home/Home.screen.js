@@ -119,7 +119,7 @@ const HomeScreen = props => {
           viewProps={props}
           onClickLeftIcon={()=> {
             console.log(" open drawer ")
-             //props.navigation.toggleDrawer()
+             props.navigation.toggleDrawer()
             }}
           setAlertShowFromHeader ={(value)=>setIsAlertShow(value)
           }
