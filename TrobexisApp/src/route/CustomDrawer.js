@@ -50,11 +50,11 @@ export default CustomDrawer = () => {
             source={imageConstant.IMAGE_DRAWER_BG}>
             <View style={styles.viewTop1}>
               <View style={{flex: 0.9}} />
-              <View style={styles.viewCrossBtn}>
-                <Pressable onPress={() => navigation.navigate(appConstant.TAB)}>
+             
+                <Pressable style={styles.viewCrossBtn} onPress={() => navigation.navigate(appConstant.TAB)}>
                   <IconIonicons name="close-outline" style={styles.iconClose} />
                 </Pressable>
-              </View>
+              
             </View>
 
             <View style={styles.viewTitle}>
@@ -120,15 +120,15 @@ const styles = StyleSheet.create({
   },
   textLogout:{
     fontFamily: fontConstant.BARLOW_REGULAR,
-    fontSize: fontConstant.TEXT_H3_SIZE_BOLD,
+    fontSize: fontConstant.TEXT_16_SIZE_REGULAR,
     color: appColor.WHITE,
     paddingLeft: wp('1%'),
     fontWeight: 'bold'
   },
   textDrawerTitle: {
     fontFamily: fontConstant.BARLOW_REGULAR,
-    fontSize: fontConstant.TEXT_H3_SIZE_BOLD,
-    color: appColor.NAVY_BLUE,
+    fontSize: fontConstant.TEXT_16_SIZE_REGULAR,
+    color: appColor.BLACK,
     paddingLeft: wp('1%'),
     fontWeight: 'bold'
   },

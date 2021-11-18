@@ -27,7 +27,7 @@ export default StyleSheet.create({
     viewImageUser: {
         width: wp('10%'),
         height: hp('10%'),
-        paddingLeft:wp('12%'),
+        paddingLeft:wp('15%'),
         // justifyContent:'center',
         alignItems:'center'
     },
@@ -94,6 +94,7 @@ export default StyleSheet.create({
       padding:hp('2%'), 
     //  justifyContent:'center',
       flexDirection:'row', 
+     // backgroundColor:appColor.RED,
 
     },
     viewSmallBox:{
@@ -109,10 +110,11 @@ export default StyleSheet.create({
         shadowRadius: 2.22,
 
         elevation: 5,
-        width:wp('25%'),
+        width:wp('28%'),
         height:hp('10%'),
         backgroundColor:appColor.WHITE,
-        margin:10,
+        marginRight:wp('3%'),
+        marginLeft:wp('1%'),
         justifyContent:'center'
         // flexWrap:'wraps'
 

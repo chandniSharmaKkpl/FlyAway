@@ -16,15 +16,11 @@ https://rnfirebase.io/
 Add these pods in ios pod file 
  pod 'Firebase/Core'
  pod 'Firebase/Messaging'
-
-
-
-
+ Do android specific changes as shown in the link 
+ 
 */
 
 function PushController(props) {
-  const [permissions, setPermissions] = useState({});
-
 
   useEffect(() => {
 
@@ -72,9 +68,7 @@ function PushController(props) {
       const unsubscribe = messaging().onMessage(async remoteMessage => {
         Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
       });
-  
-     
-      return () => {
+        return () => {
          unsubscribe;
        
       };

@@ -18,6 +18,9 @@ export default StyleSheet.create({
   },
   viewFlatList: {
     flex: 1,
+   // backgroundColor: appColor.RED,
+paddingLeft:wp('3%'),
+paddingRight:wp('1%')
   },
   iconNumber:{
     fontSize:20, 
@@ -25,7 +28,10 @@ export default StyleSheet.create({
     //width:'100%'
   },
   viewSegmentControl: {
-    padding: '5%',
+    paddingLeft: wp('5%'),
+    paddingRight:wp('5%'),
+    paddingTop:hp('2%'),
+    paddingBottom:hp('2%')
   },
   segmentControl: {
     width: '100%',
@@ -44,7 +50,11 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   viewInside1: {
-    padding: '1%',
+    paddingTop: '1%',
+    paddingBottom:'1%',
+    paddingRight:'1%',
+   // backgroundColor: appColor.GREEN,
+
   },
   buttonGreen: {
     justifyContent: 'center',
@@ -81,13 +91,9 @@ export default StyleSheet.create({
     shadowRadius: 2.22,
 
     elevation: 5,
-    //   width: wp('90%'),
-    //   height: hp('15%'),
     backgroundColor: appColor.WHITE,
     margin: 10,
-    //  flexWrap:'wrap',
-    //   alignItems: 'center',
-    //   justifyContent: 'center',
+    
   },
   textTitle: {
     fontFamily: fontConstant.BARLOW_BOLD,
@@ -133,7 +139,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: '2%',
-    // backgroundColor: 'pink',
+   // backgroundColor: 'pink',
     //  width:'75%'
   },
   viewButtons: {
