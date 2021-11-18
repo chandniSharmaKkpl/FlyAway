@@ -26,7 +26,7 @@ import {useNavigation} from '@react-navigation/core';
 export default CustomDrawer = () => {
   const navigation = useNavigation();
 
-  console.log(' navigation object --->', navigation);
+  //console.log(' navigation object --->', navigation);
   const response = useSelector(state => state.HomeReducer); // Getting api response
 
   const returnDrawerSection = (title, icon, screenName) => {
