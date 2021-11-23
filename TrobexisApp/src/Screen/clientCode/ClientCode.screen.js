@@ -20,7 +20,8 @@ import {
   imageConstant,
   alertMsgConstant,
 } from '../../constant';
-import localDB from '../../database/localDb';
+import localDB from '../../database/localDb'; 
+
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -48,7 +49,7 @@ var countBack = 0;
   // Getting device info from push controller
   const getDeviceInfo = value => {
     setDeviceInfo(value);
-    console.log(" device info=====>", value); 
+    //console.log(" device info=====>", value); 
   };
   const handleBackButtonClick = () => {
     countBack = countBack + 1;
