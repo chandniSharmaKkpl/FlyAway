@@ -13,7 +13,7 @@ import {getDateInFormat} from '../common/index';
 
 const BookingCard = props => {
   const {item, viewName} = props;
- 
+ console.log(" item is ", item); 
   return (
     <View style={styles.viewOutSide}>
       <View style={styles.viewInside1}>
@@ -37,7 +37,7 @@ const BookingCard = props => {
         <View
           style={{
             flexDirection: 'row',
-            paddingTop: '5%',
+            paddingTop: '1%',
             alignItems: 'center',
           }}>
           <View style={styles.viewImages}>
@@ -51,7 +51,7 @@ const BookingCard = props => {
         </View>
 
         {viewName !== appConstant.PICK_A_BUS ? (
-          <View style={{flexDirection: 'row'}}>
+          <View>
             <View style={styles.viewInside}>
               <View style={styles.viewImages}>
                 <Image
@@ -75,7 +75,11 @@ const BookingCard = props => {
               </View>
               <Text style={styles.textDetail}>
                 {getTimeInFormat(item.startdatetime)}{' '}
+                <Text style={styles.textDetail}>
+              to {getTimeInFormat(item.enddatetime)}{' '}
+            </Text>
               </Text>
+              
             </View>
           </View>
         ) : (
@@ -89,10 +93,11 @@ const BookingCard = props => {
             </View>
             <Text style={styles.textDetail}>
               {getTimeInFormat(item.startdatetime)}{' '}
+              <Text style={styles.textDetail}>
+              to {getTimeInFormat(item.enddatetime)}{' '}
             </Text>
-            <Text style={styles.textDetail}>
-              - {getTimeInFormat(item.enddatetime)}{' '}
             </Text>
+            
             <Text style={styles.textDetail}>({item.durationMins}m)</Text>
           </View>
         )}
@@ -132,7 +137,10 @@ const styles = {
     alignItems: 'center',
   },
   viewInside1: {
-    padding: '1%',
+    paddingLeft: '2%',
+    paddingRight:'2%', 
+    paddingBottom:'2%'
+    //backgroundColor:'pink'
   },
   buttonYellow: {
     justifyContent: 'center',
@@ -150,13 +158,13 @@ const styles = {
   },
   viewTime: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    //justifyContent: 'space-between',
     alignItems: 'center',
-    paddingLeft: wp('3%'),
+    //paddingLeft: wp('3%'),
   },
   viewInside: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+   // justifyContent: 'space-between',
     alignItems: 'center',
     //  paddingLeft: wp('3%')
   },
@@ -175,10 +183,13 @@ const styles = {
     width: wp('90%'),
     height: hp('15%'),
     backgroundColor: appColor.WHITE,
+   //backgroundColor:'pink',
     margin: 10,
     //  flexWrap:'wrap',
-    alignItems: 'center',
+   // alignItems: 'center',
     justifyContent: 'center',
+    paddingLeft:'2%', 
+    paddingRight:'2%'
   },
   textTitle: {
     fontFamily: fontConstant.BARLOW_BOLD,

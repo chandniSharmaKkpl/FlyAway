@@ -18,6 +18,10 @@ export default{
  IMAGE_PATH : require('../../assets/image/home_page/path765.png'),
  IMAGE_PLANE : require('../../assets/image/home_page/plane.png'),
 IMAGE_LOGIN_BACKGROUND:  require('../../assets/image/login_page/login_background.png'),  
+IMAGE_CLOUD:  require('../../assets/image/login_page/login_cloud.png'),  
+IMAGE_LOGIN_BOTTOM:  require('../../assets/image/login_page/login_bottom.png'),  
+IMAGE_DRAWER_BG:  require('../../assets/image/home_page/drawer_top_bg.png'),
+
 
 // Make a booking 
 
@@ -29,6 +33,9 @@ IMAGE_ARROW_BACK : require('../../assets/image/pick_a_bus_page/up-arrow-svgrepo-
 IMAGE_LOGO: require('../../assets/image/login_page/logo_dark_email.png'),
 IMAGE_TRACK_LOC : require('../../assets/image/make_a_booking_page/track_loc.png'),
 IMAGE_CLOSE : require('../../assets/image/make_a_booking_page/close.png'),
+IMAGE_PLANE_HORIZONTAL : require('../../assets/image/add_booking_page/plane_horizontal.png'),
+IMAGE_BED : require('../../assets/image/add_booking_page/bed.png'),
+IMAGE_PASTE: require('../../assets/image/home_page/paste.png'),
 
 }
 

@@ -9,37 +9,46 @@ import {
   BackHandler,
 } from 'react-native';
 import styles from './Home.style';
-import { HeaderCustom, BookingCard, Loader } from '../../component';
+import { HeaderCustom, BookingCard, Loader, AlertView } from '../../component';
 import { Avatar } from 'react-native-elements';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { appColor, appConstant, imageConstant } from '../../constant';
-import { requestToGetUserProfile } from './Home.action';
-import localDB from '../../database/localDb';
+import { alertMsgConstant, appColor, appConstant, imageConstant } from '../../constant';
+import { requestToGetApprovalList, requestToGetUserProfile } from './Home.action';
+import localDb from '../../database/localDb';
 import DeviceInfo from 'react-native-device-info';
 
 
 const HomeScreen = props => {
+  var countBack = 0;
+
   const response = useSelector(state => state.HomeReducer); // Getting api response
   const dispatch = useDispatch(); // Calling api
-
   const [arrayBooking, setArrayBooking] = useState([1, 2, 3, 4, 5, 6]);
   const [userProfile, setUserProfile] = useState({});
+  const [isAlertShow, setIsAlertShow] = useState(false);
 
-  const handleBackButtonClick = () => {
-    return true;
-  };
+ 
+  setAlertShowFromHeader =(value)=>{
+    setIsAlertShow(value)
+  }
   useEffect(() => {
-
-    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
-    dispatch(requestToGetUserProfile());
+     const unsubscribe = props.navigation.addListener('focus', () => {
+      const tempUser = localDb.getUser();
+      Promise.resolve(tempUser).then(response => {
+        let param = {
+          user: response,
+        };
+        console.log(" user is home----> ", response); 
+        dispatch(requestToGetUserProfile(param));
+        dispatch(requestToGetApprovalList(param));
+      });
+   });
     return () => {
-      BackHandler.removeEventListener(
-        'hardwareBackPress',
-        handleBackButtonClick,
-      );
+      
+      unsubscribe;
     };
   }, []);
 
@@ -107,6 +116,13 @@ const HomeScreen = props => {
           centerTitle={false}
           onClickRightIcon={onClickRightIcon}
           rightIconImage={''}
+          viewProps={props}
+          onClickLeftIcon={()=> {
+            console.log(" open drawer ")
+             props.navigation.toggleDrawer()
+            }}
+          setAlertShowFromHeader ={(value)=>setIsAlertShow(value)
+          }
         />
         {/* Title view */}
         <View style={styles.viewTopBackground}>
@@ -120,14 +136,14 @@ const HomeScreen = props => {
               />
             </View>
             <View style={{ paddingLeft: wp('12%'), paddingTop: hp('1.2%') }}>
-              <Text style={styles.textHello}>Hello {response.userProfile && response.userProfile.firstname ? response.userProfile.firstname:''}!</Text>
+              <Text style={styles.textHello}>Hello {response.userProfile && response.userProfile.firstname ? response.userProfile.firstname:''}</Text>
               <Text style={styles.textTimeWish}>{getTimeMessage()}</Text>
             </View>
           </View>
         </View>
 
         {/* Bookinng list  */}
-        {response.itinaryList && response.itinaryList.length>0?
+        {response.itinaryListAllJourney && response.itinaryListAllJourney.length>0?
         <View
           style={{
             marginTop: hp('-8%'),
@@ -136,7 +152,7 @@ const HomeScreen = props => {
           }}>
           <FlatList
             renderItem={renderItem}
-            data={response.itinaryList}
+            data={response.itinaryListAllJourney}
             horizontal={true}
             keyExtractor={(item, index) => index.toString()}
           />
@@ -155,7 +171,7 @@ const HomeScreen = props => {
                 </Text>
             </View>: null }
 
-            <View style={styles.viewInsideSmallBox}>
+            <Pressable style={styles.viewInsideSmallBox} onPress={()=> { props.navigation.navigate(appConstant.JOURNEY_LIST)}}>
               <View style={styles.imageIcon}>
                 <Image
                   style={styles.image}
@@ -164,7 +180,7 @@ const HomeScreen = props => {
                 />
               </View>
               <Text style={styles.textButtonTitle}>Journeys</Text>
-            </View>
+            </Pressable>
           </View>
 
           <View style={styles.viewSmallBox}>
@@ -185,13 +201,13 @@ const HomeScreen = props => {
             </Pressable>
           </View>
 
-          <Pressable
+          {/* <Pressable
             style={[styles.viewSmallBox]}
             onPress={() => onClickBusBooking()}>
             {/* <View style={styles.viewYellowBox}>
                             <Text style={styles.textNumber}>1</Text>
                         </View> */}
-            <View style={styles.viewInsideSmallBox}>
+            {/* <View style={styles.viewInsideSmallBox}>
               <View style={styles.imageIcon}>
                 <Image
                   style={styles.image}
@@ -201,10 +217,31 @@ const HomeScreen = props => {
               </View>
               <Text style={styles.textButtonTitle}>Bus Bookings</Text>
             </View>
-          </Pressable>
+          </Pressable>  */}
         </View>
+       
         {response.isRequesting ? <Loader loading={response.isRequesting} /> : null}
       </View>
+      {isAlertShow ? (
+        <AlertView
+          title={alertMsgConstant.PLEASE_CONFIRM}
+          subtitle={alertMsgConstant.EXIT_CONFIRM}
+          confirmBtnTxt={alertMsgConstant.YES}
+          cancelBtnTxt={alertMsgConstant.NO}
+          buttonCount={2}
+          bigBtnText={''}
+          onPressConfirmBtn={() => {
+            setIsAlertShow(false);
+            BackHandler.exitApp()
+          }}
+          onPressCancel={() => {
+            setIsAlertShow(false);
+            countBack = 0;
+          }}
+          onPressBigBtn={() => {
+          }}
+        />
+      ) : null}
     </>
   );
 };

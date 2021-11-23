@@ -1,3 +1,4 @@
+import React, {useState, useCallback, useEffect} from 'react';
 import format from 'date-fns/format';
 import {errorCodeConstant} from '../constant';
 
@@ -69,7 +70,23 @@ export function isError(params) {
   }
 }
 
+// const useBackButton1 = (handler) => {
+  
+//   // Frustration isolated! Yay! 🎉
+//   useEffect(() => {
+//     BackHandler.addEventListener("hardwareBackPress", handler);
+
+//     return () => {
+//       BackHandler.removeEventListener(
+//         "hardwareBackPress",
+//         handler
+//       );
+//     };
+//   }, [handler]);
+// }
+
 export default {
   getTimeMessage,
   isError,
+ // useBackButton1
 };

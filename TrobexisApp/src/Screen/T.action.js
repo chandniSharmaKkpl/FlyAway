@@ -30,12 +30,5 @@
 
 // export default{
 //     requestToGetUpcomingJourney, 
-//     // successToGetAccessToken, 
-//     // failToGetAccessToken,
-//     // requestToGetUserProfile,
-//     // successToGetUserProfile,
-//     // failToGetUserProfile,
-//     // requestToGetItinaryList,
-//     // successToGetItinaryList,
-//     // failToGetItinaryList
+
 //   }

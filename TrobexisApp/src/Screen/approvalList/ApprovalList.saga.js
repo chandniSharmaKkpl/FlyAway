@@ -1,39 +1,111 @@
-// import {takeLatest, take, call, put, select, all} from 'redux-saga/effects';
-// import {actionConstant, apiConstant, appConstant} from '../../constant';
-// import {ApiBase} from '../../api/apiBase';
-// import {successToGetAccessToken, failToGetAccessToken} from './Home.action';
-// import {getToken, getUserProfile} from './Home.api';
+import {takeLatest, take, call, put, select, all,delay} from 'redux-saga/effects';
+import {actionConstant, apiConstant, appConstant} from '../../constant';
+import {acceptApprovalApi, declineApprovalApi, getApprovalListInList} from './ApprovalList.api';
+import {isError} from '../../common';
 
-// export function* workerGetData() {
-//     console.log('call Here ');
-//     try {
-//       const accessToken = yield call(getToken);
-//       console.log(accessToken);
-//       console.log('  workerGetAccessToken in saga -======>>>>>>', accessToken);
-//       yield put({
-//         type: actionConstant.ACTION_GET_ACCESS_TOKEN_SUCCESS,
-//         payload: accessToken,
-//       });
+export function* workerAcceptApproval(argumentData ) {
+
+    try {
+          
+      const approvalResponse = yield call(acceptApprovalApi,argumentData.payload);
+     
+      console.log( ' 12 Sagag  approval list  in saga -======>>>>>>', approvalResponse );
+
+      if (isError(approvalResponse)) {
+        yield put({
+          type: actionConstant.ACTION_ACCEPT_APPROVAL_FAILURE,
+          payload: approvalResponse.message
+        })
+        return; 
+      }
   
-//        yield call(workerGetUserProfile);
-//     } catch (error) {
-//       yield put({
-//         type: actionConstant.ACTION_GET_ACCESS_TOKEN_FAILURE,
-//         payload: error,
-//       });
-//     }
-//   }
+      yield put({
+        type: actionConstant.ACTION_ACCEPT_APPROVAL_SUCCESS,
+        payload: approvalResponse,
+      });
+  
+      
+    } catch (error) {
+      yield put({
+        type: actionConstant.ACTION_ACCEPT_APPROVAL_FAILURE,
+        payload: error,
+      });
+    }
+  }
 
-// function* watchGet() {
-//     yield all[
-//       takeLatest(
-//         actionConstant.ACTION_GET_ACCESS_TOKEN_REQUEST,
-//         workerGetAccessToken,
-//         actionConstant.ACTION_GET_USER_PROFILE_REQUEST,
+  export function* workerDeclineApproval(argumentData ) {
+
+    try {
+          
+      const declineResponse = yield call(declineApprovalApi,argumentData.payload);
+     
+      if (isError(declineResponse)) {
+        yield put({
+          type: actionConstant.ACTION_DECLINE_APPROVAL_FAILURE,
+          payload: declineResponse.message
+        })
+        return; 
+      }
+  
+      yield put({
+        type: actionConstant.ACTION_DECLINE_APPROVAL_SUCCESS,
+        payload: declineResponse,
+      });
+  
+      
+    } catch (error) {
+      yield put({
+        type: actionConstant.ACTION_DECLINE_APPROVAL_FAILURE,
+        payload: error,
+      });
+    }
+  }
+
+  // export function* workerGetApprovalList(argumentData) {
+  //   console.log( 'Sagag arge', argumentData,' dec list  in saga -======>>>>>>' );
+
+  //     try {
+       
+  //          const itinaryList = yield call(
+  //           getApprovalListInList,
+  //           argumentData.payload,
+  //         );
+  //         if (itinaryList) {
+  //           yield put({
+  //             type: actionConstant.ACTION_GET_APPROVAL_LIST_SUCCESS,
+  //             payload: itinaryList,
+  //           });
+  //         }
         
-//       )
-//     ];
-//   }
-  
-//   export default watchGet;
+  //     } catch (error) {
+  //       // console.log(' worker saga called error  ', error);
+  //       yield put({
+  //         type: actionConstant.ACTION_GET_APPROVAL_LIST_FAILURE,
+  //         payload: error,
+  //       });
+  //     }
+  //   }
+
+  //   export function* watchApprovalListInList() {
+  //     yield takeLatest(
+  //       actionConstant.ACTION_GET_APPROVAL_LIST_REQUEST,
+  //       workerGetApprovalList
+  //     );
+  //   }
+
+export function* watchAcceptApprovalApi () {
+    yield takeLatest(
+        actionConstant.ACTION_ACCEPT_APPROVAL_REQUEST,
+        workerAcceptApproval,        
+      )
+  }
+
+
+  export function* watchDeclineApproval() {
+      yield takeLatest(
+          actionConstant.ACTION_DECLINE_APPROVAL_REQUEST,
+          workerDeclineApproval
+      )
+  }
+  export default watchAcceptApprovalApi;
   

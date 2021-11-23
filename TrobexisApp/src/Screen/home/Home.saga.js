@@ -1,18 +1,16 @@
 import {takeLatest, call, put, select, all} from 'redux-saga/effects';
 import {actionConstant} from '../../constant';
+import localDb from '../../database/localDb'
 
 import { getUserProfile, getItinaryList, getItinaryListAllJourney, getApprovalList} from './Home.api';
 
 
-export function* workerGetUserProfile() {
+export function* workerGetUserProfile(argumentData) {
   try {
-    const reducer = yield select();
-             // console.log(' user profile in saga -======>>>>>>', reducer);
-    const token = reducer.ClientCodeReducer.clientToken;
-    if (token) {
+    
       const userProfile = yield call(
         getUserProfile,
-        token,
+        argumentData.payload,
       );
 
       if (userProfile) {
@@ -21,10 +19,10 @@ export function* workerGetUserProfile() {
           payload: userProfile,
         });
       }
-      yield call(workerGetItinaryList);
-      yield call (workerGetItinaryListAllJoureny);
-      yield call (workerGetApprovalList);
-    }
+      yield call(workerGetItinaryList, argumentData);
+      yield call (workerGetItinaryListAllJoureny, argumentData);
+     // yield call (workerGetApprovalList,argumentData);
+    
   } catch (error) {
     // console.log(' worker saga called error  ', error);
     yield put({
@@ -34,14 +32,11 @@ export function* workerGetUserProfile() {
   }
 }
 
-export function* workerGetItinaryList() {
+export function* workerGetItinaryList(argumentData) {
   try {
-    const reducer = yield select();
-    const token = reducer.ClientCodeReducer.clientToken;
-    if (token) {
       const itinaryList = yield call(
         getItinaryList,
-        token,
+        argumentData.payload,
       );
       if (itinaryList) {
         yield put({
@@ -49,7 +44,7 @@ export function* workerGetItinaryList() {
           payload: itinaryList,
         });
       }
-    }
+    
   } catch (error) {
     // console.log(' worker saga called error  ', error);
     yield put({
@@ -59,14 +54,11 @@ export function* workerGetItinaryList() {
   }
 }
 
-export function* workerGetItinaryListAllJoureny() {
+export function* workerGetItinaryListAllJoureny(argumentData) {
   try {
-    const reducer = yield select();
-    const token = reducer.ClientCodeReducer.clientToken;
-    if (token) {
-      const itinaryList = yield call(
+       const itinaryList = yield call(
         getItinaryListAllJourney,
-        token,
+        argumentData.payload,
       );
       if (itinaryList) {
         yield put({
@@ -74,7 +66,7 @@ export function* workerGetItinaryListAllJoureny() {
           payload: itinaryList,
         });
       }
-    }
+    
   } catch (error) {
     // console.log(' worker saga called error  ', error);
     yield put({
@@ -84,14 +76,13 @@ export function* workerGetItinaryListAllJoureny() {
   }
 }
 
-export function* workerGetApprovalList() {
+export function* workerGetApprovalList(argumentData) {
+
   try {
-    const reducer = yield select();
-    const token = reducer.ClientCodeReducer.clientToken;
-    if (token) {
-      const itinaryList = yield call(
+   
+       const itinaryList = yield call(
         getApprovalList,
-        token,
+        argumentData.payload,
       );
       if (itinaryList) {
         yield put({
@@ -99,7 +90,7 @@ export function* workerGetApprovalList() {
           payload: itinaryList,
         });
       }
-    }
+    
   } catch (error) {
     // console.log(' worker saga called error  ', error);
     yield put({

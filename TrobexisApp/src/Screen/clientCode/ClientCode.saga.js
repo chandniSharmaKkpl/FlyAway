@@ -7,11 +7,8 @@ import {isError} from '../../common';
 
 export function* workerGetApiBase(argumentData) {
   try {
-    const apiBaseResponse = yield call(getApiBase,argumentData.payload.param);
-    console.log(
-      '  workerGetapiBaseResponse in saga -======>>>>>>',
-      apiBaseResponse,
-    );
+    console.log("workerGetApiBase ---> ", argumentData); 
+    const apiBaseResponse = yield call(getApiBase,argumentData.payload.data);
 
     if (isError(apiBaseResponse)) {
       yield put({
@@ -20,12 +17,11 @@ export function* workerGetApiBase(argumentData) {
       })
       //return; 
     }
-
     yield put({
       type: actionConstant.ACTION_GET_API_BASE_SUCCESS,
       payload: apiBaseResponse,
     });
-    yield call(workerGetClientTokenBaseOnApiBase,argumentData.payload.param, apiBaseResponse); 
+    yield call(workerGetClientTokenBaseOnApiBase,argumentData.payload.data, apiBaseResponse); 
 
   } catch (error) {
     console.log(" Response Error : ",error)
@@ -77,11 +73,8 @@ export function* workerGetAccountUrl (argumentData, apiBase, clientToken) {
   try{
 
     const responseAccountUrl = yield call(getAccountURL,argumentData, apiBase, clientToken); 
-    console.log("Final Response 1111 : ",responseAccountUrl)
 
     if (isError(responseAccountUrl)) {
-      console.log("86 isError ", isError()); 
-
       yield put({
         type: actionConstant.ACTION_GET_ACCOUNT_URL_FAILURE,
         payload: responseAccountUrl.message
@@ -94,9 +87,6 @@ export function* workerGetAccountUrl (argumentData, apiBase, clientToken) {
       payload: responseAccountUrl,
     });
 
-    //yield call(workerGetAccessTokenBaseOnClientToken,argumentData,apiBase.value, clientToken)
-
-
   }catch(error){
     yield put({
       type: actionConstant.ACTION_GET_ACCOUNT_URL_FAILURE, 
@@ -105,36 +95,7 @@ export function* workerGetAccountUrl (argumentData, apiBase, clientToken) {
   }
 }
 
-export function* workerGetAccessTokenBaseOnClientToken (argumentData, apiBase, clientToken) {
-  try{
 
-    const responseAccessToken = yield call(getAccessTokenBaseOnClientToken,argumentData, apiBase, clientToken); 
-    console.log("Final Response222 : ",responseAccessToken)
-
-    if (isError(responseAccessToken)) {
-      console.log("112 isError ", isError()); 
-
-      yield put({
-        type: actionConstant.ACTION_GET_ACCESS_TOKEN_FAILURE,
-        payload: responseAccessToken.message
-      })
-      return; 
-    }
-
-    yield put({
-      type: actionConstant.ACTION_GET_ACCESS_TOKEN_SUCCESS,
-      payload: responseAccessToken,
-    });
-
-    
-
-  }catch(error){
-    yield put({
-      type: actionConstant.ACTION_GET_ACCESS_TOKEN_FAILURE, 
-      payload: error
-    })
-  }
-}
 
 export function* watchGetApiBase() {
   yield takeLatest(

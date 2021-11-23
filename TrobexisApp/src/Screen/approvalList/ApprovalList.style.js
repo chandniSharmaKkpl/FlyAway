@@ -18,12 +18,29 @@ export default StyleSheet.create({
   },
   viewFlatList: {
     flex: 1,
+   // backgroundColor: appColor.RED,
+paddingLeft:wp('3%'),
+paddingRight:wp('1%')
   },
-
+  iconNumber:{
+    fontSize:20, 
+    color: appColor.NAVY_BLUE,
+    //width:'100%'
+  },
+  viewSegmentControl: {
+    paddingLeft: wp('5%'),
+    paddingRight:wp('5%'),
+    paddingTop:hp('2%'),
+    paddingBottom:hp('2%')
+  },
+  segmentControl: {
+    width: '100%',
+    height: hp('6%'),
+  },
   viewRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    width:wp('70%')
+    width: wp('70%'),
   },
   buttonTitle: {
     fontFamily: fontConstant.BARLOW_BOLD,
@@ -33,7 +50,11 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   viewInside1: {
-    padding: '1%',
+    paddingTop: '1%',
+    paddingBottom:'1%',
+    paddingRight:'1%',
+   // backgroundColor: appColor.GREEN,
+
   },
   buttonGreen: {
     justifyContent: 'center',
@@ -70,20 +91,16 @@ export default StyleSheet.create({
     shadowRadius: 2.22,
 
     elevation: 5,
-    //   width: wp('90%'),
-    //   height: hp('15%'),
     backgroundColor: appColor.WHITE,
     margin: 10,
-    //  flexWrap:'wrap',
-    //   alignItems: 'center',
-    //   justifyContent: 'center',
+    
   },
   textTitle: {
     fontFamily: fontConstant.BARLOW_BOLD,
     fontSize: fontConstant.TEXT_H3_SIZE_BOLD,
     color: appColor.NAVY_BLUE,
     flexWrap: 'wrap',
-    paddingBottom:hp('1%')
+    paddingBottom: hp('1%'),
   },
   textDetail: {
     fontFamily: fontConstant.BARLOW_REGULAR,
@@ -96,6 +113,7 @@ export default StyleSheet.create({
     width: wp('3%'),
     height: hp('3%'),
   },
+  
   image: {
     width: '100%',
     height: '100%',
@@ -107,16 +125,64 @@ export default StyleSheet.create({
     color: appColor.WHITE,
     padding: '2%',
   },
-
+  segmentText: {
+    fontSize: fontConstant.TEXT_15_SIZE_BOLD,
+    color: appColor.WHITE,
+    fontFamily: fontConstant.BARLOW_BOLD,
+  },
+  segmentTextActive: {
+    fontSize: fontConstant.TEXT_15_SIZE_BOLD,
+    color: appColor.BLACK,
+    fontFamily: fontConstant.BARLOW_BOLD,
+  },
   viewInside2: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: '2%',
-    // backgroundColor: 'pink',
+   // backgroundColor: 'pink',
     //  width:'75%'
   },
   viewButtons: {
     justifyContent: 'space-evenly',
     // backgroundColor:'pink'
+  },
+
+  tabsContainerStyle: {
+    //custom styles
+    //  backgroundColor:appColor.NAVY_BLUE
+    borderRadius: 20,
+  },
+  tabStyle: {
+    //custom styles
+  },
+  firstTabStyle: {
+    //custom styles
+  },
+  lastTabStyle: {
+    //custom styles
+  },
+  tabTextStyle: {
+    //custom styles
+  },
+  activeTabStyle: {
+    //custom styles
+    backgroundColor: appColor.NAVY_BLUE,
+    height: hp('8%'),
+  },
+  activeTabTextStyle: {
+    //custom styles
+    flexWrap: 'wrap',
+  },
+  tabBadgeContainerStyle: {
+    //custom styles
+  },
+  activeTabBadgeContainerStyle: {
+    //custom styles
+  },
+  tabBadgeStyle: {
+    //custom styles
+  },
+  activeTabBadgeStyle: {
+    //custom styles
   },
 });

@@ -12,6 +12,9 @@ export default StyleSheet.create({
     backgroundColor: appColor.LIGH_BLUE,
   },
  
+  imageTop:{
+   flex:0.5
+  },
   textHello: {
     fontFamily: fontConstant.BARLOW_BOLD,
     fontSize: fontConstant.TEXT_H1_SIZE_BOLD,
@@ -122,4 +125,13 @@ export default StyleSheet.create({
     marginVertical: 10,
     textAlign: 'center',
   },
+  tokenStyle:{
+    backgroundColor:'rgba(254, 182,8,0.7)', 
+    textAlign:'center',
+    marginTop:'15%',
+    marginBottom:'2%',
+    padding:'5%',
+    fontFamily: fontConstant.BARLOW_REGULAR,
+    fontSize: fontConstant.TEXT_16_SIZE_REGULAR,
+  }
 });

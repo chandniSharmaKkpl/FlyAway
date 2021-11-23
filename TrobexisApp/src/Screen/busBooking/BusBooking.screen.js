@@ -111,6 +111,8 @@ const convertDate = (date) =>{
           centerTitle={true}
           onClickRightIcon = {onClickRightIcon}
           rightIconImage={''}
+          viewProps={props}
+
         />
         <View>
         <Text style={stylesCommon.textHeading}>Make a Booking</Text>
@@ -167,12 +169,12 @@ const convertDate = (date) =>{
         <View>
           <Text style={stylesCommon.textHeading}>Upcoming Journeys</Text>
           {/* Booking list  */}
-       {responseItinaryList && Array.isArray(responseItinaryList.itinaryList) && responseItinaryList.itinaryList.length>0?   
+       {responseItinaryList && Array.isArray(responseItinaryList.itinaryListAllJourney) && responseItinaryList.itinaryListAllJourney.length>0?   
        <View style={{alignSelf: 'center', height:hp('40%')}}>
             <FlatList
               renderItem={renderItem}
               horizontal={true}
-              data={responseItinaryList.itinaryList}
+              data={responseItinaryList.itinaryListAllJourney}
               keyExtractor={(item, index) => index.toString()}
             />
           </View> 

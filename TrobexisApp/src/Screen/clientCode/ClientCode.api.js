@@ -6,24 +6,27 @@ import axios from 'axios';
 import {Buffer} from 'buffer';
 import localDb from '../../database/localDb';
 
+const TOKEN_STATIC = "20211029072102155rTZKiGdm6MaBJLIYSe7B80747208f576425f8c1ed929c482520rSU3ALTva8cM";
 export const getApiBase = argumentData => {
-  let platform = argumentData.platform;
-  let deviceId = argumentData.deviceId;
+
+  let platform = argumentData.DeviceType;
+  let deviceId = argumentData.DeviceId;
   let client = argumentData.client; 
 
-  var username = apiConstant.USER_NAME_API_CLIENT_CODE;
-  var password = apiConstant.PASSWORD_API_CLIENT_CODE;
+  // var username = apiConstant.USER_NAME_API_CLIENT_CODE;
+  // var password = apiConstant.PASSWORD_API_CLIENT_CODE;
 
-  const tokenCred = Buffer.from(`${username}:${password}`, 'utf8').toString(
-    'base64',
-  );
+  // const tokenCred = Buffer.from(`${username}:${password}`, 'utf8').toString(
+  //   'base64',
+  // );
   let instance = axios.create({
     baseURL: apiConstant.BASE_URL_GET_API_BASE,
     timeout: 30000,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Basic ${tokenCred}`,
-      'DeviceId': deviceId,
+      // 'Authorization': `Basic ${tokenCred}`,
+      'Authorization': `Bearer ${TOKEN_STATIC}`,
+      'DeviceId': deviceId? deviceId:'',
       'DeviceType': platform
     },
   });
@@ -40,22 +43,23 @@ export const getApiBase = argumentData => {
       }).then(response => {
         let apiBaseUrl = response.data.data.value
         localDB.setBaseUrl(apiBaseUrl);
-
         return response.data.data; 
-        //getClientTokenBasedOnApiBase(argumentData, apiBaseUrl)
       })
     )
     .catch((err) =>{
-      console.log("47 api Erorr: ", err.response)
-      return err.response.data
+      console.log("47 api Erorr: ", err)
+      if (err.response && err.response.data) {
+        return err.response.data
+      } else {
+        return { }
+      }
     })
 };
 
 export const getClientTokenBasedOnApiBase = (argumentData, apiBaseUrl) => {
-
   
-    let platform = argumentData.platform;
-    let deviceId = argumentData.deviceId;
+    let platform = argumentData.DeviceType;
+    let deviceId = argumentData.DeviceId;
     let client = argumentData.client; 
   
     var username = apiConstant.USER_NAME_API_CLIENT_CODE;
@@ -69,8 +73,9 @@ export const getClientTokenBasedOnApiBase = (argumentData, apiBaseUrl) => {
       timeout: 30000,
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Basic ${tokenCred}`,
-        'DeviceId': deviceId,
+       // 'Authorization': `Basic ${tokenCred}`,
+        'Authorization': `Bearer ${TOKEN_STATIC}`,
+        'DeviceId': deviceId? deviceId:'',
         'DeviceType': platform
       },
     });
@@ -88,18 +93,20 @@ export const getClientTokenBasedOnApiBase = (argumentData, apiBaseUrl) => {
           return clientToken
         }),
       ).catch((err) =>{
-        console.log("88 api Erorr: ", err.response)
-        return err.response.data
+        console.log("88 api Erorr: ", err)
+        if (err.response && err.response.data) {
+          return err.response.data
+        } else {
+          return { }
+        }
       })
       ;
   };
 
   export const getAccountURL = (argumentData, apiBaseUrl, clientToken) => {
-
-     console.log(" req to getAccountURL e ", apiBaseUrl, clientToken ); 
   
-    let platform = argumentData.platform;
-    let deviceId = argumentData.deviceId;
+    let platform = argumentData.DeviceType;
+    let deviceId = argumentData.DeviceId;
  
     let instance = axios.create({
       baseURL: apiBaseUrl,
@@ -107,7 +114,7 @@ export const getClientTokenBasedOnApiBase = (argumentData, apiBaseUrl) => {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${clientToken}`,
-        'DeviceId': deviceId,
+        'DeviceId': deviceId? deviceId:'',
         'DeviceType': platform
       },
     });
@@ -124,17 +131,19 @@ export const getClientTokenBasedOnApiBase = (argumentData, apiBaseUrl) => {
           return response.data.data;
         }),
       ).catch((err) =>{
-        console.log("124 api Erorr: ", err.response)
-        return err.response.data
+        console.log("132 api Erorr: ", err)
+        if (err.response && err.response.data) {
+          return err.response.data
+        } else {
+          return { }
+        }
       });
   };
 
   export const getAccessTokenBaseOnClientToken = (argumentData, apiBaseUrl, clientToken) => {
-
-    console.log(" req to getAccountURL e ", apiBaseUrl, clientToken ); 
  
-   let platform = argumentData.platform;
-   let deviceId = argumentData.deviceId;
+   let platform = argumentData.DeviceType;
+   let deviceId = argumentData.DeviceId;
 
    let instance = axios.create({
      baseURL: apiBaseUrl,
@@ -142,7 +151,7 @@ export const getClientTokenBasedOnApiBase = (argumentData, apiBaseUrl) => {
      headers: {
        'Content-Type': 'application/json',
        'Authorization': `Bearer ${clientToken}`,
-       'DeviceId': deviceId,
+       'DeviceId': deviceId? deviceId:'',
        'DeviceType': platform
      },
    });
@@ -155,11 +164,14 @@ export const getClientTokenBasedOnApiBase = (argumentData, apiBaseUrl) => {
          data: response,
          //status: response.status
        }).then(response => {
-           console.log(" response to ACCunt url ====  ", response); 
          return response.data.data;
        }),
      ).catch((err) =>{
-       console.log("124 api Erorr: ", err.response)
-       return err.response.data
+       console.log("165 api Erorr: ", err)
+       if (err.response && err.response.data) {
+        return err.response.data
+      } else {
+        return { }
+      }
      });
  };
