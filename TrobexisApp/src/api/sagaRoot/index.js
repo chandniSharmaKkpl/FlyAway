@@ -12,6 +12,7 @@ import {watchGetDeclineReason, watchSubmitDeclineReason} from '../../Screen/decl
 import {watchApprovalDetail} from '../../Screen/approvalDetail/ApprovalDetail.saga';
 import {watchJourneyDetail} from '../../Screen/JourneyDetail/JourneyDetail.saga';
 
+
 export default function* sagaRoot() {
 
   yield all([

@@ -10,6 +10,7 @@ import ApprovalListReducer from '../../Screen/approvalList/ApprovalList.reducer'
 import DeclineReasonReducer from '../../Screen/declineReasons/declineReason.reducer';
 import ApprovalDetailReducer from '../../Screen/approvalDetail/ApprovalDetail.reducer';
 import JourneyDetailReducer from '../../Screen/JourneyDetail/JourneyDetail.reducer';
+import ScanReducer from '../../Screen/scanScreen/Scan.reducer';
 
 const ReducerRoot = combineReducers({
     ClientCodeReducer,
@@ -22,7 +23,8 @@ const ReducerRoot = combineReducers({
     BusBookingReducer,
     PickABusReducer,
     BookingSummaryReducer,
-    SiteTravelItinaryReducer
+    SiteTravelItinaryReducer,
+    ScanReducer
 })
 
 export default ReducerRoot;

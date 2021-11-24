@@ -32,7 +32,7 @@ export default CustomDrawer = () => {
   const returnDrawerSection = (title, icon, screenName) => {
     return (
       <View style={styles.drawerSection}>
-        <Pressable style={styles.btnDrawer}>
+        <Pressable style={styles.btnDrawer} onPress={()=> navigation.navigate(screenName)}>
           <View style={styles.viewCircleBlue}>{icon}</View>
           <Text style={styles.textDrawerTitle}>{title}</Text>
         </Pressable>

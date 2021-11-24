@@ -33,6 +33,7 @@ import ApprovalDetail from '../Screen/approvalDetail/ApprovalDetail.screen';
 import JourneyDetail from '../Screen/JourneyDetail/JourneyDetail.screen';
 import ApprovalList from '../Screen/approvalList/ApprovalList.screen';
 import CustomDrawer from '../route/CustomDrawer';
+import Scan from '../Screen/scanScreen/Scan.screen'; 
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -47,6 +48,8 @@ function DrawerNavigator() {
       drawerType="slide">
       
       <Drawer.Screen name={appConstant.HOME_SCREEN} component={HomeScreen} />
+      <Drawer.Screen name={appConstant.SCAN} component={Scan} />
+
 
       <Drawer.Screen name={appConstant.TAB} component={TabNavigator} />
     </Drawer.Navigator>
