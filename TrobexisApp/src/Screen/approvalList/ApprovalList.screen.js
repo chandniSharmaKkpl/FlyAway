@@ -86,10 +86,7 @@ const ApprovalList = props => {
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    setTimeout(() => {
-      //setRefreshing(false)
-    }, 200);
-    
+ 
   }, []);
 
   const onClickAccept = approvalId => {
