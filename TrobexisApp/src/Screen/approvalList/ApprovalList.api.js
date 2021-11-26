@@ -94,12 +94,14 @@ export const declineApprovalApi = argumentData => {
     });
 };
 
-export const getApprovalListInList = argumentData => {
+export const getApprovalListWithStatus = argumentData => {
 console.log('******* argument data in api : ', argumentData.data);
 
   let deviceId = argumentData.data.user.deviceId? argumentData.data.user.deviceId:'';
   let apiBaseUrl = argumentData.data.user.apiBaseUrl;
   let clientToken = argumentData.data.user.clientToken;
+  let status = argumentData.data.status;
+
 
   let instance = axios.create({
     baseURL: apiBaseUrl,
@@ -112,9 +114,11 @@ console.log('******* argument data in api : ', argumentData.data);
     },
   });
 
-  let urlString = apiConstant.GET_APPROVAL_LIST;
+  let urlString = apiConstant.GET_APPROVAL_LIST_PLUS_STATUS;
   urlString = urlString.replace(':userId', TEMP_APPROVAR_ID);
-  //console.log(' url  data  : ', urlString);
+  urlString = urlString.replace(':status', status);
+
+  console.log(' url  data  : ', urlString);
 
   return instance
     .get(urlString)
@@ -123,13 +127,13 @@ console.log('******* argument data in api : ', argumentData.data);
         data: response,
       }).then(response => {
         let response1 = response.data.data;
-        //console.log(' response : ', response1);
+        console.log(' response list with status: ', response1);
 
         return response1;
       }),
     )
     .catch(err => {
-      //console.log('88 api Erorr: ', err.response);
+      console.log('136 list satus  api Erorr: ', err.response);
       return err.response.data;
     });
 };
