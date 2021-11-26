@@ -1,6 +1,6 @@
 import {actionConstant} from '../../constant';
 
-// ACCEPT APPROVAL
+// ACCEPT APPROVAL Action
 
  export const requestAcceptApproval = (argument) => ({
     type: actionConstant.ACTION_ACCEPT_APPROVAL_REQUEST,
@@ -24,7 +24,7 @@ import {actionConstant} from '../../constant';
     },
   });
 
-// DECLINE APPROVAL 
+// DECLINE APPROVAL  Action
 
 export const requestDeclineApproval = (argument) => ({
     type: actionConstant.ACTION_DECLINE_APPROVAL_REQUEST,
@@ -47,32 +47,35 @@ export const requestDeclineApproval = (argument) => ({
       data: error,
     },
   });
-// //Get Approval List 
-// export const requestToGetApprovalList = (argumentData) => ({
-//   type: actionConstant.ACTION_GET_APPROVAL_LIST_REQUEST,
-//   payload: {
-//     data: argumentData
-//   },
-// });
+
+// //Get  Approval List  with status
+
+export const requestGetApprovalListWithStatus = (argument) => ({
+  type: actionConstant.ACTION_GET_APPROVAL_LIST_WITH_STATUS_REQUEST,
+  payload: {
+      data: argument
+  },
+});
 
 
-// export const successToGetApprovalList = (data) => ({
-//   type: actionConstant.ACTION_GET_APPROVAL_LIST_SUCCESS,
-//   payload: {
-//     data: data,
-//   },
-// });
+export const successGetApprovalListWithStatus = (data) => ({
+  type: actionConstant.ACTION_GET_APPROVAL_LIST_WITH_STATUS_SUCCESS,
+  payload: {
+    data: data,
+  },
+});
 
-// export const failToGetApprovalList = (error) => ({
-//   type: actionConstant.ACTION_GET_APPROVAL_LIST_FAILURE,
-//   payload: {
-//     data: error,
-//   },
-// });
+export const failGetApprovalListWithStatus = (error) => ({
+  type: actionConstant.ACTION_GET_APPROVAL_LIST_WITH_STATUS_FAILURE,
+  payload: {
+    data: error,
+  },
+});
 
 
 
 export default{
     requestAcceptApproval,
-    requestDeclineApproval
+    requestDeclineApproval,
+    requestGetApprovalListWithStatus
   }

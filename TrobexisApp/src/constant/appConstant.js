@@ -34,4 +34,7 @@ export default {
   COMMENT_MAX_LIMIT: 500,
   CHARTER_FLIGHT: 'Charter Flight',
   CAMP_ACCOMODATION: 'Camp Accommodation',
+  PENDING_APPROVAL: "Pending Approval",
+  APPROVED: 'Approved',
+  DECLINED: 'Declined', 
 };

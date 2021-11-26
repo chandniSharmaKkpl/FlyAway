@@ -13,7 +13,6 @@ import {getDateInFormat} from '../common/index';
 
 const BookingCard = props => {
   const {item, viewName} = props;
- console.log(" item is ", item); 
   return (
     <View style={styles.viewOutSide}>
       <View style={styles.viewInside1}>

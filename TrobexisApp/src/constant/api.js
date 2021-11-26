@@ -15,6 +15,8 @@ export default {
   CANCEL_BUS_BOOKING:'itineraries/:itinerayId',
   GET_ITINARY_LIST_ALL_JOURNEY: '/api/users/:userId/itineraries?cancancel=false',
   GET_APPROVAL_LIST:'/api/users/:userId/approvals',
+  GET_APPROVAL_LIST_PLUS_STATUS:'/api/users/:userId/approvals/:status',
+  
   // Authorisation Apis 
   BASE_URL_GET_API_BASE:'https://app-au.trobexis.com/T1MobileService/api/',
   URL_TO_GET_API_BASE:'account/:client/baseapiurl',

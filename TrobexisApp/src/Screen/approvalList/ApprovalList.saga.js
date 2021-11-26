@@ -1,6 +1,6 @@
 import {takeLatest, take, call, put, select, all,delay} from 'redux-saga/effects';
 import {actionConstant, apiConstant, appConstant} from '../../constant';
-import {acceptApprovalApi, declineApprovalApi, getApprovalListInList} from './ApprovalList.api';
+import {acceptApprovalApi, declineApprovalApi, getApprovalListWithStatus} from './ApprovalList.api';
 import {isError} from '../../common';
 
 export function* workerAcceptApproval(argumentData ) {
@@ -61,37 +61,35 @@ export function* workerAcceptApproval(argumentData ) {
     }
   }
 
-  // export function* workerGetApprovalList(argumentData) {
-  //   console.log( 'Sagag arge', argumentData,' dec list  in saga -======>>>>>>' );
-
-  //     try {
+  export function* workerGetApprovalListWithStatus(argumentData) {
+      try {
        
-  //          const itinaryList = yield call(
-  //           getApprovalListInList,
-  //           argumentData.payload,
-  //         );
-  //         if (itinaryList) {
-  //           yield put({
-  //             type: actionConstant.ACTION_GET_APPROVAL_LIST_SUCCESS,
-  //             payload: itinaryList,
-  //           });
-  //         }
+           const itinaryList = yield call(
+            getApprovalListWithStatus,
+            argumentData.payload,
+          );
+          if (itinaryList) {
+            yield put({
+              type: actionConstant.ACTION_GET_APPROVAL_LIST_WITH_STATUS_SUCCESS,
+              payload: itinaryList,
+            });
+          }
         
-  //     } catch (error) {
-  //       // console.log(' worker saga called error  ', error);
-  //       yield put({
-  //         type: actionConstant.ACTION_GET_APPROVAL_LIST_FAILURE,
-  //         payload: error,
-  //       });
-  //     }
-  //   }
+      } catch (error) {
+        // console.log(' worker saga called error  ', error);
+        yield put({
+          type: actionConstant.ACTION_GET_APPROVAL_LIST_WITH_STATUS_FAILURE,
+          payload: error,
+        });
+      }
+    }
 
-  //   export function* watchApprovalListInList() {
-  //     yield takeLatest(
-  //       actionConstant.ACTION_GET_APPROVAL_LIST_REQUEST,
-  //       workerGetApprovalList
-  //     );
-  //   }
+    export function* watchApprovalListWithStatus() {
+      yield takeLatest(
+        actionConstant.ACTION_GET_APPROVAL_LIST_WITH_STATUS_REQUEST,
+        workerGetApprovalListWithStatus
+      );
+    }
 
 export function* watchAcceptApprovalApi () {
     yield takeLatest(

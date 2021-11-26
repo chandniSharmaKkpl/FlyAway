@@ -4,7 +4,7 @@ const initialState = {
 isRequesting:false,
 error:'',
 acceptResponse:'',
-approvalList:'',
+approvalListWithStatus:'',
 }
 
 export default (state = initialState, { type, payload }) => {
@@ -35,32 +35,32 @@ export default (state = initialState, { type, payload }) => {
             };
           }
          // APPROVAL LIST 
-        //  case actionConstant.ACTION_GET_APPROVAL_LIST_REQUEST: {
-        //   return {
-        //     ...state,
-        //     approvalList:payload,
-        //     isRequesting: true,
-        //     error: {},
-        //   };
-        // }
-        // case actionConstant.ACTION_GET_APPROVAL_LIST_SUCCESS: {
-        //   return {
-        //     ...state,
-        //     approvalList: payload,
-        //     isRequesting: false,
-        //     error: {},
-        //   };
-        // }
-        // case actionConstant.ACTION_GET_APPROVAL_LIST_FAILURE: {
-        //   console.log(" failed ", payload); 
+         case actionConstant.ACTION_GET_APPROVAL_LIST_WITH_STATUS_REQUEST: {
+          return {
+            ...state,
+            approvalListWithStatus:payload,
+            isRequesting: true,
+            error: {},
+          };
+        }
+        case actionConstant.ACTION_GET_APPROVAL_LIST_WITH_STATUS_SUCCESS: {
+          return {
+            ...state,
+            approvalListWithStatus: payload,
+            isRequesting: false,
+            error: {},
+          };
+        }
+        case actionConstant.ACTION_GET_APPROVAL_LIST_WITH_STATUS_FAILURE: {
+          console.log(" failed ", payload); 
 
-        //   return {
-        //     ...state,
-        //     approvalList: payload.error,
-        //     isRequesting: false,
-        //     error: {},
-        //   };
-        // }
+          return {
+            ...state,
+            approvalListWithStatus: payload.error,
+            isRequesting: false,
+            error: {},
+          };
+        }
     default:
         return state
     }
