@@ -1,27 +1,27 @@
 import {takeLatest, take, call, put, select, all} from 'redux-saga/effects';
 import {actionConstant, apiConstant, appConstant} from '../../constant';
-import {getJourneyDetail} from './JourneyDetail.api';
+import {getscan} from './scan.api';
 import {isError} from '../../common';
 
-export function* workerGetJourneyDetail(argumentData ) {
+export function* workerScan(argumentData ) {
 
     try {
           
-      const journeyDetailResponse = yield call(getJourneyDetail,argumentData.payload);
+      const scanResponse = yield call(scanApi,argumentData.payload);
      
-      if (isError(journeyDetailResponse)) {
+      if (isError(scanResponse)) {
         yield put({
           type: actionConstant.ACTION_GET_DETAIL_OF_ITINARY_FAILURE,
-          payload: journeyDetailResponse.message
+          payload: scanResponse.message
         })
         return; 
       }
   
-      console.log( 'Sagag journe', journeyDetailResponse,' jorney detail  in saga -======>>>>>>' );
+      console.log( 'Sagag journe', scanResponse,' jorney detail  in saga -======>>>>>>' );
 
       yield put({
         type: actionConstant.ACTION_GET_DETAIL_OF_ITINARY_SUCCESS,
-        payload: journeyDetailResponse,
+        payload: scanResponse,
       });
   
       
@@ -33,12 +33,12 @@ export function* workerGetJourneyDetail(argumentData ) {
     }
   }
 
-export function* watchJourneyDetail () {
+export function* watchscan () {
     yield takeLatest(
         actionConstant.ACTION_GET_DETAIL_OF_ITINARY_REQUEST,
-        workerGetJourneyDetail,        
+        workerScan,        
       )
   }
 
-  export default watchJourneyDetail;
+  export default watchscan;
   
