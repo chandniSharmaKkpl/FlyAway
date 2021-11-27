@@ -129,7 +129,6 @@ const ApprovalList = props => {
 
   const renderItem = item => {
     let itemDetail = item.item;
-    console.log(" item detail -", itemDetail)
     let date =  itemDetail && itemDetail.requestdate? itemDetail.requestdate:'';
    
     let requestdate = date ? getDateInFormat(date, false, false) : '';
