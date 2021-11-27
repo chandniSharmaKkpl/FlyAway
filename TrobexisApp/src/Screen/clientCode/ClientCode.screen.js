@@ -109,8 +109,13 @@ var countBack = 0;
       //setUserData(user);
       console.log(' user pass ', user);
       localDB.setUser(user);
-      toast.show(alertMsgConstant.LOGIN_SUCCESSFUL,{type: alertMsgConstant.TOAST_SUCCESS})
-      navigation.navigate(appConstant.DRAWER_NAVIGATOR);
+     // toast.show(alertMsgConstant.LOGIN_SUCCESSFUL,{type: alertMsgConstant.TOAST_SUCCESS})
+     let loginUrl = responseData.responseAccountUrl[0].value; 
+     loginUrl.replace(":mobileDeviceId", deviceInfo.device_token);
+     console.log(' loginirl data ', loginUrl);
+     props.navigation.navigate(appConstant.DRAWER_NAVIGATOR);
+
+      // navigation.navigate(appConstant.LOGIN, {loginUrl: loginUrl});
     }
   }, [responseData]);
 
@@ -187,7 +192,7 @@ var countBack = 0;
           }}
         />
       ) : null}
-      <PushController getDeviceInfo={getDeviceInfo} />
+      <PushController getDeviceInfo={getDeviceInfo} navigation={navigation}/>
     </>
   );
 };

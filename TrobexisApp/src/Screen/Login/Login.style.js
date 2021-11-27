@@ -9,7 +9,7 @@ export default StyleSheet.create({
   container: {
     width: '100%',
     height: '100%',
-    backgroundColor: appColor.LIGH_BLUE,
+   // backgroundColor: appColor.RED,
   },
   textDeviceToken:{
    backgroundColor:'white',
@@ -17,7 +17,20 @@ export default StyleSheet.create({
    color: appColor.BLACK,
    padding: '2%'
   },
-
+  webview:{
+    width: wp('100%'), 
+    height:hp('100%'), 
+    position:'absolute'
+  },
+  IndicatorStyle: {
+    position: "absolute",
+    alignItems: "center",
+    justifyContent: "center",
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0
+  },
   textDeviceToken:{
     fontFamily: fontConstant.BARLOW_BOLD,
     fontSize: fontConstant.TEXT_H3_SIZE_BOLD,

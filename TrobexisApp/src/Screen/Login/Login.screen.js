@@ -8,6 +8,7 @@ import {
   Pressable,
   Button,
   TextInput,
+  ActivityIndicator,
 } from 'react-native';
 import stylesHome from '../home/Home.style';
 import styles from './Login.style';
@@ -28,6 +29,8 @@ import {isEmailValid, isMobileNumberValid} from '../../helper/validations';
 import alertMsgConstant from '../../constant/alertMsgConstant';
 import AuthContext from '../../context/AuthContext';
 import PushController from '../../component/PushControllerTemp';
+import {WebView} from 'react-native-webview';
+import {useRoute, useNavigation} from '@react-navigation/core';
 
 const LoginScreen = props => {
   const [isClickEye, setIsClickEye] = useState(false);
@@ -46,12 +49,12 @@ const LoginScreen = props => {
     emailErr: '',
     passwordErr: '',
   });
-
+  const route = useRoute();
   const [formErr, setFormError] = React.useState('');
 
   const [checked, setChecked] = React.useState(false);
 
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
   const dispatch = useDispatch(); // Calling api
 
   React.useEffect(() => {
@@ -143,106 +146,21 @@ const LoginScreen = props => {
     [props.accessToken],
   );
 
+ 
+  hideSpinner = () => {
+    setLoading(false);
+  };
+
   return (
     <>
-      <View style={stylesHome.container}>
-        {movetToScreen(props.accessToken)}
-        <ImageBackground
-          source={imageConstant.IMAGE_LOGIN_BACKGROUND}
-          style={commonStyle.image}
-          resizeMode={'cover'}>
-          <View style={styles.logoImage}>
-            <Image
-              source={imageConstant.IMAGE_LOGO}
-              resizeMode={'contain'}
-              style={commonStyle.image}
-            />
-          </View>
-          <View style={styles.titleView}>
-            <Text style={styles.titleStyle}>Login</Text>
-          </View>
-          <ScrollView
-            style={styles.scrollViewStyle}
-            showsVerticalScrollIndicator={false}
-            keyboardShouldPersistTaps="always">
-            <View style={styles.inputView}>
-              <LoginTextView
-                keyboardType="email-address"
-                placeholder="Enter Email Address"
-                value={userTemp.email}
-                error={error.emailErr}
-                onChangeText={e => setUserTemp({...userTemp, email: e})}
-                showEye={false}
-              />
-              {/* { emailErr ? (
-                <Text style={[styles.error, {color:appColor.RED}]}>
-                  {emailErr}
-                </Text>
-              ) : null} */}
-
-              {isClickEye ? (
-                <LoginTextView
-                  secureTextEntry={false}
-                  placeholder="Enter Password"
-                  value={userTemp.password}
-                  error={error.passwordErr}
-                  onChangeText={e => setUserTemp({...userTemp, password: e})}
-                  isClickEye={isClickEye}
-                  onPressRight={onPressRight}
-                  showEye={true}
-                />
-              ) : (
-                <LoginTextView
-                  secureTextEntry={true}
-                  placeholder="Enter Password"
-                  value={userTemp.password}
-                  error={error.passwordErr}
-                  onChangeText={e => setUserTemp({...userTemp, password: e})}
-                  isClickEye={isClickEye}
-                  onPressRight={onPressRight}
-                  showEye={true}
-                />
-              )}
-
-              {/* { passwordErr ? (
-                <Text style={[styles.error, {color:appColor.RED}]}>
-                  {passwordErr}
-                </Text>
-              ) : null} */}
-
-              <View
-                style={{
-                  marginBottom: hp('5%'),
-                  alignSelf: 'flex-end',
-                  paddingRight: wp('10%'),
-                  paddingTop: hp('5%'),
-
-                  // justifyContent: 'space-between',
-                }}>
-                <Pressable
-                //onPress={() => navigation.navigate('ForgotPassword')}
-                >
-                  <Text style={styles.forgotPwd}>Forgot Password?</Text>
-                </Pressable>
-              </View>
-
-              <Pressable style={styles.btnLogin} onPress={() => submitForm()}>
-                <Text style={styles.loginBtnText}>Login to Continue</Text>
-              </Pressable>
-              <Text style={[styles.textHello, {margin: '3%'}]}>
-                Device Token
-              </Text>
-              <TextInput
-                value={deviceInfo && deviceInfo.device_token? deviceInfo.device_token: ''}
-                style={styles.textDeviceToken}
-                multiline={true}
-              />
-            </View>
-          </ScrollView>
-        </ImageBackground>
-        {props.isRequesting ? <Loader loading={props.isRequesting} /> : null}
-      </View>
-      <PushController getDeviceInfo={getDeviceInfo} />
+      
+          <WebView
+            onLoad={() => hideSpinner()}
+            style={styles.webview}
+            source={{uri: route.params.loginUrl}}
+          />
+          {loading && <Loader loading={loading} />}
+       
     </>
   );
 };
