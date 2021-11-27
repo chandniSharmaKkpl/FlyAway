@@ -233,7 +233,6 @@ const ApprovalList = props => {
      
         let dict = responseApprovalData.acceptResponse;
         (dict.message = ''), (responseApprovalData.acceptResponse = dict);
-       
         // setting state to call get approval list hook 
         setRefreshing(true);
          callApiToGetApprovalList()
