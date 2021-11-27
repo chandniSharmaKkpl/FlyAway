@@ -7,6 +7,7 @@ import DeviceInfo from 'react-native-device-info';
 //import { getUniqueId, getManufacturer } from "react-native-device-info";
 import firebase from '@react-native-firebase/app';
 import messaging from '@react-native-firebase/messaging';
+import { appConstant } from '../constant';
 ///*** Follow this step  */
 /*
 
@@ -66,11 +67,19 @@ function PushController(props) {
     })(); 
 
       const unsubscribe = messaging().onMessage(async remoteMessage => {
-        Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+       // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+        console.log('reevie [rops ', props);
+        props.navigation.navigate(appConstant.DRAWER_NAVIGATOR);
+      });
+
+      const backgndHandler =  messaging().setBackgroundMessageHandler(async remoteMessage => {
+        console.log('Message handled in the background!', remoteMessage);
+        props.navigation.navigate(appConstant.DRAWER_NAVIGATOR);
+
       });
         return () => {
          unsubscribe;
-       
+         backgndHandler;
       };
     }
   }, []);

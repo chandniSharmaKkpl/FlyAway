@@ -1,5 +1,12 @@
 import React, {useState, useCallback, useEffect} from 'react';
-import {View, Text, Image, FlatList, Pressable, RefreshControl} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  FlatList,
+  Pressable,
+  RefreshControl,
+} from 'react-native';
 import stylesHome from '../home/Home.style';
 import styles from './ApprovalList.style';
 import {HeaderCustom, BookingCard, Loader, backHandler} from '../../component';
@@ -10,6 +17,7 @@ import {
   appConstant,
   imageConstant,
   alertMsgConstant,
+  actionConstant
 } from '../../constant';
 import SegmentedControlTab from 'react-native-segmented-control-tab';
 import {requestToGetApprovalList} from '../home/Home.action';
@@ -58,10 +66,16 @@ const ApprovalList = props => {
     };
   }, [props.navigation, props.route]);
 
+  //*** This will call everytime when pull to refresh call or segmented control index changed   */
+  
   useEffect(() => {
+   callApiToGetApprovalList()
+  }, [selectedIndex, refreshing]);
+
+  const callApiToGetApprovalList = ()=>{
     const tempUser = localDb.getUser();
-console.log(" list rrefresh ")
     Promise.resolve(tempUser).then(response => {
+
       if (selectedIndex === PENDING_INDEX) {
         let param = {
           user: response,
@@ -82,20 +96,23 @@ console.log(" list rrefresh ")
         dispatch(requestGetApprovalListWithStatus(param));
       }
     });
-  }, [selectedIndex, refreshing]);
+  }
 
   const onRefresh = React.useCallback(() => {
-    if (responseApprovalData.approvalListWithStatus && responseApprovalData.approvalListWithStatus.length>0) {
+    if (
+      responseApprovalData.approvalListWithStatus &&
+      responseApprovalData.approvalListWithStatus.length > 0
+    ) {
       setRefreshing(true);
     }
-     }, []);
+  }, []);
 
   const onClickAccept = approvalId => {
     const tempUser = localDb.getUser();
     Promise.resolve(tempUser).then(response => {
       let param = {approvalId: approvalId, user: response};
       dispatch(requestAcceptApproval(param));
-      setRefreshing(false); //  use Effect call for refreshing approval list 
+      setRefreshing(false); //  use Effect call for refreshing approval list
     });
   };
 
@@ -104,75 +121,84 @@ console.log(" list rrefresh ")
   };
 
   const moveToDetailView = id => {
-    props.navigation.navigate(appConstant.APPROVAL_DETAIL, {approvalId: id});
+    dispatch({type: actionConstant.ACTION_GET_APPROVAL_LIST_WITH_STATUS_SUCCESS, payload: responseApprovalData.approvalListWithStatus})
+    setRefreshing(true);
+
+    // props.navigation.navigate(appConstant.APPROVAL_DETAIL, {approvalId: id});
   };
 
   const renderItem = item => {
     let itemDetail = item.item;
-    let date = itemDetail.requestdate;
+    let date =  itemDetail && itemDetail.requestdate? itemDetail.requestdate:'';
+   
     let requestdate = date ? getDateInFormat(date, false, false) : '';
-    return (
-      <View style={styles.viewOutSide}>
-        <Pressable
-          style={styles.viewInside1}
-          onPress={() => moveToDetailView(itemDetail.id)}>
-          <View style={styles.viewInside2}>
-            <View>
-              <Text style={styles.textTitle}>{itemDetail.requestor}</Text>
-              <View style={styles.viewRow}>
-                <View style={styles.viewImages}>
-                  <Image
-                    style={styles.image}
-                    resizeMode={'contain'}
-                    source={imageConstant.IMAGE_PATH}
-                  />
+    if (itemDetail) {
+      return (
+        <View style={styles.viewOutSide}>
+          <Pressable
+            style={styles.viewInside1}
+            onPress={() => moveToDetailView(itemDetail.id)}>
+            <View style={styles.viewInside2}>
+              <View>
+                <Text style={styles.textTitle}>{itemDetail.requestor}</Text>
+                <View style={styles.viewRow}>
+                  <View style={styles.viewImages}>
+                    <Image
+                      style={styles.image}
+                      resizeMode={'contain'}
+                      source={imageConstant.IMAGE_PATH}
+                    />
+                  </View>
+                  <Text style={styles.textDetail}>{itemDetail.description}</Text>
                 </View>
-                <Text style={styles.textDetail}>{itemDetail.description}</Text>
-              </View>
-              <View style={styles.viewRow}>
-                <View style={styles.viewImages}>
-                  <Image
-                    style={styles.image}
-                    resizeMode={'contain'}
-                    tintColor={appColor.NAVY_BLUE}
-                    source={imageConstant.IMAGE_PASTE}
-                  />
+                <View style={styles.viewRow}>
+                  <View style={styles.viewImages}>
+                    <Image
+                      style={styles.image}
+                      resizeMode={'contain'}
+                      tintColor={appColor.NAVY_BLUE}
+                      source={imageConstant.IMAGE_PASTE}
+                    />
+                  </View>
+                  <Text style={styles.textDetail}>#{itemDetail.id}</Text>
                 </View>
-                <Text style={styles.textDetail}>#{itemDetail.id}</Text>
-              </View>
-              <View style={styles.viewRow}>
-                <View style={styles.viewImages}>
-                  <Image
-                    style={styles.image}
-                    resizeMode={'contain'}
-                    source={imageConstant.IMAGE_CALENDAR_BLUE}
-                  />
+                <View style={styles.viewRow}>
+                  <View style={styles.viewImages}>
+                    <Image
+                      style={styles.image}
+                      resizeMode={'contain'}
+                      source={imageConstant.IMAGE_CALENDAR_BLUE}
+                    />
+                  </View>
+                  <Text style={styles.textDetail}>{requestdate}</Text>
                 </View>
-                <Text style={styles.textDetail}>{requestdate}</Text>
               </View>
+              {itemDetail.status &&
+              itemDetail.status === appConstant.PENDING_APPROVAL ? (
+                <View style={styles.viewButtons}>
+                  <View style={styles.buttonGreen}>
+                    <Pressable
+                      onPress={() => {
+                        onClickAccept(itemDetail.id);
+                      }}>
+                      <Text style={styles.textButtonTitle}>Accept</Text>
+                    </Pressable>
+                  </View>
+                  <View style={styles.buttonRed}>
+                    <Pressable onPress={() => onClickDecline(item)}>
+                      <Text style={styles.textButtonTitle}>Decline</Text>
+                    </Pressable>
+                  </View>
+                </View>
+              ) : null}
             </View>
-            {itemDetail.status &&
-            itemDetail.status === appConstant.PENDING_APPROVAL ? (
-              <View style={styles.viewButtons}>
-                <View style={styles.buttonGreen}>
-                  <Pressable
-                    onPress={() => {
-                      onClickAccept(itemDetail.id);
-                    }}>
-                    <Text style={styles.textButtonTitle}>Accept</Text>
-                  </Pressable>
-                </View>
-                <View style={styles.buttonRed}>
-                  <Pressable onPress={() => onClickDecline(item)}>
-                    <Text style={styles.textButtonTitle}>Decline</Text>
-                  </Pressable>
-                </View>
-              </View>
-            ) : null}
-          </View>
-        </Pressable>
-      </View>
-    );
+          </Pressable>
+        </View>
+      );
+    }else{
+      return
+    }
+   
   };
 
   const moveBack = () => {
@@ -192,36 +218,25 @@ console.log(" list rrefresh ")
 
       return;
     }
-    console.log('  get data', responseApprovalData);
     if (responseApprovalData && responseApprovalData.approvalListWithStatus) {
-      if (responseApprovalData.approvalListWithStatus.message) {
-        if (refreshing) {
-          setRefreshing(false);
-        }
-        toast.show(responseApprovalData.approvalListWithStatus.message, {
-          type: alertMsgConstant.TOAST_SUCCESS,
-        });
-        let dict = responseApprovalData.approvalListWithStatus;
-        (dict.message = ''),
-          (responseApprovalData.approvalListWithStatus = dict);
-        // moveBack();
-      } else if (responseApprovalData.approvalListWithStatus) {
+      
         if (refreshing) {
           setRefreshing(false);
         }
         //setApprovalList(responseApprovalData.approvalListWithStatus);
-      }
     }
-
     if (responseApprovalData && responseApprovalData.acceptResponse) {
       if (responseApprovalData.acceptResponse.message) {
         toast.show(responseApprovalData.acceptResponse.message, {
           type: alertMsgConstant.TOAST_SUCCESS,
         });
-        onRefresh(); 
-
+     
         let dict = responseApprovalData.acceptResponse;
         (dict.message = ''), (responseApprovalData.acceptResponse = dict);
+       
+        // setting state to call get approval list hook 
+        setRefreshing(true);
+         callApiToGetApprovalList()
         // moveBack();
       }
     }
@@ -257,15 +272,24 @@ console.log(" list rrefresh ")
           />
         </View>
         <View style={styles.viewFlatList}>
-          <FlatList
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }  
-            extraData = {refreshing}
-            data={responseApprovalData.approvalListWithStatus}
-            renderItem={renderItem}
-            keyExtractor={(item, index) => index.toString()}
-          />
+          {responseApprovalData &&
+          responseApprovalData.approvalListWithStatus &&
+          responseApprovalData.approvalListWithStatus.length > 0 ? (
+            <>
+              <FlatList
+                refreshControl={
+                  <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={onRefresh}
+                  />
+                }
+                extraData={refreshing}
+                data={responseApprovalData.approvalListWithStatus}
+                renderItem={renderItem}
+                keyExtractor={(item, index) => index.toString()}
+              />
+            </>
+          ) : null}
         </View>
         {responseApprovalData.isRequesting || responseData.isRequesting ? (
           <Loader
