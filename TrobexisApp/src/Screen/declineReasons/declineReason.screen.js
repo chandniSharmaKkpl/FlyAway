@@ -65,7 +65,11 @@ const ReasonDecline = props => {
   const onClickSubmit = () => {
     const tempUser = localDb.getUser();
     Promise.resolve(tempUser).then(response => {
-      let param = {reasonId: reasonId, user: response};
+      let param = {
+        reasonId: reasonId,
+         user: response,
+         approvalId: route.params ? route.params.approvalItem.item.id : '',
+        };
       dispatch(requestDeclineApproval(param));
     });
   };
@@ -89,27 +93,31 @@ const ReasonDecline = props => {
   };
 
   const getDataFromResponse = () => {
-    if (responseGetReasonList.error && Object.keys(responseGetReasonList.error).length !== 0) {
+    if (
+      responseGetReasonList.error &&
+      Object.keys(responseGetReasonList.error).length !== 0
+    ) {
       console.log(' errr', responseGetReasonList);
-      toast.show(responseGetReasonList.error,{type: alertMsgConstant.TOAST_DANGER})
-
+      toast.show(responseGetReasonList.error, {
+        type: alertMsgConstant.TOAST_DANGER,
+      });
+      responseGetReasonList.error = ""; 
+      
       return;
     }
     if (responseGetReasonList.declineSubmitRes) {
-     // console.log("  get data",responseGetReasonList ); 
-     
       if (responseGetReasonList.declineSubmitRes.message) {
+        toast.show(responseGetReasonList.declineSubmitRes.message, {
+          type: alertMsgConstant.TOAST_SUCCESS,
+        });
 
-        toast.show(responseGetReasonList.declineSubmitRes.message,{type: alertMsgConstant.TOAST_SUCCESS})
-
-        let dict = responseGetReasonList.declineSubmitRes
-        dict.message = "",
-        responseGetReasonList.declineSubmitRes = dict; 
-        if (responseGetReasonList.success) {
-        moveBack();
+        let dict = responseGetReasonList.declineSubmitRes;
+        (dict.message = ''), (responseGetReasonList.declineSubmitRes = dict);
+        if (responseGetReasonList.declineSubmitRes.success) {
+          moveBack();
         }
       }
-    } 
+    }
   };
 
   return (

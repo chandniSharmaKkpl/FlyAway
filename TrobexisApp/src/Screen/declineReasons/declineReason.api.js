@@ -76,12 +76,14 @@ export const getDeclineReasonsApi = async(argumentData) => {
     console.log('decline argument data --> : ', argumentData);
   
     let reasonId = argumentData.reasonId;
-    // let approvalId = argumentData.approvalId
+     let approvalId = argumentData.approvalId
       let deviceId = argumentData.user.deviceId;
       let apiBaseUrl = argumentData.user.apiBaseUrl
       let clientToken = argumentData.user.clientToken; 
    
     let urlString = apiBaseUrl + apiConstant.APPROVAL_DECLINE_API;
+    urlString = urlString.replace(':approvalId', approvalId);
+
     console.log(' url  data  : ', urlString);
     const raw = {
       approverId: TEMP_APPROVAR_ID? TEMP_APPROVAR_ID: 'BM123',

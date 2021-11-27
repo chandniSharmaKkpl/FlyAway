@@ -60,7 +60,7 @@ const ApprovalList = props => {
 
   useEffect(() => {
     const tempUser = localDb.getUser();
-
+console.log(" list rrefresh ")
     Promise.resolve(tempUser).then(response => {
       if (selectedIndex === PENDING_INDEX) {
         let param = {
@@ -85,15 +85,17 @@ const ApprovalList = props => {
   }, [selectedIndex, refreshing]);
 
   const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
- 
-  }, []);
+    if (responseApprovalData.approvalListWithStatus && responseApprovalData.approvalListWithStatus.length>0) {
+      setRefreshing(true);
+    }
+     }, []);
 
   const onClickAccept = approvalId => {
     const tempUser = localDb.getUser();
     Promise.resolve(tempUser).then(response => {
       let param = {approvalId: approvalId, user: response};
       dispatch(requestAcceptApproval(param));
+      setRefreshing(false); //  use Effect call for refreshing approval list 
     });
   };
 
@@ -216,6 +218,7 @@ const ApprovalList = props => {
         toast.show(responseApprovalData.acceptResponse.message, {
           type: alertMsgConstant.TOAST_SUCCESS,
         });
+        onRefresh(); 
 
         let dict = responseApprovalData.acceptResponse;
         (dict.message = ''), (responseApprovalData.acceptResponse = dict);
@@ -258,6 +261,7 @@ const ApprovalList = props => {
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }  
+            extraData = {refreshing}
             data={responseApprovalData.approvalListWithStatus}
             renderItem={renderItem}
             keyExtractor={(item, index) => index.toString()}
