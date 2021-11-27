@@ -5,7 +5,6 @@ import axios from 'axios';
 const TEMP_APPROVAR_ID = 'BM123';
 
 export const acceptApprovalApi = async argumentData => {
-  console.log(' argument data  : ', argumentData);
 
   let approvalId = argumentData.data.approvalId;
   let deviceId = argumentData.data.user.deviceId;
@@ -13,7 +12,8 @@ export const acceptApprovalApi = async argumentData => {
   let clientToken = argumentData.data.user.clientToken;
 
   let urlString = apiBaseUrl + apiConstant.APPROVAL_ACCEPT_API;
-  console.log(' url  data  : ', urlString);
+  urlString = urlString.replace(':approvalId', approvalId);
+
   const raw = {
     approverId: TEMP_APPROVAR_ID? TEMP_APPROVAR_ID: 'BM123',
   };
@@ -42,7 +42,7 @@ export const acceptApprovalApi = async argumentData => {
       }),
     )
     .catch(err => {
-      //console.log('88 api Erorr: ', err.response);
+     // console.log('88 api Erorr: ', err.response);
       return err.response.data;
     });
   } catch (error) {
@@ -72,30 +72,28 @@ export const declineApprovalApi = argumentData => {
   });
 
   let urlString = apiConstant.APPROVAL_DECLINE_API;
-  // urlString =  urlString.replace(':approvalId', approvalId);
-  console.log(' url  data  : ', urlString);
+  urlString =  urlString.replace(':approvalId', approvalId);
 
   return instance
-    .put(urlString, {approverId: approvalId})
+    .put(urlString, {approverId: TEMP_APPROVAR_ID})
 
     .then(response =>
       Promise.resolve({
         data: response,
       }).then(response => {
         let response1 = response.data.data;
-        console.log(' response : ', response1);
+      //  console.log(' response : ', response1);
 
         return response1;
       }),
     )
     .catch(err => {
-      console.log('88 api Erorr: ', err.response);
+     // console.log('88 api Erorr: ', err.response);
       return err.response.data;
     });
 };
 
 export const getApprovalListWithStatus = argumentData => {
-console.log('******* argument data in api : ', argumentData.data);
 
   let deviceId = argumentData.data.user.deviceId? argumentData.data.user.deviceId:'';
   let apiBaseUrl = argumentData.data.user.apiBaseUrl;
@@ -117,8 +115,6 @@ console.log('******* argument data in api : ', argumentData.data);
   let urlString = apiConstant.GET_APPROVAL_LIST_PLUS_STATUS;
   urlString = urlString.replace(':userId', TEMP_APPROVAR_ID);
   urlString = urlString.replace(':status', status);
-
-  console.log(' url  data  : ', urlString);
 
   return instance
     .get(urlString)

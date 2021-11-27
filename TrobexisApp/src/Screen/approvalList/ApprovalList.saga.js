@@ -9,8 +9,6 @@ export function* workerAcceptApproval(argumentData ) {
           
       const approvalResponse = yield call(acceptApprovalApi,argumentData.payload);
      
-      console.log( ' 12 Sagag  approval list  in saga -======>>>>>>', approvalResponse );
-
       if (isError(approvalResponse)) {
         yield put({
           type: actionConstant.ACTION_ACCEPT_APPROVAL_FAILURE,
