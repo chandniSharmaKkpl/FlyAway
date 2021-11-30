@@ -66,6 +66,7 @@ const ReasonDecline = props => {
     const tempUser = localDb.getUser();
     Promise.resolve(tempUser).then(response => {
       let param = {
+        comments: comments,
         reasonId: reasonId,
          user: response,
          approvalId: route.params ? route.params.approvalItem.item.id : '',

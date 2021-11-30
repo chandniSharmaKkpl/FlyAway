@@ -38,7 +38,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 const ClientCodeScreen = props => {
   const navigation = useNavigation();
   const {setUserData} = React.useContext(AuthContext);
-  const [clientCode, setClientCode] = useState('TONEAPPUAT'); //TONEAPPUAT
+  const [clientCode, setClientCode] = useState(''); //TONEAPPUAT
   const [error, setError] = useState('');
   const dispatch = useDispatch();
   const responseData = useSelector(state => state.ClientCodeReducer);
@@ -113,9 +113,9 @@ var countBack = 0;
      let loginUrl = responseData.responseAccountUrl[0].value; 
      loginUrl.replace(":mobileDeviceId", deviceInfo.device_token);
      console.log(' loginirl data ', loginUrl);
-     props.navigation.navigate(appConstant.DRAWER_NAVIGATOR);
+    //  props.navigation.navigate(appConstant.DRAWER_NAVIGATOR);
 
-      // navigation.navigate(appConstant.LOGIN, {loginUrl: loginUrl});
+       navigation.navigate(appConstant.LOGIN, {loginUrl: loginUrl});
     }
   }, [responseData]);
 
