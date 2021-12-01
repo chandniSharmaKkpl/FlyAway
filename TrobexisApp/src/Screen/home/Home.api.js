@@ -12,6 +12,7 @@ export const getUserProfile = argumentData => {
   let deviceId = argumentData.user.deviceId;
   let apiBaseUrl = argumentData.user.apiBaseUrl;
   let clientToken = argumentData.user.clientToken;
+  let userId = argumentData.user.userId;
 
   let instance = axios.create({
     baseURL: apiBaseUrl,
@@ -24,8 +25,10 @@ export const getUserProfile = argumentData => {
     },
   });
 
+  console.log(" userId ----->", argumentData.user); 
+
   let urlString = apiConstant.USER_PROFILE;
-  urlString = urlString.replace(':userId', USER_ID_TEMP);
+  urlString = urlString.replace(':userId', userId);
 
   return instance
     .get(urlString)
@@ -50,6 +53,7 @@ export const getItinaryList = argumentData => {
   let deviceId = argumentData.user.deviceId;
   let apiBaseUrl = argumentData.user.apiBaseUrl;
   let clientToken = argumentData.user.clientToken;
+  let userId = argumentData.user.userId;
 
   let instance = axios.create({
     baseURL: apiBaseUrl,
@@ -63,7 +67,7 @@ export const getItinaryList = argumentData => {
   });
 
   let urlString = apiConstant.GET_ITINARY_LIST;
-  urlString = urlString.replace(':userId', USER_ID_JOURNEY);
+  urlString = urlString.replace(':userId', userId);
   //console.log(' url  data  : ', urlString);
 
   return instance
@@ -90,6 +94,7 @@ export const getItinaryListAllJourney = argumentData => {
   let deviceId = argumentData.user.deviceId;
   let apiBaseUrl = argumentData.user.apiBaseUrl;
   let clientToken = argumentData.user.clientToken;
+  let userId = argumentData.user.userId;
 
   let instance = axios.create({
     baseURL: apiBaseUrl,
@@ -103,7 +108,7 @@ export const getItinaryListAllJourney = argumentData => {
   });
 
   let urlString = apiConstant.GET_ITINARY_LIST_ALL_JOURNEY;
-  urlString = urlString.replace(':userId', USER_ID_JOURNEY);
+  urlString = urlString.replace(':userId', userId);
   //console.log(' url  data  : ', urlString);
 
   return instance
@@ -130,6 +135,7 @@ console.log('get approval list  argument data in api : ', argumentData);
   let deviceId = argumentData.data.user.deviceId;
   let apiBaseUrl = argumentData.data.user.apiBaseUrl;
   let clientToken = argumentData.data.user.clientToken;
+  let userId = argumentData.user.userId;
 
   let instance = axios.create({
     baseURL: apiBaseUrl,
@@ -143,7 +149,7 @@ console.log('get approval list  argument data in api : ', argumentData);
   });
 
   let urlString = apiConstant.GET_APPROVAL_LIST;
-  urlString = urlString.replace(':userId', USER_ID_TEMP);
+  urlString = urlString.replace(':userId', userId);
   //console.log(' url  data  : ', urlString);
 
   return instance

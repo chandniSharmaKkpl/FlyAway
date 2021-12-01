@@ -29,6 +29,7 @@ export default {
   SETTING: 'Setting',
   SCAN: 'Scan',
   SUPPORT: 'Support',
+  
 
   // Word constant
   COMMENT_MAX_LIMIT: 500,
@@ -37,4 +38,5 @@ export default {
   PENDING_APPROVAL: "Pending Approval",
   APPROVED: 'Approved',
   DECLINED: 'Declined', 
+  USERID: 'UserId'
 };

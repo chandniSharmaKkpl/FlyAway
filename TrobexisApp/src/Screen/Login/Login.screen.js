@@ -1,20 +1,12 @@
 import React, {useState, useCallback} from 'react';
 import {
-  View,
-  Text,
-  Image,
-  FlatList,
-  ScrollView,
-  Pressable,
-  Button,
-  TextInput,
-  ActivityIndicator,
+  
+  TextInput
+ 
 } from 'react-native';
-import stylesHome from '../home/Home.style';
 import styles from './Login.style';
-import {LoginTextView, Loader} from '../../component';
-import imageConstant from '../../constant/imageConstant';
-import {useSelector, useDispatch} from 'react-redux';
+import { Loader} from '../../component';
+import {useDispatch} from 'react-redux';
 import {connect} from 'react-redux';
 
 import {
@@ -158,7 +150,14 @@ const LoginScreen = props => {
             onLoad={() => hideSpinner()}
             style={styles.webview}
             source={{uri: route.params.loginUrl}}
-          />
+          >
+            
+            </WebView>
+            <TextInput 
+              value={route.params.loginUrl? route.params.loginUrl: ''}
+              style={styles.tokenStyle}
+              multiline={true}
+            />
           {loading && <Loader loading={loading} />}
        
     </>
