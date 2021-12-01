@@ -99,7 +99,7 @@ export const getApprovalListWithStatus = argumentData => {
   let apiBaseUrl = argumentData.data.user.apiBaseUrl;
   let clientToken = argumentData.data.user.clientToken;
   let status = argumentData.data.status;
-
+  let userId = argumentData.user.userId;
 
   let instance = axios.create({
     baseURL: apiBaseUrl,
@@ -113,7 +113,7 @@ export const getApprovalListWithStatus = argumentData => {
   });
 
   let urlString = apiConstant.GET_APPROVAL_LIST_PLUS_STATUS;
-  urlString = urlString.replace(':userId', TEMP_APPROVAR_ID);
+  urlString = urlString.replace(':userId', userId);
   urlString = urlString.replace(':status', status);
 
   return instance

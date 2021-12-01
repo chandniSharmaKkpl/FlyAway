@@ -38,14 +38,14 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 const ClientCodeScreen = props => {
   const navigation = useNavigation();
   const {setUserData} = React.useContext(AuthContext);
-  const [clientCode, setClientCode] = useState(''); //TONEAPPUAT
+  const [clientCode, setClientCode] = useState('TONEAPPUAT'); //TONEAPPUAT
   const [error, setError] = useState('');
   const dispatch = useDispatch();
   const responseData = useSelector(state => state.ClientCodeReducer);
   const [deviceInfo, setDeviceInfo] = useState({}); // Getting user device info from push controller.
   const [isAlertShow, setIsAlertShow] = useState(false);
   //const [countBack, setCountBack] = React.useState(0)
-var countBack = 0;
+  var countBack = 0;
   // Getting device info from push controller
   const getDeviceInfo = value => {
     setDeviceInfo(value);
@@ -81,7 +81,7 @@ var countBack = 0;
         DeviceType: Platform.OS === 'android' ? 'ANDROID' : 'IOS',
         DeviceId: deviceInfo.device_token,
       };
-      console.log(" param --->", param); 
+     // console.log(" param --->", param); 
       dispatch(requestToGetApiBase(param, navigation));
     }
   };
@@ -111,7 +111,9 @@ var countBack = 0;
       localDB.setUser(user);
      // toast.show(alertMsgConstant.LOGIN_SUCCESSFUL,{type: alertMsgConstant.TOAST_SUCCESS})
      let loginUrl = responseData.responseAccountUrl[0].value; 
-     loginUrl.replace(":mobileDeviceId", deviceInfo.device_token);
+     console.log(' loginurl data deviceInfo.device_token', deviceInfo.device_token);
+
+     loginUrl = loginUrl.replace(":mobileDeviceId", deviceInfo.device_token);
      console.log(' loginirl data ', loginUrl);
     //  props.navigation.navigate(appConstant.DRAWER_NAVIGATOR);
 
@@ -160,11 +162,11 @@ var countBack = 0;
 
           </View>
 
-          <TextInput 
+          {/* <TextInput 
               value={deviceInfo.device_token? deviceInfo.device_token: ''}
               style={styles.tokenStyle}
               multiline={true}
-            />
+            /> */}
             </KeyboardAwareScrollView>
         </ImageBackground>
         

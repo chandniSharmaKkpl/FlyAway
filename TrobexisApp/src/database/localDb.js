@@ -92,6 +92,36 @@ const setUser = async data => {
     });
 };
 
+const getUserId = async () => {
+  const temp = await AsyncStorage.getItem(appConstant.USERID);
+
+  console.log("temp get userid data ---->", temp);
+
+  let token;
+  if (temp) {
+    console.log("1 get userid data ---->", temp);
+    token = temp;
+    return token;
+  } else {
+  }
+  return token;
+};
+
+const setUserId = async data => {
+  console.log("1 set userid data ---->", data);
+  await AsyncStorage.setItem(appConstant.USERID, data)
+    .then(() => {
+      console.log("Success set userid data ---->", data);
+
+      return true;
+    })
+    .catch(() => {
+      console.log("Failed to set userid data ---->");
+
+      return false;
+    });
+};
+
 
 export default {
   getAccessToken,
@@ -101,6 +131,7 @@ export default {
   saveClientCode,
   getClientCode,
   getUser, 
-  setUser
-
+  setUser,
+getUserId, 
+setUserId
 };
