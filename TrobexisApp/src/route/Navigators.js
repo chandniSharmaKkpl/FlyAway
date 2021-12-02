@@ -57,6 +57,28 @@ function DrawerNavigator() {
 }
 
 const AuthStack = () => {
+  const [currentUser, setCurrentUser] = useState(null);
+  const [isLogin, setIsLogin] = useState(null);
+
+  // When Dashboard page will update for api this will also update
+  
+  useEffect(() => {
+   
+    const tempUser = localDb.getUser();
+    Promise.resolve(tempUser).then(response => {
+      if (response) {
+        console.log("navigator response ==>", response); 
+        if (response.loginUrl && response.clientToken) {
+          setIsLogin(true)
+        }
+        setIsLogin(null);
+      } else {
+        setIsLogin(null);
+      }
+    });
+  }, [currentUser]);
+  console.log("After navigator response ==>", isLogin); 
+
   return (
     <Stack.Navigator>
       {/* <Stack.Screen
@@ -65,17 +87,20 @@ const AuthStack = () => {
         component={ApprovalList}
       /> */}
 
-      <Stack.Screen
+    {/* {!isLogin?  ( */}
+    <Stack.Screen
         options={{headerShown: false}}
         name={appConstant.CLIENT_CODE}
         component={ClientCodeScreen}
       />
-
+      {/* ): */}
+{/* ( */}
       <Stack.Screen
         options={{headerShown: false}}
         name={appConstant.LOGIN}
         component={LoginScreen}
       />
+      {/* ) } */}
 
       <Stack.Screen
         options={{headerShown: false}}
@@ -258,11 +283,16 @@ function TabNavigator() {
 function NavigationSetup() {
   const [currentUser, setCurrentUser] = useState(null);
   // When Dashboard page will update for api this will also update
+
   useEffect(() => {
     const tempUser = localDb.getUser();
     Promise.resolve(tempUser).then(response => {
       if (response) {
-        setCurrentUser(response);
+        if (response.userId) {
+          setCurrentUser(response);
+        }else{
+          setCurrentUser(null);
+        }
       } else {
         setCurrentUser(null);
       }
@@ -273,13 +303,13 @@ function NavigationSetup() {
     <Stack.Navigator
       initialRouteName={appConstant.LOGIN}
       options={{gestureEnabled: true}}>
-      {/* {currentUser ? (
+      {currentUser ? (
         <Stack.Screen
           options={{headerShown: false}}
           name={appConstant.DRAWER_NAVIGATOR}
           component={DrawerNavigator}
         />
-      ) : ( */}
+      ) : (
         <Stack.Screen
           name={appConstant.AUTH_STACK}
           component={AuthStack}
@@ -289,7 +319,7 @@ function NavigationSetup() {
             headerTransparent: true,
           }}
         />
-      {/* )} */}
+       )} 
     </Stack.Navigator>
   );
 }

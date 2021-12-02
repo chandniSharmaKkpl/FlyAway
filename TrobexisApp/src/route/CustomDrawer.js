@@ -22,6 +22,8 @@ import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
 import DeviceInfo from 'react-native-device-info';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/core';
+import localDb from '../database/localDb';
+ 
 
 export default CustomDrawer = () => {
   const navigation = useNavigation();
@@ -97,7 +99,11 @@ export default CustomDrawer = () => {
       </View>
 
       <View style={styles.viewLogout}>
-      <Pressable style={styles.btnDrawer}>
+      <Pressable style={styles.btnDrawer} onPress={()=> {
+        console.log(" logout ===")
+        localDb.setUser(null),
+        navigation.navigate(appConstant.CLIENT_CODE)
+         }}>
           <View >
             <IconMaterial name="logout" style={styles.iconLogout}/>
           </View>
