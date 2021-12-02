@@ -110,8 +110,6 @@ const ClientCodeScreen = props => {
         loginUrl: loginUrl
       };
 
-      console.log(' user pass ', user);
-
       localDB.setUser(user);
     // Making the client code screen empty 
        setClientCode('');  
