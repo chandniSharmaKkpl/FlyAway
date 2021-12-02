@@ -38,7 +38,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 const ClientCodeScreen = props => {
   const navigation = useNavigation();
   const {setUserData} = React.useContext(AuthContext);
-  const [clientCode, setClientCode] = useState('TONEAPPUAT'); //TONEAPPUAT
+  const [clientCode, setClientCode] = useState(''); //TONEAPPUAT
   const [error, setError] = useState('');
   const dispatch = useDispatch();
   const responseData = useSelector(state => state.ClientCodeReducer);
@@ -100,22 +100,23 @@ const ClientCodeScreen = props => {
       responseData.responseAccountUrl[0].code === 'Authenticate'
     ) {
       console.log(' response data ', responseData);
-
+      let loginUrl = responseData.responseAccountUrl[0].value; 
+      loginUrl = loginUrl.replace(":mobileDeviceId", deviceInfo.device_token);
+    
       let user = {
         clientToken: responseData.clientToken,
         deviceId:deviceInfo.device_token,
         apiBaseUrl: responseData.apiBaseData.value,
+        loginUrl: loginUrl
       };
-      //setUserData(user);
-      console.log(' user pass ', user);
-      localDB.setUser(user);
-     // toast.show(alertMsgConstant.LOGIN_SUCCESSFUL,{type: alertMsgConstant.TOAST_SUCCESS})
-     let loginUrl = responseData.responseAccountUrl[0].value; 
-     console.log(' loginurl data deviceInfo.device_token', deviceInfo.device_token);
 
-     loginUrl = loginUrl.replace(":mobileDeviceId", deviceInfo.device_token);
-     console.log(' loginirl data ', loginUrl);
-    //  props.navigation.navigate(appConstant.DRAWER_NAVIGATOR);
+      console.log(' user pass ', user);
+
+      localDB.setUser(user);
+    // Making the client code screen empty 
+       setClientCode('');  
+    
+     //  props.navigation.navigate(appConstant.DRAWER_NAVIGATOR);
 
        navigation.navigate(appConstant.LOGIN, {loginUrl: loginUrl});
     }

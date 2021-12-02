@@ -23,6 +23,7 @@ import AuthContext from '../../context/AuthContext';
 import PushController from '../../component/PushControllerTemp';
 import {WebView} from 'react-native-webview';
 import {useRoute, useNavigation} from '@react-navigation/core';
+import localDb from '../../database/localDb';
 
 const LoginScreen = props => {
   const [isClickEye, setIsClickEye] = useState(false);
@@ -48,6 +49,7 @@ const LoginScreen = props => {
 
   const [loading, setLoading] = React.useState(true);
   const dispatch = useDispatch(); // Calling api
+  const [loginUrl, setLoginUrl] = useState(null);
 
   React.useEffect(() => {
     let isUserAvailable = false;
@@ -57,6 +59,16 @@ const LoginScreen = props => {
         setUserTemp({email: '', password: ''});
       }
       setFormError('');
+    });
+
+    const tempUser = localDb.getUser();
+    Promise.resolve(tempUser).then(response => {
+      if (response) {
+        console.log("navigator response ==>", response); 
+        if (response.loginUrl) {
+         setLoginUrl(response.loginUrl);
+        }
+      }
     });
 
     return unsubscribe;
@@ -139,7 +151,7 @@ const LoginScreen = props => {
   );
 
  
-  hideSpinner = () => {
+ const hideSpinner = () => {
     setLoading(false);
   };
 
@@ -149,15 +161,15 @@ const LoginScreen = props => {
           <WebView
             onLoad={() => hideSpinner()}
             style={styles.webview}
-            source={{uri: route.params.loginUrl}}
+            source={{uri: route && route.params? route.params.loginUrl: loginUrl}}
           >
             
             </WebView>
-            <TextInput 
-              value={route.params.loginUrl? route.params.loginUrl: ''}
+            {/* <TextInput 
+              value={route && route.params && route.params.loginUrl? route.params.loginUrl: loginUrl}
               style={styles.tokenStyle}
               multiline={true}
-            />
+            /> */}
           {loading && <Loader loading={loading} />}
        
     </>
