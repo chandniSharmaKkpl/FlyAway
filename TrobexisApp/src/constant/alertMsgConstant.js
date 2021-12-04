@@ -20,12 +20,28 @@ export default {
   OK: 'Ok',
   CONFIRMATION_NO_SHOW:"Are you sure you want to register a No-Show for this flight?",
   EXIT_CONFIRM: "Do you want to exit the application?",
+  AUTHENTICATION_SUCCESS: "Authenticated Successfully", 
+  AUTHENTICATION_FAILED:'Authentication Failed',
 
-  // Toast types 
-
+  //** Toast types **/
   TOAST_SUCCESS:"success",
   TOAST_NORMAL:"normal",
   TOAST_WARNING:"warning",
   TOAST_DANGER:"danger",
   TOAST_CUSTOM:"custom",
+
+  //** Bio metric authentication error messages  */
+  //ios
+  MSG_AUTHENTICATION_FAILED: 'Authentication was not successful please provide valid credentials',
+  MSG_USER_CANCEL: 'Authentication was canceled by the user',
+  MSG_USER_FALLBACK: 'Authentication was canceled because the user tapped the fallback button',
+  MSG_SYSTEM_CANCEL: 'Authentication was canceled by system',
+  MSG_PASSCODE_NOT_SET: 'Authentication could not start because the passcode is not set on the device.  ',
+  MSG_TOUCHID_NOT_AVAIMSGBLE: 'Authentication could not start because Touch ID is not available on the device  ',
+  MSG_TOUCH_ID_NOT_ENROLLED: 'Authentication could not start because Touch ID has no enrolled fingers.  ',
+  MSG_TOUCH_ID_LOCKOUT: 'Authentication failed because of too many failed attempts.  ',
+  MSG_UNKNOWN_ERROR: 'Could not authenticate for an unknown reason.  ',
+  MSG_TOUCH_ID_NOT_SUPPORTED: 'Device does not support Touch ID.  ',
+  // Android
+  MSG_TOUCH_ID_ERROR: '',
 };

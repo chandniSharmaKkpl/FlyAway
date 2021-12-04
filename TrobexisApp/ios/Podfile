@@ -31,6 +31,8 @@ target 'TrobexisApp' do
 
   pod 'react-native-webview', :path => '../node_modules/react-native-webview'
 
+  pod 'TouchID', :path => '../node_modules/react-native-touch-id'
+
   target 'TrobexisAppTests' do
     inherit! :complete
     # Pods for testing

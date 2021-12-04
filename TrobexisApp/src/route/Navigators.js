@@ -67,7 +67,6 @@ const AuthStack = () => {
     const tempUser = localDb.getUser();
     Promise.resolve(tempUser).then(response => {
       if (response) {
-        console.log("navigator response ==>", response); 
         if (response.loginUrl && response.clientToken) {
           setIsLogin(true)
         }
@@ -77,7 +76,6 @@ const AuthStack = () => {
       }
     });
   }, [currentUser]);
-  console.log("After navigator response ==>", isLogin); 
 
   return (
     <Stack.Navigator>
