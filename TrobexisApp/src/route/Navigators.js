@@ -26,7 +26,7 @@ import ForgotPassword from '../Screen/ForgotPassword/ForgotPassword.screen';
 import AuthContext from '../context/AuthContext';
 import ClientCodeScreen from '../Screen/clientCode/ClientCode.screen';
 import ApprovalListScreen from '../Screen/approvalList/ApprovalList.screen';
-import localDb from '../database/localDb';
+import localDB from '../database/localDb';
 import ReasonScreen from '../Screen/declineReasons/declineReason.screen';
 import JourneyList from '../Screen/Jorneys/Journeys.screen';
 import ApprovalDetail from '../Screen/approvalDetail/ApprovalDetail.screen';
@@ -64,10 +64,9 @@ const AuthStack = () => {
   
   useEffect(() => {
    
-    const tempUser = localDb.getUser();
+    const tempUser = localDB.getUser();
     Promise.resolve(tempUser).then(response => {
       if (response) {
-        console.log("navigator response ==>", response); 
         if (response.loginUrl && response.clientToken) {
           setIsLogin(true)
         }
@@ -77,7 +76,6 @@ const AuthStack = () => {
       }
     });
   }, [currentUser]);
-  console.log("After navigator response ==>", isLogin); 
 
   return (
     <Stack.Navigator>
@@ -285,7 +283,7 @@ function NavigationSetup() {
   // When Dashboard page will update for api this will also update
 
   useEffect(() => {
-    const tempUser = localDb.getUser();
+    const tempUser = localDB.getUser();
     Promise.resolve(tempUser).then(response => {
       if (response) {
         if (response.userId) {
@@ -303,13 +301,13 @@ function NavigationSetup() {
     <Stack.Navigator
       initialRouteName={appConstant.LOGIN}
       options={{gestureEnabled: true}}>
-      {currentUser ? (
+      {/* {currentUser ? (
         <Stack.Screen
           options={{headerShown: false}}
           name={appConstant.DRAWER_NAVIGATOR}
           component={DrawerNavigator}
         />
-      ) : (
+      ) : ( */}
         <Stack.Screen
           name={appConstant.AUTH_STACK}
           component={AuthStack}
@@ -319,7 +317,7 @@ function NavigationSetup() {
             headerTransparent: true,
           }}
         />
-       )} 
+       {/* )}  */}
     </Stack.Navigator>
   );
 }
