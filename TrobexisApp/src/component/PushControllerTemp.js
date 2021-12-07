@@ -132,7 +132,7 @@ function PushController(props) {
             Promise.resolve(tempUser).then(response => {
               let tempDict = response;
               tempDict.userId = userId;
-             //  console.log(' in push notification ---', remoteMessage.notification.body);
+               console.log(' in push notification ---', remoteMessage);
               localDb.setUser(tempDict);
 
               props.navigation.navigate(appConstant.DRAWER_NAVIGATOR);

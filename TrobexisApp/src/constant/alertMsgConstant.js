@@ -22,6 +22,7 @@ export default {
   EXIT_CONFIRM: "Do you want to exit the application?",
   AUTHENTICATION_SUCCESS: "Authenticated Successfully", 
   AUTHENTICATION_FAILED:'Authentication Failed',
+  BIOMETRIC_FAILED:'',
 
   //** Toast types **/
   TOAST_SUCCESS:"success",

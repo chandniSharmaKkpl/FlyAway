@@ -39,7 +39,7 @@ import {checkBioMetricAvailable, authenticateUsingBioMetric} from '../../compone
 const ClientCodeScreen = props => {
   const navigation = useNavigation();
   const {setUserData} = React.useContext(AuthContext);
-  const [clientCode, setClientCode] = useState('TONEAPPUAT'); //TONEAPPUAT
+  const [clientCode, setClientCode] = useState(''); //TONEAPPUAT
   const [error, setError] = useState('');
   const dispatch = useDispatch();
   const responseData = useSelector(state => state.ClientCodeReducer);
@@ -69,13 +69,28 @@ const ClientCodeScreen = props => {
   );
 
   React.useEffect(() => {
+
+    const unsubscribe = props.navigation.addListener('focus', () => {
+
+      const tempUser = localDB.getUser();
+      Promise.resolve(tempUser).then(response => {
+        if (response) {
+          if (response.userId && response.clientToken) {
+            checkBioMetricAvailable(props);
+          }
+        } else {
+        }
+      });  
+    })
+    
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
-    checkBioMetricAvailable();
+
     return () => {
       BackHandler.removeEventListener(
         'hardwareBackPress',
         handleBackButtonClick,
       );
+      unsubscribe
     };
   }, []);
 
@@ -181,9 +196,9 @@ const ClientCodeScreen = props => {
                 <Text style={styles.loginBtnText}>Submit</Text>
               </Pressable>
 
-              <Pressable style={styles.btnLogin} onPress={() => checkBioMetricAvailable()}>
-                <Text style={styles.loginBtnText}>TouchID / FaceID Login</Text>
-              </Pressable>
+           {/* {localDB.getUser()? <Pressable style={styles.btnLogin} onPress={() => checkBioMetricAvailable()}>
+                <Text style={styles.loginBtnText}>Login with TouchID/FaceID</Text>
+              </Pressable> :null} */}
             </View>
 
             {/* <TextInput 
