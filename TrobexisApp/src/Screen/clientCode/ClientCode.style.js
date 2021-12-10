@@ -11,7 +11,32 @@ export default StyleSheet.create({
     height: '100%',
     backgroundColor: appColor.LIGH_BLUE,
   },
- 
+  clientCodeRow:{
+ padding:5,
+  },
+ viewFlatList:{
+  height: hp('30%'),
+  backgroundColor: appColor.WHITE,
+  position: 'absolute',
+  width: wp('80%'),
+  top: hp('12%'),
+  alignSelf: 'center',
+  borderBottomLeftRadius: 20,
+  borderBottomRightRadius:20,
+  //borderWidth:3,
+  borderColor: Platform.OS === 'android' ? appColor.BORDER : appColor.GRAY,
+  shadowColor: appColor.SHADOW,
+  shadowOffset: {
+    width: 1,
+    height: 1,
+  },
+  shadowOpacity: Platform.OS === 'android' ? 0.2 : 0.62,
+  shadowRadius: Platform.OS === 'android' ? 1.2 : 2.22,
+  elevation: 5,
+ },
+ flatList:{
+  padding:5
+ },
   imageTop:{
    flex:0.5
   },

@@ -25,6 +25,7 @@ const LoginTextView = props => {
     onPressRight,
     isClickEye,
     error,
+    onFocus,
   } = props;
 
   return (

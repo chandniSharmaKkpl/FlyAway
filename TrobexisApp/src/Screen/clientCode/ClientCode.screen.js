@@ -33,18 +33,23 @@ import PushController from '../../component/PushControllerTemp';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import AuthContext from '../../context/AuthContext';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {checkBioMetricAvailable, authenticateUsingBioMetric} from '../../component/BioMetricAuth'; 
-
+import {
+  checkBioMetricAvailable,
+  authenticateUsingBioMetric,
+} from '../../component/BioMetricAuth';
 
 const ClientCodeScreen = props => {
   const navigation = useNavigation();
   const {setUserData} = React.useContext(AuthContext);
   const [clientCode, setClientCode] = useState(''); //TONEAPPUAT
+  const [arrayClientCode, setArrayClientCode] = useState(['1', '2', '3']); // All saved client codes are stored in this array so show on the list when user start type to client code
+  const [isClientCodeListShow, setIsClientCodeListShow] = useState(false); // Android back handling show alert
+
   const [error, setError] = useState('');
   const dispatch = useDispatch();
-  const responseData = useSelector(state => state.ClientCodeReducer);
+  const responseData = useSelector(state => state.ClientCodeReducer); // For api response of account url, access token
   const [deviceInfo, setDeviceInfo] = useState({}); // Getting user device info from push controller.
-  const [isAlertShow, setIsAlertShow] = useState(false);
+  const [isAlertShow, setIsAlertShow] = useState(false); // Android back handling show alert
   //const [countBack, setCountBack] = React.useState(0)
   var countBack = 0;
 
@@ -62,28 +67,31 @@ const ClientCodeScreen = props => {
 
   useFocusEffect(
     React.useCallback(() => {
-      //** Whenever user will comeback to this view we will make toneappuat is empty */
-      // setClientCode('');
-      
+      //** Whenever user will comeback to this view we will fetch all client codes and show them in the list  */
+      const temp = localDB.getClientCode();
+      Promise.resolve(temp).then(response => {
+        if (response) {
+          console.log(' client code array', response);
+          setArrayClientCode(response);
+        } else {
+        }
+      });
     }),
   );
 
   React.useEffect(() => {
-
     const unsubscribe = props.navigation.addListener('focus', () => {
-
       const tempUser = localDB.getUser();
       Promise.resolve(tempUser).then(response => {
         if (response) {
-          console.log(" user is in client code bfor biometric", response); 
           if (response.userId && response.clientToken) {
             checkBioMetricAvailable(props);
           }
         } else {
         }
-      });  
-    })
-    
+      });
+    });
+
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
 
     return () => {
@@ -91,7 +99,7 @@ const ClientCodeScreen = props => {
         'hardwareBackPress',
         handleBackButtonClick,
       );
-      unsubscribe
+      unsubscribe;
     };
   }, []);
 
@@ -110,7 +118,6 @@ const ClientCodeScreen = props => {
     return true;
   };
 
-  
   const submitForm = () => {
     if (clientCode === '') {
       setError(alertMsgConstant.CLIENT_CODE_NOT_EMPTY);
@@ -159,12 +166,28 @@ const ClientCodeScreen = props => {
 
   // const checkResponseCode = () =>
   // };
+
+  const renderClientCode = item => {
+    return (
+      <Pressable style={styles.clientCodeRow} onPress={()=> {
+        setClientCode(item.item),
+        setIsClientCodeListShow(false)// Close list when click on any 
+        }}>
+        <Text>{item.item}</Text>
+      </Pressable>
+    );
+  };
+
+  const onClickOutside =()=>{
+    Keyboard.dismiss();
+    setIsClientCodeListShow(false); 
+  }
   return (
     <>
       {checkResponseCode()}
       <Pressable
         style={stylesHome.container}
-        onPress={() => Keyboard.dismiss()}>
+        onPress={onClickOutside}>
         <ImageBackground
           source={imageConstant.IMAGE_LOGIN_BACKGROUND}
           style={commonStyle.image}
@@ -183,6 +206,7 @@ const ClientCodeScreen = props => {
 
             <View style={styles.inputView}>
               <LoginTextView
+                onFocus={()=> setIsClientCodeListShow(true)}
                 placeholder="Enter Client Code"
                 value={clientCode}
                 error={error}
@@ -193,11 +217,27 @@ const ClientCodeScreen = props => {
                   }
                 }}
               />
-              <Pressable style={styles.btnLogin} onPress={() => submitForm()}>
-                <Text style={styles.loginBtnText}>Submit</Text>
+
+              <Pressable
+                style={commonStyle.yellowButton}
+                onPress={() => submitForm()}>
+                <Text style={commonStyle.yellowButtonTitle}>Submit</Text>
               </Pressable>
 
-           {/* {localDB.getUser()? <Pressable style={styles.btnLogin} onPress={() => checkBioMetricAvailable()}>
+              {isClientCodeListShow && arrayClientCode && arrayClientCode.length > 0 ? (
+                <View style={styles.viewFlatList}>
+                  <>
+                    <FlatList
+                    style={styles.flatList}
+                      data={arrayClientCode}
+                      renderItem={renderClientCode}
+                      keyExtractor={(item, index) => index.toString()}
+                    />
+                  </>
+                </View>
+              ) : null}
+
+              {/* {localDB.getUser()? <Pressable style={styles.btnLogin} onPress={() => checkBioMetricAvailable()}>
                 <Text style={styles.loginBtnText}>Login with TouchID/FaceID</Text>
               </Pressable> :null} */}
             </View>
