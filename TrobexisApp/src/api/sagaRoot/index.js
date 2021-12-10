@@ -11,11 +11,14 @@ import { watchAcceptApprovalApi, watchDeclineApproval, watchApprovalListWithStat
 import {watchGetDeclineReason, watchSubmitDeclineReason} from '../../Screen/declineReasons/declineReason.saga';
 import {watchApprovalDetail} from '../../Screen/approvalDetail/ApprovalDetail.saga';
 import {watchJourneyDetail} from '../../Screen/JourneyDetail/JourneyDetail.saga';
+import { watchError } from "../sagaRoot/global.saga";
+
 
 
 export default function* sagaRoot() {
 
   yield all([
+    fork(watchError),
     fork(watchGetApiBase),
     fork(watchGetAccessToken),
     fork(watchAcceptApprovalApi),

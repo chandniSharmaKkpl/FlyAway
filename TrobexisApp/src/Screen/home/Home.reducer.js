@@ -32,11 +32,11 @@ export default (state = initialState, { type, payload }) => {
             };
           }
           case actionConstant.ACTION_GET_USER_PROFILE_FAILURE: {
-            console.log(" failed ", payload); 
+            console.log("35 failed ", payload); 
 
             return {
               ...state,
-              userProfile: payload.error,
+              userProfile: payload,
               isRequesting: false,
               error: {},
             };

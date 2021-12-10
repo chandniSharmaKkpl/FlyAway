@@ -15,7 +15,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { alertMsgConstant, appColor, appConstant, imageConstant } from '../../constant';
+import { alertMsgConstant, appColor, appConstant, imageConstant, errorCodeConstant } from '../../constant';
 import { requestToGetApprovalList, requestToGetUserProfile } from './Home.action';
 import localDb from '../../database/localDb';
 import DeviceInfo from 'react-native-device-info';
@@ -23,7 +23,7 @@ import DeviceInfo from 'react-native-device-info';
 
 const HomeScreen = props => {
   var countBack = 0;
-
+  const errorData = useSelector(state => state.GlobalReducer);
   const response = useSelector(state => state.HomeReducer); // Getting api response
   const dispatch = useDispatch(); // Calling api
   const [arrayBooking, setArrayBooking] = useState([1, 2, 3, 4, 5, 6]);
@@ -90,7 +90,7 @@ const HomeScreen = props => {
     let stringToRead = "";
     if (hour < 12) {
       amPm = "am"
-      stringToRead = "Good morning"
+      stringToRead = "Good Morning"
     } else {
       amPm = "pm"
       if (hour >= 12 && hour <= 17) {
@@ -104,9 +104,21 @@ const HomeScreen = props => {
     return stringToRead;
   }
 
+  checkResponseForRedirection =()=>{
+    console.log(" errordata in hoe",errorData, " response", response); 
+  
+    if (errorData.error.code === errorCodeConstant.UNAUTHORIZED){
+      localDb.setUser(null);
+      let dict = errorData.error;
+      dict.code = null;
+      errorData.error = dict;
+      props.navigation.navigate(appConstant.CLIENT_CODE)
+    }
+    }
+  
   return (
     <>
-    {/* {console.log(" response is in home screen", response)} */}
+    {checkResponseForRedirection()}
       <View style={styles.container}>
         <HeaderCustom
           title={''}

@@ -28,6 +28,7 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import { Provider } from 'react-redux';
 import {StoreRoot} from './src/store';
+import {handleError} from './src/'
 import { NavigationContainer } from '@react-navigation/native';
 import HomeScreen from './src/Screen/home/Home.screen'
 import NavigationSetup from './src/route/Navigators';

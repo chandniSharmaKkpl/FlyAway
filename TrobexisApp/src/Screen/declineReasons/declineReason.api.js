@@ -2,8 +2,6 @@ import { Platform } from 'react-native';
 import {apiConstant, appConstant} from '../../constant'
 import axios from 'axios'; 
 
-const TEMP_APPROVAR_ID = 'BM123';
-
 export const getDeclineReasonsApi = async(argumentData) => {
   console.log(" argument data  : ", argumentData); 
 
@@ -11,7 +9,6 @@ export const getDeclineReasonsApi = async(argumentData) => {
     let deviceId = argumentData.user.deviceId;
     let apiBaseUrl = argumentData.user.apiBaseUrl
     let clientToken = argumentData.user.clientToken; 
-
 
     let instance = axios.create({
       baseURL: apiBaseUrl,
@@ -65,7 +62,7 @@ export const getDeclineReasonsApi = async(argumentData) => {
           return response1
         }),
       ).catch((err) =>{
-        console.log("88 api Erorr: ", err.response)
+        console.log("66 api Erorr: ", err.response)
         return err.response.data
       }) ;
   };
@@ -78,6 +75,8 @@ export const getDeclineReasonsApi = async(argumentData) => {
     let reasonId = argumentData.reasonId;
      let approvalId = argumentData.approvalId
       let deviceId = argumentData.user.deviceId;
+      let userId = argumentData.user.userId;
+
       let apiBaseUrl = argumentData.user.apiBaseUrl
       let clientToken = argumentData.user.clientToken; 
       let comments = argumentData.comments
@@ -87,7 +86,7 @@ export const getDeclineReasonsApi = async(argumentData) => {
 
     console.log(' url  data  : ', urlString);
     const raw = {
-      approverId: TEMP_APPROVAR_ID? TEMP_APPROVAR_ID: 'BM123',
+      approverId: userId,
       ReasonId:reasonId,
       comments: comments
     };
@@ -119,7 +118,7 @@ export const getDeclineReasonsApi = async(argumentData) => {
         return err.response.data;
       });
     } catch (error) {
-      console.log('88 api Erorr: ', err.response);
+      console.log('121  api Erorr: ', err.response);
       return error.response.data;
     }
   };
