@@ -12,10 +12,6 @@ import SiteTravelItinary from '../Screen/siteTravelItinary/SiteTravelItinary.scr
 import AddLuggage from '../Screen/addLuggage/AddLuggage.screen';
 import BookingSummary from '../Screen/bookingSummary/BookingSummary.screen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import appConstant from '../constant/appConstant';
-import appColor from '../constant/colorConstant';
-import fontConstant from '../constant/fontConstant';
-import imageConstant from '../constant/imageConstant';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -33,7 +29,16 @@ import ApprovalDetail from '../Screen/approvalDetail/ApprovalDetail.screen';
 import JourneyDetail from '../Screen/JourneyDetail/JourneyDetail.screen';
 import ApprovalList from '../Screen/approvalList/ApprovalList.screen';
 import CustomDrawer from '../route/CustomDrawer';
-import Scan from '../Screen/scanScreen/Scan.screen'; 
+import Scan from '../Screen/scanScreen/Scan.screen';
+import {useSelector, useDispatch} from 'react-redux';
+import {
+  appColor,
+  appConstant,
+  alertMsgConstant,
+  fontConstant,
+  imageConstant,
+  errorCodeConstant,
+} from '../constant';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -46,10 +51,8 @@ function DrawerNavigator() {
       initialRouteName={appConstant.TAB}
       drawerContent={() => <CustomDrawer />}
       drawerType="slide">
-      
       <Drawer.Screen name={appConstant.HOME_SCREEN} component={HomeScreen} />
       <Drawer.Screen name={appConstant.SCAN} component={Scan} />
-
 
       <Drawer.Screen name={appConstant.TAB} component={TabNavigator} />
     </Drawer.Navigator>
@@ -61,38 +64,32 @@ const AuthStack = () => {
   const [isLogin, setIsLogin] = useState(null);
 
   // When Dashboard page will update for api this will also update
-  
-  useEffect(() => {
-   
+ /* useEffect(() => {
+    
     const tempUser = localDB.getUser();
     Promise.resolve(tempUser).then(response => {
       if (response) {
         if (response.loginUrl && response.clientToken) {
-          setIsLogin(true)
+          setIsLogin(true);
         }
         setIsLogin(null);
       } else {
         setIsLogin(null);
       }
     });
-  }, [currentUser]);
+  }, [currentUser]); */
 
   return (
     <Stack.Navigator>
-      {/* <Stack.Screen
-        options={{headerShown: false}}
-        name={appConstant.APPROVALS}
-        component={ApprovalList}
-      /> */}
-
-    {/* {!isLogin?  ( */}
-    <Stack.Screen
+      {console.log("i m in authstack ")}
+      {/* {!isLogin?  ( */}
+      <Stack.Screen
         options={{headerShown: false}}
         name={appConstant.CLIENT_CODE}
         component={ClientCodeScreen}
       />
       {/* ): */}
-{/* ( */}
+      {/* ( */}
       <Stack.Screen
         options={{headerShown: false}}
         name={appConstant.LOGIN}
@@ -280,44 +277,45 @@ function TabNavigator() {
 
 function NavigationSetup() {
   const [currentUser, setCurrentUser] = useState(null);
+  const errorData = useSelector(state => state.GlobalReducer);
   // When Dashboard page will update for api this will also update
 
   useEffect(() => {
-    const tempUser = localDB.getUser();
-    Promise.resolve(tempUser).then(response => {
-      if (response) {
-        if (response.userId) {
-          setCurrentUser(response);
-        }else{
-          setCurrentUser(null);
-        }
-      } else {
+    if (errorData && errorData.error && errorData.error.message) {
+      toast.show(errorData.error.message, {
+        type: alertMsgConstant.TOAST_DANGER,
+      });
+      if (errorData.error.code === errorCodeConstant.UNAUTHORIZED)
+       {
         setCurrentUser(null);
       }
-    });
-  }, [currentUser]);
+      let dict = errorData.error;
+      dict.message = null;
+      errorData.error = dict;
+    }
+  }, [errorData]);
 
   return (
     <Stack.Navigator
       initialRouteName={appConstant.LOGIN}
       options={{gestureEnabled: true}}>
-      {/* {currentUser ? (
+       {currentUser ? (
         <Stack.Screen
           options={{headerShown: false}}
           name={appConstant.DRAWER_NAVIGATOR}
           component={DrawerNavigator}
         />
-      ) : ( */}
-        <Stack.Screen
-          name={appConstant.AUTH_STACK}
-          component={AuthStack}
-          options={{
-            header: () => null,
-            gestureEnabled: false,
-            headerTransparent: true,
-          }}
-        />
-       {/* )}  */}
+      ) : (
+      <Stack.Screen
+        name={appConstant.AUTH_STACK}
+        component={AuthStack}
+        options={{
+          header: () => null,
+          gestureEnabled: false,
+          headerTransparent: true,
+        }}
+      />
+       )}  
     </Stack.Navigator>
   );
 }

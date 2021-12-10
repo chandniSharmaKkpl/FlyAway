@@ -121,10 +121,8 @@ const ApprovalList = props => {
   };
 
   const moveToDetailView = id => {
-    dispatch({type: actionConstant.ACTION_GET_APPROVAL_LIST_WITH_STATUS_SUCCESS, payload: responseApprovalData.approvalListWithStatus})
-    setRefreshing(true);
-
-    // props.navigation.navigate(appConstant.APPROVAL_DETAIL, {approvalId: id});
+  
+     props.navigation.navigate(appConstant.APPROVAL_DETAIL, {approvalId: id});
   };
 
   const renderItem = item => {

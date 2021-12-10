@@ -8,6 +8,8 @@ export const acceptApprovalApi = (argumentData) => {
     let deviceId = argumentData.data.user.deviceId;
     let apiBaseUrl = argumentData.data.user.apiBaseUrl
     let clientToken = argumentData.data.user.clientToken; 
+    let userId = argumentData.data.user.userId;
+
     let instance = axios.create({
       baseURL: apiBaseUrl,
       timeout: 30000,
@@ -23,7 +25,7 @@ export const acceptApprovalApi = (argumentData) => {
    // urlString =  urlString.replace(':approvalId', approvalId);  
 
     return instance
-      .put(urlString,{'approverId':approvalId})
+      .put(urlString,{'approverId':userId})
       
       .then(response =>
         Promise.resolve({
@@ -49,7 +51,8 @@ export const acceptApprovalApi = (argumentData) => {
       let deviceId = argumentData.data.user.deviceId;
       let apiBaseUrl = argumentData.data.user.apiBaseUrl
       let clientToken = argumentData.data.user.clientToken; 
-  
+      let userId = argumentData.data.user.userId;
+
   
       let instance = axios.create({
         baseURL: apiBaseUrl,

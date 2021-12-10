@@ -75,6 +75,7 @@ const ClientCodeScreen = props => {
       const tempUser = localDB.getUser();
       Promise.resolve(tempUser).then(response => {
         if (response) {
+          console.log(" user is in client code bfor biometric", response); 
           if (response.userId && response.clientToken) {
             checkBioMetricAvailable(props);
           }

@@ -8,7 +8,7 @@ export const getJourneysListApi = (argumentData) => {
     let deviceId = argumentData.data.user.deviceId;
     let apiBaseUrl = argumentData.data.user.apiBaseUrl
     let clientToken = argumentData.data.user.clientToken; 
-
+    let userId = argumentData.data.user.userId; 
     console.log(" argument data  : ", argumentData); 
 
     let instance = axios.create({
@@ -27,7 +27,7 @@ export const getJourneysListApi = (argumentData) => {
     console.log(" url  data  : ", urlString); 
 
     return instance
-      .put(urlString,{'approverId':approvalId})
+      .put(urlString,{'approverId':userId})
       
       .then(response =>
         Promise.resolve({
@@ -54,7 +54,8 @@ export const getJourneysListApi = (argumentData) => {
       let deviceId = argumentData.data.user.deviceId;
       let apiBaseUrl = argumentData.data.user.apiBaseUrl
       let clientToken = argumentData.data.user.clientToken; 
-  
+      let userId = argumentData.data.user.userId; 
+
       console.log(" argument data  : ", argumentData); 
   
       let instance = axios.create({
@@ -73,7 +74,7 @@ export const getJourneysListApi = (argumentData) => {
       console.log(" url  data  : ", urlString); 
   
       return instance
-        .put(urlString,{'approverId':approvalId})
+        .put(urlString,{'approverId':userId})
         
         .then(response =>
           Promise.resolve({

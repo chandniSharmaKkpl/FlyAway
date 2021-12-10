@@ -2,8 +2,6 @@ import {Platform} from 'react-native';
 import {apiConstant, appConstant} from '../../constant';
 import axios from 'axios';
 
-const TEMP_APPROVAR_ID = 'BM123';
-
 export const acceptApprovalApi = async argumentData => {
 
   let approvalId = argumentData.data.approvalId;
@@ -15,7 +13,7 @@ export const acceptApprovalApi = async argumentData => {
   urlString = urlString.replace(':approvalId', approvalId);
 
   const raw = {
-    approverId: TEMP_APPROVAR_ID? TEMP_APPROVAR_ID: 'BM123',
+    approverId: approvalId,
   };
 
   let instance = axios.create({
@@ -59,6 +57,7 @@ export const declineApprovalApi = argumentData => {
   let deviceId = argumentData.data.user.deviceId;
   let apiBaseUrl = argumentData.data.user.apiBaseUrl;
   let clientToken = argumentData.data.user.clientToken;
+  let userId = argumentData.data.user.userId;
 
   let instance = axios.create({
     baseURL: apiBaseUrl,
@@ -75,7 +74,7 @@ export const declineApprovalApi = argumentData => {
   urlString =  urlString.replace(':approvalId', approvalId);
 
   return instance
-    .put(urlString, {approverId: TEMP_APPROVAR_ID})
+    .put(urlString, {approverId: userId})
 
     .then(response =>
       Promise.resolve({
@@ -99,7 +98,10 @@ export const getApprovalListWithStatus = argumentData => {
   let apiBaseUrl = argumentData.data.user.apiBaseUrl;
   let clientToken = argumentData.data.user.clientToken;
   let status = argumentData.data.status;
-  let userId = argumentData.user.userId;
+  let userId = argumentData.data.user.userId;
+
+  console.log(" argumentData  ===", argumentData); 
+
 
   let instance = axios.create({
     baseURL: apiBaseUrl,
@@ -116,6 +118,7 @@ export const getApprovalListWithStatus = argumentData => {
   urlString = urlString.replace(':userId', userId);
   urlString = urlString.replace(':status', status);
 
+  console.log(" urlstring ===", urlString); 
   return instance
     .get(urlString)
     .then(response =>

@@ -1,8 +1,10 @@
 import {takeLatest, call, put, select, all} from 'redux-saga/effects';
 import {actionConstant} from '../../constant';
 import localDb from '../../database/localDb'
+import {isError} from '../../common';
 
 import { getUserProfile, getItinaryList, getItinaryListAllJourney, getApprovalList} from './Home.api';
+import workerHandleError from '../../api/sagaRoot/global.saga';
 
 
 export function* workerGetUserProfile(argumentData) {
@@ -12,6 +14,16 @@ export function* workerGetUserProfile(argumentData) {
         getUserProfile,
         argumentData.payload,
       );
+      if (isError(userProfile))
+       {
+        console.log('16 worker saga called error  ', userProfile);
+
+        yield put({
+          type: actionConstant.ACTION_API_ERROR_SUCCESS,
+          payload: userProfile
+        })
+        return; 
+      }
 
       if (userProfile) {
         yield put({
@@ -24,9 +36,10 @@ export function* workerGetUserProfile(argumentData) {
      // yield call (workerGetApprovalList,argumentData);
     
   } catch (error) {
-    // console.log(' worker saga called error  ', error);
+    console.log(' worker saga called error  ', error);
+   
     yield put({
-      type: actionConstant.ACTION_GET_USER_PROFILE_FAILURE,
+      type: actionConstant.ACTION_API_ERROR_SUCCESS,
       payload: error,
     });
   }
