@@ -136,8 +136,10 @@ function PushController(props) {
               localDb.setUser(tempDict);
 
               props.navigation.navigate(appConstant.DRAWER_NAVIGATOR);
+              let tempAtuhtenticate = dictAuthenticate;
+              tempAtuhtenticate.status = null;
+              dictAuthenticate = tempAtuhtenticate
               toast.show(remoteMessage.notification.body,{type: alertMsgConstant.TOAST_SUCCESS})
-
             });
           }
         } else {

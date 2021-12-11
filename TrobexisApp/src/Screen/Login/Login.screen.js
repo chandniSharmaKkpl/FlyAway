@@ -70,7 +70,6 @@ const LoginScreen = props => {
         }
       }
     });
-
     return unsubscribe;
   }, [error]);
 

@@ -53,7 +53,7 @@ export default StyleSheet.create({
     height: hp('8%'),
     // backgroundColor: 'pink',
     alignSelf: 'center',
-    marginTop: hp('10%'),
+    marginTop: hp('8%'),
   },
   logoContainer: {
     marginBottom: 20,
@@ -86,7 +86,7 @@ export default StyleSheet.create({
     paddingTop: 20,
   },
   titleView: {
-    paddingTop:hp('7%') 
+    paddingTop:hp('10%') 
     },
 
   titleStyle: {
@@ -97,7 +97,7 @@ export default StyleSheet.create({
   },
   inputView: {
     //flex: 1,
-      paddingTop:hp('5%'),
+      paddingTop:hp('9.5%'),
     //  backgroundColor:'pink',
       justifyContent:'center',
     // paddingHorizontal: 20,
@@ -105,6 +105,15 @@ export default StyleSheet.create({
   resetPasswordView: {
     marginTop: 10,
     justifyContent: 'flex-end',
+  },
+  btnSubmit:{
+   marginTop: hp('6%'),
+   width:'85%',
+  
+  },
+  btnSubmitTitle:{
+   paddingTop:hp('1.4%'),
+   paddingBottom:hp('1.4%')
   },
   rememberIcon: {
     height: 16,

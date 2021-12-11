@@ -42,7 +42,7 @@ const ClientCodeScreen = props => {
   const navigation = useNavigation();
   const {setUserData} = React.useContext(AuthContext);
   const [clientCode, setClientCode] = useState(''); //TONEAPPUAT
-  const [arrayClientCode, setArrayClientCode] = useState(['1', '2', '3']); // All saved client codes are stored in this array so show on the list when user start type to client code
+  const [arrayClientCode, setArrayClientCode] = useState([]); // All saved client codes are stored in this array so show on the list when user start type to client code
   const [isClientCodeListShow, setIsClientCodeListShow] = useState(false); // Android back handling show alert
 
   const [error, setError] = useState('');
@@ -68,15 +68,8 @@ const ClientCodeScreen = props => {
   useFocusEffect(
     React.useCallback(() => {
       //** Whenever user will comeback to this view we will fetch all client codes and show them in the list  */
-      const temp = localDB.getClientCode();
-      Promise.resolve(temp).then(response => {
-        if (response) {
-          console.log(' client code array', response);
-          setArrayClientCode(response);
-        } else {
-        }
-      });
-    }),
+      getClientCodes();
+    }, []),
   );
 
   React.useEffect(() => {
@@ -102,6 +95,28 @@ const ClientCodeScreen = props => {
       unsubscribe;
     };
   }, []);
+
+  //** Getting client codes from the async storage  */
+  const getClientCodes = () => {
+    const temp = localDB.getClientCode();
+    Promise.resolve(temp).then(response => {
+      if (response) {
+        console.log(' client code array', response);
+        setArrayClientCode(response);
+        setClientCode(response[0]);
+      } else {
+      }
+    });
+  };
+
+  //** Save new client code in the array and async storage */
+  const saveClientCodeLocally = () => {
+    if (arrayClientCode.indexOf(clientCode) < 0) {
+      let arrayTemp = arrayClientCode;
+      arrayTemp.push(clientCode);
+      localDB.saveClientCode(arrayTemp);
+    }
+  };
 
   //**Getting device info from push controller */
   const getDeviceInfo = value => {
@@ -157,37 +172,34 @@ const ClientCodeScreen = props => {
         loginUrl: loginUrl,
       };
       localDB.setUser(user);
+      saveClientCodeLocally();
+        props.navigation.navigate(appConstant.DRAWER_NAVIGATOR); // Temp 
 
-      //  props.navigation.navigate(appConstant.DRAWER_NAVIGATOR);
-
-      navigation.navigate(appConstant.LOGIN, {loginUrl: loginUrl});
+     // navigation.navigate(appConstant.LOGIN, {loginUrl: loginUrl});
     }
   }, [responseData]);
 
-  // const checkResponseCode = () =>
-  // };
-
+ 
   const renderClientCode = item => {
     return (
-      <Pressable style={styles.clientCodeRow} onPress={()=> {
-        setClientCode(item.item),
-        setIsClientCodeListShow(false)// Close list when click on any 
+      <Pressable
+        style={styles.clientCodeRow}
+        onPress={() => {
+          setClientCode(item.item), setIsClientCodeListShow(false); // Close list when click on any
         }}>
         <Text>{item.item}</Text>
       </Pressable>
     );
   };
 
-  const onClickOutside =()=>{
+  const onClickOutside = () => {
     Keyboard.dismiss();
-    setIsClientCodeListShow(false); 
-  }
+    setIsClientCodeListShow(false);
+  };
   return (
     <>
       {checkResponseCode()}
-      <Pressable
-        style={stylesHome.container}
-        onPress={onClickOutside}>
+      <Pressable style={stylesHome.container} onPress={onClickOutside}>
         <ImageBackground
           source={imageConstant.IMAGE_LOGIN_BACKGROUND}
           style={commonStyle.image}
@@ -206,11 +218,16 @@ const ClientCodeScreen = props => {
 
             <View style={styles.inputView}>
               <LoginTextView
-                onFocus={()=> setIsClientCodeListShow(true)}
+                onFocus={() => setIsClientCodeListShow(true)}
                 placeholder="Enter Client Code"
                 value={clientCode}
                 error={error}
                 onChangeText={value => {
+                  if (clientCode && clientCode.length > 0) {
+                    setIsClientCodeListShow(false);
+                  } else {
+                    //setIsClientCodeListShow(true);
+                  }
                   setClientCode(value);
                   if (value.trim().length > 0) {
                     setError('');
@@ -219,19 +236,23 @@ const ClientCodeScreen = props => {
               />
 
               <Pressable
-                style={commonStyle.yellowButton}
+                style={[commonStyle.yellowButton, styles.btnSubmit]}
                 onPress={() => submitForm()}>
-                <Text style={commonStyle.yellowButtonTitle}>Submit</Text>
+                <Text style={[commonStyle.yellowButtonTitle]}>Submit</Text>
               </Pressable>
 
-              {isClientCodeListShow && arrayClientCode && arrayClientCode.length > 0 ? (
+              {isClientCodeListShow &&
+              arrayClientCode &&
+              arrayClientCode.length > 0 ? (
                 <View style={styles.viewFlatList}>
                   <>
                     <FlatList
-                    style={styles.flatList}
+                    horizontal={false} 
+                      style={styles.flatList}
                       data={arrayClientCode}
                       renderItem={renderClientCode}
                       keyExtractor={(item, index) => index.toString()}
+                     
                     />
                   </>
                 </View>

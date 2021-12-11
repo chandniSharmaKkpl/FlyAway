@@ -44,6 +44,7 @@ const setBaseUrl = async baseURL => {
 };
 
 const saveClientCode = async clientCodeArray => {
+  console.log(" client arra",clientCodeArray ); 
   await AsyncStorage.setItem(appConstant.CLIENT_CODE, JSON.stringify(clientCodeArray))
     .then(() => {
       return true;
