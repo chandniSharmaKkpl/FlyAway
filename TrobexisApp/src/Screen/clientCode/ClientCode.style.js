@@ -19,7 +19,7 @@ export default StyleSheet.create({
   backgroundColor: appColor.WHITE,
   position: 'absolute',
   width: wp('80%'),
-  top: hp('12%'),
+  top: hp('16.6%'),
   alignSelf: 'center',
   borderBottomLeftRadius: 20,
   borderBottomRightRadius:20,
@@ -109,7 +109,6 @@ export default StyleSheet.create({
   btnSubmit:{
    marginTop: hp('6%'),
    width:'85%',
-  
   },
   btnSubmitTitle:{
    paddingTop:hp('1.4%'),

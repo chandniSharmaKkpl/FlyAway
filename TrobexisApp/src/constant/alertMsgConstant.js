@@ -6,6 +6,7 @@ export default {
   EMAIL_NOT_VALID: 'Email is not correct',
   ITINARY_CANCEL_TITLE: 'Itinary Cancel',
   CLIENT_CODE_NOT_EMPTY: 'Client code cannot be empty',
+  SPECIAL_CHAR_NOT_ALLOW:'Special character not allowed',
   SURE_TO_DECLINE: 'Are you sure to decline?',
   LOGIN_SUCCESSFUL: 'You are successfully logged in',
   PLEASE_CONFIRM: 'Please Confirm?',

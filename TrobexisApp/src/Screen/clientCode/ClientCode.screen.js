@@ -21,6 +21,7 @@ import {
   alertMsgConstant,
 } from '../../constant';
 import localDB from '../../database/localDb';
+import {checkStringContainsSpecialChar} from '../../common';
 
 import {
   widthPercentageToDP as wp,
@@ -134,16 +135,28 @@ const ClientCodeScreen = props => {
   };
 
   const submitForm = () => {
+   
+
     if (clientCode === '') {
       setError(alertMsgConstant.CLIENT_CODE_NOT_EMPTY);
     } else {
+       //** Special character and space not allowed  */
+       if (checkStringContainsSpecialChar(clientCode)) {
+        setError(alertMsgConstant.SPECIAL_CHAR_NOT_ALLOW);
+        return; 
+      }
+
+      //** Remove all spaces from the client code */
+      let trimClientCode = clientCode.replace(/ /g, ''); 
+      console.log(" param --->", trimClientCode,"Newwww");
+     
       // Call api here
       let param = {
-        client: clientCode,
+        client: trimClientCode,
         DeviceType: Platform.OS === 'android' ? 'ANDROID' : 'IOS',
         DeviceId: deviceInfo.device_token,
       };
-      // console.log(" param --->", param);
+      console.log(" param --->", param);
       dispatch(requestToGetApiBase(param, navigation));
     }
   };
@@ -223,6 +236,8 @@ const ClientCodeScreen = props => {
                 value={clientCode}
                 error={error}
                 onChangeText={value => {
+
+                  //** for showing dropdown of prefilled client code  */
                   if (clientCode && clientCode.length > 0) {
                     setIsClientCodeListShow(false);
                   } else {
