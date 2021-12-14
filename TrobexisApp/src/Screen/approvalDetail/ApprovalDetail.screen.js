@@ -17,8 +17,11 @@ import stylesCommon from '../../common/common.style';
 import localDb from '../../database/localDb';
 import {useRoute, useNavigation} from '@react-navigation/core';
 import {
+  requestAcceptApprovalInDetail,
+} from './ApprovalDetail.action';
+import {
   requestAcceptApproval,
-  requestDeclineApproval,
+  requestDeclineApproval
 } from '../approvalList/ApprovalList.action';
 import {appColor, appConstant, alertMsgConstant} from '../../constant';
 import {requestToGetApprovalDetail} from './ApprovalDetail.action';
@@ -28,7 +31,7 @@ const ApprovalDetail = props => {
   const route = useRoute();
   const dispatch = useDispatch();
   const responseDetail = useSelector(state => state.ApprovalDetailReducer);
-  const responseApprovalData = useSelector(state => state.ApprovalListReducer);
+
   const [isApiCall, setIsApiCall] = useState(false);
 
   const handleBackButtonClick = () => {
@@ -83,13 +86,11 @@ const ApprovalDetail = props => {
     });
   };
   const onClickDecline = () => {
-    props.navigation.navigate(appConstant.REASON);
+    props.navigation.navigate(appConstant.REASON,  {approvalItem: {item: route.params.approvalItem}});
   };
 
   const getDataFromResponse = (responseDetail, value) => {
     {
-      // console.log(' responseDetail ---->', responseDetail);
-
       if (responseDetail) {
         let itemsData = responseDetail.responseDetail;
         if (value === 'Description') {
@@ -110,28 +111,25 @@ const ApprovalDetail = props => {
   const checkResponseCode = () => {
     if (isApiCall) {
       setIsApiCall(false);
-      console.log("  get data",responseApprovalData );
-      if (responseApprovalData && responseApprovalData.acceptResponse) {
-        console.log(" 115 get data",responseApprovalData );
 
-        
-        if (responseApprovalData.acceptResponse.message) {
-          
-          toast.show(responseApprovalData.error, {
-            type: alertMsgConstant.TOAST_SUCCESS,
-          });
-          let dict = responseApprovalData.acceptResponse;
-          dict.message = '';
-          responseApprovalData.acceptResponse = dict;
-         
-        }
-        if (responseApprovalData.acceptResponse.success) {
-          let dict = responseApprovalData.acceptResponse;
-          dict.success = false;
-          responseApprovalData.acceptResponse = dict;
-          props.navigation.goBack(); 
-        }
-      }
+      // if (responseDetail && responseDetail.acceptResponseInDetail) {
+      //   console.log("116  get data",responseDetail.acceptResponseInDetail );
+
+      //   if (responseDetail.acceptResponseInDetail.message) {
+      //     toast.show(responseDetail.acceptResponseInDetail.message, {
+      //       type: alertMsgConstant.TOAST_SUCCESS,
+      //     });
+      //     let dict = responseDetail.acceptResponseInDetail;
+      //     dict.message = '';
+      //     responseDetail.acceptResponseInDetail = dict;
+
+      //    // if (responseDetail.acceptResponseInDetail.success)
+      //      {
+      //       props.navigation.goBack();  
+
+      //     }
+      //   }
+      // }
     }
   };
 
@@ -238,7 +236,8 @@ const ApprovalDetail = props => {
               {/* </View> */}
             </View>
 
-            <View style={styles.viewButtonBottom}>
+          {route.params && route.params.status && route.params.status === appConstant.PENDING_APPROVAL?  
+          <View style={styles.viewButtonBottom}>
               <Pressable
                 style={stylesCommon.greenButton}
                 onPress={() => onClickApprove()}>
@@ -263,12 +262,13 @@ const ApprovalDetail = props => {
                 </Text>
               </Pressable>
             </View>
+            : null } 
           </View>
         </ScrollView>
-        {responseDetail.isRequesting || responseApprovalData.isRequesting ? (
+        {responseDetail.isRequesting ? (
           <Loader
             loading={
-              responseDetail.isRequesting || responseApprovalData.isRequesting
+              responseDetail.isRequesting 
             }
           />
         ) : null}

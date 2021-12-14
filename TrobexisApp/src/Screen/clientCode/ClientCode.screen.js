@@ -43,7 +43,7 @@ import {
 const ClientCodeScreen = props => {
   const navigation = useNavigation();
   const {setUserData} = React.useContext(AuthContext);
-  const [clientCode, setClientCode] = useState('TONEAPPUAT'); //TONEAPPUAT
+  const [clientCode, setClientCode] = useState(''); //TONEAPPUAT
   const [arrayClientCode, setArrayClientCode] = useState([]); // All saved client codes are stored in this array so show on the list when user start type to client code
   const [isClientCodeListShow, setIsClientCodeListShow] = useState(false); // Android back handling show alert
 
@@ -137,6 +137,7 @@ const ClientCodeScreen = props => {
   };
 
   const submitForm = () => {
+    console.log(" clint code click"); 
     setIsClientCodeListShow(false);
     if (clientCode === '') {
       setError(alertMsgConstant.CLIENT_CODE_NOT_EMPTY);
@@ -149,7 +150,6 @@ const ClientCodeScreen = props => {
 
       //** Remove all spaces from the client code */
       let trimClientCode = clientCode.replace(/ /g, '');
-      console.log(' param --->', trimClientCode, 'Newwww');
 
       // Call api here
       let param = {

@@ -139,7 +139,7 @@ export function* workerGetAccountUrl(argumentData, apiBase, clientToken) {
         deviceId: argumentData.DeviceId,
         apiBaseUrl: apiBase,
         loginUrl: loginUrl,
-        userId: 'P000000442',
+        //  userId: 'P000000442',
       };
 
      
@@ -149,6 +149,8 @@ export function* workerGetAccountUrl(argumentData, apiBase, clientToken) {
       const temp = localDB.getClientCode();
       Promise.resolve(temp).then(response => {
         if (response) {
+
+          console.log(" response user  code",response ,argumentData.client ); 
 
           //** Only unique client codes will be saved  */
           if (response.indexOf(argumentData.client) < 0) {
@@ -161,9 +163,9 @@ export function* workerGetAccountUrl(argumentData, apiBase, clientToken) {
       });
       // ** For stopping loader **//
       yield put(setLoader(false));
-      argumentData.navigation.navigate(appConstant.DRAWER_NAVIGATOR); // Temp
+      // argumentData.navigation.navigate(appConstant.DRAWER_NAVIGATOR); // Temp
 
-      // navigation.navigate(appConstant.LOGIN, {loginUrl: loginUrl});
+       argumentData.navigation.navigate(appConstant.LOGIN, {loginUrl: loginUrl});
 
     }
   

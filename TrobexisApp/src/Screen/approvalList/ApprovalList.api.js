@@ -39,7 +39,6 @@ export const acceptApprovalApi = async argumentData => {
         data: response,
       }).then(response => {
         console.log(" approval resoinse ", response); 
-
         let response1 = response.data.data;
         return response1;
       }),

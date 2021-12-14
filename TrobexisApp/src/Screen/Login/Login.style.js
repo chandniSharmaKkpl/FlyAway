@@ -6,6 +6,13 @@ import {
 import fontConstant from '../../constant/fontConstant';
 import appColor from '../../constant/colorConstant';
 export default StyleSheet.create({
+  iconHeader: {
+    height: hp('2.5%'),
+    width: wp('8%'),
+    marginTop: Platform.OS === 'android' ? hp('2%') : hp('6%'),
+    marginLeft: wp('4%'),
+    position:'absolute'
+  },
   container: {
     width: '100%',
     height: '100%',

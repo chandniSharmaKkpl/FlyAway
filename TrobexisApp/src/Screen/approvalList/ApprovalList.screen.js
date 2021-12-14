@@ -51,6 +51,8 @@ const ApprovalList = props => {
 
   useEffect(() => {
     const unsubscribe = props.navigation.addListener('focus', () => {
+      //** So that every time user will start from pending approval */
+      setSelectedIndex(0)
       const tempUser = localDb.getUser();
       Promise.resolve(tempUser).then(response => {
         let param = {
@@ -130,7 +132,7 @@ const ApprovalList = props => {
 
   const moveToDetailView = itemDetail => {
   
-     props.navigation.navigate(appConstant.APPROVAL_DETAIL, {approvalId: itemDetail.id, requestor: itemDetail.requestor});
+     props.navigation.navigate(appConstant.APPROVAL_DETAIL, {approvalId: itemDetail.id, requestor: itemDetail.requestor, status: itemDetail.status, approvalItem: itemDetail});
   };
 
   const renderItem = item => {
