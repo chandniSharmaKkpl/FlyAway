@@ -23,17 +23,15 @@ export function* workerAcceptApproval(argumentData ) {
         });
         if (approvalResponse.code === errorCodeConstant.UNAUTHORIZED) {
           localDb.setUser(null);
-          argumentData.payload.navigation.navigate(appConstant.CLIENT_CODE); 
+          argumentData.payload.data.navigation.navigate(appConstant.CLIENT_CODE); 
         }
-        return; 
+      }else{
+        yield put({
+          type: actionConstant.ACTION_ACCEPT_APPROVAL_SUCCESS,
+          payload: approvalResponse,
+        });
       }
   
-      yield put({
-        type: actionConstant.ACTION_ACCEPT_APPROVAL_SUCCESS,
-        payload: approvalResponse,
-      });
-  
-      
     } catch (error) {
        //** for handling global error message */
        yield put({
@@ -50,7 +48,6 @@ export function* workerAcceptApproval(argumentData ) {
   export function* workerDeclineApproval(argumentData ) {
 
     try {
-          
       const declineResponse = yield call(declineApprovalApi,argumentData.payload);
      
       if (isError(declineResponse)) {
@@ -64,17 +61,14 @@ export function* workerAcceptApproval(argumentData ) {
         });
         if (declineResponse.code === errorCodeConstant.UNAUTHORIZED) {
           localDb.setUser(null);
-          argumentData.payload.navigation.navigate(appConstant.CLIENT_CODE); 
+          argumentData.payload.data.navigation.navigate(appConstant.CLIENT_CODE); 
         }
-        return; 
+      }else{
+        yield put({
+          type: actionConstant.ACTION_DECLINE_APPROVAL_SUCCESS,
+          payload: declineResponse,
+        });
       }
-  
-      yield put({
-        type: actionConstant.ACTION_DECLINE_APPROVAL_SUCCESS,
-        payload: declineResponse,
-      });
-  
-      
     } catch (error) {
       yield put({
         type: actionConstant.ACTION_API_ERROR_SUCCESS,
@@ -89,13 +83,11 @@ export function* workerAcceptApproval(argumentData ) {
 
   export function* workerGetApprovalListWithStatus(argumentData) {
       try {
-       
            const itinaryList = yield call(
             getApprovalListWithStatus,
             argumentData.payload,
           );
 
-          console.log("workerGetApprovalListWithStatus ", itinaryList); 
           if (isError(itinaryList)) {
             yield put({
               type: actionConstant.ACTION_API_ERROR_SUCCESS,
@@ -107,7 +99,7 @@ export function* workerAcceptApproval(argumentData ) {
             });
             if (itinaryList.code === errorCodeConstant.UNAUTHORIZED) {
               localDb.setUser(null);
-              argumentData.payload.navigation.navigate(appConstant.CLIENT_CODE); 
+              argumentData.payload.data.navigation.navigate(appConstant.CLIENT_CODE); 
             }
             return; 
           }

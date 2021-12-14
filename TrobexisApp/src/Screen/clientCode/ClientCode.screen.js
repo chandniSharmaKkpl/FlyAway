@@ -19,6 +19,7 @@ import {
   appConstant,
   imageConstant,
   alertMsgConstant,
+  actionConstant,
 } from '../../constant';
 import localDB from '../../database/localDb';
 import {checkStringContainsSpecialChar} from '../../common';
@@ -28,7 +29,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {useDispatch, useSelector} from 'react-redux';
-import {requestToGetApiBase} from './ClientCode.action';
+import {requestToGetApiBase, setLoader} from './ClientCode.action';
 import {Platform} from 'react-native';
 import PushController from '../../component/PushControllerTemp';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
@@ -155,49 +156,46 @@ const ClientCodeScreen = props => {
         client: trimClientCode,
         DeviceType: Platform.OS === 'android' ? 'ANDROID' : 'IOS',
         DeviceId: deviceInfo.device_token,
+        navigation: navigation
       };
-
-      dispatch(requestToGetApiBase(param, navigation));
+      dispatch(setLoader(true));
+      dispatch(requestToGetApiBase(param));
     }
   };
 
-  React.useEffect(() => {
-    checkResponseCode();
-  }, [responseData]);
+  // React.useEffect(() => {
+  //   checkResponseCode();
+  // }, [responseData]);
 
   const checkResponseCode = useCallback(() => {
-    if (responseData.error && Object.keys(responseData.error).length !== 0) {
-      console.log(' errr', responseData);
-      if (responseData.error.message) {
-        toast.show(responseData.error.message, {
-          type: alertMsgConstant.TOAST_DANGER,
-        });
-        let dict = responseData.error;
-        dict.message = null;
-        responseData.error = dict;
-      }
-      return;
-    }
+
     if (
       responseData &&
-      responseData.responseAccountUrl &&
-      responseData.responseAccountUrl.length > 0 &&
-      responseData.responseAccountUrl[0].code &&
-      responseData.responseAccountUrl[0].code === 'Authenticate'
+      responseData?.responseAccountUrl &&
+      responseData?.responseAccountUrl.length > 0 &&
+      responseData?.responseAccountUrl[0].code &&
+      responseData?.responseAccountUrl[0].code === 'Authenticate'
     ) {
-      console.log(' response data success', responseData);
-      let loginUrl = responseData.responseAccountUrl[0].value;
-      loginUrl = loginUrl.replace(':mobileDeviceId', deviceInfo.device_token);
+      console.log(" in chec res", responseData.responseAccountUrl)
+      // let loginUrl = responseData.responseAccountUrl[0].value;
+      // loginUrl = loginUrl.replace(':mobileDeviceId', deviceInfo.device_token);
 
-      let user = {
-        clientToken: responseData.clientToken,
-        deviceId: deviceInfo.device_token,
-        apiBaseUrl: responseData.apiBaseData.value,
-        loginUrl: loginUrl,
-        userId: 'P000000442',
-      };
-      localDB.setUser(user);
+      // let user = {
+      //   clientToken: responseData.clientToken,
+      //   deviceId: deviceInfo.device_token,
+      //   apiBaseUrl: responseData.apiBaseData.value,
+      //   loginUrl: loginUrl,
+      //   userId: 'P000000442',
+      // };
+      // localDB.setUser(user);
       saveClientCodeLocally();
+      dispatch(setLoader(false));
+
+      // // dispatch({type: actionConstant.ACTION_GET_API_BASE_SUCCESS, payload:{}})
+      // let arrayTemp = responseData.responseAccountUrl;
+      // arrayTemp = [];
+      // responseData.responseAccountUrl = arrayTemp;
+
       navigation.navigate(appConstant.DRAWER_NAVIGATOR); // Temp
 
       // navigation.navigate(appConstant.LOGIN, {loginUrl: loginUrl});
@@ -222,7 +220,7 @@ const ClientCodeScreen = props => {
   };
   return (
     <>
-      {checkResponseCode()}
+      {/* {checkResponseCode()} */}
       <Pressable style={stylesHome.container} onPress={onClickOutside}>
         <ImageBackground
           source={imageConstant.IMAGE_LOGIN_BACKGROUND}

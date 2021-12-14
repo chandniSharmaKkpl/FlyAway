@@ -70,6 +70,7 @@ const ApprovalDetail = props => {
   };
 
   const onClickApprove = () => {
+  
     setIsApiCall(true);
     const tempUser = localDb.getUser();
     Promise.resolve(tempUser).then(response => {
@@ -109,32 +110,13 @@ const ApprovalDetail = props => {
   const checkResponseCode = () => {
     if (isApiCall) {
       setIsApiCall(false);
-      // if (
-      //   responseDetail.error &&
-      //   Object.keys(responseDetail.error).length !== 0
-      // ) {
-      //   console.log(' errr', responseDetail);
-      //   toast.show(responseDetail.error,{type: alertMsgConstant.TOAST_DANGER})
-      //   return;
-      // }
-
-      // if (
-      //   responseApprovalData &&
-      //   responseApprovalData.error &&
-      //   Object.keys(responseApprovalData.error).length !== 0
-      // ) {
-      //   console.log(' errr', responseApprovalData);
-      //   toast.show(responseApprovalData.error, {
-      //     type: alertMsgConstant.TOAST_DANGER,
-      //   });
-
-      //   return;
-      // }
+      console.log("  get data",responseApprovalData );
       if (responseApprovalData && responseApprovalData.acceptResponse) {
-        // console.log("  get data",responseApprovalData );
+        console.log(" 115 get data",responseApprovalData );
+
+        
         if (responseApprovalData.acceptResponse.message) {
-          // 
-          props.navigation.goBack();
+          
           toast.show(responseApprovalData.error, {
             type: alertMsgConstant.TOAST_SUCCESS,
           });
@@ -142,6 +124,12 @@ const ApprovalDetail = props => {
           dict.message = '';
           responseApprovalData.acceptResponse = dict;
          
+        }
+        if (responseApprovalData.acceptResponse.success) {
+          let dict = responseApprovalData.acceptResponse;
+          dict.success = false;
+          responseApprovalData.acceptResponse = dict;
+          props.navigation.goBack(); 
         }
       }
     }

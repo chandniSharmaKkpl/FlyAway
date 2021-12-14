@@ -279,22 +279,22 @@ function NavigationSetup() {
   const errorData = useSelector(state => state.GlobalReducer);
   // When Dashboard page will update for api this will also update
 
-  // useEffect(() => {
-    // if (errorData && errorData.error && errorData.error.message) {
+  useEffect(() => {
+    if (errorData && errorData.error && errorData.error.message) {
       
-    //   toast.show(errorData.error.message, {
-    //     type: alertMsgConstant.TOAST_DANGER,
-    //   });
-  //     if (errorData.error.code === errorCodeConstant.UNAUTHORIZED)
-  //      {
-  //        console.log(" in navigator")
-  //       setCurrentUser(null);
-  //     }
-      // let dict = errorData.error;
-      // dict.message = null;
-      // errorData.error = dict;
-  //   }
-  // }, [errorData]);
+      toast.show(errorData.error.message, {
+        type: alertMsgConstant.TOAST_DANGER,
+      });
+      if (errorData.error.code === errorCodeConstant.UNAUTHORIZED)
+       {
+         console.log(" in navigator")
+        setCurrentUser(null);
+      }
+      let dict = errorData.error;
+      dict.message = null;
+      errorData.error = dict;
+    }
+  }, [errorData]);
 
   return (
     <Stack.Navigator

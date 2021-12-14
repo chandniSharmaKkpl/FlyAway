@@ -5,6 +5,7 @@ export default {
   FORBIDDEN: 403,
   NOT_FOUND: 404,
   SUCCESS: 200,
+ 
 
   //** biometric authentication error */
   LA_AUTHENTICATION_FAILED: 'LAErrorAuthenticationFailed',

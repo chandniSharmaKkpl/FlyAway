@@ -70,10 +70,10 @@ const ApprovalList = props => {
   //*** This will call everytime when pull to refresh call or segmented control index changed   */
   
   useEffect(() => {
-   callApiToGetApprovalList()
+   callApiToGetApprovalList(selectedIndex)
   }, [selectedIndex, refreshing]);
 
-  const callApiToGetApprovalList = ()=>{
+  const callApiToGetApprovalList = (selectedIndex)=>{
     const tempUser = localDb.getUser();
     Promise.resolve(tempUser).then(response => {
 
@@ -270,6 +270,7 @@ const ApprovalList = props => {
             tintColor={appColor.WHITE}
             onChange={event => {
               setSelectedIndex(event.nativeEvent.selectedSegmentIndex);
+              callApiToGetApprovalList(event.nativeEvent.selectedSegmentIndex)
             }}
             activeFontStyle={styles.segmentTextActive}
             style={styles.segmentControl}
@@ -294,7 +295,7 @@ const ApprovalList = props => {
                 keyExtractor={(item, index) => index.toString()}
               />
             </>
-          ) : null}
+          ) : <Text style={styles.textEmpty}>{alertMsgConstant.EMPTY_LIST}</Text>}
         </View>
         {responseApprovalData.isRequesting || responseData.isRequesting ? (
           <Loader

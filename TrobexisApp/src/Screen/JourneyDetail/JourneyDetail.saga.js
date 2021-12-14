@@ -7,7 +7,6 @@ import localDb from '../../database/localDb'
 export function* workerGetJourneyDetail(argumentData ) {
 
     try {
-          
       const journeyDetailResponse = yield call(getJourneyDetail,argumentData.payload);
      
       if (isError(journeyDetailResponse)) {
@@ -21,19 +20,14 @@ export function* workerGetJourneyDetail(argumentData ) {
         });
         if (journeyDetailResponse.code === errorCodeConstant.UNAUTHORIZED) {
           localDb.setUser(null);
-          argumentData.payload.navigation.navigate(appConstant.CLIENT_CODE); 
+          argumentData.payload.data.navigation.navigate(appConstant.CLIENT_CODE); 
         }
-        return; 
+      }else{
+        yield put({
+          type: actionConstant.ACTION_GET_DETAIL_OF_ITINARY_SUCCESS,
+          payload: journeyDetailResponse,
+        });
       }
-  
-      console.log( 'Sagag journe', journeyDetailResponse,' jorney detail  in saga -======>>>>>>' );
-
-      yield put({
-        type: actionConstant.ACTION_GET_DETAIL_OF_ITINARY_SUCCESS,
-        payload: journeyDetailResponse,
-      });
-  
-      
     } catch (error) {
       yield put({
         type: actionConstant.ACTION_API_ERROR_SUCCESS,

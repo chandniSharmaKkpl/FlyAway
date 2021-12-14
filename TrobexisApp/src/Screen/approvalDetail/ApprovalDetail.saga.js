@@ -25,17 +25,14 @@ export function* workerGetApprovalDetail(argumentData ) {
 //** if 401 then logout and redirect to client code screen */
         if (approvalResponse.code === errorCodeConstant.UNAUTHORIZED) {
           localDb.setUser(null);
-          argumentData.payload.navigation.navigate(appConstant.CLIENT_CODE); 
+          argumentData.payload.data.navigation.navigate(appConstant.CLIENT_CODE); 
         }
-
-        return; 
-      }
-      yield put({
-        type: actionConstant.ACTION_APPROVAL_DETAIL_SUCCESS,
-        payload: approvalResponse,
-      });
-  
-      
+      }else{
+        yield put({
+          type: actionConstant.ACTION_APPROVAL_DETAIL_SUCCESS,
+          payload: approvalResponse,
+        });
+      }      
     } catch (error) {
       //** managing global error message */
       yield put({

@@ -9,11 +9,16 @@ const initialState = {
 };
 export default (state = initialState, {type, payload}) => {
   switch (type) {
+    case actionConstant.ACTION_SET_LOGIN_LOADER: {
+      return {
+        ...state,
+        isRequesting: payload.data,
+      };
+    }
     case actionConstant.ACTION_GET_API_BASE_REQUEST: {
       return {
         ...state,
         apiBaseData: {payload},
-        isRequesting: true,
         error: {},
       };
     }
@@ -21,7 +26,6 @@ export default (state = initialState, {type, payload}) => {
       return {
         ...state,
         apiBaseData: payload,
-        isRequesting: true,
         error: {},
       };
     }
@@ -29,7 +33,6 @@ export default (state = initialState, {type, payload}) => {
       return {
         ...state,
         apiBaseData: {},
-        isRequesting: false,
         error: payload,
       };
     }
@@ -37,7 +40,6 @@ export default (state = initialState, {type, payload}) => {
       return {
         ...state,
         clientToken: {},
-        isRequesting: true,
         error: {},
       };
     }
@@ -46,7 +48,6 @@ export default (state = initialState, {type, payload}) => {
       return {
         ...state,
         clientToken: payload,
-        isRequesting: true,
         error: {},
       };
     }
@@ -54,7 +55,6 @@ export default (state = initialState, {type, payload}) => {
       return {
         ...state,
         clientToken: {},
-        isRequesting: false,
         error: payload,
       };
     }
@@ -62,7 +62,6 @@ export default (state = initialState, {type, payload}) => {
     case actionConstant.ACTION_GET_ACCOUNT_URL_REQUEST: {
       return {
         ...state,
-        isRequesting: true,
         error: {},
         responseAccountUrl: {},
       };
@@ -71,7 +70,6 @@ export default (state = initialState, {type, payload}) => {
     case actionConstant.ACTION_GET_ACCOUNT_URL_SUCCESS: {
       return {
         ...state,
-        isRequesting: false,
         responseAccountUrl: payload,
         error: {},
       };
@@ -80,7 +78,6 @@ export default (state = initialState, {type, payload}) => {
     case actionConstant.ACTION_GET_ACCOUNT_URL_FAILURE: {
       return {
         ...state,
-        isRequesting: false,
         responseAccountUrl: {},
         error: payload,
       };

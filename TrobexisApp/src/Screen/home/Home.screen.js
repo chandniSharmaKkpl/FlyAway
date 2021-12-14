@@ -44,12 +44,13 @@ const HomeScreen = props => {
     const unsubscribe = props.navigation.addListener('focus', () => {
       const tempUser = localDb.getUser();
       Promise.resolve(tempUser).then(response => {
+        console.log(" user is ---->", response); 
         let param = {
           user: response,
           navigation: props.navigation
         };
         dispatch(requestToGetUserProfile(param));
-        dispatch(requestToGetApprovalList(param));
+        // dispatch(requestToGetApprovalList(param));
       });
     });
     return () => {
@@ -121,37 +122,35 @@ const HomeScreen = props => {
     return stringToRead;
   };
 
-  React.useEffect(() => {
+  // React.useEffect(() => {
+  //   checkResponseForRedirection();
+  // }, [response]);
 
-    
-    checkResponseForRedirection();
-  }, [response]);
+  // checkResponseForRedirection = () => {
+  //   // console.log('Response in home ', ' response', response);
 
-  checkResponseForRedirection = () => {
-    console.log('Response in home ', ' response', response);
-
-  if (response && response.error && response.error.message) {
-      toast.show(response.error.message, {
-        type: alertMsgConstant.TOAST_DANGER,
-      });
-    if (response.error.code === errorCodeConstant.UNAUTHORIZED) {
-      localDb.setUser(null);
-      let dict = response.error;
-      dict.code = null;
-      response.error = dict;
-      props.navigation.navigate(appConstant.CLIENT_CODE);
-   }
-   //** making message empty so it will not popup again */
-   let dict = response.error;
-   dict.message = null;
-   response.error = dict;
-  }
-  };
+  // if (response && response.error && response.error.message) {
+  //     toast.show(response.error.message, {
+  //       type: alertMsgConstant.TOAST_DANGER,
+  //     });
+  //   if (response.error.code === errorCodeConstant.UNAUTHORIZED) {
+  //     localDb.setUser(null);
+  //     let dict = response.error;
+  //     dict.code = null;
+  //     response.error = dict;
+  //     props.navigation.navigate(appConstant.CLIENT_CODE);
+  //  }
+  //  //** making message empty so it will not popup again */
+  //  let dict = response.error;
+  //  dict.message = null;
+  //  response.error = dict;
+  // }
+  // };
 
   return (
     <>
     {/* {backHandler(handleBackButtonClick)} */}
-      {checkResponseForRedirection()}
+      {/* {checkResponseForRedirection()} */}
       <View style={styles.container}>
         <HeaderCustom
           title={''}

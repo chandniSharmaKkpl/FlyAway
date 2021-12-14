@@ -48,6 +48,7 @@ export default CustomDrawer = () => {
   };
 
   return (
+    <>
     <View style={styles.appDrawer}>
       <View style={styles.drawer}>
         <View style={styles.viewTop}>
@@ -102,7 +103,7 @@ export default CustomDrawer = () => {
         </View>
       </View>
 
-      <View style={styles.viewLogout}>
+      {isAlertShow ? null:   <View style={styles.viewLogout}>
       <Pressable style={styles.btnDrawer} onPress={()=> {
        setIsAlertShow(true)
          }}>
@@ -111,30 +112,32 @@ export default CustomDrawer = () => {
           </View>
           <Text style={styles.textLogout}>Logout</Text>
         </Pressable>
-      </View>
+      </View>}
 
-      {isAlertShow ? (
-        <AlertView
-          title={alertMsgConstant.PLEASE_CONFIRM}
-          subtitle={alertMsgConstant.ARE_YOU_SURE_TO_LOGOUT}
-          confirmBtnTxt={alertMsgConstant.YES}
-          cancelBtnTxt={alertMsgConstant.NO}
-          buttonCount={2}
-          bigBtnText={''}
-          onPressConfirmBtn={() => {
-            setIsAlertShow(false);
-            console.log(" logout ===")
-            localDb.setUser(null),
-            navigation.navigate(appConstant.CLIENT_CODE)
-          }}
-          onPressCancel={() => {
-            setIsAlertShow(false);
-          }}
-          onPressBigBtn={() => {
-          }}
-        />
-      ) : null}
+     
     </View>
+     {isAlertShow ? (
+      <AlertView
+        title={alertMsgConstant.PLEASE_CONFIRM}
+        subtitle={alertMsgConstant.ARE_YOU_SURE_TO_LOGOUT}
+        confirmBtnTxt={alertMsgConstant.YES}
+        cancelBtnTxt={alertMsgConstant.NO}
+        buttonCount={2}
+        bigBtnText={''}
+        onPressConfirmBtn={() => {
+          setIsAlertShow(false);
+          console.log(" logout ===")
+          localDb.setUser(null),
+          navigation.navigate(appConstant.CLIENT_CODE)
+        }}
+        onPressCancel={() => {
+          setIsAlertShow(false);
+        }}
+        onPressBigBtn={() => {
+        }}
+      />
+    ) : null}
+    </>
   );
 };
 

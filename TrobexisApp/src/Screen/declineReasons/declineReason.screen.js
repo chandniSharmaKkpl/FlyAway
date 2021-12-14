@@ -96,24 +96,12 @@ const ReasonDecline = props => {
   };
 
   const getDataFromResponse = () => {
-    // if (
-    //   responseGetReasonList.error &&
-    //   Object.keys(responseGetReasonList.error).length !== 0
-    // ) {
-    //   console.log(' errr', responseGetReasonList);
-    //   toast.show(responseGetReasonList.error, {
-    //     type: alertMsgConstant.TOAST_DANGER,
-    //   });
-    //   responseGetReasonList.error = ""; 
-      
-    //   return;
-    // }
+   
     if (responseGetReasonList.declineSubmitRes) {
       if (responseGetReasonList.declineSubmitRes.message) {
         toast.show(responseGetReasonList.declineSubmitRes.message, {
           type: alertMsgConstant.TOAST_SUCCESS,
         });
-
         let dict = responseGetReasonList.declineSubmitRes;
         (dict.message = ''), (responseGetReasonList.declineSubmitRes = dict);
         if (responseGetReasonList.declineSubmitRes.success) {
