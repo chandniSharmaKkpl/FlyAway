@@ -16,7 +16,7 @@ import {Loader, AlertView} from '../../component';
 
 import stylesHome from '../home/Home.style';
 import styles from './declineReason.style';
-import {HeaderCustom, BookingCard} from '../../component';
+import {HeaderCustom, BookingCard, backHandler} from '../../component';
 import {Avatar} from 'react-native-elements';
 import {appConstant, appColor, alertMsgConstant} from '../../constant';
 import IconAntDesing from 'react-native-vector-icons/AntDesign';
@@ -55,6 +55,7 @@ const ReasonDecline = props => {
         let param = {
           user: response,
           approvalId: route.params ? route.params.approvalItem.item.id : '',
+          navigation: props.navigation
         };
         dispatch(requestToGetDeclineReasons(param));
       });
@@ -70,6 +71,7 @@ const ReasonDecline = props => {
         reasonId: reasonId,
          user: response,
          approvalId: route.params ? route.params.approvalItem.item.id : '',
+         navigation: props.navigation
         };
       dispatch(requestDeclineApproval(param));
     });
@@ -94,18 +96,18 @@ const ReasonDecline = props => {
   };
 
   const getDataFromResponse = () => {
-    if (
-      responseGetReasonList.error &&
-      Object.keys(responseGetReasonList.error).length !== 0
-    ) {
-      console.log(' errr', responseGetReasonList);
-      toast.show(responseGetReasonList.error, {
-        type: alertMsgConstant.TOAST_DANGER,
-      });
-      responseGetReasonList.error = ""; 
+    // if (
+    //   responseGetReasonList.error &&
+    //   Object.keys(responseGetReasonList.error).length !== 0
+    // ) {
+    //   console.log(' errr', responseGetReasonList);
+    //   toast.show(responseGetReasonList.error, {
+    //     type: alertMsgConstant.TOAST_DANGER,
+    //   });
+    //   responseGetReasonList.error = ""; 
       
-      return;
-    }
+    //   return;
+    // }
     if (responseGetReasonList.declineSubmitRes) {
       if (responseGetReasonList.declineSubmitRes.message) {
         toast.show(responseGetReasonList.declineSubmitRes.message, {

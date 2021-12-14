@@ -2,6 +2,7 @@ import {takeLatest, take, call, put, select, all} from 'redux-saga/effects';
 import {actionConstant, apiConstant, appConstant, errorCodeConstant} from '../../constant';
 import {getDeclineReasonsApi,declineApprovalApi } from './declineReason.api'; 
 import {isError} from '../../common';
+import localDb from '../../database/localDb'
 
 //** Worker Get Api Base  */
 
@@ -10,11 +11,21 @@ export function* workerGetDeclineReason(argumentData) {
     const apiBaseResponse = yield call(getDeclineReasonsApi,argumentData.payload.data);
 
     if (isError(apiBaseResponse)) {
+//** managing global error message */
+      yield put({
+        type: actionConstant.ACTION_API_ERROR_SUCCESS,
+        payload: apiBaseResponse
+      })
+//** managing loader and ui of the view */
       yield put({
         type: actionConstant.ACTION_GET_DECLINE_REASON_FAILURE,
-        payload: apiBaseResponse.message
-      })
-      //return; 
+        payload: apiBaseResponse,
+      });
+      if (apiBaseResponse.code === errorCodeConstant.UNAUTHORIZED) {
+        localDb.setUser(null);
+        argumentData.payload.navigation.navigate(appConstant.CLIENT_CODE); 
+      }
+    return; 
     }
     yield put({
       type: actionConstant.ACTION_GET_DECLINE_REASON_SUCCESS,
@@ -42,9 +53,18 @@ export function* workerSubmitDeclineReason(argumentData ) {
   
     if (isError(declineResponse)) {
       yield put({
-        type: actionConstant.ACTION_SUBMIT_DECLINE_REASON_FAILURE,
-        payload: declineResponse.message
+        type: actionConstant.ACTION_API_ERROR_SUCCESS,
+        payload: declineResponse
       })
+
+      yield put({
+        type: actionConstant.ACTION_SUBMIT_DECLINE_REASON_FAILURE,
+        payload: declineResponse,
+      });
+      if (declineResponse.code === errorCodeConstant.UNAUTHORIZED) {
+        localDb.setUser(null);
+        argumentData.payload.navigation.navigate(appConstant.CLIENT_CODE); 
+      }
       return; 
     }
 
@@ -54,6 +74,10 @@ export function* workerSubmitDeclineReason(argumentData ) {
     });
 
   } catch (error) {
+    yield put({
+      type: actionConstant.ACTION_API_ERROR_SUCCESS,
+      payload: error
+    })
     yield put({
       type: actionConstant.ACTION_SUBMIT_DECLINE_REASON_FAILURE,
       payload: error,

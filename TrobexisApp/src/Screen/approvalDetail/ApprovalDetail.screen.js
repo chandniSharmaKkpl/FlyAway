@@ -30,32 +30,28 @@ const ApprovalDetail = props => {
   const responseDetail = useSelector(state => state.ApprovalDetailReducer);
   const responseApprovalData = useSelector(state => state.ApprovalListReducer);
   const [isApiCall, setIsApiCall] = useState(false);
- 
+
   const handleBackButtonClick = () => {
-    moveBack();
+    props.navigation.pop();
     return true;
   };
 
   useEffect(() => {
-
     const unsubscribe = props.navigation.addListener('focus', () => {
+      console.log(" route param", route.params)
       const tempUser = localDb.getUser();
       Promise.resolve(tempUser).then(response => {
         let param = {
           approvalId: route.params.approvalId ? route.params.approvalId : '',
           user: response,
+          navigation: props.navigation,
         };
         setIsApiCall(true);
         dispatch(requestToGetApprovalDetail(param));
       });
     });
 
-   // BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
     return () => {
-      // BackHandler.removeEventListener(
-      //   'hardwareBackPress',
-      //   handleBackButtonClick,
-      // );
       unsubscribe;
     };
   }, []);
@@ -74,10 +70,14 @@ const ApprovalDetail = props => {
   };
 
   const onClickApprove = () => {
-    setIsApiCall(true); 
+    setIsApiCall(true);
     const tempUser = localDb.getUser();
     Promise.resolve(tempUser).then(response => {
-      let param = {approvalId: route.params.approvalId ? route.params.approvalId : '', user: response};
+      let param = {
+        approvalId: route.params.approvalId ? route.params.approvalId : '',
+        user: response,
+        navigation: props.navigation,
+      };
       dispatch(requestAcceptApproval(param));
     });
   };
@@ -85,61 +85,67 @@ const ApprovalDetail = props => {
     props.navigation.navigate(appConstant.REASON);
   };
 
-const getDataFromResponse=(responseDetail, value)=>{
-   {
-    // console.log(' responseDetail ---->', responseDetail);
+  const getDataFromResponse = (responseDetail, value) => {
+    {
+      // console.log(' responseDetail ---->', responseDetail);
 
-    if (responseDetail) {
-    
-      let itemsData = responseDetail.responseDetail;
-      if (value === 'Description') {
-        return itemsData.Description; 
+      if (responseDetail) {
+        let itemsData = responseDetail.responseDetail;
+        if (value === 'Description') {
+          return itemsData.Description;
+        } else {
+          let tempArray = itemsData.Items;
+          if (tempArray) {
+            return findIdByValue(tempArray, value);
+          } else {
+            return 'N/A';
+          }
+        }
       } else {
-        let tempArray = itemsData.Items;
-      if (tempArray) {
-        return  findIdByValue(tempArray, value);
-       }else{
-         return "N/A";
-       }
+        return 'N/A';
       }
-    }else{
-      return "N/A"
     }
-  }
-}
-  const checkResponseCode = ()=> {
+  };
+  const checkResponseCode = () => {
     if (isApiCall) {
       setIsApiCall(false);
-      if (
-        responseDetail.error &&
-        Object.keys(responseDetail.error).length !== 0
-      ) {
-       
-        console.log(' errr', responseDetail);
-        toast.show(responseDetail.error,{type: alertMsgConstant.TOAST_DANGER})
+      // if (
+      //   responseDetail.error &&
+      //   Object.keys(responseDetail.error).length !== 0
+      // ) {
+      //   console.log(' errr', responseDetail);
+      //   toast.show(responseDetail.error,{type: alertMsgConstant.TOAST_DANGER})
+      //   return;
+      // }
 
-        return;
-      }
+      // if (
+      //   responseApprovalData &&
+      //   responseApprovalData.error &&
+      //   Object.keys(responseApprovalData.error).length !== 0
+      // ) {
+      //   console.log(' errr', responseApprovalData);
+      //   toast.show(responseApprovalData.error, {
+      //     type: alertMsgConstant.TOAST_DANGER,
+      //   });
 
-      if (responseApprovalData && responseApprovalData.error && Object.keys(responseApprovalData.error).length !== 0) {
-        console.log(' errr', responseApprovalData);
-        toast.show(responseApprovalData.error,{type: alertMsgConstant.TOAST_DANGER})
-
-        return;
-      }
+      //   return;
+      // }
       if (responseApprovalData && responseApprovalData.acceptResponse) {
-        // console.log("  get data",responseApprovalData ); 
+        // console.log("  get data",responseApprovalData );
         if (responseApprovalData.acceptResponse.message) {
-  
-           //  moveBack();
-          toast.show(responseApprovalData.error,{type: alertMsgConstant.TOAST_SUCCESS})
-          let dict = responseApprovalData.acceptResponse
-          dict.message = "",
-          responseApprovalData.acceptResponse = dict; 
+          // 
+          props.navigation.goBack();
+          toast.show(responseApprovalData.error, {
+            type: alertMsgConstant.TOAST_SUCCESS,
+          });
+          let dict = responseApprovalData.acceptResponse;
+          dict.message = '';
+          responseApprovalData.acceptResponse = dict;
+         
         }
-      } 
+      }
     }
-  }
+  };
 
   const findIdByValue = (data, value) => {
     const el = data.find(el => el.Label === value); // Possibly returns `undefined`
@@ -148,9 +154,8 @@ const getDataFromResponse=(responseDetail, value)=>{
 
   return (
     <>
-     {checkResponseCode(),
-     backHandler(moveBack)
-     }
+      {(checkResponseCode(), 
+      backHandler(handleBackButtonClick))}
       <View style={stylesHome.container}>
         <HeaderCustom
           title={'Approval Details'}
@@ -162,7 +167,6 @@ const getDataFromResponse=(responseDetail, value)=>{
           onClickRightIcon={() => {}}
           rightIconImage={''}
           viewProps={props}
-
         />
         <ScrollView>
           <View style={styles.viewOutSide}>
@@ -177,15 +181,32 @@ const getDataFromResponse=(responseDetail, value)=>{
               <View style={styles.viewInside}>
                 <View style={styles.viewInsideTitle}>
                   <Text style={styles.textYellow}>
-                    {getDataFromResponse(responseDetail, "Requestor")} ({getDataFromResponse(responseDetail, "TravellerID")})
+                  {route.params && route.params.requestor
+                  ? route.params.requestor
+                  : ''}
+                  {/* ( {getDataFromResponse(responseDetail, 'TravellerID')}) */}
                   </Text>
-                  <Text style={styles.textRed}>{getDataFromResponse(responseDetail, "Status")}</Text>
+                  <Text style={styles.textRed}>
+                    {getDataFromResponse(responseDetail, 'Status')}
+                  </Text>
                 </View>
                 <View style={styles.viewContainRow}>
-                  {returnRowView('Request Creation Date:', getDataFromResponse(responseDetail,"EscalationDate"))}
-                  {returnRowView('Company Name:', getDataFromResponse(responseDetail,"CompanyName"))}
-                  {returnRowView('Sub Contractor:', getDataFromResponse(responseDetail,"Sub"))}
-                  {returnRowView('Position:', getDataFromResponse(responseDetail,"Position"))}
+                  {returnRowView(
+                    'Request Creation Date:',
+                    getDataFromResponse(responseDetail, 'EscalationDate'),
+                  )}
+                  {returnRowView(
+                    'Company Name:',
+                    getDataFromResponse(responseDetail, 'CompanyName'),
+                  )}
+                  {returnRowView(
+                    'Sub Contractor:',
+                    getDataFromResponse(responseDetail, 'Sub'),
+                  )}
+                  {returnRowView(
+                    'Position:',
+                    getDataFromResponse(responseDetail, 'Position'),
+                  )}
                 </View>
               </View>
             </View>
@@ -194,11 +215,26 @@ const getDataFromResponse=(responseDetail, value)=>{
               <Text style={styles.textBlackTitle}>Site Access Details</Text>
               <View style={styles.viewInside}>
                 <View style={styles.viewContainRow}>
-                  {returnRowView('Request Title:', getDataFromResponse(responseDetail,"TripReason"))}
-                  {returnRowView('Site Location:', getDataFromResponse(responseDetail,"SiteLocation"))}
-                  {returnRowView('Access Dates:', getDataFromResponse(responseDetail,"EscalationDate"))}
-                  {returnRowView('Roaster Pattern:', getDataFromResponse(responseDetail,"Roaster"))}
-                  {returnRowView('Travel Requirements:', getDataFromResponse(responseDetail,"Req"))}
+                  {returnRowView(
+                    'Request Title:',
+                    getDataFromResponse(responseDetail, 'TripReason'),
+                  )}
+                  {returnRowView(
+                    'Site Location:',
+                    getDataFromResponse(responseDetail, 'SiteLocation'),
+                  )}
+                  {returnRowView(
+                    'Access Dates:',
+                    getDataFromResponse(responseDetail, 'EscalationDate'),
+                  )}
+                  {returnRowView(
+                    'Roaster Pattern:',
+                    getDataFromResponse(responseDetail, 'Roaster'),
+                  )}
+                  {returnRowView(
+                    'Travel Requirements:',
+                    getDataFromResponse(responseDetail, 'Req'),
+                  )}
                 </View>
               </View>
             </View>
@@ -207,7 +243,9 @@ const getDataFromResponse=(responseDetail, value)=>{
               <Text style={styles.textBlackTitle}>Comments / Messages</Text>
               <View style={styles.viewInside}>
                 {/* <View style={styles.textAreaContainer}> */}
-                <Text style={styles.textArea}>{ getDataFromResponse(responseDetail,"AdditionalDetails")}</Text>
+                <Text style={styles.textArea}>
+                  {getDataFromResponse(responseDetail, 'AdditionalDetails')}
+                </Text>
               </View>
               {/* </View> */}
             </View>
@@ -240,7 +278,11 @@ const getDataFromResponse=(responseDetail, value)=>{
           </View>
         </ScrollView>
         {responseDetail.isRequesting || responseApprovalData.isRequesting ? (
-          <Loader loading={responseDetail.isRequesting || responseApprovalData.isRequesting} />
+          <Loader
+            loading={
+              responseDetail.isRequesting || responseApprovalData.isRequesting
+            }
+          />
         ) : null}
       </View>
     </>

@@ -42,13 +42,15 @@ import {
 const ClientCodeScreen = props => {
   const navigation = useNavigation();
   const {setUserData} = React.useContext(AuthContext);
-  const [clientCode, setClientCode] = useState(''); //TONEAPPUAT
+  const [clientCode, setClientCode] = useState('TONEAPPUAT'); //TONEAPPUAT
   const [arrayClientCode, setArrayClientCode] = useState([]); // All saved client codes are stored in this array so show on the list when user start type to client code
   const [isClientCodeListShow, setIsClientCodeListShow] = useState(false); // Android back handling show alert
 
   const [error, setError] = useState('');
   const dispatch = useDispatch();
   const responseData = useSelector(state => state.ClientCodeReducer); // For api response of account url, access token
+  const errorData = useSelector(state => state.GlobalReducer); // For error handling global reducer return false
+
   const [deviceInfo, setDeviceInfo] = useState({}); // Getting user device info from push controller.
   const [isAlertShow, setIsAlertShow] = useState(false); // Android back handling show alert
   //const [countBack, setCountBack] = React.useState(0)
@@ -79,7 +81,7 @@ const ClientCodeScreen = props => {
       Promise.resolve(tempUser).then(response => {
         if (response) {
           if (response.userId && response.clientToken) {
-            checkBioMetricAvailable(props);
+            checkBioMetricAvailable(props, response);
           }
         } else {
         }
@@ -102,9 +104,8 @@ const ClientCodeScreen = props => {
     const temp = localDB.getClientCode();
     Promise.resolve(temp).then(response => {
       if (response) {
-        console.log(' client code array', response);
         setArrayClientCode(response);
-        setClientCode(response[0]);
+        setClientCode(response[response.length - 1]);
       } else {
       }
     });
@@ -135,36 +136,46 @@ const ClientCodeScreen = props => {
   };
 
   const submitForm = () => {
-   
-
+    setIsClientCodeListShow(false);
     if (clientCode === '') {
       setError(alertMsgConstant.CLIENT_CODE_NOT_EMPTY);
     } else {
-       //** Special character and space not allowed  */
-       if (checkStringContainsSpecialChar(clientCode)) {
+      //** Special character and space not allowed  */
+      if (checkStringContainsSpecialChar(clientCode)) {
         setError(alertMsgConstant.SPECIAL_CHAR_NOT_ALLOW);
-        return; 
+        return;
       }
 
       //** Remove all spaces from the client code */
-      let trimClientCode = clientCode.replace(/ /g, ''); 
-      console.log(" param --->", trimClientCode,"Newwww");
-     
+      let trimClientCode = clientCode.replace(/ /g, '');
+      console.log(' param --->', trimClientCode, 'Newwww');
+
       // Call api here
       let param = {
         client: trimClientCode,
         DeviceType: Platform.OS === 'android' ? 'ANDROID' : 'IOS',
         DeviceId: deviceInfo.device_token,
       };
-      console.log(" param --->", param);
+
       dispatch(requestToGetApiBase(param, navigation));
     }
   };
 
+  React.useEffect(() => {
+    checkResponseCode();
+  }, [responseData]);
+
   const checkResponseCode = useCallback(() => {
     if (responseData.error && Object.keys(responseData.error).length !== 0) {
       console.log(' errr', responseData);
-      toast.show(responseData.error, {type: alertMsgConstant.TOAST_DANGER});
+      if (responseData.error.message) {
+        toast.show(responseData.error.message, {
+          type: alertMsgConstant.TOAST_DANGER,
+        });
+        let dict = responseData.error;
+        dict.message = null;
+        responseData.error = dict;
+      }
       return;
     }
     if (
@@ -174,7 +185,7 @@ const ClientCodeScreen = props => {
       responseData.responseAccountUrl[0].code &&
       responseData.responseAccountUrl[0].code === 'Authenticate'
     ) {
-      console.log(' response data ', responseData);
+      console.log(' response data success', responseData);
       let loginUrl = responseData.responseAccountUrl[0].value;
       loginUrl = loginUrl.replace(':mobileDeviceId', deviceInfo.device_token);
 
@@ -183,16 +194,16 @@ const ClientCodeScreen = props => {
         deviceId: deviceInfo.device_token,
         apiBaseUrl: responseData.apiBaseData.value,
         loginUrl: loginUrl,
+        userId: 'P000000442',
       };
       localDB.setUser(user);
       saveClientCodeLocally();
-        props.navigation.navigate(appConstant.DRAWER_NAVIGATOR); // Temp 
+      navigation.navigate(appConstant.DRAWER_NAVIGATOR); // Temp
 
-     // navigation.navigate(appConstant.LOGIN, {loginUrl: loginUrl});
+      // navigation.navigate(appConstant.LOGIN, {loginUrl: loginUrl});
     }
   }, [responseData]);
 
- 
   const renderClientCode = item => {
     return (
       <Pressable
@@ -236,7 +247,6 @@ const ClientCodeScreen = props => {
                 value={clientCode}
                 error={error}
                 onChangeText={value => {
-
                   //** for showing dropdown of prefilled client code  */
                   if (clientCode && clientCode.length > 0) {
                     setIsClientCodeListShow(false);
@@ -262,12 +272,11 @@ const ClientCodeScreen = props => {
                 <View style={styles.viewFlatList}>
                   <>
                     <FlatList
-                    horizontal={false} 
+                      horizontal={false}
                       style={styles.flatList}
                       data={arrayClientCode}
                       renderItem={renderClientCode}
                       keyExtractor={(item, index) => index.toString()}
-                     
                     />
                   </>
                 </View>

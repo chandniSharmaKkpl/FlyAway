@@ -8,7 +8,6 @@ const initialState = {
   responseAccountUrl: '',
 };
 export default (state = initialState, {type, payload}) => {
-  
   switch (type) {
     case actionConstant.ACTION_GET_API_BASE_REQUEST: {
       return {

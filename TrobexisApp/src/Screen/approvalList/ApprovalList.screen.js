@@ -56,6 +56,7 @@ const ApprovalList = props => {
         let param = {
           user: response,
           status: appConstant.PENDING_APPROVAL,
+          navigation: props.navigation
         };
 
         dispatch(requestGetApprovalListWithStatus(param));
@@ -80,18 +81,21 @@ const ApprovalList = props => {
         let param = {
           user: response,
           status: appConstant.PENDING_APPROVAL,
+          navigation: props.navigation
         };
         dispatch(requestGetApprovalListWithStatus(param));
       } else if (selectedIndex === APPROVED_INDEX) {
         let param = {
           user: response,
           status: appConstant.APPROVED,
+          navigation: props.navigation
         };
         dispatch(requestGetApprovalListWithStatus(param));
       } else {
         let param = {
           user: response,
           status: appConstant.DECLINED,
+          navigation: props.navigation
         };
         dispatch(requestGetApprovalListWithStatus(param));
       }
@@ -110,7 +114,11 @@ const ApprovalList = props => {
   const onClickAccept = approvalId => {
     const tempUser = localDb.getUser();
     Promise.resolve(tempUser).then(response => {
-      let param = {approvalId: approvalId, user: response};
+      let param = {
+        approvalId: approvalId, 
+        user: response,
+        navigation: props.navigation
+      };
       dispatch(requestAcceptApproval(param));
       setRefreshing(false); //  use Effect call for refreshing approval list
     });
@@ -120,9 +128,9 @@ const ApprovalList = props => {
     props.navigation.navigate(appConstant.REASON, {approvalItem: item});
   };
 
-  const moveToDetailView = id => {
+  const moveToDetailView = itemDetail => {
   
-     props.navigation.navigate(appConstant.APPROVAL_DETAIL, {approvalId: id});
+     props.navigation.navigate(appConstant.APPROVAL_DETAIL, {approvalId: itemDetail.id, requestor: itemDetail.requestor});
   };
 
   const renderItem = item => {
@@ -135,7 +143,7 @@ const ApprovalList = props => {
         <View style={styles.viewOutSide}>
           <Pressable
             style={styles.viewInside1}
-            onPress={() => moveToDetailView(itemDetail.id)}>
+            onPress={() => moveToDetailView(itemDetail)}>
             <View style={styles.viewInside2}>
               <View>
                 <Text style={styles.textTitle}>{itemDetail.requestor}</Text>
@@ -204,18 +212,18 @@ const ApprovalList = props => {
   };
 
   const getDataFromResponse = () => {
-    if (
-      responseApprovalData &&
-      responseApprovalData.error &&
-      Object.keys(responseApprovalData.error).length !== 0
-    ) {
-      console.log(' errr', responseApprovalData);
-      toast.show(responseApprovalData.error, {
-        type: alertMsgConstant.TOAST_DANGER,
-      });
+    // if (
+    //   responseApprovalData &&
+    //   responseApprovalData.error &&
+    //   Object.keys(responseApprovalData.error).length !== 0
+    // ) {
+    //   console.log(' errr', responseApprovalData);
+    //   toast.show(responseApprovalData.error, {
+    //     type: alertMsgConstant.TOAST_DANGER,
+    //   });
 
-      return;
-    }
+    //   return;
+    // }
     if (responseApprovalData && responseApprovalData.approvalListWithStatus) {
       
         if (refreshing) {

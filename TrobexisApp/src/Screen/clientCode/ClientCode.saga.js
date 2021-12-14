@@ -7,15 +7,20 @@ import {isError} from '../../common';
 
 export function* workerGetApiBase(argumentData) {
   try {
-    console.log("workerGetApiBase ---> ", argumentData); 
     const apiBaseResponse = yield call(getApiBase,argumentData.payload.data);
 
     if (isError(apiBaseResponse)) {
+      //** For showing global error message  */
       yield put({
-        type: actionConstant.ACTION_GET_API_BASE_FAILURE,
-        payload: apiBaseResponse.message
+        type: actionConstant.ACTION_API_ERROR_SUCCESS,
+        payload: apiBaseResponse
       })
-      //return; 
+     //** for handling failure scenario in each */
+    yield put({
+      type: actionConstant.ACTION_GET_API_BASE_FAILURE,
+      payload: apiBaseResponse,
+    });
+      return; 
     }
     yield put({
       type: actionConstant.ACTION_GET_API_BASE_SUCCESS,
@@ -24,8 +29,10 @@ export function* workerGetApiBase(argumentData) {
     yield call(workerGetClientTokenBaseOnApiBase,argumentData.payload.data, apiBaseResponse); 
 
   } catch (error) {
-    console.log(" Response Error : ",error)
-
+    yield put({
+      type: actionConstant.ACTION_API_ERROR_SUCCESS,
+      payload: error
+    })
     yield put({
       type: actionConstant.ACTION_GET_API_BASE_FAILURE,
       payload: error,
@@ -45,9 +52,14 @@ export function* workerGetClientTokenBaseOnApiBase(argumentData, apiBase ) {
     );
     if (isError(clientToken)) {
       yield put({
-        type: actionConstant.ACTION_GET_CLIENT_TOKEN_FAILURE,
-        payload: clientToken.message
+        type: actionConstant.ACTION_API_ERROR_SUCCESS,
+        payload: clientToken
       })
+      
+      yield put({
+        type: actionConstant.ACTION_GET_CLIENT_TOKEN_FAILURE,
+        payload: clientToken,
+      });
       return; 
     }
 
@@ -59,6 +71,11 @@ export function* workerGetClientTokenBaseOnApiBase(argumentData, apiBase ) {
     
     yield call(workerGetAccountUrl,argumentData,apiBase.value, clientToken)
   } catch (error) {
+    yield put({
+      type: actionConstant.ACTION_API_ERROR_SUCCESS,
+      payload: error
+    })
+    
     yield put({
       type: actionConstant.ACTION_GET_CLIENT_TOKEN_FAILURE,
       payload: error,
@@ -76,8 +93,12 @@ export function* workerGetAccountUrl (argumentData, apiBase, clientToken) {
 
     if (isError(responseAccountUrl)) {
       yield put({
-        type: actionConstant.ACTION_GET_ACCOUNT_URL_FAILURE,
-        payload: responseAccountUrl.message
+        type: actionConstant.ACTION_API_ERROR_SUCCESS,
+        payload: responseAccountUrl
+      })
+      yield put({
+        type: actionConstant.ACTION_GET_ACCOUNT_URL_FAILURE, 
+        payload: responseAccountUrl
       })
       return; 
     }
@@ -88,6 +109,10 @@ export function* workerGetAccountUrl (argumentData, apiBase, clientToken) {
     });
 
   }catch(error){
+    yield put({
+      type: actionConstant.ACTION_API_ERROR_SUCCESS,
+      payload: error
+    })
     yield put({
       type: actionConstant.ACTION_GET_ACCOUNT_URL_FAILURE, 
       payload: error

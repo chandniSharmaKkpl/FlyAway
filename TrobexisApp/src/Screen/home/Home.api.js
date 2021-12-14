@@ -22,8 +22,6 @@ export const getUserProfile = argumentData => {
     },
   });
 
-  console.log(" userId ----->", argumentData.user); 
-
   let urlString = apiConstant.USER_PROFILE;
   urlString = urlString.replace(':userId', userId);
 
@@ -86,7 +84,7 @@ export const getItinaryList = argumentData => {
 };
 
 export const getItinaryListAllJourney = argumentData => {
-  //console.log('getUserProfile argument data in api : ', argumentData);
+  // console.log('getItinaryListAllJourney argument data in api : ', argumentData);
 
   let deviceId = argumentData.user.deviceId;
   let apiBaseUrl = argumentData.user.apiBaseUrl;
@@ -127,12 +125,14 @@ export const getItinaryListAllJourney = argumentData => {
 };
 
 export const getApprovalList = argumentData => {
-console.log('get approval list  argument data in api : ', argumentData);
 
-  let deviceId = argumentData.data.user.deviceId;
-  let apiBaseUrl = argumentData.data.user.apiBaseUrl;
-  let clientToken = argumentData.data.user.clientToken;
-  let userId = argumentData.data.user.userId;
+let deviceId = argumentData.user.deviceId;
+let apiBaseUrl = argumentData.user.apiBaseUrl;
+let clientToken = argumentData.user.clientToken;
+let userId = argumentData.user.userId;
+
+console.log('get approval list  argument data in api : ', argumentData.user);
+
 
   let instance = axios.create({
     baseURL: apiBaseUrl,

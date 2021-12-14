@@ -1,5 +1,5 @@
 import {takeLatest, call, put, select, all} from 'redux-saga/effects';
-import {actionConstant} from '../../constant';
+import {actionConstant, appConstant, errorCodeConstant} from '../../constant';
 import localDb from '../../database/localDb'
 import {isError} from '../../common';
 
@@ -14,14 +14,23 @@ export function* workerGetUserProfile(argumentData) {
         getUserProfile,
         argumentData.payload,
       );
-      if (isError(userProfile))
-       {
-        console.log('16 worker saga called error  ', userProfile);
-
+     
+      if (isError(userProfile)){
+       //** For showing global error message  */
         yield put({
           type: actionConstant.ACTION_API_ERROR_SUCCESS,
           payload: userProfile
         })
+        //  //** for handling failure scenario in each */
+        yield put({
+          type: actionConstant.ACTION_GET_USER_PROFILE_FAILURE,
+          payload: userProfile,
+        });
+
+        // if (userProfile.code === errorCodeConstant.UNAUTHORIZED) {
+        //   localDb.setUser(null);
+        //   argumentData.payload.navigation.navigate(appConstant.CLIENT_CODE); 
+        // }
         return; 
       }
 
@@ -38,10 +47,17 @@ export function* workerGetUserProfile(argumentData) {
   } catch (error) {
     console.log(' worker saga called error  ', error);
    
+    //** For showing global error message  */
     yield put({
       type: actionConstant.ACTION_API_ERROR_SUCCESS,
+      payload: error
+    })
+     //** for handling failure scenario in each */
+    yield put({
+      type: actionConstant.ACTION_GET_USER_PROFILE_FAILURE,
       payload: error,
     });
+
   }
 }
 
@@ -51,6 +67,19 @@ export function* workerGetItinaryList(argumentData) {
         getItinaryList,
         argumentData.payload,
       );
+      if (isError(itinaryList))
+       {
+        yield put({
+          type: actionConstant.ACTION_API_ERROR_SUCCESS,
+          payload: itinaryList
+        })
+        yield put({
+          type: actionConstant.ACTION_GET_ITINARY_LIST_FAILURE,
+          payload: itinaryList,
+        });
+        return; 
+      }
+
       if (itinaryList) {
         yield put({
           type: actionConstant.ACTION_GET_ITINARY_LIST_SUCCESS,
@@ -60,6 +89,10 @@ export function* workerGetItinaryList(argumentData) {
     
   } catch (error) {
     // console.log(' worker saga called error  ', error);
+  yield put({
+      type: actionConstant.ACTION_API_ERROR_SUCCESS,
+      payload: error,
+    });
     yield put({
       type: actionConstant.ACTION_GET_ITINARY_LIST_FAILURE,
       payload: error,
@@ -73,6 +106,18 @@ export function* workerGetItinaryListAllJoureny(argumentData) {
         getItinaryListAllJourney,
         argumentData.payload,
       );
+      if (isError(itinaryList)){
+       yield put({
+         type: actionConstant.ACTION_API_ERROR_SUCCESS,
+         payload: itinaryList
+       })
+       yield put({
+        type: actionConstant.ACTION_GET_ITINARY_LIST_ALL_JOURNEY_FAILURE,
+        payload: itinaryList
+      })
+       return; 
+     }
+     
       if (itinaryList) {
         yield put({
           type: actionConstant.ACTION_GET_ITINARY_LIST_ALL_JOURNEY_SUCCESS,
@@ -83,20 +128,36 @@ export function* workerGetItinaryListAllJoureny(argumentData) {
   } catch (error) {
     // console.log(' worker saga called error  ', error);
     yield put({
-      type: actionConstant.ACTION_GET_ITINARY_LIST_ALL_JOURNEY_FAILURE,
+      type: actionConstant.ACTION_API_ERROR_SUCCESS,
       payload: error,
     });
+    yield put({
+      type: actionConstant.ACTION_GET_ITINARY_LIST_ALL_JOURNEY_FAILURE,
+      payload: error
+    })
   }
 }
 
 export function* workerGetApprovalList(argumentData) {
 
+
   try {
-   
        const itinaryList = yield call(
         getApprovalList,
         argumentData.payload,
       );
+      if (isError(itinaryList))
+      {
+       yield put({
+         type: actionConstant.ACTION_API_ERROR_SUCCESS,
+         payload: itinaryList
+       })
+       yield put({
+        type: actionConstant.ACTION_GET_APPROVAL_LIST_FAILURE,
+        payload: itinaryList,
+      });
+       return; 
+     }
       if (itinaryList) {
         yield put({
           type: actionConstant.ACTION_GET_APPROVAL_LIST_SUCCESS,
@@ -108,6 +169,10 @@ export function* workerGetApprovalList(argumentData) {
     // console.log(' worker saga called error  ', error);
     yield put({
       type: actionConstant.ACTION_GET_APPROVAL_LIST_FAILURE,
+      payload: error,
+    });
+    yield put({
+      type: actionConstant.ACTION_API_ERROR_SUCCESS,
       payload: error,
     });
   }

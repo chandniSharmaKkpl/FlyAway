@@ -49,7 +49,7 @@ const BusBookingScreen = props => {
         let date = new Date();
         let currentDate = format(date, "EEEE, MMMM dd yyyy");
         setSelectedDate(currentDate);
-         dispatch(requestToGetItinaryList())
+        //  dispatch(requestToGetItinaryList())
           });
     return () =>{
         BackHandler.removeEventListener('hardwareBackPress', handleBackButtonClick);

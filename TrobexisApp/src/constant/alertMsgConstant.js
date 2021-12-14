@@ -14,6 +14,7 @@ export default {
     'Are you sure want to cancel this journey?',
   NO: 'No',
   YES: 'Yes',
+  ARE_YOU_SURE_TO_LOGOUT:'Are you sure to logout?',
   CONTINUE_BACK: 'Continue Back?',
   LOSS_INFO_ON_BACK:
     'If you go back you will loose any information on this page.',

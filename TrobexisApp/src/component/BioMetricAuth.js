@@ -7,7 +7,7 @@ import {
   ImageBackground,
   Pressable,
   TextInput,
-  BackHandler,
+ 
   Keyboard,
 } from 'react-native';
 import TouchID from 'react-native-touch-id';
@@ -34,17 +34,16 @@ const optionalConfigObject = {
   passcodeFallback: false, // iOS - allows the device to fall back to using the passcode, if faceid/touch is not available. this does not mean that if touchid/faceid fails the first few times it will revert to passcode, rather that if the former are not enrolled, then it will use the passcode.
 };
 
-export const checkBioMetricAvailable = (props) => {
+export const checkBioMetricAvailable = (props, user) => {
 
   TouchID.isSupported(optionalConfigObject)
     .then(biometryType => {
       // Success code
       if (biometryType === 'FaceID') {
-        console.log('FaceID is supported.');
-        authenticateUsingBioMetric(props);
+        authenticateUsingBioMetric(props, user);
       } else {
         console.log('TouchID is supported.');
-        authenticateUsingBioMetric(props);
+        authenticateUsingBioMetric(props,user);
       }
     })
     .catch(error => {
@@ -53,15 +52,16 @@ export const checkBioMetricAvailable = (props) => {
     });
 };
 
-export const authenticateUsingBioMetric = (props) => {
+export const authenticateUsingBioMetric = (props,user) => {
   TouchID.authenticate(
     'Login with fingerprint',
     optionalConfigObject,
   )
     .then(success => {
-      console.log('success biometric', success);
+      console.log('success biometric', user);
       props.navigation.navigate(appConstant.DRAWER_NAVIGATOR);
-      toast.show(alertMsgConstant.AUTHENTICATION_SUCCESS, {
+      let alertSuccess = user.userId+ " " + alertMsgConstant.AUTHENTICATION_SUCCESS
+      toast.show(alertSuccess, {
         type: alertMsgConstant.TOAST_SUCCESS,
       });
     })

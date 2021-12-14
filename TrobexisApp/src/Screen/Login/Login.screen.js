@@ -5,7 +5,7 @@ import {
  
 } from 'react-native';
 import styles from './Login.style';
-import { Loader} from '../../component';
+import { Loader,HeaderCustom} from '../../component';
 import {useDispatch} from 'react-redux';
 import {connect} from 'react-redux';
 
@@ -153,10 +153,11 @@ const LoginScreen = props => {
  const hideSpinner = () => {
     setLoading(false);
   };
+  
 
   return (
     <>
-      
+  
           <WebView
             onLoad={() => hideSpinner()}
             style={styles.webview}
@@ -169,7 +170,7 @@ const LoginScreen = props => {
               style={styles.tokenStyle}
               multiline={true}
             /> */}
-          {loading && <Loader loading={loading} />}
+          {loading && <Loader viewName={appConstant.LOGIN} loading={loading} />}
        
     </>
   );
