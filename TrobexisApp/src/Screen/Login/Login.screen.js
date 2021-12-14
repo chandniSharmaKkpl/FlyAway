@@ -1,11 +1,7 @@
 import React, {useState, useCallback} from 'react';
-import {
-  
-  TextInput
- 
-} from 'react-native';
+import {Pressable, Image} from 'react-native';
 import styles from './Login.style';
-import { Loader} from '../../component';
+import {Loader, HeaderCustom} from '../../component';
 import {useDispatch} from 'react-redux';
 import {connect} from 'react-redux';
 
@@ -15,7 +11,7 @@ import {
 } from 'react-native-responsive-screen';
 import {ImageBackground} from 'react-native';
 import commonStyle from '../../common/common.style';
-import {appColor, appConstant} from '../../constant';
+import {appColor, appConstant, imageConstant} from '../../constant';
 import {requestToGetAccessToken} from './Login.action';
 import {isEmailValid, isMobileNumberValid} from '../../helper/validations';
 import alertMsgConstant from '../../constant/alertMsgConstant';
@@ -64,13 +60,12 @@ const LoginScreen = props => {
     const tempUser = localDb.getUser();
     Promise.resolve(tempUser).then(response => {
       if (response) {
-        console.log("navigator response ==>", response); 
+        console.log('navigator response ==>', response);
         if (response.loginUrl) {
-         setLoginUrl(response.loginUrl);
+          setLoginUrl(response.loginUrl);
         }
       }
     });
-
     return unsubscribe;
   }, [error]);
 
@@ -150,28 +145,34 @@ const LoginScreen = props => {
     [props.accessToken],
   );
 
- 
- const hideSpinner = () => {
+  const hideSpinner = () => {
     setLoading(false);
   };
 
   return (
     <>
-      
-          <WebView
-            onLoad={() => hideSpinner()}
-            style={styles.webview}
-            source={{uri: route && route.params? route.params.loginUrl: loginUrl}}
-          >
-            
-            </WebView>
-            {/* <TextInput 
+      <WebView
+        onLoad={() => hideSpinner()}
+        style={styles.webview}
+        source={{
+          uri: route && route.params ? route.params.loginUrl : loginUrl,
+        }}></WebView>
+      {/* <TextInput 
               value={route && route.params && route.params.loginUrl? route.params.loginUrl: loginUrl}
               style={styles.tokenStyle}
               multiline={true}
             /> */}
-          {loading && <Loader loading={loading} />}
-       
+      <Pressable
+        style={styles.iconHeader}
+        onPress={() => props.navigation.goBack()}>
+        <Image
+          style={{width: '100%', height: '100%'}}
+          resizeMode={'contain'}
+          source={imageConstant.IMAGE_ARROW_BACK}
+        />
+      </Pressable>
+
+      {loading && <Loader viewName={appConstant.LOGIN} loading={loading} />}
     </>
   );
 };

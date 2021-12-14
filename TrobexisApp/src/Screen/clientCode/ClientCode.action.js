@@ -24,6 +24,12 @@ import {actionConstant} from '../../constant';
     },
   });
 
+  export const setLoader = (data) => ({
+    type: actionConstant.ACTION_SET_LOGIN_LOADER,
+    payload: {
+      data: data,
+    },
+  });
 
 export default {
     requestToGetApiBase,

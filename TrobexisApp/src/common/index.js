@@ -23,6 +23,17 @@ const getTimeMessage = () => {
   return stringToRead;
 };
 
+export const checkStringContainsSpecialChar =(string)=>{
+  var format =   /[^a-zA-Z-_\d\s]/   ///[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+  
+  if (format.test(string)) {
+      return true;
+  } else {
+      return false;
+  }
+
+}
+
 export const getDateInFormat = (
   dateString,
   isShortDayName,

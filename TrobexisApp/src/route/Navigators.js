@@ -81,7 +81,6 @@ const AuthStack = () => {
 
   return (
     <Stack.Navigator>
-      {console.log("i m in authstack ")}
       {/* {!isLogin?  ( */}
       <Stack.Screen
         options={{headerShown: false}}
@@ -282,11 +281,13 @@ function NavigationSetup() {
 
   useEffect(() => {
     if (errorData && errorData.error && errorData.error.message) {
+      
       toast.show(errorData.error.message, {
         type: alertMsgConstant.TOAST_DANGER,
       });
       if (errorData.error.code === errorCodeConstant.UNAUTHORIZED)
        {
+         console.log(" in navigator")
         setCurrentUser(null);
       }
       let dict = errorData.error;

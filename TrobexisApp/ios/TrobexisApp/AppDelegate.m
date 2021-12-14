@@ -99,6 +99,14 @@ static void InitializeFlipper(UIApplication *application) {
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
+  
+  /// For removing white screen while launching
+  UIStoryboard *sb = [UIStoryboard storyboardWithName:@"LaunchScreen" bundle:nil];
+    UIViewController *vc = [sb instantiateInitialViewController];
+    UIView* launchScreenView = vc.view;
+    launchScreenView.frame = rootView.loadingView.bounds;
+    rootView.loadingView = launchScreenView;
+  
   [self.window makeKeyAndVisible];
 //  UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
 //    center.delegate = self;

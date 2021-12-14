@@ -9,7 +9,7 @@ import {watchPostBooking} from '../../Screen/bookingSummary/BookingSummary.saga'
 import {watchGetApiBase} from '../../Screen/clientCode/ClientCode.saga';
 import { watchAcceptApprovalApi, watchDeclineApproval, watchApprovalListWithStatus } from "../../Screen/approvalList/ApprovalList.saga";;
 import {watchGetDeclineReason, watchSubmitDeclineReason} from '../../Screen/declineReasons/declineReason.saga';
-import {watchApprovalDetail} from '../../Screen/approvalDetail/ApprovalDetail.saga';
+import {watchApprovalDetail, watchAcceptApprovalApiInDetail} from '../../Screen/approvalDetail/ApprovalDetail.saga';
 import {watchJourneyDetail} from '../../Screen/JourneyDetail/JourneyDetail.saga';
 import { watchError } from "../sagaRoot/global.saga";
 
@@ -22,6 +22,7 @@ export default function* sagaRoot() {
     fork(watchGetApiBase),
     fork(watchGetAccessToken),
     fork(watchAcceptApprovalApi),
+    fork(watchAcceptApprovalApiInDetail),
     fork(watchApprovalDetail),
     fork(watchGetDeclineReason),
     fork(watchSubmitDeclineReason),

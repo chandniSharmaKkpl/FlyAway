@@ -8,13 +8,16 @@ export const acceptApprovalApi = async argumentData => {
   let deviceId = argumentData.data.user.deviceId;
   let apiBaseUrl = argumentData.data.user.apiBaseUrl;
   let clientToken = argumentData.data.user.clientToken;
+  let userId = argumentData.data.user.userId; 
 
   let urlString = apiBaseUrl + apiConstant.APPROVAL_ACCEPT_API;
   urlString = urlString.replace(':approvalId', approvalId);
 
   const raw = {
-    approverId: approvalId,
+    approverId: userId,
   };
+
+  console.log(" aprover id -----", argumentData); 
 
   let instance = axios.create({
     baseURL: apiBaseUrl,
@@ -35,16 +38,17 @@ export const acceptApprovalApi = async argumentData => {
       Promise.resolve({
         data: response,
       }).then(response => {
+        console.log(" approval resoinse ", response); 
         let response1 = response.data.data;
         return response1;
       }),
     )
     .catch(err => {
-     // console.log('88 api Erorr: ', err.response);
+      console.log('48--- api Erorr: ', err.response);
       return err.response.data;
     });
   } catch (error) {
-    console.log('88 api Erorr: ', err.response);
+    console.log('52 ---===>> api Erorr: ', err.response);
     return error.response.data;
   }
 };

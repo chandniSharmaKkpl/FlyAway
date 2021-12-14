@@ -1,10 +1,10 @@
-import {actionConstant, apiConstant, appConstant} from '../../constant';
+import {actionConstant, apiConstant, appConstant, errorCodeConstant} from '../../constant';
 import localDB from '../../database/localDb';
 import {ApiBase} from '../../api/apiBase';
 import axios from 'axios';
 
-
 export const getUserProfile = argumentData => {
+  console.log(' user arg ---', argumentData);
 
   let deviceId = argumentData.user.deviceId;
   let apiBaseUrl = argumentData.user.apiBaseUrl;
@@ -22,8 +22,6 @@ export const getUserProfile = argumentData => {
     },
   });
 
-  console.log(" userId ----->", argumentData.user); 
-
   let urlString = apiConstant.USER_PROFILE;
   urlString = urlString.replace(':userId', userId);
 
@@ -33,14 +31,16 @@ export const getUserProfile = argumentData => {
       Promise.resolve({
         data: response,
       }).then(response => {
-        let response1 = response.data.data;
+        console.log(' user respinse ---', response);
+        let response1 = response?.data?.data;
 
         return response1;
       }),
     )
     .catch(err => {
       console.log('42 api Erorr: ', err.response);
-      return err.response.data;
+
+      return err?.response?.data ? err?.response?.data : {code: errorCodeConstant.FORBIDDEN, message: "Network Error"};
     });
 };
 
@@ -86,7 +86,7 @@ export const getItinaryList = argumentData => {
 };
 
 export const getItinaryListAllJourney = argumentData => {
-  //console.log('getUserProfile argument data in api : ', argumentData);
+  // console.log('getItinaryListAllJourney argument data in api : ', argumentData);
 
   let deviceId = argumentData.user.deviceId;
   let apiBaseUrl = argumentData.user.apiBaseUrl;
@@ -127,12 +127,11 @@ export const getItinaryListAllJourney = argumentData => {
 };
 
 export const getApprovalList = argumentData => {
-console.log('get approval list  argument data in api : ', argumentData);
-
-  let deviceId = argumentData.data.user.deviceId;
-  let apiBaseUrl = argumentData.data.user.apiBaseUrl;
-  let clientToken = argumentData.data.user.clientToken;
-  let userId = argumentData.data.user.userId;
+  console.log('get approval list  argument data in api : ', argumentData);
+  let deviceId = argumentData.user.deviceId;
+  let apiBaseUrl = argumentData.user.apiBaseUrl;
+  let clientToken = argumentData.user.clientToken;
+  let userId = argumentData.user.userId;
 
   let instance = axios.create({
     baseURL: apiBaseUrl,
@@ -160,7 +159,7 @@ console.log('get approval list  argument data in api : ', argumentData);
       }),
     )
     .catch(err => {
-      //console.log('88 api Erorr: ', err.response);
+      console.log('88 api Erorr: ', err.response);
       return err.response.data;
     });
 };
@@ -204,4 +203,3 @@ export const getItinaryDetail = argumentData => {
       return err.response.data;
     });
 };
-

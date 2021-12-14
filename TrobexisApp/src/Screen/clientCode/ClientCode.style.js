@@ -11,7 +11,32 @@ export default StyleSheet.create({
     height: '100%',
     backgroundColor: appColor.LIGH_BLUE,
   },
- 
+  clientCodeRow:{
+ padding:5,
+  },
+ viewFlatList:{
+  //height: hp('30%'),
+  backgroundColor: appColor.WHITE,
+  position: 'absolute',
+  width: wp('83%'),
+  top: hp('15.8%'),
+  alignSelf: 'center',
+  borderBottomLeftRadius: 20,
+  borderBottomRightRadius:20,
+  //borderWidth:3,
+  borderColor: Platform.OS === 'android' ? appColor.BORDER : appColor.GRAY,
+  shadowColor: appColor.SHADOW,
+  shadowOffset: {
+    width: 1,
+    height: 1,
+  },
+  shadowOpacity: Platform.OS === 'android' ? 0.2 : 0.62,
+  shadowRadius: Platform.OS === 'android' ? 1.2 : 2.22,
+  elevation: 5,
+ },
+ flatList:{
+  padding:5
+ },
   imageTop:{
    flex:0.5
   },
@@ -28,7 +53,7 @@ export default StyleSheet.create({
     height: hp('8%'),
     // backgroundColor: 'pink',
     alignSelf: 'center',
-    marginTop: hp('10%'),
+    marginTop: hp('8%'),
   },
   logoContainer: {
     marginBottom: 20,
@@ -61,7 +86,7 @@ export default StyleSheet.create({
     paddingTop: 20,
   },
   titleView: {
-    paddingTop:hp('7%') 
+    paddingTop:hp('10%') 
     },
 
   titleStyle: {
@@ -72,7 +97,7 @@ export default StyleSheet.create({
   },
   inputView: {
     //flex: 1,
-      paddingTop:hp('5%'),
+      paddingTop:hp('9.5%'),
     //  backgroundColor:'pink',
       justifyContent:'center',
     // paddingHorizontal: 20,
@@ -80,6 +105,14 @@ export default StyleSheet.create({
   resetPasswordView: {
     marginTop: 10,
     justifyContent: 'flex-end',
+  },
+  btnSubmit:{
+   marginTop: hp('6%'),
+   width:'85%',
+  },
+  btnSubmitTitle:{
+   paddingTop:hp('1.4%'),
+   paddingBottom:hp('1.4%')
   },
   rememberIcon: {
     height: 16,

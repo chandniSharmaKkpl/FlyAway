@@ -19,32 +19,41 @@ import {
   appConstant,
   imageConstant,
   alertMsgConstant,
+  actionConstant,
 } from '../../constant';
 import localDB from '../../database/localDb';
+import {checkStringContainsSpecialChar} from '../../common';
 
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {useDispatch, useSelector} from 'react-redux';
-import {requestToGetApiBase} from './ClientCode.action';
+import {requestToGetApiBase, setLoader} from './ClientCode.action';
 import {Platform} from 'react-native';
 import PushController from '../../component/PushControllerTemp';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import AuthContext from '../../context/AuthContext';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {checkBioMetricAvailable, authenticateUsingBioMetric} from '../../component/BioMetricAuth'; 
-
+import {
+  checkBioMetricAvailable,
+  authenticateUsingBioMetric,
+} from '../../component/BioMetricAuth';
 
 const ClientCodeScreen = props => {
   const navigation = useNavigation();
   const {setUserData} = React.useContext(AuthContext);
   const [clientCode, setClientCode] = useState(''); //TONEAPPUAT
+  const [arrayClientCode, setArrayClientCode] = useState([]); // All saved client codes are stored in this array so show on the list when user start type to client code
+  const [isClientCodeListShow, setIsClientCodeListShow] = useState(false); // Android back handling show alert
+
   const [error, setError] = useState('');
   const dispatch = useDispatch();
-  const responseData = useSelector(state => state.ClientCodeReducer);
+  const responseData = useSelector(state => state.ClientCodeReducer); // For api response of account url, access token
+  const errorData = useSelector(state => state.GlobalReducer); // For error handling global reducer return false
+
   const [deviceInfo, setDeviceInfo] = useState({}); // Getting user device info from push controller.
-  const [isAlertShow, setIsAlertShow] = useState(false);
+  const [isAlertShow, setIsAlertShow] = useState(false); // Android back handling show alert
   //const [countBack, setCountBack] = React.useState(0)
   var countBack = 0;
 
@@ -62,28 +71,24 @@ const ClientCodeScreen = props => {
 
   useFocusEffect(
     React.useCallback(() => {
-      //** Whenever user will comeback to this view we will make toneappuat is empty */
-      // setClientCode('');
-      
-    }),
+      //** Whenever user will comeback to this view we will fetch all client codes and show them in the list  */
+      getClientCodes();
+    }, []),
   );
 
   React.useEffect(() => {
-
     const unsubscribe = props.navigation.addListener('focus', () => {
-
       const tempUser = localDB.getUser();
       Promise.resolve(tempUser).then(response => {
         if (response) {
-          console.log(" user is in client code bfor biometric", response); 
           if (response.userId && response.clientToken) {
-            checkBioMetricAvailable(props);
+            checkBioMetricAvailable(props, response);
           }
         } else {
         }
-      });  
-    })
-    
+      });
+    });
+
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
 
     return () => {
@@ -91,9 +96,30 @@ const ClientCodeScreen = props => {
         'hardwareBackPress',
         handleBackButtonClick,
       );
-      unsubscribe
+      unsubscribe;
     };
   }, []);
+
+  //** Getting client codes from the async storage  */
+  const getClientCodes = () => {
+    const temp = localDB.getClientCode();
+    Promise.resolve(temp).then(response => {
+      if (response) {
+        setArrayClientCode(response);
+        setClientCode(response[response.length - 1]);
+      } else {
+      }
+    });
+  };
+
+  //** Save new client code in the array and async storage */
+  const saveClientCodeLocally = () => {
+    if (arrayClientCode.indexOf(clientCode) < 0) {
+      let arrayTemp = arrayClientCode;
+      arrayTemp.push(clientCode);
+      localDB.saveClientCode(arrayTemp);
+    }
+  };
 
   //**Getting device info from push controller */
   const getDeviceInfo = value => {
@@ -110,61 +136,92 @@ const ClientCodeScreen = props => {
     return true;
   };
 
-  
   const submitForm = () => {
+    console.log(" clint code click"); 
+    setIsClientCodeListShow(false);
     if (clientCode === '') {
       setError(alertMsgConstant.CLIENT_CODE_NOT_EMPTY);
     } else {
+      //** Special character and space not allowed  */
+      if (checkStringContainsSpecialChar(clientCode)) {
+        setError(alertMsgConstant.SPECIAL_CHAR_NOT_ALLOW);
+        return;
+      }
+
+      //** Remove all spaces from the client code */
+      let trimClientCode = clientCode.replace(/ /g, '');
+
       // Call api here
       let param = {
-        client: clientCode,
+        client: trimClientCode,
         DeviceType: Platform.OS === 'android' ? 'ANDROID' : 'IOS',
         DeviceId: deviceInfo.device_token,
+        navigation: navigation
       };
-      // console.log(" param --->", param);
-      dispatch(requestToGetApiBase(param, navigation));
+      dispatch(setLoader(true));
+      dispatch(requestToGetApiBase(param));
     }
   };
 
+  // React.useEffect(() => {
+  //   checkResponseCode();
+  // }, [responseData]);
+
   const checkResponseCode = useCallback(() => {
-    if (responseData.error && Object.keys(responseData.error).length !== 0) {
-      console.log(' errr', responseData);
-      toast.show(responseData.error, {type: alertMsgConstant.TOAST_DANGER});
-      return;
-    }
+
     if (
       responseData &&
-      responseData.responseAccountUrl &&
-      responseData.responseAccountUrl.length > 0 &&
-      responseData.responseAccountUrl[0].code &&
-      responseData.responseAccountUrl[0].code === 'Authenticate'
+      responseData?.responseAccountUrl &&
+      responseData?.responseAccountUrl.length > 0 &&
+      responseData?.responseAccountUrl[0].code &&
+      responseData?.responseAccountUrl[0].code === 'Authenticate'
     ) {
-      console.log(' response data ', responseData);
-      let loginUrl = responseData.responseAccountUrl[0].value;
-      loginUrl = loginUrl.replace(':mobileDeviceId', deviceInfo.device_token);
+      console.log(" in chec res", responseData.responseAccountUrl)
+      // let loginUrl = responseData.responseAccountUrl[0].value;
+      // loginUrl = loginUrl.replace(':mobileDeviceId', deviceInfo.device_token);
 
-      let user = {
-        clientToken: responseData.clientToken,
-        deviceId: deviceInfo.device_token,
-        apiBaseUrl: responseData.apiBaseData.value,
-        loginUrl: loginUrl,
-      };
-      localDB.setUser(user);
+      // let user = {
+      //   clientToken: responseData.clientToken,
+      //   deviceId: deviceInfo.device_token,
+      //   apiBaseUrl: responseData.apiBaseData.value,
+      //   loginUrl: loginUrl,
+      //   userId: 'P000000442',
+      // };
+      // localDB.setUser(user);
+      saveClientCodeLocally();
+      dispatch(setLoader(false));
 
-      //  props.navigation.navigate(appConstant.DRAWER_NAVIGATOR);
+      // // dispatch({type: actionConstant.ACTION_GET_API_BASE_SUCCESS, payload:{}})
+      // let arrayTemp = responseData.responseAccountUrl;
+      // arrayTemp = [];
+      // responseData.responseAccountUrl = arrayTemp;
 
-      navigation.navigate(appConstant.LOGIN, {loginUrl: loginUrl});
+      navigation.navigate(appConstant.DRAWER_NAVIGATOR); // Temp
+
+      // navigation.navigate(appConstant.LOGIN, {loginUrl: loginUrl});
     }
   }, [responseData]);
 
-  // const checkResponseCode = () =>
-  // };
+  const renderClientCode = item => {
+    return (
+      <Pressable
+        style={styles.clientCodeRow}
+        onPress={() => {
+          setClientCode(item.item), setIsClientCodeListShow(false); // Close list when click on any
+        }}>
+        <Text>{item.item}</Text>
+      </Pressable>
+    );
+  };
+
+  const onClickOutside = () => {
+    Keyboard.dismiss();
+    setIsClientCodeListShow(false);
+  };
   return (
     <>
-      {checkResponseCode()}
-      <Pressable
-        style={stylesHome.container}
-        onPress={() => Keyboard.dismiss()}>
+      {/* {checkResponseCode()} */}
+      <Pressable style={stylesHome.container} onPress={onClickOutside}>
         <ImageBackground
           source={imageConstant.IMAGE_LOGIN_BACKGROUND}
           style={commonStyle.image}
@@ -183,21 +240,47 @@ const ClientCodeScreen = props => {
 
             <View style={styles.inputView}>
               <LoginTextView
+                onFocus={() => setIsClientCodeListShow(true)}
                 placeholder="Enter Client Code"
                 value={clientCode}
                 error={error}
                 onChangeText={value => {
+                  //** for showing dropdown of prefilled client code  */
+                  if (clientCode && clientCode.length > 0) {
+                    setIsClientCodeListShow(false);
+                  } else {
+                    //setIsClientCodeListShow(true);
+                  }
                   setClientCode(value);
                   if (value.trim().length > 0) {
                     setError('');
                   }
                 }}
               />
-              <Pressable style={styles.btnLogin} onPress={() => submitForm()}>
-                <Text style={styles.loginBtnText}>Submit</Text>
+
+              <Pressable
+                style={[commonStyle.yellowButton, styles.btnSubmit]}
+                onPress={() => submitForm()}>
+                <Text style={[commonStyle.yellowButtonTitle]}>Submit</Text>
               </Pressable>
 
-           {/* {localDB.getUser()? <Pressable style={styles.btnLogin} onPress={() => checkBioMetricAvailable()}>
+              {isClientCodeListShow &&
+              arrayClientCode &&
+              arrayClientCode.length > 0 ? (
+                <View style={styles.viewFlatList}>
+                  <>
+                    <FlatList
+                      horizontal={false}
+                      style={styles.flatList}
+                      data={arrayClientCode}
+                      renderItem={renderClientCode}
+                      keyExtractor={(item, index) => index.toString()}
+                    />
+                  </>
+                </View>
+              ) : null}
+
+              {/* {localDB.getUser()? <Pressable style={styles.btnLogin} onPress={() => checkBioMetricAvailable()}>
                 <Text style={styles.loginBtnText}>Login with TouchID/FaceID</Text>
               </Pressable> :null} */}
             </View>

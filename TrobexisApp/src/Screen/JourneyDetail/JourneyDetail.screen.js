@@ -16,6 +16,7 @@ import {
   BookingCard,
   AlertView,
   Loader,
+  backHandler
 } from '../../component';
 import { useSelector, useDispatch } from 'react-redux';
 import { Avatar } from 'react-native-elements';
@@ -51,6 +52,7 @@ const JourneyDetail = props => {
         let param = {
           itineraryId: route.params.itineraryId ? route.params.itineraryId : '',
           user: response,
+          navigation: props.navigation
         };
         setIsApiCall(true);
         dispatch(requestToGetJourneyDetail(param));
@@ -81,6 +83,9 @@ const JourneyDetail = props => {
       </View>
     );
   };
+
+ 
+
   const itemViews = (item, type,index) => {
     let iconImage = '';
 
@@ -235,6 +240,7 @@ const JourneyDetail = props => {
 
   return (
     <>
+     { backHandler(moveBack)}
       <View style={stylesHome.container}>
         <HeaderCustom
           title={'Travel Itinerary'}

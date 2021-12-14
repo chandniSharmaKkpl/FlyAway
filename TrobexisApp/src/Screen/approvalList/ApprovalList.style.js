@@ -6,6 +6,14 @@ import {
 import fontConstant from '../../constant/fontConstant';
 import appColor from '../../constant/colorConstant';
 export default StyleSheet.create({
+  textEmpty:{
+    fontFamily: fontConstant.BARLOW_BOLD,
+    fontSize: fontConstant.TEXT_12_SIZE_BOLD,
+    color: appColor.NAVY_BLUE,
+    flexWrap: 'wrap',
+    alignSelf:'center',
+    paddingTop:hp('10%')
+  },
   container: {
     width: '100%',
     height: '100%',

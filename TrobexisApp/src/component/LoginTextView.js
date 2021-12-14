@@ -25,6 +25,7 @@ const LoginTextView = props => {
     onPressRight,
     isClickEye,
     error,
+    onFocus,
   } = props;
 
   return (
@@ -91,7 +92,7 @@ const styles = StyleSheet.create({
     //alignSelf:'flex-end'
   },
   container: {
-    height: hp('7%'),
+    height: hp('6.3%'),
     alignSelf: 'center',
     width: '85%',
     borderColor: appColor.BORDER,

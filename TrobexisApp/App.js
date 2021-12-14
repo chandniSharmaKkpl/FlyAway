@@ -59,7 +59,6 @@ const App = () => {
            <NavigationSetup />
       </NavigationContainer>
       </Provider>
-
       </AuthContext.Provider>
       <Toast ref={(ref) => global['toast'] = ref} />
 
