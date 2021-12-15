@@ -60,7 +60,6 @@ const LoginScreen = props => {
     const tempUser = localDb.getUser();
     Promise.resolve(tempUser).then(response => {
       if (response) {
-        console.log('navigator response ==>', response);
         if (response.loginUrl) {
           setLoginUrl(response.loginUrl);
         }
