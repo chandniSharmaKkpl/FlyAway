@@ -69,7 +69,11 @@ const ApprovalDetail = props => {
   };
 
   const moveBack = () => {
-    props.navigation.goBack();
+    // props.navigation.goBack();
+    // console.log(" params status ", route.params); 
+    // props.navigation.setOptions({'backData': route.params.approvalItem}); 
+     props.navigation.goBack(); 
+     route.params.onBackReceiveData(route.params.approvalItem)
   };
 
   const onClickApprove = () => {

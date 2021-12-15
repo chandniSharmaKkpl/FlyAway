@@ -43,7 +43,7 @@ import {
 const ClientCodeScreen = props => {
   const navigation = useNavigation();
   const {setUserData} = React.useContext(AuthContext);
-  const [clientCode, setClientCode] = useState(''); //TONEAPPUAT
+  const [clientCode, setClientCode] = useState('TONEAPPUAT'); //TONEAPPUAT
   const [arrayClientCode, setArrayClientCode] = useState([]); // All saved client codes are stored in this array so show on the list when user start type to client code
   const [isClientCodeListShow, setIsClientCodeListShow] = useState(false); // Android back handling show alert
 

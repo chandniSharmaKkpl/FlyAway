@@ -4,7 +4,6 @@ import {ApiBase} from '../../api/apiBase';
 import axios from 'axios';
 
 export const getUserProfile = argumentData => {
-  console.log(' user arg ---', argumentData);
 
   let deviceId = argumentData.user.deviceId;
   let apiBaseUrl = argumentData.user.apiBaseUrl;
@@ -31,7 +30,6 @@ export const getUserProfile = argumentData => {
       Promise.resolve({
         data: response,
       }).then(response => {
-        console.log(' user respinse ---', response);
         let response1 = response?.data?.data;
 
         return response1;

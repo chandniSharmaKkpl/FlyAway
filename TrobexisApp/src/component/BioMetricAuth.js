@@ -23,8 +23,8 @@ import {
 
 
 const optionalConfigObject = {
-  title: 'Authentication Required', // Android
-  imageColor: '#e00606', // Android
+  title: 'Login to Trobexis', // Android
+  imageColor: appColor.NAVY_BLUE, // Android
   imageErrorColor: '#ff0000', // Android
   sensorDescription: 'Touch sensor', // Android
   sensorErrorDescription: 'Failed', // Android
@@ -54,7 +54,7 @@ export const checkBioMetricAvailable = (props, user) => {
 
 export const authenticateUsingBioMetric = (props,user) => {
   TouchID.authenticate(
-    'Login with fingerprint',
+    'Verify your identity using biometric authentication',
     optionalConfigObject,
   )
     .then(success => {

@@ -127,7 +127,7 @@ export default CustomDrawer = () => {
         onPressConfirmBtn={() => {
           setIsAlertShow(false);
           console.log(" logout ===")
-          localDb.setUser(null),
+         // localDb.setUser(null), temp
           navigation.navigate(appConstant.CLIENT_CODE)
         }}
         onPressCancel={() => {

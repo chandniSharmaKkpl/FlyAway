@@ -103,10 +103,6 @@ export const getApprovalListWithStatus = argumentData => {
   let clientToken = argumentData.data.user.clientToken;
   let status = argumentData.data.status;
   let userId = argumentData.data.user.userId;
-
-  console.log(" argumentData  ===", argumentData); 
-
-
   let instance = axios.create({
     baseURL: apiBaseUrl,
     timeout: 30000,
@@ -122,7 +118,6 @@ export const getApprovalListWithStatus = argumentData => {
   urlString = urlString.replace(':userId', userId);
   urlString = urlString.replace(':status', status);
 
-  console.log(" urlstring ===", urlString); 
   return instance
     .get(urlString)
     .then(response =>
@@ -130,8 +125,6 @@ export const getApprovalListWithStatus = argumentData => {
         data: response,
       }).then(response => {
         let response1 = response.data.data;
-        console.log(' response list with status: ', response1);
-
         return response1;
       }),
     )
