@@ -51,7 +51,7 @@ const ApprovalList = props => {
 
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-
+//** This method will call when coming back from approval detail screen and show the data based on last selected index */
   onBackReceiveData = data => {
     console.log('Receive back', data);
     let tempIndex = 0;
@@ -66,7 +66,6 @@ const ApprovalList = props => {
       setSelectedIndex(DECLINED_INDEX)
     }
     callApiToGetApprovalList(tempIndex);
-
   };
 
   //*** This will call everytime when pull to refresh call or segmented control index changed   */
@@ -104,8 +103,7 @@ const ApprovalList = props => {
   };
 
   const onRefresh = React.useCallback(() => {
-    if (
-      responseApprovalData.approvalListWithStatus &&
+    if ( responseApprovalData.approvalListWithStatus &&
       responseApprovalData.approvalListWithStatus.length > 0
     ) {
       setRefreshing(true);

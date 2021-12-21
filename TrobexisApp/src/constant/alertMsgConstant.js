@@ -26,6 +26,7 @@ export default {
   AUTHENTICATION_FAILED:'Authentication Failed',
   BIOMETRIC_FAILED:'',
   EMPTY_LIST:'There is no approvals in this section',
+  COMING_SOON:'Coming Soon',
 
   //** Toast types **/
   TOAST_SUCCESS:"success",

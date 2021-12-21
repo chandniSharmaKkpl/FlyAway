@@ -148,6 +148,9 @@ paddingTop:'5%'
     fontFamily: fontConstant.BARLOW_REGULAR,
     fontSize: fontConstant.TEXT_H1_SIZE_REGULAR,
     color: appColor.GRAY,
+    flexWrap:'wrap', 
+    width:wp('54%'),
+   // backgroundColor:'red'
   },
   textBlue: {
     fontFamily: fontConstant.BARLOW_SEMI_BOLD,
