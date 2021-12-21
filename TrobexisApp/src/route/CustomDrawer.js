@@ -35,10 +35,18 @@ export default CustomDrawer = () => {
   const response = useSelector(state => state.HomeReducer); // Getting api response
   const [isAlertShow, setIsAlertShow] = useState(false);
 
+  const onPressItem =(screenName)=>{
+    if (screenName === appConstant.SCAN) {
+      navigation.navigate(screenName);
+    } else {
+      alert(alertMsgConstant.COMING_SOON)
+    }
+   
+  }
   const returnDrawerSection = (title, icon, screenName) => {
     return (
       <View style={styles.drawerSection}>
-        <Pressable style={styles.btnDrawer} onPress={()=> navigation.navigate(screenName)}>
+        <Pressable style={styles.btnDrawer} onPress={()=> onPressItem(screenName)}>
           <View style={styles.viewCircleBlue}>{icon}</View>
           <Text style={styles.textDrawerTitle}>{title}</Text>
         </Pressable>
@@ -100,6 +108,11 @@ export default CustomDrawer = () => {
             <IconFontAwesome name="question" style={styles.iconDrawerMenu} />,
             appConstant.SUPPORT,
           )}
+           {returnDrawerSection(
+            'Secure Login',
+            <IconFontAwesome name="lock" style={styles.iconDrawerMenu} />,
+            appConstant.SUPPORT,
+          )}
         </View>
       </View>
 
@@ -127,7 +140,7 @@ export default CustomDrawer = () => {
         onPressConfirmBtn={() => {
           setIsAlertShow(false);
           console.log(" logout ===")
-          localDb.setUser(null),
+          localDb.setUser(null), temp
           navigation.navigate(appConstant.CLIENT_CODE)
         }}
         onPressCancel={() => {

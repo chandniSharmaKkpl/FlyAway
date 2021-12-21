@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
 import {
   View,
   Text,
@@ -16,10 +16,10 @@ import {
   BookingCard,
   AlertView,
   Loader,
-  backHandler
+  backHandler,
 } from '../../component';
-import { useSelector, useDispatch } from 'react-redux';
-import { Avatar } from 'react-native-elements';
+import {useSelector, useDispatch} from 'react-redux';
+import {Avatar} from 'react-native-elements';
 import localDb from '../../database/localDb';
 import {
   appColor,
@@ -27,11 +27,11 @@ import {
   imageConstant,
   alertMsgConstant,
 } from '../../constant';
-import { getDateInFormat } from '../../common';
-import { useRoute, useNavigation } from '@react-navigation/core';
+import {getDateInFormat} from '../../common';
+import {useRoute, useNavigation} from '@react-navigation/core';
 
-import { requestToGetJourneyDetail } from './JourneyDetail.action';
-import { getTimeInFormat } from '../../component/BookingCard';
+import {requestToGetJourneyDetail} from './JourneyDetail.action';
+import {getTimeInFormat} from '../../component/BookingCard';
 
 const JourneyDetail = props => {
   const [isAlertShow, setIsAlertShow] = useState(false);
@@ -52,14 +52,14 @@ const JourneyDetail = props => {
         let param = {
           itineraryId: route.params.itineraryId ? route.params.itineraryId : '',
           user: response,
-          navigation: props.navigation
+          navigation: props.navigation,
         };
         setIsApiCall(true);
         dispatch(requestToGetJourneyDetail(param));
       });
     });
 
-  //  BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    //  BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
     return () => {
       // BackHandler.removeEventListener(
       //   'hardwareBackPress',
@@ -84,9 +84,7 @@ const JourneyDetail = props => {
     );
   };
 
- 
-
-  const itemViews = (item, type,index) => {
+  const itemViews = (item, type, index) => {
     let iconImage = '';
 
     if (item.Type === appConstant.CHARTER_FLIGHT) {
@@ -123,14 +121,14 @@ const JourneyDetail = props => {
             <View style={styles.viewLeft}>
               <Text style={styles.textYellow}>
                 {item.Details &&
-                  item.Details.length > 0 &&
-                  item.Details[0].ServiceProvider
+                item.Details.length > 0 &&
+                item.Details[0].ServiceProvider
                   ? item.Details[0].ServiceProvider
                   : ''}{' '}
                 (
                 {item.Details &&
-                  item.Details.length > 0 &&
-                  item.Details[0].Flight
+                item.Details.length > 0 &&
+                item.Details[0].Flight
                   ? item.Details[0].Flight
                   : ''}
                 )
@@ -138,48 +136,51 @@ const JourneyDetail = props => {
 
               <Text style={[styles.textBlack]}>
                 {item.Details &&
-                  item.Details.length > 0 &&
-                  item.Details[0].StartDate
+                item.Details.length > 0 &&
+                item.Details[0].StartDate
                   ? getDateInFormat(item.Details[0].StartDate, false, true)
                   : ''}
               </Text>
             </View>
 
-            <Pressable
+            {/* <Pressable
               style={styles.buttonTextRed}
               onPress={() => {
                 setIsAlertShow(true);
               }}>
               <Text style={styles.textNoShow}>No</Text>
               <Text style={styles.textNoShow}>Show</Text>
-            </Pressable>
+            </Pressable> */}
           </View>
           <View style={styles.viewSingleLine} />
-
 
           <View style={styles.viewDepartsAndArrive}></View>
           <View style={styles.viewItinerary}>
             <View style={styles.viewLocation}>
-              <Text style={styles.textBlueBig}>Departs</Text>
+              {item.Type === appConstant.CAMP_ACCOMODATION ? 
+                <Text style={styles.textBlueBig}>CheckIn</Text>
+               : 
+                <Text style={styles.textBlueBig}>Departs</Text>
+              }
 
               <Text style={styles.textBlack}>
                 {item.Details &&
-                  item.Details.length > 0 &&
-                  item.Details[0].Origin
+                item.Details.length > 0 &&
+                item.Details[0].Origin
                   ? item.Details[0].Origin
                   : ''}
               </Text>
               <Text style={styles.textBlack}>
                 {item.Details &&
-                  item.Details.length > 0 &&
-                  item.Details[0].StartDate
+                item.Details.length > 0 &&
+                item.Details[0].StartDate
                   ? getTimeInFormat(item.Details[0].StartDate, false, true)
                   : ''}
               </Text>
             </View>
 
-            <View style={{ width: '66%', flexDirection: 'row' }}>
-              <View style={[styles.viewArrow, { flex: 3 }]}>
+            <View style={{width: '66%', flexDirection: 'row'}}>
+              <View style={[styles.viewArrow, {flex: 3}]}>
                 <Image
                   resizeMode={'contain'}
                   source={imageConstant.IMAGE_ARROW_RIGHT}
@@ -188,19 +189,23 @@ const JourneyDetail = props => {
               </View>
 
               <View style={styles.viewRightLocation}>
+              {item.Type === appConstant.CAMP_ACCOMODATION ? 
+                <Text style={styles.textBlueBig}>CheckOut</Text>
+               : 
                 <Text style={styles.textBlueBig}>Arrives</Text>
+              }
 
                 <Text style={styles.textBlack}>
                   {item.Details &&
-                    item.Details.length > 0 &&
-                    item.Details[0].Destination
+                  item.Details.length > 0 &&
+                  item.Details[0].Destination
                     ? item.Details[0].Destination
                     : ''}
                 </Text>
                 <Text style={styles.textBlack}>
                   {item.Details &&
-                    item.Details.length > 0 &&
-                    item.Details[0].EndDate
+                  item.Details.length > 0 &&
+                  item.Details[0].EndDate
                     ? getTimeInFormat(item.Details[0].EndDate, false, true)
                     : ''}
                 </Text>
@@ -208,23 +213,26 @@ const JourneyDetail = props => {
             </View>
           </View>
 
-          <View style={item.Type === appConstant.CHARTER_FLIGHT? styles.ViewGreenBottom: styles.ViewBlueBottom}>
-            <Text style={[styles.textWhite, { padding: '2%' }]}>
+          <View
+            style={
+              item.Type === appConstant.CHARTER_FLIGHT
+                ? styles.ViewGreenBottom
+                : styles.ViewBlueBottom
+            }>
+            <Text style={[styles.textWhite, {padding: '2%'}]}>
               Total Time: 10m
             </Text>
           </View>
         </View>
 
-        {index === responseDetail.journeyDetail.Itinerarys.length - 1?
-          null :
+        {index === responseDetail.journeyDetail.Itinerarys.length - 1 ? null : (
           <View style={styles.viewDashedLine}>
             <View style={styles.viewDotted} />
-          </View>}
+          </View>
+        )}
       </View>
     );
   };
-
-
 
   const getDataFromResponse = (responseDetail, type) => {
     if (responseDetail && responseDetail[type]) {
@@ -240,7 +248,7 @@ const JourneyDetail = props => {
 
   return (
     <>
-     { backHandler(moveBack)}
+      {backHandler(moveBack)}
       <View style={stylesHome.container}>
         <HeaderCustom
           title={'Travel Itinerary'}
@@ -249,10 +257,9 @@ const JourneyDetail = props => {
           onClickLeftIcon={() => moveBack()}
           rightIcon={false}
           centerTitle={true}
-          onClickRightIcon={() => { }}
+          onClickRightIcon={() => {}}
           rightIconImage={''}
           viewProps={props}
-
         />
         <ScrollView contentContainerStyle={styles.scrollView}>
           <View style={styles.viewSection}>
@@ -293,17 +300,15 @@ const JourneyDetail = props => {
             <Text style={styles.textBlackTitle}>Itinerary Details</Text>
 
             {responseDetail &&
-              responseDetail.journeyDetail &&
-              responseDetail.journeyDetail.Itinerarys &&
-              responseDetail.journeyDetail.Itinerarys.length > 0
+            responseDetail.journeyDetail &&
+            responseDetail.journeyDetail.Itinerarys &&
+            responseDetail.journeyDetail.Itinerarys.length > 0
               ? responseDetail.journeyDetail.Itinerarys.map(function (
-                item,
-                index,
-              ) {
-        
-
-                return itemViews(item, imageConstant.IMAGE_PLANE, index);
-              })
+                  item,
+                  index,
+                ) {
+                  return itemViews(item, imageConstant.IMAGE_PLANE, index);
+                })
               : null}
             {/* {greenButtonView(imageConstant.IMAGE_PLANE)}
             {greenButtonView(imageConstant.IMAGE_PLANE_HORIZONTAL)}

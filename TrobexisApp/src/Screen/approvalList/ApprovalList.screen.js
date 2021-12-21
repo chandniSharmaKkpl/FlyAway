@@ -1,4 +1,6 @@
 import React, {useState, useCallback, useEffect} from 'react';
+import {useFocusEffect} from '@react-navigation/native';
+
 import {
   View,
   Text,
@@ -17,7 +19,7 @@ import {
   appConstant,
   imageConstant,
   alertMsgConstant,
-  actionConstant
+  actionConstant,
 } from '../../constant';
 import SegmentedControlTab from 'react-native-segmented-control-tab';
 import {requestToGetApprovalList} from '../home/Home.action';
@@ -49,64 +51,59 @@ const ApprovalList = props => {
 
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  useEffect(() => {
-    const unsubscribe = props.navigation.addListener('focus', () => {
-      //** So that every time user will start from pending approval */
-      setSelectedIndex(0)
-      const tempUser = localDb.getUser();
-      Promise.resolve(tempUser).then(response => {
-        let param = {
-          user: response,
-          status: appConstant.PENDING_APPROVAL,
-          navigation: props.navigation
-        };
-
-        dispatch(requestGetApprovalListWithStatus(param));
-      });
-    });
-    return () => {
-      unsubscribe;
-    };
-  }, [props.navigation, props.route]);
+//** This method will call when coming back from approval detail screen and show the data based on last selected index */
+  onBackReceiveData = data => {
+    console.log('Receive back', data);
+    let tempIndex = 0;
+    if (data.status === appConstant.PENDING_APPROVAL) {
+      tempIndex = PENDING_INDEX;
+      setSelectedIndex(PENDING_INDEX)
+    } else if(data.status === appConstant.APPROVED){
+      tempIndex = APPROVED_INDEX
+      setSelectedIndex(APPROVED_INDEX)
+    }else{
+      tempIndex = DECLINED_INDEX;
+      setSelectedIndex(DECLINED_INDEX)
+    }
+    callApiToGetApprovalList(tempIndex);
+  };
 
   //*** This will call everytime when pull to refresh call or segmented control index changed   */
-  
+
   useEffect(() => {
-   callApiToGetApprovalList(selectedIndex)
+    callApiToGetApprovalList(selectedIndex);
   }, [selectedIndex, refreshing]);
 
-  const callApiToGetApprovalList = (selectedIndex)=>{
+  const callApiToGetApprovalList = selectedIndex => {
     const tempUser = localDb.getUser();
     Promise.resolve(tempUser).then(response => {
-
       if (selectedIndex === PENDING_INDEX) {
         let param = {
           user: response,
           status: appConstant.PENDING_APPROVAL,
-          navigation: props.navigation
+          navigation: props.navigation,
         };
         dispatch(requestGetApprovalListWithStatus(param));
       } else if (selectedIndex === APPROVED_INDEX) {
         let param = {
           user: response,
           status: appConstant.APPROVED,
-          navigation: props.navigation
+          navigation: props.navigation,
         };
         dispatch(requestGetApprovalListWithStatus(param));
       } else {
         let param = {
           user: response,
           status: appConstant.DECLINED,
-          navigation: props.navigation
+          navigation: props.navigation,
         };
         dispatch(requestGetApprovalListWithStatus(param));
       }
     });
-  }
+  };
 
   const onRefresh = React.useCallback(() => {
-    if (
-      responseApprovalData.approvalListWithStatus &&
+    if ( responseApprovalData.approvalListWithStatus &&
       responseApprovalData.approvalListWithStatus.length > 0
     ) {
       setRefreshing(true);
@@ -117,9 +114,9 @@ const ApprovalList = props => {
     const tempUser = localDb.getUser();
     Promise.resolve(tempUser).then(response => {
       let param = {
-        approvalId: approvalId, 
+        approvalId: approvalId,
         user: response,
-        navigation: props.navigation
+        navigation: props.navigation,
       };
       dispatch(requestAcceptApproval(param));
       setRefreshing(false); //  use Effect call for refreshing approval list
@@ -127,18 +124,24 @@ const ApprovalList = props => {
   };
 
   const onClickDecline = item => {
-    props.navigation.navigate(appConstant.REASON, {approvalItem: item});
+    props.navigation.navigate(appConstant.REASON, {approvalItem: item, onBackReceiveData: onBackReceiveData});
   };
 
   const moveToDetailView = itemDetail => {
-  
-     props.navigation.navigate(appConstant.APPROVAL_DETAIL, {approvalId: itemDetail.id, requestor: itemDetail.requestor, status: itemDetail.status, approvalItem: itemDetail});
+    props.navigation.navigate(appConstant.APPROVAL_DETAIL, {
+      approvalId: itemDetail.id,
+      requestor: itemDetail.requestor,
+      status: itemDetail.status,
+      approvalItem: itemDetail,
+      onBackReceiveData: onBackReceiveData
+    });
   };
 
   const renderItem = item => {
     let itemDetail = item.item;
-    let date =  itemDetail && itemDetail.requestdate? itemDetail.requestdate:'';
-   
+    let date =
+      itemDetail && itemDetail.requestdate ? itemDetail.requestdate : '';
+
     let requestdate = date ? getDateInFormat(date, false, false) : '';
     if (itemDetail) {
       return (
@@ -157,7 +160,9 @@ const ApprovalList = props => {
                       source={imageConstant.IMAGE_PATH}
                     />
                   </View>
-                  <Text style={styles.textDetail}>{itemDetail.description}</Text>
+                  <Text style={styles.textDetail}>
+                    {itemDetail.description}
+                  </Text>
                 </View>
                 <View style={styles.viewRow}>
                   <View style={styles.viewImages}>
@@ -203,10 +208,9 @@ const ApprovalList = props => {
           </Pressable>
         </View>
       );
-    }else{
-      return
+    } else {
+      return;
     }
-   
   };
 
   const moveBack = () => {
@@ -227,23 +231,22 @@ const ApprovalList = props => {
     //   return;
     // }
     if (responseApprovalData && responseApprovalData.approvalListWithStatus) {
-      
-        if (refreshing) {
-          setRefreshing(false);
-        }
-        //setApprovalList(responseApprovalData.approvalListWithStatus);
+      if (refreshing) {
+        setRefreshing(false);
+      }
+      //setApprovalList(responseApprovalData.approvalListWithStatus);
     }
     if (responseApprovalData && responseApprovalData.acceptResponse) {
       if (responseApprovalData.acceptResponse.message) {
         toast.show(responseApprovalData.acceptResponse.message, {
           type: alertMsgConstant.TOAST_SUCCESS,
         });
-     
+
         let dict = responseApprovalData.acceptResponse;
         (dict.message = ''), (responseApprovalData.acceptResponse = dict);
-        // setting state to call get approval list hook 
+        // setting state to call get approval list hook
         setRefreshing(true);
-         callApiToGetApprovalList()
+        callApiToGetApprovalList();
         // moveBack();
       }
     }
@@ -272,7 +275,7 @@ const ApprovalList = props => {
             tintColor={appColor.WHITE}
             onChange={event => {
               setSelectedIndex(event.nativeEvent.selectedSegmentIndex);
-              callApiToGetApprovalList(event.nativeEvent.selectedSegmentIndex)
+              callApiToGetApprovalList(event.nativeEvent.selectedSegmentIndex);
             }}
             activeFontStyle={styles.segmentTextActive}
             style={styles.segmentControl}
@@ -297,7 +300,9 @@ const ApprovalList = props => {
                 keyExtractor={(item, index) => index.toString()}
               />
             </>
-          ) : <Text style={styles.textEmpty}>{alertMsgConstant.EMPTY_LIST}</Text>}
+          ) : (
+            <Text style={styles.textEmpty}>{alertMsgConstant.EMPTY_LIST}</Text>
+          )}
         </View>
         {responseApprovalData.isRequesting || responseData.isRequesting ? (
           <Loader

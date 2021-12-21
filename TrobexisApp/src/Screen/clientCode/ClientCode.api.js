@@ -127,7 +127,6 @@ export const getClientTokenBasedOnApiBase = (argumentData, apiBaseUrl) => {
           data: response,
           //status: response.status
         }).then(response => {
-            console.log(" response to ACCunt url ====  ", response); 
           return response.data.data;
         }),
       ).catch((err) =>{

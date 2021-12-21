@@ -103,6 +103,7 @@ const ClientCodeScreen = props => {
   //** Getting client codes from the async storage  */
   const getClientCodes = () => {
     const temp = localDB.getClientCode();
+    console.log(" in get client code ", temp); 
     Promise.resolve(temp).then(response => {
       if (response) {
         setArrayClientCode(response);
@@ -137,7 +138,6 @@ const ClientCodeScreen = props => {
   };
 
   const submitForm = () => {
-    console.log(" clint code click"); 
     setIsClientCodeListShow(false);
     if (clientCode === '') {
       setError(alertMsgConstant.CLIENT_CODE_NOT_EMPTY);
@@ -163,9 +163,6 @@ const ClientCodeScreen = props => {
     }
   };
 
-  // React.useEffect(() => {
-  //   checkResponseCode();
-  // }, [responseData]);
 
   const checkResponseCode = useCallback(() => {
 

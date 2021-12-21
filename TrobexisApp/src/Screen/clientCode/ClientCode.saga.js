@@ -12,7 +12,7 @@ import {
   getAccessTokenBaseOnClientToken,
 } from './ClientCode.api';
 import {isError} from '../../common';
-import { setLoader } from './ClientCode.action';
+import {setLoader} from './ClientCode.action';
 import localDB from '../../database/localDb';
 
 //** Worker Get Api Base  */
@@ -34,9 +34,7 @@ export function* workerGetApiBase(argumentData) {
       });
 
       yield put(setLoader(false));
-
     } else {
-      console.log("apiBaseResponse --- ", apiBaseResponse); 
       yield put({
         type: actionConstant.ACTION_GET_API_BASE_SUCCESS,
         payload: apiBaseResponse,
@@ -81,8 +79,7 @@ export function* workerGetClientTokenBaseOnApiBase(argumentData, apiBase) {
         type: actionConstant.ACTION_GET_CLIENT_TOKEN_FAILURE,
         payload: clientToken,
       });
-     
-    }else{
+    } else {
       yield put({
         type: actionConstant.ACTION_GET_CLIENT_TOKEN_SUCCESS,
         payload: clientToken,
@@ -122,53 +119,49 @@ export function* workerGetAccountUrl(argumentData, apiBase, clientToken) {
         type: actionConstant.ACTION_GET_ACCOUNT_URL_FAILURE,
         payload: responseAccountUrl,
       });
-     
-    }else{
+    } else {
       yield put({
         type: actionConstant.ACTION_GET_ACCOUNT_URL_SUCCESS,
         payload: responseAccountUrl,
       });
-      
-      console.log(" response a/c ur; ", responseAccountUrl, " device id ", argumentData, "Apibase", apiBase, "clientoken", clientToken)
 
       let loginUrl = responseAccountUrl[0].value;
       loginUrl = loginUrl.replace(':mobileDeviceId', argumentData.DeviceId);
-     
+
       let user = {
         clientToken: clientToken,
         deviceId: argumentData.DeviceId,
         apiBaseUrl: apiBase,
         loginUrl: loginUrl,
-        //  userId: 'P000000442',
+       // userId: 'P000000442',
       };
-
-     
       localDB.setUser(user);
 
       // *** Save client codes ***//
       const temp = localDB.getClientCode();
-      Promise.resolve(temp).then(response => {
-        if (response) {
-
-          console.log(" response user  code",response ,argumentData.client ); 
-
-          //** Only unique client codes will be saved  */
-          if (response.indexOf(argumentData.client) < 0) {
-            console.log(" response user  code", argumentData.client ); 
-            let arrayTemp = [...response, ]; 
-            console.log(" response clint code", arrayTemp); 
+     {
+        Promise.resolve(temp).then(response => {
+          if (response) {
+            //** Only unique client codes will be saved  */
+             if (response.indexOf(argumentData.client) < 0)
+              {
+              let arrayTemp = [...response, argumentData.client];
+              console.log(' response clint code', arrayTemp);
+              localDB.saveClientCode(arrayTemp);
+            }
+          }else{
+            let arrayTemp = [argumentData.client];
             localDB.saveClientCode(arrayTemp);
           }
-        } 
-      });
+        });
+      } 
+     
       // ** For stopping loader **//
       yield put(setLoader(false));
-      // argumentData.navigation.navigate(appConstant.DRAWER_NAVIGATOR); // Temp
+     //  argumentData.navigation.navigate(appConstant.DRAWER_NAVIGATOR); // Temp
 
-       argumentData.navigation.navigate(appConstant.LOGIN, {loginUrl: loginUrl});
-
+      argumentData.navigation.navigate(appConstant.LOGIN, {loginUrl: loginUrl});
     }
-  
   } catch (error) {
     yield put(setLoader(false));
     yield put({

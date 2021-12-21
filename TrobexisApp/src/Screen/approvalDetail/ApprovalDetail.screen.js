@@ -69,7 +69,11 @@ const ApprovalDetail = props => {
   };
 
   const moveBack = () => {
-    props.navigation.goBack();
+    // props.navigation.goBack();
+    // console.log(" params status ", route.params); 
+    // props.navigation.setOptions({'backData': route.params.approvalItem}); 
+     props.navigation.goBack(); 
+     route.params.onBackReceiveData(route.params.approvalItem)
   };
 
   const onClickApprove = () => {
@@ -111,25 +115,6 @@ const ApprovalDetail = props => {
   const checkResponseCode = () => {
     if (isApiCall) {
       setIsApiCall(false);
-
-      // if (responseDetail && responseDetail.acceptResponseInDetail) {
-      //   console.log("116  get data",responseDetail.acceptResponseInDetail );
-
-      //   if (responseDetail.acceptResponseInDetail.message) {
-      //     toast.show(responseDetail.acceptResponseInDetail.message, {
-      //       type: alertMsgConstant.TOAST_SUCCESS,
-      //     });
-      //     let dict = responseDetail.acceptResponseInDetail;
-      //     dict.message = '';
-      //     responseDetail.acceptResponseInDetail = dict;
-
-      //    // if (responseDetail.acceptResponseInDetail.success)
-      //      {
-      //       props.navigation.goBack();  
-
-      //     }
-      //   }
-      // }
     }
   };
 
@@ -167,10 +152,8 @@ const ApprovalDetail = props => {
               <View style={styles.viewInside}>
                 <View style={styles.viewInsideTitle}>
                   <Text style={styles.textYellow}>
-                  {route.params && route.params.requestor
-                  ? route.params.requestor
-                  : ''}
-                  {/* ( {getDataFromResponse(responseDetail, 'TravellerID')}) */}
+                  {getDataFromResponse(responseDetail, 'TravellerName')}
+                  ({getDataFromResponse(responseDetail, 'TravellerID')})
                   </Text>
                   <Text style={styles.textRed}>
                     {getDataFromResponse(responseDetail, 'Status')}
@@ -179,7 +162,7 @@ const ApprovalDetail = props => {
                 <View style={styles.viewContainRow}>
                   {returnRowView(
                     'Request Creation Date:',
-                    getDataFromResponse(responseDetail, 'EscalationDate'),
+                    getDataFromResponse(responseDetail, 'StartDate'),
                   )}
                   {returnRowView(
                     'Company Name:',
@@ -187,7 +170,7 @@ const ApprovalDetail = props => {
                   )}
                   {returnRowView(
                     'Sub Contractor:',
-                    getDataFromResponse(responseDetail, 'Sub'),
+                    getDataFromResponse(responseDetail, 'SubContractName'),
                   )}
                   {returnRowView(
                     'Position:',
@@ -203,7 +186,7 @@ const ApprovalDetail = props => {
                 <View style={styles.viewContainRow}>
                   {returnRowView(
                     'Request Title:',
-                    getDataFromResponse(responseDetail, 'TripReason'),
+                    getDataFromResponse(responseDetail, 'RequestTitle'),
                   )}
                   {returnRowView(
                     'Site Location:',
@@ -211,15 +194,15 @@ const ApprovalDetail = props => {
                   )}
                   {returnRowView(
                     'Access Dates:',
-                    getDataFromResponse(responseDetail, 'EscalationDate'),
+                    getDataFromResponse(responseDetail, 'StartDate'),getDataFromResponse(responseDetail, 'EndDate'),
                   )}
                   {returnRowView(
                     'Roaster Pattern:',
-                    getDataFromResponse(responseDetail, 'Roaster'),
+                    getDataFromResponse(responseDetail, 'RosterPattern'),
                   )}
                   {returnRowView(
                     'Travel Requirements:',
-                    getDataFromResponse(responseDetail, 'Req'),
+                    getDataFromResponse(responseDetail, 'TravelRequirements'),
                   )}
                 </View>
               </View>
@@ -230,7 +213,7 @@ const ApprovalDetail = props => {
               <View style={styles.viewInside}>
                 {/* <View style={styles.textAreaContainer}> */}
                 <Text style={styles.textArea}>
-                  {getDataFromResponse(responseDetail, 'AdditionalDetails')}
+                  {getDataFromResponse(responseDetail, 'Comments')}
                 </Text>
               </View>
               {/* </View> */}
