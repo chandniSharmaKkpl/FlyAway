@@ -44,7 +44,6 @@ const HomeScreen = props => {
     const unsubscribe = props.navigation.addListener('focus', () => {
       const tempUser = localDb.getUser();
       Promise.resolve(tempUser).then(response => {
-        console.log(" user is ---->", response); 
         let param = {
           user: response,
           navigation: props.navigation

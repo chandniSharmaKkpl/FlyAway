@@ -85,25 +85,12 @@ const JourneyDetail = props => {
   };
 
   const calculateTime = (startTime, endTime) => {
-    console.log(' startTime', startTime, 'endTime', endTime);
     let differenceTime = 'Total Time ';
     let date1 = new Date(startTime);
     let date2 = new Date(endTime);
-
     differenceTime = date2.getTime() - date1.getTime();
-
-    console.log(' different  ', differenceTime);
-
-    var daysTill30June2035 = Math.floor(differenceTime / (1000 * 60 * 60 * 24));
-    console.log(daysTill30June2035);
-
-    console.log(' daysTill30June2035  ', daysTill30June2035);
-
-    let strTime = msToTime(daysTill30June2035);
-
-    console.log(' strTime  ', strTime);
-
-    return differenceTime + strTime;
+    let strTime = msToTime(differenceTime);
+    return "Total Time " + strTime;
   };
 
   const itemViews = (item, type, index) => {

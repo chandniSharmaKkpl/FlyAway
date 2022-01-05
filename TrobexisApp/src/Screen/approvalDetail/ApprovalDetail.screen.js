@@ -159,7 +159,9 @@ const ApprovalDetail = props => {
                  <Text style={styles.textRed}>
                     {getDataFromResponse(responseDetail, 'Status')}
                   </Text>
+                  
                 </View>
+                <View style={styles.viewGrayLine}/>
                 <View style={styles.viewContainRow}>
                   {returnRowView(
                     'Request Creation Date:',

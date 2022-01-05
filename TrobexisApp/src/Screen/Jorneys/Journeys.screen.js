@@ -37,7 +37,6 @@ const JourneyList = props => {
   
   const renderItem = item => {
     let itemDetail = item.item;
-    console.log(" item detail", itemDetail); 
     let date = itemDetail.requestdate;
     let requestdate = date ? getDateInFormat(date, false, false) : '';
     return (
