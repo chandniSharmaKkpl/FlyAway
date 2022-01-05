@@ -16,18 +16,27 @@ import {HeaderCustom, BookingCard, Loader, backHandler} from '../../component';
 import stylesCommon from '../../common/common.style';
 import localDb from '../../database/localDb';
 import {useRoute, useNavigation} from '@react-navigation/core';
-import {
-  requestAcceptApprovalInDetail,
-} from './ApprovalDetail.action';
+import {requestAcceptApprovalInDetail} from './ApprovalDetail.action';
 import {
   requestAcceptApproval,
-  requestDeclineApproval
+  requestDeclineApproval,
 } from '../approvalList/ApprovalList.action';
 import {appColor, appConstant, alertMsgConstant} from '../../constant';
 import {requestToGetApprovalDetail} from './ApprovalDetail.action';
 import {getDateInFormat} from '../../common';
 
 const ApprovalDetail = props => {
+  const arrayApprovalCode = useState([
+    {code: 'SAR', codeName: 'Site Access Request'},
+    {code: 'WTR', codeName: 'Workforce Travel Request'},
+    {code: 'WKO', codeName: 'Work Orders'},
+    {code: 'CTR', codeName: 'Corporate Travel Request'},
+    {code: 'TSH', codeName: 'Timesheets'},
+    {code: 'CRM', codeName: 'Crew Movements'},
+    {code: 'FVR', codeName: 'Fleet Vehicle Requests'},
+    {code: 'EQR', codeName: 'Equipment Request'},
+    {code: 'APL', codeName: 'Accommodation Plans'},
+  ]);
   const route = useRoute();
   const dispatch = useDispatch();
   const responseDetail = useSelector(state => state.ApprovalDetailReducer);
@@ -41,7 +50,7 @@ const ApprovalDetail = props => {
 
   useEffect(() => {
     const unsubscribe = props.navigation.addListener('focus', () => {
-      console.log(" route param", route.params)
+      console.log(' route param', route.params);
       const tempUser = localDb.getUser();
       Promise.resolve(tempUser).then(response => {
         let param = {
@@ -70,14 +79,13 @@ const ApprovalDetail = props => {
 
   const moveBack = () => {
     // props.navigation.goBack();
-    // console.log(" params status ", route.params); 
-    // props.navigation.setOptions({'backData': route.params.approvalItem}); 
-     props.navigation.goBack(); 
-     route.params.onBackReceiveData(route.params.approvalItem)
+    // console.log(" params status ", route.params);
+    // props.navigation.setOptions({'backData': route.params.approvalItem});
+    props.navigation.goBack();
+    route.params.onBackReceiveData(route.params.approvalItem);
   };
 
   const onClickApprove = () => {
-  
     setIsApiCall(true);
     const tempUser = localDb.getUser();
     Promise.resolve(tempUser).then(response => {
@@ -90,11 +98,13 @@ const ApprovalDetail = props => {
     });
   };
   const onClickDecline = () => {
-    props.navigation.navigate(appConstant.REASON,  {approvalItem: {item: route.params.approvalItem}});
+    props.navigation.navigate(appConstant.REASON, {
+      approvalItem: {item: route.params.approvalItem},
+    });
   };
 
   const getDataFromResponse = (responseDetail, value) => {
-    console.log(" response Detail ", responseDetail); 
+    console.log(' response Detail ', responseDetail);
     {
       if (responseDetail) {
         let itemsData = responseDetail.responseDetail;
@@ -124,10 +134,76 @@ const ApprovalDetail = props => {
     return el && el.Data; // so check result is truthy and extract `id`
   };
 
+  const returnViewBasedOnApprovalCode = approvalCode => {
+    console.log(' approval code ', approvalCode);
+    if (approvalCode === appConstant.EQR) {
+      return (
+        <View style={styles.viewContainRow}>
+          {returnRowView(
+            'Request Title:',
+            getDataFromResponse(responseDetail, 'RequestTitle'),
+          )}
+          {returnRowView(
+            'Required By:',
+            getDataFromResponse(responseDetail, 'ApprovalFor'),
+          )}
+          {returnRowView(
+            'Requested by:',
+            getDataFromResponse(responseDetail, 'RequestedBy'),
+          )}
+          {returnRowView(
+            'Charge code:',
+            getDataFromResponse(responseDetail, 'ChargeCode'),
+          )}
+          {returnRowView(
+            'Priority:',
+            getDataFromResponse(responseDetail, 'Priority'),
+          )}
+          {returnRowView(
+            'Equipment assigned to this request:',
+            getDataFromResponse(responseDetail, ''),
+          )}
+          {returnRowView(
+            'Pick up Date/Time:',
+            getDataFromResponse(responseDetail, 'PickUPDateText'),
+          )}
+          {returnRowView(
+            'Pick up Location:',
+            getDataFromResponse(responseDetail, 'PickUpLocation'),
+          )}
+          {returnRowView(
+            'Drop off Date/Time:',
+            getDataFromResponse(responseDetail, 'DropOffDateTime'),
+          )}
+          {returnRowView(
+            'Drop off Location :',
+            getDataFromResponse(responseDetail, 'DropOffLocation'),
+          )}
+        </View>
+      );
+    } else {
+      if (approvalCode === appConstant.CTR) {
+        {
+          returnRowView(':', getDataFromResponse(responseDetail, ''));
+        }
+      } else {
+      }
+    }
+  };
+
+  const getDetailNameOfApprovalCode = (approvalCode) => {
+    for (let index = 0; index < arrayApprovalCode.length; index++) {
+      const element = arrayApprovalCode[index];
+      if (element.code == approvalCode) {
+        console.log(" element", element, " code name", approvalCode)
+          return element.codeName; 
+      }
+    }
+  };
+
   return (
     <>
-      {(checkResponseCode(), 
-      backHandler(handleBackButtonClick))}
+      {(checkResponseCode(), backHandler(handleBackButtonClick))}
       <View style={stylesHome.container}>
         <HeaderCustom
           title={'Approval Details'}
@@ -144,24 +220,27 @@ const ApprovalDetail = props => {
           <View style={styles.viewOutSide}>
             <View style={styles.viewSection}>
               <Text style={styles.textBlackTitle}>
-                Site Access Request (SAR #
+                <Text>{getDetailNameOfApprovalCode(responseDetail.responseDetail.Type)}</Text>(
+                <Text>
+                  {responseDetail ? responseDetail.responseDetail.Type : ''}
+                </Text>{' '}
+                #
                 {route.params && route.params.approvalId
                   ? route.params.approvalId
                   : ''}
                 )
               </Text>
               <View style={styles.viewInside}>
-              <View style={styles.viewInsideTitle}>
+                <View style={styles.viewInsideTitle}>
                   <Text style={styles.textYellow}>
-                  {getDataFromResponse(responseDetail, 'TravellerName')}
-                  ({getDataFromResponse(responseDetail, 'TravellerID')})
-                  </Text> 
-                 <Text style={styles.textRed}>
+                    {getDataFromResponse(responseDetail, 'TravellerName')}(
+                    {getDataFromResponse(responseDetail, 'TravellerID')})
+                  </Text>
+                  <Text style={styles.textRed}>
                     {getDataFromResponse(responseDetail, 'Status')}
                   </Text>
-                  
                 </View>
-                <View style={styles.viewGrayLine}/>
+                <View style={styles.viewGrayLine} />
                 <View style={styles.viewContainRow}>
                   {returnRowView(
                     'Request Creation Date:',
@@ -186,28 +265,9 @@ const ApprovalDetail = props => {
             <View style={styles.viewSection}>
               <Text style={styles.textBlackTitle}>Site Access Details</Text>
               <View style={styles.viewInside}>
-                <View style={styles.viewContainRow}>
-                  {returnRowView(
-                    'Request Title:',
-                    getDataFromResponse(responseDetail, 'RequestTitle'),
-                  )}
-                  {returnRowView(
-                    'Site Location:',
-                    getDataFromResponse(responseDetail, 'SiteLocation'),
-                  )}
-                  {returnRowView(
-                    'Access Dates:',
-                    getDataFromResponse(responseDetail, 'StartDate'),getDataFromResponse(responseDetail, 'EndDate'),
-                  )}
-                  {returnRowView(
-                    'Roaster Pattern:',
-                    getDataFromResponse(responseDetail, 'RosterPattern'),
-                  )}
-                  {returnRowView(
-                    'Travel Requirements:',
-                    getDataFromResponse(responseDetail, 'TravelRequirements'),
-                  )}
-                </View>
+                {returnViewBasedOnApprovalCode(
+                  responseDetail ? responseDetail.responseDetail.Type : '',
+                )}
               </View>
             </View>
 
@@ -222,41 +282,39 @@ const ApprovalDetail = props => {
               {/* </View> */}
             </View>
 
-          {route.params && route.params.status && route.params.status === appConstant.PENDING_APPROVAL?  
-          <View style={styles.viewButtonBottom}>
-              <Pressable
-                style={stylesCommon.greenButton}
-                onPress={() => onClickApprove()}>
-                <Text
-                  style={[
-                    styles.buttonSearchBusTitle,
-                    stylesCommon.yellowButtonTitle,
-                  ]}>
-                  Approve
-                </Text>
-              </Pressable>
+            {route.params &&
+            route.params.status &&
+            route.params.status === appConstant.PENDING_APPROVAL ? (
+              <View style={styles.viewButtonBottom}>
+                <Pressable
+                  style={stylesCommon.greenButton}
+                  onPress={() => onClickApprove()}>
+                  <Text
+                    style={[
+                      styles.buttonSearchBusTitle,
+                      stylesCommon.yellowButtonTitle,
+                    ]}>
+                    Approve
+                  </Text>
+                </Pressable>
 
-              <Pressable
-                style={stylesCommon.redButton}
-                onPress={() => onClickDecline()}>
-                <Text
-                  style={[
-                    styles.buttonSearchBusTitle,
-                    stylesCommon.yellowButtonTitle,
-                  ]}>
-                  Decline
-                </Text>
-              </Pressable>
-            </View>
-            : null } 
+                <Pressable
+                  style={stylesCommon.redButton}
+                  onPress={() => onClickDecline()}>
+                  <Text
+                    style={[
+                      styles.buttonSearchBusTitle,
+                      stylesCommon.yellowButtonTitle,
+                    ]}>
+                    Decline
+                  </Text>
+                </Pressable>
+              </View>
+            ) : null}
           </View>
         </ScrollView>
         {responseDetail.isRequesting ? (
-          <Loader
-            loading={
-              responseDetail.isRequesting 
-            }
-          />
+          <Loader loading={responseDetail.isRequesting} />
         ) : null}
       </View>
     </>
