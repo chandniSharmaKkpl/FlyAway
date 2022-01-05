@@ -94,6 +94,7 @@ const ApprovalDetail = props => {
   };
 
   const getDataFromResponse = (responseDetail, value) => {
+    console.log(" response Detail ", responseDetail); 
     {
       if (responseDetail) {
         let itemsData = responseDetail.responseDetail;
@@ -150,12 +151,12 @@ const ApprovalDetail = props => {
                 )
               </Text>
               <View style={styles.viewInside}>
-                <View style={styles.viewInsideTitle}>
+              <View style={styles.viewInsideTitle}>
                   <Text style={styles.textYellow}>
                   {getDataFromResponse(responseDetail, 'TravellerName')}
                   ({getDataFromResponse(responseDetail, 'TravellerID')})
-                  </Text>
-                  <Text style={styles.textRed}>
+                  </Text> 
+                 <Text style={styles.textRed}>
                     {getDataFromResponse(responseDetail, 'Status')}
                   </Text>
                 </View>

@@ -1,5 +1,13 @@
 import React, {useState, useCallback, useEffect} from 'react';
-import {View, Text, Image, FlatList, BackHandler, Linking, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  FlatList,
+  BackHandler,
+  Linking,
+  TouchableOpacity,
+} from 'react-native';
 import stylesHome from '../home/Home.style';
 import {HeaderCustom, BookingCard} from '../../component';
 import {Avatar} from 'react-native-elements';
@@ -12,7 +20,7 @@ import stylesCommon from '../../common/common.style';
 import styles from './Scan.style';
 
 import QRCodeScanner from 'react-native-qrcode-scanner';
-import { RNCamera } from 'react-native-camera';
+import {RNCamera} from 'react-native-camera';
 import commonStyle from '../../common/common.style';
 const Scan = props => {
   const handleBackButtonClick = () => {
@@ -21,7 +29,7 @@ const Scan = props => {
   };
   onSuccess = e => {
     Linking.openURL(e.data).catch(err =>
-      console.error('An error occured', err)
+      console.error('An error occured', err),
     );
   };
   useEffect(() => {
@@ -50,22 +58,16 @@ const Scan = props => {
           onClickRightIcon={() => {}}
           rightIconImage={''}
         />
-<QRCodeScanner
-        onRead={this.onSuccess}
-       // flashMode={RNCamera.Constants.FlashMode.torch}
-        topContent={
-          <Text style={styles.centerText}>
-           
-            <Text style={styles.textBold}>Scan QR Code </Text> 
-          </Text>
-        }
-        bottomContent={
-          <TouchableOpacity style={commonStyle.yellowButton}>
-          <Text style={commonStyle.yellowButtonTitle}>Scan</Text>
-        </TouchableOpacity>
-
-        }
-      />
+        <QRCodeScanner
+          onRead={this.onSuccess}
+          // flashMode={RNCamera.Constants.FlashMode.torch}
+          topContent={
+            <Text style={styles.centerText}>
+              <Text style={styles.textBold}>Scan QR Code </Text>
+            </Text>
+          }
+          bottomContent={<View />}
+        />
       </View>
     </>
   );

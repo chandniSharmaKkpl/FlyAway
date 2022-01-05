@@ -288,6 +288,7 @@ const ApprovalList = props => {
           responseApprovalData.approvalListWithStatus.length > 0 ? (
             <>
               <FlatList
+
                 refreshControl={
                   <RefreshControl
                     refreshing={refreshing}
@@ -297,7 +298,7 @@ const ApprovalList = props => {
                 extraData={refreshing}
                 data={responseApprovalData.approvalListWithStatus}
                 renderItem={renderItem}
-                keyExtractor={(item, index) => index.toString()}
+                keyExtractor={approvalListData => approvalListData.id}
               />
             </>
           ) : (

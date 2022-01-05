@@ -27,7 +27,7 @@ import {
   imageConstant,
   alertMsgConstant,
 } from '../../constant';
-import {getDateInFormat} from '../../common';
+import {getDateInFormat, msToTime} from '../../common';
 import {useRoute, useNavigation} from '@react-navigation/core';
 
 import {requestToGetJourneyDetail} from './JourneyDetail.action';
@@ -84,12 +84,37 @@ const JourneyDetail = props => {
     );
   };
 
+  const calculateTime = (startTime, endTime) => {
+    console.log(' startTime', startTime, 'endTime', endTime);
+    let differenceTime = 'Total Time ';
+    let date1 = new Date(startTime);
+    let date2 = new Date(endTime);
+
+    differenceTime = date2.getTime() - date1.getTime();
+
+    console.log(' different  ', differenceTime);
+
+    var daysTill30June2035 = Math.floor(differenceTime / (1000 * 60 * 60 * 24));
+    console.log(daysTill30June2035);
+
+    console.log(' daysTill30June2035  ', daysTill30June2035);
+
+    let strTime = msToTime(daysTill30June2035);
+
+    console.log(' strTime  ', strTime);
+
+    return differenceTime + strTime;
+  };
+
   const itemViews = (item, type, index) => {
     let iconImage = '';
+    let isNoShowBtnVisible = false; // This flag is using to show no show button for flights only 
 
     if (item.Type === appConstant.CHARTER_FLIGHT) {
+      isNoShowBtnVisible = true;
       iconImage = imageConstant.IMAGE_PLANE;
     } else if (item.Type === appConstant.CAMP_ACCOMODATION) {
+      isNoShowBtnVisible = false;
       iconImage = imageConstant.IMAGE_BED;
     } else {
       iconImage = imageConstant.IMAGE_BUS_WHITE;
@@ -102,7 +127,7 @@ const JourneyDetail = props => {
           <View
             style={
               item.Type === appConstant.CHARTER_FLIGHT
-                ? styles.viewCircleGreen
+                ? styles.viewCircleGray
                 : styles.viewCircleBlue
             }>
             <View style={styles.viewPlaneImg}>
@@ -143,25 +168,25 @@ const JourneyDetail = props => {
               </Text>
             </View>
 
-            {/* <Pressable
+           {isNoShowBtnVisible? <Pressable
               style={styles.buttonTextRed}
               onPress={() => {
                 setIsAlertShow(true);
               }}>
               <Text style={styles.textNoShow}>No</Text>
               <Text style={styles.textNoShow}>Show</Text>
-            </Pressable> */}
+            </Pressable>:  null }
           </View>
           <View style={styles.viewSingleLine} />
 
           <View style={styles.viewDepartsAndArrive}></View>
           <View style={styles.viewItinerary}>
             <View style={styles.viewLocation}>
-              {item.Type === appConstant.CAMP_ACCOMODATION ? 
+              {item.Type === appConstant.CAMP_ACCOMODATION ? (
                 <Text style={styles.textBlueBig}>CheckIn</Text>
-               : 
+              ) : (
                 <Text style={styles.textBlueBig}>Departs</Text>
-              }
+              )}
 
               <Text style={styles.textBlack}>
                 {item.Details &&
@@ -189,11 +214,11 @@ const JourneyDetail = props => {
               </View>
 
               <View style={styles.viewRightLocation}>
-              {item.Type === appConstant.CAMP_ACCOMODATION ? 
-                <Text style={styles.textBlueBig}>CheckOut</Text>
-               : 
-                <Text style={styles.textBlueBig}>Arrives</Text>
-              }
+                {item.Type === appConstant.CAMP_ACCOMODATION ? (
+                  <Text style={styles.textBlueBig}>CheckOut</Text>
+                ) : (
+                  <Text style={styles.textBlueBig}>Arrives</Text>
+                )}
 
                 <Text style={styles.textBlack}>
                   {item.Details &&
@@ -216,11 +241,19 @@ const JourneyDetail = props => {
           <View
             style={
               item.Type === appConstant.CHARTER_FLIGHT
-                ? styles.ViewGreenBottom
+                ? styles.ViewGrayBottom
                 : styles.ViewBlueBottom
             }>
             <Text style={[styles.textWhite, {padding: '2%'}]}>
-              Total Time: 10m
+              {item.Details &&
+              item.Details.length > 0 &&
+              item.Details[0].StartDate &&
+              item.Details[0].EndDate
+                ? calculateTime(
+                    item.Details[0].StartDate,
+                    item.Details[0].EndDate,
+                  )
+                : 'Total Time'}
             </Text>
           </View>
         </View>
@@ -286,7 +319,7 @@ const JourneyDetail = props => {
                   ),
                 )}
                 {returnRowView(
-                  'TVR: ',
+                  'Travel Request ID: ',
                   getDataFromResponse(
                     responseDetail.journeyDetail,
                     'TravelRequestId',
