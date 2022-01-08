@@ -53,7 +53,6 @@ const ApprovalList = props => {
 
 //** This method will call when coming back from approval detail screen and show the data based on last selected index */
   onBackReceiveData = data => {
-    console.log('Receive back', data);
     let tempIndex = 0;
     if (data.status === appConstant.PENDING_APPROVAL) {
       tempIndex = PENDING_INDEX;

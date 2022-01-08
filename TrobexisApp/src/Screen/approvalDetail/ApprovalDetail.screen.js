@@ -1,14 +1,5 @@
 import React, {useState, useCallback, useEffect} from 'react';
-import {
-  View,
-  Text,
-  Image,
-  FlatList,
-  ScrollView,
-  TextInput,
-  BackHandler,
-  Pressable,
-} from 'react-native';
+import {View, Text, ScrollView, Pressable} from 'react-native';
 import stylesHome from '../home/Home.style';
 import {useDispatch, useSelector} from 'react-redux';
 import styles from './ApprovalDetail.style';
@@ -16,27 +7,42 @@ import {HeaderCustom, BookingCard, Loader, backHandler} from '../../component';
 import stylesCommon from '../../common/common.style';
 import localDb from '../../database/localDb';
 import {useRoute, useNavigation} from '@react-navigation/core';
-import {requestAcceptApprovalInDetail} from './ApprovalDetail.action';
-import {
-  requestAcceptApproval,
-  requestDeclineApproval,
-} from '../approvalList/ApprovalList.action';
+import {requestAcceptApproval} from '../approvalList/ApprovalList.action';
 import {appColor, appConstant, alertMsgConstant} from '../../constant';
 import {requestToGetApprovalDetail} from './ApprovalDetail.action';
-import {getDateInFormat} from '../../common';
+
+const arrayApprovalCode = [
+  {code: 'SAR', codeName: 'Site Access Request'},
+  {code: 'WTR', codeName: 'Workforce Travel Request'},
+  {code: 'WKO', codeName: 'Work Orders'},
+  {code: 'CTR', codeName: 'Corporate Travel Request'},
+  {code: 'TSH', codeName: 'Timesheets'},
+  {code: 'CRM', codeName: 'Crew Movements'},
+  {code: 'FVR', codeName: 'Fleet Vehicle Requests'},
+  {code: 'EQR', codeName: 'Equipment Request'},
+  {code: 'APL', codeName: 'Accommodation Plans'},
+];
+
+//** Array Transaction type approval codes */
+const arraySAR = [
+  {label: 'Request Title:', apiKeyName: 'RequestTitle'},
+  {label: 'Required By:', apiKeyName: 'ApprovalFor'},
+  {label: 'Requested by:', apiKeyName: 'RequestedBy'},
+];
+
+const arrayEQR = [
+  {label: 'Request Title:', apiKeyName: 'RequestTitle'},
+  {label: 'Required By:', apiKeyName: 'ApprovalFor'},
+  {label: 'Requested by:', apiKeyName: 'RequestedBy'},
+];
+
+const arrayWTR = [];
+
+const arrayFVR = [];
+
+const arrayCTR = [];
 
 const ApprovalDetail = props => {
-  const arrayApprovalCode = useState([
-    {code: 'SAR', codeName: 'Site Access Request'},
-    {code: 'WTR', codeName: 'Workforce Travel Request'},
-    {code: 'WKO', codeName: 'Work Orders'},
-    {code: 'CTR', codeName: 'Corporate Travel Request'},
-    {code: 'TSH', codeName: 'Timesheets'},
-    {code: 'CRM', codeName: 'Crew Movements'},
-    {code: 'FVR', codeName: 'Fleet Vehicle Requests'},
-    {code: 'EQR', codeName: 'Equipment Request'},
-    {code: 'APL', codeName: 'Accommodation Plans'},
-  ]);
   const route = useRoute();
   const dispatch = useDispatch();
   const responseDetail = useSelector(state => state.ApprovalDetailReducer);
@@ -104,7 +110,6 @@ const ApprovalDetail = props => {
   };
 
   const getDataFromResponse = (responseDetail, value) => {
-    console.log(' response Detail ', responseDetail);
     {
       if (responseDetail) {
         let itemsData = responseDetail.responseDetail;
@@ -134,71 +139,55 @@ const ApprovalDetail = props => {
     return el && el.Data; // so check result is truthy and extract `id`
   };
 
-  const returnViewBasedOnApprovalCode = approvalCode => {
-    console.log(' approval code ', approvalCode);
-    if (approvalCode === appConstant.EQR) {
-      return (
-        <View style={styles.viewContainRow}>
-          {returnRowView(
-            'Request Title:',
-            getDataFromResponse(responseDetail, 'RequestTitle'),
-          )}
-          {returnRowView(
-            'Required By:',
-            getDataFromResponse(responseDetail, 'ApprovalFor'),
-          )}
-          {returnRowView(
-            'Requested by:',
-            getDataFromResponse(responseDetail, 'RequestedBy'),
-          )}
-          {returnRowView(
-            'Charge code:',
-            getDataFromResponse(responseDetail, 'ChargeCode'),
-          )}
-          {returnRowView(
-            'Priority:',
-            getDataFromResponse(responseDetail, 'Priority'),
-          )}
-          {returnRowView(
-            'Equipment assigned to this request:',
-            getDataFromResponse(responseDetail, ''),
-          )}
-          {returnRowView(
-            'Pick up Date/Time:',
-            getDataFromResponse(responseDetail, 'PickUPDateText'),
-          )}
-          {returnRowView(
-            'Pick up Location:',
-            getDataFromResponse(responseDetail, 'PickUpLocation'),
-          )}
-          {returnRowView(
-            'Drop off Date/Time:',
-            getDataFromResponse(responseDetail, 'DropOffDateTime'),
-          )}
-          {returnRowView(
-            'Drop off Location :',
-            getDataFromResponse(responseDetail, 'DropOffLocation'),
-          )}
-        </View>
-      );
-    } else {
-      if (approvalCode === appConstant.CTR) {
-        {
-          returnRowView(':', getDataFromResponse(responseDetail, ''));
-        }
-      } else {
-      }
-    }
+  const getDetailNameOfApprovalCode = approvalCode => {
+   let matchElement = arrayApprovalCode.find(item => item.code == approvalCode)
+   if (matchElement) {
+    console.log(' element', matchElement, ' code name', matchElement.codeName);
+    return matchElement.codeName+" ";
+   } else {
+     return "N/A"+" "
+   }
   };
 
-  const getDetailNameOfApprovalCode = (approvalCode) => {
-    for (let index = 0; index < arrayApprovalCode.length; index++) {
-      const element = arrayApprovalCode[index];
-      if (element.code == approvalCode) {
-        console.log(" element", element, " code name", approvalCode)
-          return element.codeName; 
-      }
+  const returnViewBasedOnApprovalCode = approvalCode => {
+    console.log(' approval code ---', approvalCode, arrayEQR.length);
+    let arraySourceData = [];
+
+    //** Assigning array based on code and return view with label and apikey  */
+    switch (approvalCode) {
+      case appConstant.SAR:
+        arraySourceData = arraySAR;
+        break;
+      case appConstant.EQR:
+        arraySourceData = arrayEQR;
+        break;
+      case appConstant.WTR:
+        arraySourceData = arrayWTR;
+        break;
+      case appConstant.FVR:
+        arraySourceData = arrayFVR;
+        break;
+      case appConstant.CTR:
+        arraySourceData = arrayCTR;
+        break;
+      default:
+        break;
     }
+
+    return (
+      <>
+        {arraySourceData.map((item, index) => {
+          return (
+            <View style={[styles.viewRow]}>
+              <Text style={styles.textBlue}>{item.label}</Text>
+              <Text style={styles.textSubTitle}>
+                {getDataFromResponse(responseDetail, item.apiKeyName)}
+              </Text>
+            </View>
+          );
+        })}
+      </>
+    );
   };
 
   return (
@@ -220,7 +209,12 @@ const ApprovalDetail = props => {
           <View style={styles.viewOutSide}>
             <View style={styles.viewSection}>
               <Text style={styles.textBlackTitle}>
-                <Text>{getDetailNameOfApprovalCode(responseDetail.responseDetail.Type)}</Text>(
+                <Text>
+                  {getDetailNameOfApprovalCode(
+                    responseDetail.responseDetail.Type,
+                  )}
+                </Text>
+                (
                 <Text>
                   {responseDetail ? responseDetail.responseDetail.Type : ''}
                 </Text>{' '}

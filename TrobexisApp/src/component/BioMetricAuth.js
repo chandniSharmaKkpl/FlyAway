@@ -75,7 +75,6 @@ export const showErrorMessage = error => {
   //** Converting error into string so that get the errorCodeName and Message, Display error message to user  */
   let errorStr = String(error);
   let arrayError = errorStr.split(':');
-  console.log('Face id check ', arrayError);
 
   if (arrayError.length > 0) {
     let errorName = arrayError[0];
