@@ -359,7 +359,7 @@ const JourneyDetail = props => {
             setIsAlertShow(false);
           }}
         />
-      ) : null}
+      ) : <View style={{backgroundColor:'pink'}}/>}
     </>
   );
 };

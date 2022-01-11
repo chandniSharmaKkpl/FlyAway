@@ -129,15 +129,25 @@ const ApprovalDetail = props => {
     }
   };
 
+  function sortByKey(array, key) {
+    return array.sort(function(a, b) {
+        var x = a[key]; var y = b[key];
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+    });
+    }
+
   const returnViewBasedOnApprovalCode = approvalCode => {
+    
     if (
       responseDetail &&
       responseDetail.responseDetail &&
       responseDetail.responseDetail.Items
     ) {
+      //** first sort array based on order they provided then display in access detail section  */
+      let arraySort = sortByKey(responseDetail.responseDetail.Items, "Order")
       return (
         <>
-          {responseDetail.responseDetail.Items.map((item, index) => {
+          {arraySort && arraySort.map((item, index) => {
             return (
               <View style={[styles.viewRow]}>
                 <Text style={styles.textBlue}>{item.Label}:</Text>

@@ -133,7 +133,7 @@ export function* workerGetAccountUrl(argumentData, apiBase, clientToken) {
         deviceId: argumentData.DeviceId,
         apiBaseUrl: apiBase,
         loginUrl: loginUrl,
-       // userId: 'P000000442',
+        userId: 'P000000442',
       };
       localDB.setUser(user);
 
@@ -158,9 +158,9 @@ export function* workerGetAccountUrl(argumentData, apiBase, clientToken) {
      
       // ** For stopping loader **//
       yield put(setLoader(false));
-       //argumentData.navigation.navigate(appConstant.DRAWER_NAVIGATOR); // Temp
+       argumentData.navigation.navigate(appConstant.DRAWER_NAVIGATOR); // Temp
 
-      argumentData.navigation.navigate(appConstant.LOGIN, {loginUrl: loginUrl});
+     // argumentData.navigation.navigate(appConstant.LOGIN, {loginUrl: loginUrl});
     }
   } catch (error) {
     yield put(setLoader(false));
