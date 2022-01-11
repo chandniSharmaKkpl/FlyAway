@@ -3,7 +3,6 @@ import {actionConstant, apiConstant, appConstant, errorCodeConstant} from '../..
 
 
 export function* workerHandleError(errorParam) {
-  console.log(" root saga error ---", errorParam); 
     try {
          yield put({
           type: actionConstant.ACTION_API_ERROR_SUCCESS,

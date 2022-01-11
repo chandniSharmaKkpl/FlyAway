@@ -10,27 +10,16 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import React, {useEffect} from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
   StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
+  useColorScheme
 } from 'react-native';
 
 import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
+  Colors
 } from 'react-native/Libraries/NewAppScreen';
 import { Provider } from 'react-redux';
 import {StoreRoot} from './src/store';
-import {handleError} from './src/'
 import { NavigationContainer } from '@react-navigation/native';
-import HomeScreen from './src/Screen/home/Home.screen'
 import NavigationSetup from './src/route/Navigators';
 import SplashScreen from 'react-native-splash-screen';
 import AuthContext from './src/context/AuthContext';
@@ -66,23 +55,6 @@ const App = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
+
 
 export default App;

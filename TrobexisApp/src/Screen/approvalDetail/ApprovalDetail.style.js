@@ -3,6 +3,10 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import fontConstant from '../../constant/fontConstant';
 import appColor from '../../constant/colorConstant';
 export default StyleSheet.create({
+  viewSiteDetail:{
+  paddingTop:'2%',
+  paddingBottom:'2%'
+  },
   viewGrayLine:{
     
     backgroundColor: 'rgba(220,220,220,0.8)',

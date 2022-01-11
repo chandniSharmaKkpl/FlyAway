@@ -287,7 +287,6 @@ function NavigationSetup() {
       });
       if (errorData.error.code === errorCodeConstant.UNAUTHORIZED)
        {
-         console.log(" in navigator")
         setCurrentUser(null);
       }
       let dict = errorData.error;

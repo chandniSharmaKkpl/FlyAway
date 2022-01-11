@@ -57,7 +57,6 @@ export function* watchApprovalDetail () {
 
   export function* workerAcceptApprovalInDetail(argumentData ) {
 
-    console.log("workerAcceptApprovalInDetail ", argumentData);
     try {
           
       const approvalResponse = yield call(acceptApprovalApiInDetail,argumentData.payload);

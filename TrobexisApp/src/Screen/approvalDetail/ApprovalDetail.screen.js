@@ -23,25 +23,6 @@ const arrayApprovalCode = [
   {code: 'APL', codeName: 'Accommodation Plans'},
 ];
 
-//** Array Transaction type approval codes */
-const arraySAR = [
-  {label: 'Request Title:', apiKeyName: 'RequestTitle'},
-  {label: 'Required By:', apiKeyName: 'ApprovalFor'},
-  {label: 'Requested by:', apiKeyName: 'RequestedBy'},
-];
-
-const arrayEQR = [
-  {label: 'Request Title:', apiKeyName: 'RequestTitle'},
-  {label: 'Required By:', apiKeyName: 'ApprovalFor'},
-  {label: 'Requested by:', apiKeyName: 'RequestedBy'},
-];
-
-const arrayWTR = [];
-
-const arrayFVR = [];
-
-const arrayCTR = [];
-
 const ApprovalDetail = props => {
   const route = useRoute();
   const dispatch = useDispatch();
@@ -56,7 +37,6 @@ const ApprovalDetail = props => {
 
   useEffect(() => {
     const unsubscribe = props.navigation.addListener('focus', () => {
-      console.log(' route param', route.params);
       const tempUser = localDb.getUser();
       Promise.resolve(tempUser).then(response => {
         let param = {
@@ -85,7 +65,6 @@ const ApprovalDetail = props => {
 
   const moveBack = () => {
     // props.navigation.goBack();
-    // console.log(" params status ", route.params);
     // props.navigation.setOptions({'backData': route.params.approvalItem});
     props.navigation.goBack();
     route.params.onBackReceiveData(route.params.approvalItem);
@@ -120,11 +99,11 @@ const ApprovalDetail = props => {
           if (tempArray) {
             return findIdByValue(tempArray, value);
           } else {
-            return 'N/A';
+            return '';
           }
         }
       } else {
-        return 'N/A';
+        return '';
       }
     }
   };
@@ -140,54 +119,37 @@ const ApprovalDetail = props => {
   };
 
   const getDetailNameOfApprovalCode = approvalCode => {
-   let matchElement = arrayApprovalCode.find(item => item.code == approvalCode)
-   if (matchElement) {
-    console.log(' element', matchElement, ' code name', matchElement.codeName);
-    return matchElement.codeName+" ";
-   } else {
-     return "N/A"+" "
-   }
+    let matchElement = arrayApprovalCode.find(
+      item => item.code == approvalCode,
+    );
+    if (matchElement) {
+      return matchElement.codeName + ' ';
+    } else {
+      return '';
+    }
   };
 
   const returnViewBasedOnApprovalCode = approvalCode => {
-    console.log(' approval code ---', approvalCode, arrayEQR.length);
-    let arraySourceData = [];
-
-    //** Assigning array based on code and return view with label and apikey  */
-    switch (approvalCode) {
-      case appConstant.SAR:
-        arraySourceData = arraySAR;
-        break;
-      case appConstant.EQR:
-        arraySourceData = arrayEQR;
-        break;
-      case appConstant.WTR:
-        arraySourceData = arrayWTR;
-        break;
-      case appConstant.FVR:
-        arraySourceData = arrayFVR;
-        break;
-      case appConstant.CTR:
-        arraySourceData = arrayCTR;
-        break;
-      default:
-        break;
+    if (
+      responseDetail &&
+      responseDetail.responseDetail &&
+      responseDetail.responseDetail.Items
+    ) {
+      return (
+        <>
+          {responseDetail.responseDetail.Items.map((item, index) => {
+            return (
+              <View style={[styles.viewRow]}>
+                <Text style={styles.textBlue}>{item.Label}:</Text>
+                <Text style={styles.textSubTitle}> {item.Data}</Text>
+              </View>
+            );
+          })}
+        </>
+      );
+    } else {
+      return;
     }
-
-    return (
-      <>
-        {arraySourceData.map((item, index) => {
-          return (
-            <View style={[styles.viewRow]}>
-              <Text style={styles.textBlue}>{item.label}</Text>
-              <Text style={styles.textSubTitle}>
-                {getDataFromResponse(responseDetail, item.apiKeyName)}
-              </Text>
-            </View>
-          );
-        })}
-      </>
-    );
   };
 
   return (
@@ -259,9 +221,11 @@ const ApprovalDetail = props => {
             <View style={styles.viewSection}>
               <Text style={styles.textBlackTitle}>Site Access Details</Text>
               <View style={styles.viewInside}>
-                {returnViewBasedOnApprovalCode(
-                  responseDetail ? responseDetail.responseDetail.Type : '',
-                )}
+                <View style={styles.viewInsideTitle}>
+                  {returnViewBasedOnApprovalCode(
+                    responseDetail ? responseDetail.responseDetail.Type : '',
+                  )}
+                </View>
               </View>
             </View>
 

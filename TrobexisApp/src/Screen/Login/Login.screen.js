@@ -104,7 +104,6 @@ const LoginScreen = props => {
           },
     );
 
-    console.log(' validate is ===', validate);
     // Temporary commit this condition
     if (validate === 'ok') {
       dispatch(requestToGetAccessToken());

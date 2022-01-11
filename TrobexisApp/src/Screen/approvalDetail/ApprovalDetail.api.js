@@ -17,8 +17,6 @@ export const acceptApprovalApiInDetail = async argumentData => {
     approverId: userId,
   };
 
-  console.log(" aprover id -----", argumentData); 
-
   let instance = axios.create({
     baseURL: apiBaseUrl,
     timeout: 30000,

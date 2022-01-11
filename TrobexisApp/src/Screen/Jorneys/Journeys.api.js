@@ -9,7 +9,6 @@ export const getJourneysListApi = (argumentData) => {
     let apiBaseUrl = argumentData.data.user.apiBaseUrl
     let clientToken = argumentData.data.user.clientToken; 
     let userId = argumentData.data.user.userId; 
-    console.log(" argument data  : ", argumentData); 
 
     let instance = axios.create({
       baseURL: apiBaseUrl,
@@ -24,7 +23,6 @@ export const getJourneysListApi = (argumentData) => {
   
     let urlString = apiConstant.APPROVAL_ACCEPT_API;
    // urlString =  urlString.replace(':approvalId', approvalId);  
-    console.log(" url  data  : ", urlString); 
 
     return instance
       .put(urlString,{'approverId':userId})
@@ -34,7 +32,6 @@ export const getJourneysListApi = (argumentData) => {
           data: response,
         }).then(response => {
           let response1 = response.data.data; 
-          console.log(" response : ", response1)
 
           return response1
         }),
@@ -55,8 +52,6 @@ export const getJourneysListApi = (argumentData) => {
       let apiBaseUrl = argumentData.data.user.apiBaseUrl
       let clientToken = argumentData.data.user.clientToken; 
       let userId = argumentData.data.user.userId; 
-
-      console.log(" argument data  : ", argumentData); 
   
       let instance = axios.create({
         baseURL: apiBaseUrl,
@@ -70,9 +65,7 @@ export const getJourneysListApi = (argumentData) => {
       });
     
       let urlString = apiConstant.APPROVAL_DECLINE_API;
-     // urlString =  urlString.replace(':approvalId', approvalId);  
-      console.log(" url  data  : ", urlString); 
-  
+     // urlString =  urlString.replace(':approvalId', approvalId);    
       return instance
         .put(urlString,{'approverId':userId})
         
@@ -80,9 +73,7 @@ export const getJourneysListApi = (argumentData) => {
           Promise.resolve({
             data: response,
           }).then(response => {
-            let response1 = response.data.data; 
-            console.log(" response : ", response1)
-  
+            let response1 = response.data.data;   
             return response1
           }),
         ).catch((err) =>{

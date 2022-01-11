@@ -313,7 +313,7 @@ paddingTop:'5%'
   viewRightLocation: {
     flex: 5,
     paddingLeft: '3%',
-    marginRight: wp('5%'),
+    marginRight: wp('1%'),
     //backgroundColor: 'orange',
     // alignItems:'flex-end'
   },

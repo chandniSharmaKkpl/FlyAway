@@ -63,7 +63,7 @@ const HomeScreen = props => {
 
   const handleBackButtonClick = () => {
     countBack = countBack + 1;
-    console.log(' back count   ', countBack);
+ //   console.log(' back count   ', countBack);
 
     if (countBack > 1) {
       setIsAlertShow(true);
