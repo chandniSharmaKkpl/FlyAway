@@ -8,32 +8,27 @@ import {
   FlatList,
   Pressable,
   RefreshControl,
+  BackHandler,
 } from 'react-native';
 import stylesHome from '../home/Home.style';
 import styles from './ApprovalList.style';
-import {HeaderCustom, BookingCard, Loader, backHandler} from '../../component';
+import {HeaderCustom, Loader} from '../../component';
 import {useSelector, useDispatch} from 'react-redux';
-import {Avatar} from 'react-native-elements';
 import {
   appColor,
   appConstant,
   imageConstant,
   alertMsgConstant,
-  actionConstant,
 } from '../../constant';
-import SegmentedControlTab from 'react-native-segmented-control-tab';
-import {requestToGetApprovalList} from '../home/Home.action';
 
 import {requestGetApprovalListWithStatus} from './ApprovalList.action';
-
-import {getDateInFormat, useBackButton1} from '../../common';
+import {getDateInFormat} from '../../common';
 import {
-  requestAcceptApproval,
-  requestDeclineApproval,
+  requestAcceptApproval
 } from './ApprovalList.action';
-import AuthContext from '../../context/AuthContext';
 import localDb from '../../database/localDb';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
+import {useRoute, useNavigation} from '@react-navigation/core';
 
 PENDING_INDEX = 0;
 APPROVED_INDEX = 1;
@@ -42,6 +37,7 @@ DECLINED_INDEX = 2;
 const ApprovalList = props => {
   const responseData = useSelector(state => state.HomeReducer);
   const responseApprovalData = useSelector(state => state.ApprovalListReducer);
+  const route = useRoute();
 
   const dispatch = useDispatch();
   const [approvalList, setApprovalList] = useState(
@@ -51,18 +47,18 @@ const ApprovalList = props => {
 
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-//** This method will call when coming back from approval detail screen and show the data based on last selected index */
+  //** This method will call when coming back from approval detail screen and show the data based on last selected index */
   onBackReceiveData = data => {
     let tempIndex = 0;
     if (data.status === appConstant.PENDING_APPROVAL) {
       tempIndex = PENDING_INDEX;
-      setSelectedIndex(PENDING_INDEX)
-    } else if(data.status === appConstant.APPROVED){
-      tempIndex = APPROVED_INDEX
-      setSelectedIndex(APPROVED_INDEX)
-    }else{
+      setSelectedIndex(PENDING_INDEX);
+    } else if (data.status === appConstant.APPROVED) {
+      tempIndex = APPROVED_INDEX;
+      setSelectedIndex(APPROVED_INDEX);
+    } else {
       tempIndex = DECLINED_INDEX;
-      setSelectedIndex(DECLINED_INDEX)
+      setSelectedIndex(DECLINED_INDEX);
     }
     callApiToGetApprovalList(tempIndex);
   };
@@ -72,6 +68,27 @@ const ApprovalList = props => {
   useEffect(() => {
     callApiToGetApprovalList(selectedIndex);
   }, [selectedIndex, refreshing]);
+
+  //** Back button handling  */
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
+
+ 
+  const handleBackButtonClick = () => {
+    if (route.params && route.params.callingView) {
+      props.navigation.navigate(route.params.callingView);
+    } else {
+      props.navigation.goBack();
+    }
+    return true;
+  };
 
   const callApiToGetApprovalList = selectedIndex => {
     const tempUser = localDb.getUser();
@@ -102,7 +119,8 @@ const ApprovalList = props => {
   };
 
   const onRefresh = React.useCallback(() => {
-    if ( responseApprovalData.approvalListWithStatus &&
+    if (
+      responseApprovalData.approvalListWithStatus &&
       responseApprovalData.approvalListWithStatus.length > 0
     ) {
       setRefreshing(true);
@@ -123,7 +141,11 @@ const ApprovalList = props => {
   };
 
   const onClickDecline = item => {
-    props.navigation.navigate(appConstant.REASON, {approvalItem: item, onBackReceiveData: onBackReceiveData});
+    props.navigation.navigate(appConstant.REASON, {
+      approvalItem: item,
+      onBackReceiveData: onBackReceiveData,
+      callingView: appConstant.approvalList
+    });
   };
 
   const moveToDetailView = itemDetail => {
@@ -132,7 +154,8 @@ const ApprovalList = props => {
       requestor: itemDetail.requestor,
       status: itemDetail.status,
       approvalItem: itemDetail,
-      onBackReceiveData: onBackReceiveData
+      callingView: appConstant.approvalList,
+      onBackReceiveData: onBackReceiveData,
     });
   };
 
@@ -253,7 +276,7 @@ const ApprovalList = props => {
 
   return (
     <>
-      {(getDataFromResponse(), backHandler(moveBack))}
+      {getDataFromResponse()}
       <View style={stylesHome.container}>
         <HeaderCustom
           title={'Approvals'}
@@ -287,7 +310,6 @@ const ApprovalList = props => {
           responseApprovalData.approvalListWithStatus.length > 0 ? (
             <>
               <FlatList
-
                 refreshControl={
                   <RefreshControl
                     refreshing={refreshing}

@@ -9,15 +9,14 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {appColor, appConstant, imageConstant} from '../../constant';
+import {useRoute, useNavigation} from '@react-navigation/core';
 
 const NotificationScreen = props => {
   const [arrayBooking, setArrayBooking] = useState([]);
+  const route = useRoute();
 
   React.useEffect(() => {
-  //  let array = [1, 2, 3];
-   // arrayBooking.push(array);
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
-
     return () => {
       BackHandler.removeEventListener(
         'hardwareBackPress',
@@ -27,9 +26,13 @@ const NotificationScreen = props => {
   }, []);
 
   const handleBackButtonClick = () => {
-    props.navigation.goBack();
+    if (route.params && route.params.callingView) {
+      props.navigation.navigate(route.params.callingView);
+    } else {
+      props.navigation.goBack();
+    }
+    return true;
   };
-
 
   const renderItem = item => {
     return (
@@ -52,7 +55,9 @@ const NotificationScreen = props => {
       <HeaderCustom
           title={'Notifications'}
           viewName={appConstant.NOTIFICATIONS}
-          onClickLeftIcon={()=> props.navigation.goBack()}
+          onClickLeftIcon={()=> {
+           console.log(" route.params", route.params); 
+            props.navigation.goBack()}}
           leftIcon={true}
           rightIcon={false}
           centerTitle={true}

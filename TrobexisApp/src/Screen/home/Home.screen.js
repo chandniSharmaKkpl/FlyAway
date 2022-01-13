@@ -5,8 +5,8 @@ import {
   Text,
   Image,
   FlatList,
-  Pressable
-  
+  Pressable,
+  BackHandler
 } from 'react-native';
 import styles from './Home.style';
 import {HeaderCustom, BookingCard, Loader, AlertView, backHandler} from '../../component';
@@ -39,8 +39,7 @@ const HomeScreen = props => {
     setIsAlertShow(value);
   };
   useEffect(() => {
-  // BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
-
+  // 
     const unsubscribe = props.navigation.addListener('focus', () => {
       const tempUser = localDb.getUser();
       Promise.resolve(tempUser).then(response => {
@@ -53,19 +52,28 @@ const HomeScreen = props => {
       });
     });
     return () => {
-      // BackHandler.removeEventListener(
-      //   'hardwareBackPress',
-      //   handleBackButtonClick,
-      // );
+      
       unsubscribe;
     };
   }, []);
 
+  //** Back button handling  */
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    }
+  }, [])
+
   const handleBackButtonClick = () => {
     countBack = countBack + 1;
- //   console.log(' back count   ', countBack);
+    console.log(' back count Homeview  ', countBack);
 
-    if (countBack > 1) {
+    // if (countBack > 1)
+     {
       setIsAlertShow(true);
     }
     return true;
@@ -93,7 +101,7 @@ const HomeScreen = props => {
   }, []);
 
   const onClickRightIcon = useCallback(() => {
-    props.navigation.navigate(appConstant.NOTIFICATIONS);
+    props.navigation.navigate(appConstant.NOTIFICATIONS, {callingView: appConstant.HOME_SCREEN});
   }, []);
 
   const checkAccessToken = () => {
@@ -224,7 +232,7 @@ const HomeScreen = props => {
             <Pressable
               style={styles.viewInsideSmallBox}
               onPress={() => {
-                props.navigation.navigate(appConstant.JOURNEY_LIST);
+                props.navigation.navigate(appConstant.JOURNEY_LIST,{callingView: appConstant.HOME_SCREEN});
               }}>
               <View style={styles.imageIcon}>
                 <Image
@@ -250,7 +258,7 @@ const HomeScreen = props => {
             <Pressable
               style={styles.viewInsideSmallBox}
               onPress={() => {
-                props.navigation.navigate(appConstant.APPROVALS);
+                props.navigation.navigate(appConstant.APPROVALS,{callingView: appConstant.HOME_SCREEN});
               }}>
               <View style={styles.imageIcon}>
                 <Image

@@ -1,5 +1,5 @@
-import React, {useState, useCallback, useEffect} from 'react';
-import {View, Text, ScrollView, Pressable} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, Text, ScrollView, Pressable, BackHandler} from 'react-native';
 import stylesHome from '../home/Home.style';
 import {useDispatch, useSelector} from 'react-redux';
 import styles from './ApprovalDetail.style';
@@ -30,10 +30,25 @@ const ApprovalDetail = props => {
 
   const [isApiCall, setIsApiCall] = useState(false);
 
-  const handleBackButtonClick = () => {
-    props.navigation.pop();
-    return true;
+ //** Back button handling  */
+ useEffect(() => {
+  BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+  return () => {
+    BackHandler.removeEventListener(
+      'hardwareBackPress',
+      handleBackButtonClick,
+    );
   };
+}, []);
+
+const handleBackButtonClick = () => {
+  if (route.params && route.params.callingView) {
+    props.navigation.navigate(route.params.callingView);
+  } else {
+    props.navigation.goBack();
+  }
+  return true;
+};
 
   useEffect(() => {
     const unsubscribe = props.navigation.addListener('focus', () => {

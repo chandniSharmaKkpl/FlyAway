@@ -58,19 +58,32 @@ const JourneyDetail = props => {
         dispatch(requestToGetJourneyDetail(param));
       });
     });
-
-    //  BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
     return () => {
-      // BackHandler.removeEventListener(
-      //   'hardwareBackPress',
-      //   handleBackButtonClick,
-      // );
       unsubscribe;
     };
   }, []);
+
+  //** Back button handling  */
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
+
   const handleBackButtonClick = () => {
-    moveBack();
+    console.log(" alert show ", isAlertShow); 
+    {
+    if (route.params && route.params.callingView) {
+      props.navigation.navigate(route.params.callingView);
+    } else {
+      props.navigation.goBack();
+    }
     return true;
+  }
   };
   const moveBack = () => {
     props.navigation.goBack();
