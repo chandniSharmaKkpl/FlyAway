@@ -93,7 +93,7 @@ export default CustomDrawer = () => {
 
           {/* Creating Drawer sections */}
 
-          {returnDrawerSection(
+          {/* {returnDrawerSection(
             'Scan QR Code',
             <IconIonicons name="scan-sharp" style={styles.iconDrawerMenu} />,
             appConstant.SCAN,
@@ -112,7 +112,7 @@ export default CustomDrawer = () => {
             'Secure Login',
             <IconFontAwesome name="lock" style={styles.iconDrawerMenu} />,
             appConstant.SUPPORT,
-          )}
+          )} */}
         </View>
       </View>
 
@@ -190,6 +190,8 @@ const styles = StyleSheet.create({
   viewTitle: {
     flexDirection: 'row',
     alignItems: 'center',
+   // backgroundColor:'pink',
+    marginTop:'-5%'
   },
   viewImageUser: {
     width: wp('9%'),
@@ -209,7 +211,7 @@ const styles = StyleSheet.create({
     //flex:1,
     paddingTop: hp('3.3%'),
     paddingRight: wp('2%'),
-    //backgroundColor:'orange'
+   // backgroundColor:'orange'
   },
   viewCrossBtn: {
     // width: wp('5%'),
@@ -250,7 +252,7 @@ const styles = StyleSheet.create({
   },
   viewTop: {
     height: hp('20%'),
-    //backgroundColor: 'pink',
+  backgroundColor: 'orange',
   },
   imageBgd: {
     width: wp('5%'),

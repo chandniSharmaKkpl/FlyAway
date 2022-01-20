@@ -82,10 +82,9 @@ const HomeScreen = props => {
   const renderItem = item => {
     return (
       <Pressable
-      // onPress={() => props.navigation.navigate(appConstant.BUS_BOOKING_STACK, {
-      //   screen: appConstant.SITE_ITINARY,
-      //   params: { prevData: item },
-      // })}
+      onPress={() => 
+         props.navigation.navigate(appConstant.JOURNEY_DETAIL, {itineraryId: item.item.id})
+    }
       >
         <BookingCard
           item={item.item}
