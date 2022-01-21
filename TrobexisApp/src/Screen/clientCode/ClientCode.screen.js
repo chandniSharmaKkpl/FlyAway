@@ -103,7 +103,6 @@ const ClientCodeScreen = props => {
   //** Getting client codes from the async storage  */
   const getClientCodes = () => {
     const temp = localDB.getClientCode();
-    console.log(" in get client code ", temp); 
     Promise.resolve(temp).then(response => {
       if (response) {
         setArrayClientCode(response);
@@ -129,8 +128,6 @@ const ClientCodeScreen = props => {
 
   const handleBackButtonClick = () => {
     countBack = countBack + 1;
-    console.log(' back count   ', countBack);
-
     if (countBack > 1) {
       setIsAlertShow(true);
     }

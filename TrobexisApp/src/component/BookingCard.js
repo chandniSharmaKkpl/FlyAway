@@ -112,7 +112,6 @@ export const getTimeDifference = item => {
   let seconds = Math.round(
     (parseDateEnd.getTime() - parseDateStart.getTime()) / 1000,
   );
-  // console.log(" secodns ", seconds);
 };
 
 export const getTimeInFormat = date => {

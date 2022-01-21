@@ -14,7 +14,7 @@ export default StyleSheet.create({
      borderWidth: 1,
      left: '6%',
      top:'29%',
-     borderColor: appColor.GREEN,
+     borderColor: appColor.GRAY_MIDIUM,
      borderStyle: 'dashed',
      zIndex: 0,
    },
@@ -75,9 +75,9 @@ paddingTop:'5%'
     width: wp('12%'),
     height: hp('6%'),
   },
-  viewCircleGreen: {
+  viewCircleGray: {
 
-    backgroundColor: appColor.GREEN,
+    backgroundColor: appColor.GRAY_MIDIUM,
     justifyContent: 'center',
     alignItems: 'center',
     width: 50,
@@ -279,8 +279,8 @@ paddingTop:'5%'
     width: '100%',
   },
 
-  ViewGreenBottom: {
-    backgroundColor: appColor.GREEN,
+  ViewGrayBottom: {
+    backgroundColor: appColor.GRAY_MIDIUM,
     justifyContent: 'center',
     alignItems: 'center',
     borderBottomLeftRadius: 10,
@@ -313,7 +313,7 @@ paddingTop:'5%'
   viewRightLocation: {
     flex: 5,
     paddingLeft: '3%',
-    marginRight: wp('5%'),
+    marginRight: wp('1%'),
     //backgroundColor: 'orange',
     // alignItems:'flex-end'
   },

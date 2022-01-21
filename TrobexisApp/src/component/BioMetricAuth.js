@@ -42,7 +42,6 @@ export const checkBioMetricAvailable = (props, user) => {
       if (biometryType === 'FaceID') {
         authenticateUsingBioMetric(props, user);
       } else {
-        console.log('TouchID is supported.');
         authenticateUsingBioMetric(props,user);
       }
     })
@@ -58,7 +57,6 @@ export const authenticateUsingBioMetric = (props,user) => {
     optionalConfigObject,
   )
     .then(success => {
-      console.log('success biometric', user);
       props.navigation.navigate(appConstant.DRAWER_NAVIGATOR);
       let alertSuccess = user.userId+ " " + alertMsgConstant.AUTHENTICATION_SUCCESS
       toast.show(alertSuccess, {
@@ -66,7 +64,6 @@ export const authenticateUsingBioMetric = (props,user) => {
       });
     })
     .catch(error => {
-      console.log(' error in authenticate ', error);
       showErrorMessage(error);
     });
 };
@@ -75,7 +72,6 @@ export const showErrorMessage = error => {
   //** Converting error into string so that get the errorCodeName and Message, Display error message to user  */
   let errorStr = String(error);
   let arrayError = errorStr.split(':');
-  console.log('Face id check ', arrayError);
 
   if (arrayError.length > 0) {
     let errorName = arrayError[0];

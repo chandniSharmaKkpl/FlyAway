@@ -14,7 +14,6 @@ let urlString = apiConstant.GET_ACCESS_TOKEN;
           data: response,
        
         }).then(response => {
-          console.log('Authenticated=====', response.data.data);
           return response.data.data;
         }).catch(error=> {
           console.log('Error on Authentication', error);

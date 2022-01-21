@@ -3,7 +3,6 @@ import {apiConstant, appConstant} from '../../constant'
 import axios from 'axios'; 
 
 export const getDeclineReasonsApi = async(argumentData) => {
-  console.log(" argument data  : ", argumentData); 
 
   let approvalId = argumentData.approvalId
     let deviceId = argumentData.user.deviceId;
@@ -22,7 +21,6 @@ export const getDeclineReasonsApi = async(argumentData) => {
     });
   
     let urlString = apiBaseUrl+ apiConstant.GET_DECLINE_REASONS;
-    console.log(" url  data  : ", urlString);
     try {
         const response = await axios.get(urlString, {
             method: 'GET',
@@ -39,7 +37,6 @@ export const getDeclineReasonsApi = async(argumentData) => {
         })
             .then(response => {
               let response1 = response.data.data; 
-              console.log(" response decline reasons: ", response1)
               return response1
             })
             
@@ -58,7 +55,6 @@ export const getDeclineReasonsApi = async(argumentData) => {
           data: response,
         }).then(response => {
           let response1 = response.data.data; 
-          console.log(" response : ", response1)
           return response1
         }),
       ).catch((err) =>{

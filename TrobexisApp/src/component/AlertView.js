@@ -23,10 +23,13 @@ const AlertView = props => {
         <Text style={styles.textSubtitle}>{subtitle}</Text>
 
         <View style={styles.viewButtons}>
+          {buttonCount === 3? <TouchableOpacity style={styles.buttonGray} onPress={onPressCancel}>
+            <Text style={[styles.textButtons]}>{cancelBtnTxt}</Text>
+          </TouchableOpacity>:
+          <TouchableOpacity style={styles.buttonRed} onPress={onPressCancel}>
+          <Text style={styles.textButtons}>{cancelBtnTxt}</Text>
+        </TouchableOpacity> }
           
-          <TouchableOpacity style={buttonCount === 3? styles.buttonGray : styles.buttonRed} onPress={onPressCancel}>
-            <Text style={styles.textButtons}>{cancelBtnTxt}</Text>
-          </TouchableOpacity>
 
           <TouchableOpacity style={styles.buttonYellow} onPress={onPressConfirmBtn}>
             <Text style={styles.textButtons}>{confirmBtnTxt}</Text>
@@ -137,14 +140,16 @@ const styles = {
     width: 150,
     alignSelf: 'center',
     backgroundColor: appColor.RED,
+    zIndex: 100
   },
   buttonGray: {
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 8,
-    width: '45%',
+    width: 150,
     alignSelf: 'center',
     backgroundColor: appColor.GRAY_LIGHT,
+    zIndex: 100
   },
   buttonRedBig: {
     justifyContent: 'center',

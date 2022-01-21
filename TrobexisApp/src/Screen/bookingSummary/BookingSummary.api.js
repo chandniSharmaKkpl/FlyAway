@@ -9,10 +9,7 @@ let dictTemp = argument.payload.params
 dictTemp.userId = "BM123";
 argument.payload.params = dictTemp
 
-console.log(" bus bookin param ", argument); 
-
 let urlString = apiConstant.POST_BUS_BOOKING;
-console.log(argument.payload.params);
 
 return ApiBase(token1)
   .post(urlString, argument.payload.params)
