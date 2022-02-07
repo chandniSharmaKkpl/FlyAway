@@ -22,6 +22,7 @@ Add these pods in ios pod file
  Do android specific changes as shown in the link 
  
 */
+var isSuccessMsgShow = false; 
 
 function PushController(props) {
   useEffect(() => {
@@ -43,7 +44,7 @@ function PushController(props) {
               device_info.device_token = deviceToken ? deviceToken : '';
 
               // alert(deviceToken);
-              //console.log('deviceToken', deviceToken);
+              console.log('deviceToken', deviceToken);
             }
             DeviceInfo.syncUniqueId().then(uniqueId => {
               device_info.device_uuid = uniqueId;
@@ -94,8 +95,10 @@ function PushController(props) {
               localDb.setUser(tempDict);
 
               props.navigation.navigate(appConstant.DRAWER_NAVIGATOR);
+              if(!isSuccessMsgShow){
+               isSuccessMsgShow = true;
               toast.show(remoteMessage.notification.body,{type: alertMsgConstant.TOAST_SUCCESS})
-
+              }
             });
           }
         } else {

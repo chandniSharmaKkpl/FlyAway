@@ -55,18 +55,33 @@ const LoginScreen = props => {
         setUserTemp({email: '', password: ''});
       }
       setFormError('');
+     
+    
+
     });
 
+   
+    return unsubscribe;
+  }, [error]);
+
+  React.useEffect(() => {
     const tempUser = localDb.getUser();
     Promise.resolve(tempUser).then(response => {
       if (response) {
-        if (response.loginUrl) {
-          setLoginUrl(response.loginUrl);
+        console.log(" response login url --", response.responseLoginUrl, deviceInfo.device_token); 
+       
+        if (response.responseLoginUrl) {
+           let tempUrl = response.responseLoginUrl; 
+            tempUrl = tempUrl.replace(':mobileDeviceId', deviceInfo.device_token)
+           console.log(" url ---", tempUrl); 
+            setLoginUrl(tempUrl);
+          } else {
+            setLoginUrl(response.loginUrl);
+          }
         }
-      }
     });
-    return unsubscribe;
-  }, [error]);
+  
+  }, [deviceInfo])
 
   function Validate({email, password}) {
     let emailErr = '';
@@ -153,7 +168,7 @@ const LoginScreen = props => {
         onLoad={() => hideSpinner()}
         style={styles.webview}
         source={{
-          uri: route && route.params ? route.params.loginUrl : loginUrl,
+          uri:  loginUrl,
         }}></WebView>
       {/* <TextInput 
               value={route && route.params && route.params.loginUrl? route.params.loginUrl: loginUrl}
@@ -171,6 +186,8 @@ const LoginScreen = props => {
       </Pressable>
 
       {loading && <Loader viewName={appConstant.LOGIN} loading={loading} />}
+      <PushController getDeviceInfo={getDeviceInfo} navigation={props.navigation} />
+
     </>
   );
 };

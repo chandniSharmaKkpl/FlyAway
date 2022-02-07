@@ -126,6 +126,7 @@ export function* workerGetAccountUrl(argumentData, apiBase, clientToken) {
       });
 
       let loginUrl = responseAccountUrl[0].value;
+      let responseLoginUrl =  responseAccountUrl[0].value;
       loginUrl = loginUrl.replace(':mobileDeviceId', argumentData.DeviceId);
 
       let user = {
@@ -133,7 +134,8 @@ export function* workerGetAccountUrl(argumentData, apiBase, clientToken) {
         deviceId: argumentData.DeviceId,
         apiBaseUrl: apiBase,
         loginUrl: loginUrl,
-        userId: 'P000000442',
+        responseLoginUrl: responseLoginUrl
+       // userId: 'P000000442',
       };
       localDB.setUser(user);
 
@@ -158,9 +160,10 @@ export function* workerGetAccountUrl(argumentData, apiBase, clientToken) {
      
       // ** For stopping loader **//
       yield put(setLoader(false));
-       argumentData.navigation.navigate(appConstant.DRAWER_NAVIGATOR); // Temp
+      // argumentData.navigation.navigate(appConstant.DRAWER_NAVIGATOR); // Temp
+      let dict = {loginUrl: loginUrl, responseLoginUrl: responseLoginUrl}
 
-     // argumentData.navigation.navigate(appConstant.LOGIN, {loginUrl: loginUrl});
+      argumentData.navigation.navigate(appConstant.LOGIN, {data: dict });
     }
   } catch (error) {
     yield put(setLoader(false));
