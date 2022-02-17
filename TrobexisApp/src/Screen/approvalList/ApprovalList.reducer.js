@@ -52,7 +52,6 @@ export default (state = initialState, { type, payload }) => {
           };
         }
         case actionConstant.ACTION_GET_APPROVAL_LIST_WITH_STATUS_FAILURE: {
-          console.log(" failed ", payload); 
 
           return {
             ...state,

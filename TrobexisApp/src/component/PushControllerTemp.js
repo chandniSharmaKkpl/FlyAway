@@ -22,6 +22,7 @@ Add these pods in ios pod file
  Do android specific changes as shown in the link 
  
 */
+var isSuccessMsgShow = false; 
 
 function PushController(props) {
   useEffect(() => {
@@ -43,7 +44,7 @@ function PushController(props) {
               device_info.device_token = deviceToken ? deviceToken : '';
 
               // alert(deviceToken);
-              //console.log('deviceToken', deviceToken);
+              console.log('deviceToken', deviceToken);
             }
             DeviceInfo.syncUniqueId().then(uniqueId => {
               device_info.device_uuid = uniqueId;
@@ -66,7 +67,7 @@ function PushController(props) {
       })();
 
       const unsubscribe = messaging().onMessage(async remoteMessage => {
-       // console.log('remoteMessage data props ', remoteMessage.data);
+       console.log('remoteMessage data props ', remoteMessage);
         // console.log(
         //   'remoteMessage data props ',
         //   remoteMessage,
@@ -94,8 +95,10 @@ function PushController(props) {
               localDb.setUser(tempDict);
 
               props.navigation.navigate(appConstant.DRAWER_NAVIGATOR);
+              if(!isSuccessMsgShow){
+               isSuccessMsgShow = true;
               toast.show(remoteMessage.notification.body,{type: alertMsgConstant.TOAST_SUCCESS})
-
+              }
             });
           }
         } else {
@@ -132,12 +135,14 @@ function PushController(props) {
             Promise.resolve(tempUser).then(response => {
               let tempDict = response;
               tempDict.userId = userId;
-             //  console.log(' in push notification ---', remoteMessage.notification.body);
+             //  console.log(' in push notification ---', remoteMessage);
               localDb.setUser(tempDict);
 
               props.navigation.navigate(appConstant.DRAWER_NAVIGATOR);
+              let tempAtuhtenticate = dictAuthenticate;
+              tempAtuhtenticate.status = null;
+              dictAuthenticate = tempAtuhtenticate
               toast.show(remoteMessage.notification.body,{type: alertMsgConstant.TOAST_SUCCESS})
-
             });
           }
         } else {

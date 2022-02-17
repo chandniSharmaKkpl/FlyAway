@@ -5,7 +5,6 @@ import format from "date-fns/format";
 import colorConst from '../constant/colorConstant';
 
 const CalendarView = (props) => {
-//  console.log("props.markedDates=====", props.markedDates);
   let date = new Date();
   let currentDate = format(date, "dd-MM-yyyy");
 

@@ -9,8 +9,6 @@ export const getJourneyDetail = (argumentData) => {
     let apiBaseUrl = argumentData.data.user.apiBaseUrl
     let clientToken = argumentData.data.user.clientToken; 
 
-    console.log(" argument data  : ", argumentData); 
-
     let instance = axios.create({
       baseURL: apiBaseUrl,
       timeout: 30000,
@@ -24,7 +22,6 @@ export const getJourneyDetail = (argumentData) => {
   
     let urlString = apiConstant.GET_ITINARY_DETAIL;
     urlString = urlString.replace(':itineraryId', itineraryId);
-    console.log(" url  data  : ", urlString); 
 
     return instance
       .get(urlString)
@@ -34,7 +31,6 @@ export const getJourneyDetail = (argumentData) => {
           data: response,
         }).then(response => {
           let response1 = response.data.data; 
-          console.log(" response : ", response1)
 
           return response1
         }),

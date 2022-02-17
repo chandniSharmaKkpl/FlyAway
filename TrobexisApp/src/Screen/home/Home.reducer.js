@@ -32,11 +32,10 @@ export default (state = initialState, { type, payload }) => {
             };
           }
           case actionConstant.ACTION_GET_USER_PROFILE_FAILURE: {
-            console.log(" failed ", payload); 
 
             return {
               ...state,
-              userProfile: payload.error,
+              userProfile: payload,
               isRequesting: false,
               error: {},
             };
@@ -60,7 +59,6 @@ export default (state = initialState, { type, payload }) => {
             };
           }
           case actionConstant.ACTION_GET_ITINARY_LIST_FAILURE: {
-            console.log(" failed ", payload); 
 
             return {
               ...state,
@@ -87,7 +85,6 @@ export default (state = initialState, { type, payload }) => {
               };
             }
             case actionConstant.ACTION_GET_ITINARY_LIST_ALL_JOURNEY_FAILURE: {
-              console.log(" failed ", payload); 
   
               return {
                 ...state,
@@ -113,9 +110,7 @@ export default (state = initialState, { type, payload }) => {
                   error: {},
                 };
               }
-              case actionConstant.ACTION_GET_APPROVAL_LIST_FAILURE: {
-                console.log(" failed ", payload); 
-    
+              case actionConstant.ACTION_GET_APPROVAL_LIST_FAILURE: {    
                 return {
                   ...state,
                   approvalList: payload.error,

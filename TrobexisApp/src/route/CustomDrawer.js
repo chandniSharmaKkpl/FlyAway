@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { useState, useCallback, useEffect } from 'react';
+
 import {
   Image,
   Pressable,
@@ -14,7 +16,7 @@ import {
 import {Avatar} from 'react-native-elements';
 
 import commonStyle from '../common/common.style';
-import {imageConstant, appColor, fontConstant, appConstant} from '../constant';
+import {imageConstant, appColor, fontConstant, appConstant, alertMsgConstant} from '../constant';
 import IconIonicons from 'react-native-vector-icons/Ionicons';
 import IconAntDesgin from 'react-native-vector-icons/AntDesign';
 import IconMaterial from 'react-native-vector-icons/MaterialCommunityIcons'; 
@@ -23,18 +25,28 @@ import DeviceInfo from 'react-native-device-info';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/core';
 import localDb from '../database/localDb';
- 
+import {  AlertView } from '../component';
+
 
 export default CustomDrawer = () => {
   const navigation = useNavigation();
 
   //console.log(' navigation object --->', navigation);
   const response = useSelector(state => state.HomeReducer); // Getting api response
+  const [isAlertShow, setIsAlertShow] = useState(false);
 
+  const onPressItem =(screenName)=>{
+    if (screenName === appConstant.SCAN) {
+      navigation.navigate(screenName);
+    } else {
+      alert(alertMsgConstant.COMING_SOON)
+    }
+   
+  }
   const returnDrawerSection = (title, icon, screenName) => {
     return (
       <View style={styles.drawerSection}>
-        <Pressable style={styles.btnDrawer} onPress={()=> navigation.navigate(screenName)}>
+        <Pressable style={styles.btnDrawer} onPress={()=> onPressItem(screenName)}>
           <View style={styles.viewCircleBlue}>{icon}</View>
           <Text style={styles.textDrawerTitle}>{title}</Text>
         </Pressable>
@@ -44,6 +56,7 @@ export default CustomDrawer = () => {
   };
 
   return (
+    <>
     <View style={styles.appDrawer}>
       <View style={styles.drawer}>
         <View style={styles.viewTop}>
@@ -80,7 +93,7 @@ export default CustomDrawer = () => {
 
           {/* Creating Drawer sections */}
 
-          {returnDrawerSection(
+          {/* {returnDrawerSection(
             'Scan QR Code',
             <IconIonicons name="scan-sharp" style={styles.iconDrawerMenu} />,
             appConstant.SCAN,
@@ -95,22 +108,48 @@ export default CustomDrawer = () => {
             <IconFontAwesome name="question" style={styles.iconDrawerMenu} />,
             appConstant.SUPPORT,
           )}
+           {returnDrawerSection(
+            'Secure Login',
+            <IconFontAwesome name="lock" style={styles.iconDrawerMenu} />,
+            appConstant.SUPPORT,
+          )} */}
         </View>
       </View>
 
-      <View style={styles.viewLogout}>
+      {isAlertShow ? null:   <View style={styles.viewLogout}>
       <Pressable style={styles.btnDrawer} onPress={()=> {
-        console.log(" logout ===")
-        localDb.setUser(null),
-        navigation.navigate(appConstant.CLIENT_CODE)
+       setIsAlertShow(true)
          }}>
           <View >
             <IconMaterial name="logout" style={styles.iconLogout}/>
           </View>
           <Text style={styles.textLogout}>Logout</Text>
         </Pressable>
-      </View>
+      </View>}
+
+     
     </View>
+     {isAlertShow ? (
+      <AlertView
+        title={alertMsgConstant.PLEASE_CONFIRM}
+        subtitle={alertMsgConstant.ARE_YOU_SURE_TO_LOGOUT}
+        confirmBtnTxt={alertMsgConstant.YES}
+        cancelBtnTxt={alertMsgConstant.NO}
+        buttonCount={2}
+        bigBtnText={''}
+        onPressConfirmBtn={() => {
+          setIsAlertShow(false);
+          localDb.setUser(null);
+          navigation.navigate(appConstant.CLIENT_CODE);
+        }}
+        onPressCancel={() => {
+          setIsAlertShow(false);
+        }}
+        onPressBigBtn={() => {
+        }}
+      />
+    ) : null}
+    </>
   );
 };
 
@@ -151,6 +190,8 @@ const styles = StyleSheet.create({
   viewTitle: {
     flexDirection: 'row',
     alignItems: 'center',
+   // backgroundColor:'pink',
+    marginTop:'-5%'
   },
   viewImageUser: {
     width: wp('9%'),
@@ -170,7 +211,7 @@ const styles = StyleSheet.create({
     //flex:1,
     paddingTop: hp('3.3%'),
     paddingRight: wp('2%'),
-    //backgroundColor:'orange'
+   // backgroundColor:'orange'
   },
   viewCrossBtn: {
     // width: wp('5%'),
@@ -211,7 +252,7 @@ const styles = StyleSheet.create({
   },
   viewTop: {
     height: hp('20%'),
-    //backgroundColor: 'pink',
+  backgroundColor: 'orange',
   },
   imageBgd: {
     width: wp('5%'),

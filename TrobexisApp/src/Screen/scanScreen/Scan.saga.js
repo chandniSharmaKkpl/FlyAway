@@ -6,13 +6,12 @@ import {isError} from '../../common';
 export function* workerScan(argumentData ) {
 
     try {
-          
       const scanResponse = yield call(scanApi,argumentData.payload);
      
       if (isError(scanResponse)) {
         yield put({
-          type: actionConstant.ACTION_GET_DETAIL_OF_ITINARY_FAILURE,
-          payload: scanResponse.message
+          type: actionConstant.ACTION_API_ERROR_SUCCESS,
+          payload: scanResponse
         })
         return; 
       }

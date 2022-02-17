@@ -29,14 +29,24 @@ export default {
   SETTING: 'Setting',
   SCAN: 'Scan',
   SUPPORT: 'Support',
-  
 
   // Word constant
   COMMENT_MAX_LIMIT: 500,
   CHARTER_FLIGHT: 'Charter Flight',
   CAMP_ACCOMODATION: 'Camp Accommodation',
-  PENDING_APPROVAL: "Pending Approval",
+  PENDING_APPROVAL: 'Pending Approval',
   APPROVED: 'Approved',
-  DECLINED: 'Declined', 
-  USERID: 'UserId'
+  DECLINED: 'Declined',
+  USERID: 'UserId',
+
+  // Approval Type
+  SAR: 'SAR', //Site Access Request
+  WTR: 'WTR', //Workforce Travel Request
+  WKO: 'WKO', //Work Orders
+  CTR: 'CTR', //Corporate Travel Request
+  TSH: 'TSH', //Timesheets
+  CRM: 'CRM', //Crew Movements
+  FVR: 'FVR', //Fleet Vehicle Requests
+  EQR: 'EQR', //Equipment Request
+  APL: 'APL', //Accommodation Plans
 };

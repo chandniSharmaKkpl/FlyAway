@@ -1,25 +1,43 @@
 import React, {useState, useCallback, useEffect} from 'react';
-import {View, Text, Image, FlatList, Pressable} from 'react-native';
+import {View, Text, Image, FlatList, Pressable, BackHandler} from 'react-native';
 import stylesHome from '../home/Home.style';
 import styles from './Journeys.style';
-import {HeaderCustom, BookingCard, backHandler} from '../../component';
+import {HeaderCustom, BookingCard} from '../../component';
 import {useSelector, useDispatch} from 'react-redux';
-import {Avatar} from 'react-native-elements';
 import {appColor, appConstant, imageConstant} from '../../constant';
 import format from 'date-fns/format';
+import {useRoute, useNavigation} from '@react-navigation/core';
 
 import {getDateInFormat} from '../../common';
-
-import AuthContext from '../../context/AuthContext';
-import localDb from '../../database/localDb';
-
 const JourneyList = props => {
+  const route = useRoute();
   const responseData = useSelector(state => state.HomeReducer);
   const dispatch = useDispatch();
   const [journeyList, setJourneyList] = useState(
     responseData.itinaryListAllJourney,
   ); // Getting approval list data from the home screen reducer
   const [selectedIndex, setSelectedIndex] = useState(0);
+
+   //** Back button handling  */
+   useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
+
+  const handleBackButtonClick = () => {
+    if (route.params && route.params.callingView) {
+      props.navigation.navigate(route.params.callingView);
+    } else {
+      props.navigation.goBack();
+    }
+    return true;
+  };
+
 
   const moveToDetailView = (itemDetail) => {
     props.navigation.navigate(appConstant.JOURNEY_DETAIL, {itineraryId: itemDetail.id});
@@ -37,7 +55,6 @@ const JourneyList = props => {
   
   const renderItem = item => {
     let itemDetail = item.item;
-    console.log(" item detail", itemDetail); 
     let date = itemDetail.requestdate;
     let requestdate = date ? getDateInFormat(date, false, false) : '';
     return (
@@ -94,7 +111,7 @@ const JourneyList = props => {
 
   return (
     <>
-    { backHandler(moveBack)}
+    {/* { backHandler(moveBack)} */}
       <View style={stylesHome.container}>
         <HeaderCustom
           title={'Journeys'}

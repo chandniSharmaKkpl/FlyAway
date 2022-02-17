@@ -10,6 +10,8 @@ import {
 import imageConstant from '../constant/imageConstant';
 import appConstant from '../constant/appConstant';
 import {Pressable} from 'react-native';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+
 
 const AlertView = props => {
   const {title, subtitle, confirmBtnTxt, cancelBtnTxt, buttonCount, bigBtnText, onPressConfirmBtn, onPressCancel, onPressBigBtn} = props;
@@ -21,14 +23,17 @@ const AlertView = props => {
         <Text style={styles.textSubtitle}>{subtitle}</Text>
 
         <View style={styles.viewButtons}>
+          {buttonCount === 3? <TouchableOpacity style={styles.buttonGray} onPress={onPressCancel}>
+            <Text style={[styles.textButtons]}>{cancelBtnTxt}</Text>
+          </TouchableOpacity>:
+          <TouchableOpacity style={styles.buttonRed} onPress={onPressCancel}>
+          <Text style={styles.textButtons}>{cancelBtnTxt}</Text>
+        </TouchableOpacity> }
           
-          <Pressable style={buttonCount === 3? styles.buttonGray : styles.buttonRed} onPress={onPressCancel}>
-            <Text style={styles.textButtons}>{cancelBtnTxt}</Text>
-          </Pressable>
 
-          <Pressable style={styles.buttonYellow} onPress={onPressConfirmBtn}>
+          <TouchableOpacity style={styles.buttonYellow} onPress={onPressConfirmBtn}>
             <Text style={styles.textButtons}>{confirmBtnTxt}</Text>
-          </Pressable>
+          </TouchableOpacity>
         
         </View>
 
@@ -48,7 +53,7 @@ const styles = {
   viewButtons: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-   // backgroundColor:'pink',
+  // backgroundColor:'pink',
     width:'100%', 
     paddingLeft:'2%',
     paddingRight:'2%',
@@ -63,6 +68,7 @@ const styles = {
     backgroundColor: 'rgba(0,0,0, 0.6)',
     justifyContent: 'center',
     alignItems: 'center',
+    // position:'absolute'
   },
   viewInside1: {
     backgroundColor: appColor.WHITE,
@@ -70,7 +76,9 @@ const styles = {
    // height: hp('35%'),
     borderRadius: 10,
     alignItems:'center',
-    alignSelf:'center'
+    alignSelf:'center',
+   // position:'absolute'
+
   },
   viewInsideWithBigButton:{
     backgroundColor: appColor.WHITE,
@@ -119,27 +127,29 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 8,
-    width: '45%',
+    width: 150,
   //  height:'100%',
     alignSelf: 'center',
-    
     backgroundColor: appColor.YELLOW,
+    zIndex: 100
   },
   buttonRed: {
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 8,
-    width: '45%',
+    width: 150,
     alignSelf: 'center',
     backgroundColor: appColor.RED,
+    zIndex: 100
   },
   buttonGray: {
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 8,
-    width: '45%',
+    width: 150,
     alignSelf: 'center',
     backgroundColor: appColor.GRAY_LIGHT,
+    zIndex: 100
   },
   buttonRedBig: {
     justifyContent: 'center',

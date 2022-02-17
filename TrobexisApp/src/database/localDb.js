@@ -43,8 +43,8 @@ const setBaseUrl = async baseURL => {
     });
 };
 
-const saveClientCode = async clientCode => {
-  await AsyncStorage.setItem(appConstant.CLIENT_CODE, clientCode)
+const saveClientCode = async clientCodeArray => {
+  await AsyncStorage.setItem(appConstant.CLIENT_CODE, JSON.stringify(clientCodeArray))
     .then(() => {
       return true;
     })
@@ -55,10 +55,11 @@ const saveClientCode = async clientCode => {
 
 const getClientCode = async () => {
   const clientCode = await AsyncStorage.getItem(appConstant.CLIENT_CODE);
+  let clientCodeArray;
   if (clientCode) {
-    return clientCode;
+    clientCodeArray = JSON.parse(clientCode);
+    return clientCodeArray;
   } else {
-    return '';
   }
 };
 
@@ -68,7 +69,6 @@ const getUser = async () => {
   let user;
   if (temp) {
     user = JSON.parse(temp);
-    
     return user;
   } else {
   }
@@ -95,11 +95,8 @@ const setUser = async data => {
 const getUserId = async () => {
   const temp = await AsyncStorage.getItem(appConstant.USERID);
 
-  console.log("temp get userid data ---->", temp);
-
   let token;
   if (temp) {
-    console.log("1 get userid data ---->", temp);
     token = temp;
     return token;
   } else {
@@ -108,16 +105,11 @@ const getUserId = async () => {
 };
 
 const setUserId = async data => {
-  console.log("1 set userid data ---->", data);
   await AsyncStorage.setItem(appConstant.USERID, data)
     .then(() => {
-      console.log("Success set userid data ---->", data);
-
       return true;
     })
     .catch(() => {
-      console.log("Failed to set userid data ---->");
-
       return false;
     });
 };

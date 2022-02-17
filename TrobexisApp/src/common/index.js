@@ -23,6 +23,28 @@ const getTimeMessage = () => {
   return stringToRead;
 };
 
+export const checkStringContainsSpecialChar =(string)=>{
+  var format =   /[^a-zA-Z-_\d\s]/   ///[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+  
+  if (format.test(string)) {
+      return true;
+  } else {
+      return false;
+  }
+
+}
+
+export const msToTime =(ms) => {
+  let seconds = (ms / 1000).toFixed(1);
+  let minutes = (ms / (1000 * 60)).toFixed(1);
+  let hours = (ms / (1000 * 60 * 60)).toFixed(1);
+  let days = (ms / (1000 * 60 * 60 * 24)).toFixed(1);
+  if (seconds < 60) return seconds + " Sec";
+  else if (minutes < 60) return minutes + " Min";
+  else if (hours < 24) return hours + " Hrs";
+  else return days + " Days"
+}
+
 export const getDateInFormat = (
   dateString,
   isShortDayName,
@@ -88,5 +110,6 @@ export function isError(params) {
 export default {
   getTimeMessage,
   isError,
+  msToTime
  // useBackButton1
 };

@@ -2,21 +2,22 @@ import {Platform} from 'react-native';
 import {apiConstant, appConstant} from '../../constant';
 import axios from 'axios';
 
-const TEMP_APPROVAR_ID = 'BM123';
-
 export const acceptApprovalApi = async argumentData => {
 
   let approvalId = argumentData.data.approvalId;
   let deviceId = argumentData.data.user.deviceId;
   let apiBaseUrl = argumentData.data.user.apiBaseUrl;
   let clientToken = argumentData.data.user.clientToken;
+  let userId = argumentData.data.user.userId; 
 
   let urlString = apiBaseUrl + apiConstant.APPROVAL_ACCEPT_API;
   urlString = urlString.replace(':approvalId', approvalId);
 
   const raw = {
-    approverId: TEMP_APPROVAR_ID? TEMP_APPROVAR_ID: 'BM123',
+    approverId: userId,
   };
+
+  console.log(" aprover id -----", argumentData); 
 
   let instance = axios.create({
     baseURL: apiBaseUrl,
@@ -37,16 +38,17 @@ export const acceptApprovalApi = async argumentData => {
       Promise.resolve({
         data: response,
       }).then(response => {
+        console.log(" approval resoinse ", response); 
         let response1 = response.data.data;
         return response1;
       }),
     )
     .catch(err => {
-     // console.log('88 api Erorr: ', err.response);
+      console.log('48--- api Erorr: ', err.response);
       return err.response.data;
     });
   } catch (error) {
-    console.log('88 api Erorr: ', err.response);
+    console.log('52 ---===>> api Erorr: ', err.response);
     return error.response.data;
   }
 };
@@ -59,6 +61,7 @@ export const declineApprovalApi = argumentData => {
   let deviceId = argumentData.data.user.deviceId;
   let apiBaseUrl = argumentData.data.user.apiBaseUrl;
   let clientToken = argumentData.data.user.clientToken;
+  let userId = argumentData.data.user.userId;
 
   let instance = axios.create({
     baseURL: apiBaseUrl,
@@ -75,7 +78,7 @@ export const declineApprovalApi = argumentData => {
   urlString =  urlString.replace(':approvalId', approvalId);
 
   return instance
-    .put(urlString, {approverId: TEMP_APPROVAR_ID})
+    .put(urlString, {approverId: userId})
 
     .then(response =>
       Promise.resolve({
@@ -99,8 +102,7 @@ export const getApprovalListWithStatus = argumentData => {
   let apiBaseUrl = argumentData.data.user.apiBaseUrl;
   let clientToken = argumentData.data.user.clientToken;
   let status = argumentData.data.status;
-  let userId = argumentData.user.userId;
-
+  let userId = argumentData.data.user.userId;
   let instance = axios.create({
     baseURL: apiBaseUrl,
     timeout: 30000,
@@ -123,8 +125,6 @@ export const getApprovalListWithStatus = argumentData => {
         data: response,
       }).then(response => {
         let response1 = response.data.data;
-        console.log(' response list with status: ', response1);
-
         return response1;
       }),
     )
