@@ -176,14 +176,14 @@ const HomeScreen = props => {
         {/* Title view */}
         <View style={styles.viewTopBackground}>
           <View style={styles.viewTitle}>
-            <View style={styles.viewImageUser}>
+            {/* <View style={styles.viewImageUser}>
               <Avatar
                 size={DeviceInfo.isTablet() ? 'xlarge' : 'large'}
                 source={imageConstant.IMAGE_USER}
                 onPress={() => console.log('Works!')}
                 activeOpacity={0.7}
               />
-            </View>
+            </View> */}
             <View style={{paddingLeft: wp('12%'), paddingTop: hp('1.2%')}}>
               <Text style={styles.textHello}>
                 Hello{' '}
