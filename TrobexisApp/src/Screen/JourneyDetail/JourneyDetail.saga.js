@@ -9,6 +9,7 @@ export function* workerGetJourneyDetail(argumentData ) {
     try {
       const journeyDetailResponse = yield call(getJourneyDetail,argumentData.payload);
      
+      console.log("journeyDetailResponse ", journeyDetailResponse)
       if (isError(journeyDetailResponse)) {
         yield put({
           type: actionConstant.ACTION_API_ERROR_SUCCESS,
