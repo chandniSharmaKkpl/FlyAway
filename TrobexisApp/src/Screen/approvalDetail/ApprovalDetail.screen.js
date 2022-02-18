@@ -166,7 +166,7 @@ const handleBackButtonClick = () => {
             return (
               <View style={[styles.viewRow]}>
                 <Text style={styles.textBlue}>{item.Label}:</Text>
-                <Text style={styles.textSubTitle}> {item.Data}</Text>
+                <Text style={styles.textSubTitle}>{item.Data}</Text>
               </View>
             );
           })}

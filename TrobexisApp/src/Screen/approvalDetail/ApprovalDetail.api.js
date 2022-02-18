@@ -83,7 +83,7 @@ export const acceptApprovalApiInDetail = async argumentData => {
             data: response,
           }).then(response => {
             let response1 = response.data.data; 
-  
+  console.log(" approval detail --->", response1); 
             return response1
           }),
         ).catch((err) =>{

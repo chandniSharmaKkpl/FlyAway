@@ -46,7 +46,7 @@ const BookingCard = props => {
               source={imageConstant.IMAGE_PATH}
             />
           </View>
-          <Text style={styles.textDetail}>{item.title ? item.title : ''} </Text>
+          <Text style={styles.textDetail}>{item.departure ? item.departure : ''} to {item.destination ? item.destination : ''}</Text>
         </View>
 
         {viewName !== appConstant.PICK_A_BUS ? (

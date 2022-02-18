@@ -60,6 +60,7 @@ export function* workerGetUserProfile(argumentData) {
 export function* workerGetItinaryList(argumentData) {
   try {
     const itinaryList = yield call(getItinaryList, argumentData.payload);
+
     if (isError(itinaryList)) {
       yield put({
         type: actionConstant.ACTION_API_ERROR_SUCCESS,
@@ -97,6 +98,9 @@ export function* workerGetItinaryListAllJoureny(argumentData) {
       getItinaryListAllJourney,
       argumentData.payload,
     );
+
+    console.log(" itinary list ===>", itinaryList); 
+
     if (isError(itinaryList)) {
       yield put({
         type: actionConstant.ACTION_API_ERROR_SUCCESS,
@@ -145,7 +149,7 @@ export function* workerGetApprovalList(argumentData) {
       getApprovalList,
       argumentData.payload
     );
-    console.log(' itinar======>', itinaryList);
+    console.log(' approval list ======>', itinaryList);
     if (isError(itinaryList)) {
       yield put({
         type: actionConstant.ACTION_API_ERROR_SUCCESS,

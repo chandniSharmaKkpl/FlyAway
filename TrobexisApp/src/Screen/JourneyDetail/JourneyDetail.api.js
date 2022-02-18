@@ -9,6 +9,7 @@ export const getJourneyDetail = (argumentData) => {
     let apiBaseUrl = argumentData.data.user.apiBaseUrl
     let clientToken = argumentData.data.user.clientToken; 
 
+    console.log(" itiniary argument --->", argumentData); 
     let instance = axios.create({
       baseURL: apiBaseUrl,
       timeout: 30000,

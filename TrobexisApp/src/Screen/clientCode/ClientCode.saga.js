@@ -1,4 +1,6 @@
 import {takeLatest, take, call, put, select, all} from 'redux-saga/effects';
+import DeviceInfo from 'react-native-device-info'
+
 import {
   actionConstant,
   apiConstant,
@@ -125,6 +127,8 @@ export function* workerGetAccountUrl(argumentData, apiBase, clientToken) {
         payload: responseAccountUrl,
       });
 
+      console.log(" response account url --->", responseAccountUrl); 
+
       let loginUrl = responseAccountUrl[0].value;
       let responseLoginUrl =  responseAccountUrl[0].value;
       loginUrl = loginUrl.replace(':mobileDeviceId', argumentData.DeviceId);
@@ -135,7 +139,7 @@ export function* workerGetAccountUrl(argumentData, apiBase, clientToken) {
         apiBaseUrl: apiBase,
         loginUrl: loginUrl,
         responseLoginUrl: responseLoginUrl,
-       userId: 'P000000442',
+         userId:  'P000000442',
       };
       localDB.setUser(user);
 
@@ -162,7 +166,6 @@ export function* workerGetAccountUrl(argumentData, apiBase, clientToken) {
       yield put(setLoader(false));
        argumentData.navigation.navigate(appConstant.DRAWER_NAVIGATOR); // Temp
       // let dict = {loginUrl: loginUrl, responseLoginUrl: responseLoginUrl}
-
       // argumentData.navigation.navigate(appConstant.LOGIN, {data: dict });
     }
   } catch (error) {

@@ -66,7 +66,7 @@ const JourneyList = props => {
           }}>
           <View style={styles.viewInside2}>
             <View>
-              <Text style={styles.textTitle}>{itemDetail.departure} to {itemDetail.destination}</Text>
+              <Text style={styles.textTitle}>{itemDetail.title}</Text>
               <View style={styles.viewRow}>
                 <View style={styles.viewImages}>
                   <Image
