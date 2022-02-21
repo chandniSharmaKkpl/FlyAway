@@ -139,7 +139,6 @@ const JourneyDetail = props => {
     } else if (item.type === appConstant.HELICOPTER) {
       return <IMAGE_HELICOPTER_SVG />
     }  
-    
   }
   const itemViews = (item, type, index) => {
     let isNoShowBtnVisible = false; // This flag is using to show no show button for flights only

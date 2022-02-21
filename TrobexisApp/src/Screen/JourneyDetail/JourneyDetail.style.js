@@ -109,13 +109,13 @@ paddingTop:'5%'
     color: appColor.BLACK,
    // paddingBottom: '1%',
     paddingLeft: '2%',
-    paddingTop:'2%'
+   // paddingTop:'2%'
   },
   viewSection: {
     padding: '3%',
   },
   viewItineraryList: {
-   // paddingTop: '3%'
+    paddingTop: '3%'
   },
   viewInside: {
     //  height: hp('35%'),
