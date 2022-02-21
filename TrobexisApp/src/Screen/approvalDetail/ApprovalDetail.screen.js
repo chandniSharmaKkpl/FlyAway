@@ -97,6 +97,8 @@ const handleBackButtonClick = () => {
       dispatch(requestAcceptApproval(param));
     });
   };
+
+  
   const onClickDecline = () => {
     props.navigation.navigate(appConstant.REASON, {
       approvalItem: {item: route.params.approvalItem},
@@ -214,8 +216,8 @@ const handleBackButtonClick = () => {
               <View style={styles.viewInside}>
                 <View style={styles.viewInsideTitle}>
                   <Text style={styles.textYellow}>
-                    {getDataFromResponse(responseDetail, 'TravellerName')}(
-                    {getDataFromResponse(responseDetail, 'TravellerID')})
+                    {getDataFromResponse(responseDetail, 'Traveller Name')}(
+                    {getDataFromResponse(responseDetail, 'Traveller ID')})
                   </Text>
                   <Text style={styles.textRed}>
                     {getDataFromResponse(responseDetail, 'Status')}
@@ -225,15 +227,15 @@ const handleBackButtonClick = () => {
                 <View style={styles.viewContainRow}>
                   {returnRowView(
                     'Request Creation Date:',
-                    getDataFromResponse(responseDetail, 'StartDate'),
+                    getDataFromResponse(responseDetail, 'Start Date'),
                   )}
                   {returnRowView(
                     'Company Name:',
-                    getDataFromResponse(responseDetail, 'CompanyName'),
+                    getDataFromResponse(responseDetail, 'Company Name'),
                   )}
                   {returnRowView(
                     'Sub Contractor:',
-                    getDataFromResponse(responseDetail, 'SubContractName'),
+                    getDataFromResponse(responseDetail, 'SubContract Name'),
                   )}
                   {returnRowView(
                     'Position:',
@@ -254,16 +256,16 @@ const handleBackButtonClick = () => {
               </View>
             </View>
 
-            <View style={styles.viewSection}>
+            {/* <View style={styles.viewSection}>
               <Text style={styles.textBlackTitle}>Comments / Messages</Text>
               <View style={styles.viewInside}>
                 {/* <View style={styles.textAreaContainer}> */}
-                <Text style={styles.textArea}>
+                {/* <Text style={styles.textArea}>
                   {getDataFromResponse(responseDetail, 'Comments')}
                 </Text>
-              </View>
-              {/* </View> */}
-            </View>
+              </View> */}
+              {/* </View> 
+            </View> */}
 
             {route.params &&
             route.params.status &&

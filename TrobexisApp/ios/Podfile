@@ -33,6 +33,8 @@ target 'TrobexisApp' do
 
   pod 'TouchID', :path => '../node_modules/react-native-touch-id'
 
+  pod 'RNSVG', :path => '../node_modules/react-native-svg'
+
   target 'TrobexisAppTests' do
     inherit! :complete
     # Pods for testing

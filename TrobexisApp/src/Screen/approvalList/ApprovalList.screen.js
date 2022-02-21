@@ -151,7 +151,7 @@ const ApprovalList = props => {
   const moveToDetailView = itemDetail => {
     props.navigation.navigate(appConstant.APPROVAL_DETAIL, {
       approvalId: itemDetail.id,
-      requestor: itemDetail.requestor,
+      requestor: itemDetail.requiredby,
       status: itemDetail.status,
       approvalItem: itemDetail,
       callingView: appConstant.approvalList,
@@ -173,7 +173,7 @@ const ApprovalList = props => {
             onPress={() => moveToDetailView(itemDetail)}>
             <View style={styles.viewInside2}>
               <View>
-                <Text style={styles.textTitle}>{itemDetail.requestor}</Text>
+                <Text style={styles.textTitle}>{itemDetail.requiredby}</Text>
                 <View style={styles.viewRow}>
                   <View style={styles.viewImages}>
                     <Image

@@ -22,6 +22,19 @@ IMAGE_CLOUD:  require('../../assets/image/login_page/login_cloud.png'),
 IMAGE_LOGIN_BOTTOM:  require('../../assets/image/login_page/login_bottom.png'),  
 IMAGE_DRAWER_BG:  require('../../assets/image/home_page/drawer_top_bg.png'),
 
+// SVG images 
+
+IMAGE_BUS_SVG: require('../../assets/image/home_page/bus.svg'),
+IMAGE_CAR_SVG: require('../../assets/image/home_page/car.svg'),
+IMAGE_CHARTER_FLIGHT_SVG: require('../../assets/image/home_page/charter_flight.svg'),
+IMAGE_HELICOPTER_SVG: require('../../assets/image/home_page/helicopter.svg'),
+IMAGE_COMMERCIAL_FLIGHT_SVG: require('../../assets/image/home_page/commercial_flight.svg'),
+IMAGE_MARINE_TRANSFER_SVG: require('../../assets/image/home_page/marine_transfer.svg'),
+IMAGE_HOTEL_SVG: require('../../assets/image/home_page/hotel.svg'),
+IMAGE_SITE_ACCOMODATION_SVG: require('../../assets/image/home_page/site_accommodation.svg'),
+IMAGE_TRANSFER_SVG: require('../../assets/image/home_page/transfer.svg'),
+IMAGE_OFFSHORE_SVG: require('../../assets/image/home_page/offshore.svg'),
+
 
 // Make a booking 
 

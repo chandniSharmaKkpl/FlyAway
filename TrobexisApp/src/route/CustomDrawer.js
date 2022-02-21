@@ -73,15 +73,15 @@ export default CustomDrawer = () => {
             </View>
 
             <View style={styles.viewTitle}>
-              <View style={styles.viewImageUser}>
+              {/* <View style={styles.viewImageUser}>
                 <Avatar
                   size={DeviceInfo.isTablet() ? 'xlarge' : 'large'}
                   source={imageConstant.IMAGE_USER}
                   onPress={() => console.log('Works!')}
                   activeOpacity={0.7}
                 />
-              </View>
-              <View style={{paddingLeft: wp('12%')}}>
+              </View> */}
+              <View style={{paddingLeft: wp('5%')}}>
                 <Text style={styles.textUserNameTop}>
                   {response.userProfile && response.userProfile.firstname
                     ? response.userProfile.firstname
@@ -251,7 +251,7 @@ const styles = StyleSheet.create({
     color: appColor.WHITE,
   },
   viewTop: {
-    height: hp('20%'),
+    height: hp('15%'),
   backgroundColor: 'orange',
   },
   imageBgd: {

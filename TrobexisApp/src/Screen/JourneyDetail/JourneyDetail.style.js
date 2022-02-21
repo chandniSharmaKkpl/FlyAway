@@ -54,6 +54,10 @@ paddingTop:'5%'
     width: '100%',
     height: '100%',
   },
+  imageSVG:{
+   width: 50, 
+   height: 50,
+  },
   viewPlaneImg: {
     position: 'absolute',
     alignItems: 'center',
