@@ -202,7 +202,8 @@ const JourneyDetail = props => {
 
           <View style={styles.viewDepartsAndArrive}></View>
           <View style={styles.viewItinerary}>
-            <View style={styles.viewLocation}>
+        
+          <View style={styles.viewLocation}>
               {item.Type === appConstant.CAMP_ACCOMODATION ? (
                 <Text style={styles.textBlueBig}>CheckIn</Text>
               ) : (
@@ -225,16 +226,9 @@ const JourneyDetail = props => {
               </Text>
             </View>
 
-            <View style={{width: '66%', flexDirection: 'row'}}>
-              <View style={[styles.viewArrow, {flex: 3}]}>
-                <Image
-                  resizeMode={'contain'}
-                  source={imageConstant.IMAGE_ARROW_RIGHT}
-                  style={stylesCommon.image}
-                />
-              </View>
-
-              <View style={styles.viewRightLocation}>
+            <View style={styles.viewLocation}>
+             
+             <View style={styles.viewSpace}/>
                 {item.Type === appConstant.CAMP_ACCOMODATION ? (
                   <Text style={styles.textBlueBig}>CheckOut</Text>
                 ) : (
@@ -255,7 +249,7 @@ const JourneyDetail = props => {
                     ? getTimeInFormat(item.Details[0].EndDate, false, true)
                     : ''}
                 </Text>
-              </View>
+              
             </View>
           </View>
 

@@ -6,6 +6,9 @@ import {
 import fontConstant from '../../constant/fontConstant';
 import appColor from '../../constant/colorConstant';
 export default StyleSheet.create({
+  viewSpace:{
+    paddingTop:'4%'
+  },
   viewDashedLine:{
     height: 270,
      width: 1,
@@ -310,14 +313,14 @@ paddingTop:'5%'
     alignSelf: 'center',
   },
   viewLocation: {
-    width: '33%',
-    //backgroundColor: 'orange',
+   // width: '33%',
+   // backgroundColor: 'orange',
     // alignItems:'flex-end'
   },
   viewRightLocation: {
-    flex: 5,
-    paddingLeft: '3%',
-    marginRight: wp('1%'),
+    //flex: 5,
+    //paddingLeft: '3%',
+    //marginRight: wp('1%'),
     //backgroundColor: 'orange',
     // alignItems:'flex-end'
   },
@@ -387,15 +390,15 @@ paddingTop:'5%'
   },
 
   viewItinerary: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: wp('70%'),
+    // flexDirection: 'row',
+    // justifyContent: 'space-between',
+   // width: wp('70%'),
     paddingLeft: wp('5%'),
-    paddingRight: wp('5%'),
-    alignItems: 'center',
-    flexWrap: 'wrap',
+    paddingRight: wp('2%'),
+   // alignItems: 'center',
+   // flexWrap: 'wrap',
     paddingBottom: hp('2%'),
-    // backgroundColor:'pink'
+   //  backgroundColor:'pink'
   },
   scrollView: {
      paddingBottom: hp('20%'),
