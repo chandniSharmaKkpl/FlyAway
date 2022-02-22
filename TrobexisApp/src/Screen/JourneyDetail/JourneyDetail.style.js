@@ -138,7 +138,7 @@ paddingTop:'5%'
     marginTop: '2%',
   },
   viewRow: {
-    flexDirection: 'row',
+   // flexDirection: 'row',
     padding: '1%',
   },
   textYellow: {

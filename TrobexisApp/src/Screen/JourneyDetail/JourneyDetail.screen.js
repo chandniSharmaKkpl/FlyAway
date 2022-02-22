@@ -48,6 +48,8 @@ const JourneyDetail = props => {
   const route = useRoute();
   const dispatch = useDispatch();
   const responseDetail = useSelector(state => state.JourneyDetailReducer);
+  const responseUser = useSelector(state => state.HomeReducer); // Getting api response
+
   const [isApiCall, setIsApiCall] = useState(false);
   const [travellerName, seTtravellerName] = useState('');
   const [busBooking, setBusBooking] = useState('');
@@ -126,19 +128,23 @@ const JourneyDetail = props => {
       return <IMAGE_COMMERCIAL_FLIGHT_SVG />
     }else if (item.type === appConstant.BUS) {
       return <IMAGE_BUS_SVG />
-    } else if (item.type === appConstant.CAR) {
-      return <IMAGE_CAR_SVG/>
-    } else if (item.type === appConstant.TRANSFER) {
-      return <IMAGE_TRANSFER_SVG />
-    } else if (item.type === appConstant.MARINE_TRANSFER) {
-      return <IMAGE_MARINE_TRANSFER_SVG />
-    } else if (item.type === appConstant.OFFSHORE) {
-      return <IMAGE_OFFSHORE_SVG />
-    } else if (item.type === appConstant.HOTEL) {
-      return <IMAGE_HOTEL_SVG />
-    } else if (item.type === appConstant.HELICOPTER) {
-      return <IMAGE_HELICOPTER_SVG />
-    }  
+    } else{
+      return <IMAGE_BUS_SVG />
+    }
+    
+    // else if (item.type === appConstant.CAR) {
+    //   return <IMAGE_CAR_SVG/>
+    // } else if (item.type === appConstant.TRANSFER) {
+    //   return <IMAGE_TRANSFER_SVG />
+    // } else if (item.type === appConstant.MARINE_TRANSFER) {
+    //   return <IMAGE_MARINE_TRANSFER_SVG />
+    // } else if (item.type === appConstant.OFFSHORE) {
+    //   return <IMAGE_OFFSHORE_SVG />
+    // } else if (item.type === appConstant.HOTEL) {
+    //   return <IMAGE_HOTEL_SVG />
+    // } else if (item.type === appConstant.HELICOPTER) {
+    //   return <IMAGE_HELICOPTER_SVG />
+    // }  
   }
   const itemViews = (item, type, index) => {
     let isNoShowBtnVisible = false; // This flag is using to show no show button for flights only
@@ -149,9 +155,7 @@ const JourneyDetail = props => {
         <View style={styles.viewLeftLine}>
           <View
             style={
-              item.Type === appConstant.CHARTER_FLIGHT
-                ? styles.viewCircleGray
-                : styles.viewCircleBlue
+                 styles.viewCircleBlue
             }>
             <View style={styles.viewPlaneImg}>
              {returnSvgImage(item)}
@@ -256,7 +260,7 @@ const JourneyDetail = props => {
           <View
             style={
               item.Type === appConstant.CHARTER_FLIGHT
-                ? styles.ViewGrayBottom
+                ? styles.ViewBlueBottom
                 : styles.ViewBlueBottom
             }>
             <Text style={[styles.textWhite, {padding: '2%'}]}>
