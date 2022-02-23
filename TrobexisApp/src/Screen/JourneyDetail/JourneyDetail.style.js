@@ -176,7 +176,8 @@ paddingTop:'5%'
     paddingLeft: '5%',
     paddingRight: '5%',
     paddingBottom: '5%',
-    paddingTop:'3%'
+    paddingTop:'3%',
+   // backgroundColor:'orange'
   },
   textAreaContainer: {
     padding: '5%',

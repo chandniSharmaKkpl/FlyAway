@@ -327,7 +327,8 @@ const styles = {
     fontFamily: fontConstant.BARLOW_REGULAR,
     fontSize: fontConstant.TEXT_H2_SIZE_REGULAR,
     color: appColor.WHITE,
-    // backgroundColor:'pink'
+    //  backgroundColor:'pink',
+    //  width: '100%'
   },
   image: {
     width: '100%',
@@ -341,7 +342,7 @@ const styles = {
     // justifyContent: 'flex-end',
   },
   tabBar: {
-    height: DeviceInfo.isTablet() ? hp('8%') : hp('10%'),
+    height: DeviceInfo.isTablet() ? hp('10%') : hp('10%'),
     backgroundColor: appColor.NAVY_BLUE,
   },
 };

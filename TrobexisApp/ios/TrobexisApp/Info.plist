@@ -4,8 +4,6 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
-  <key>UIRequiresFullScreen</key>
-      <true/>
 	<key>CFBundleDisplayName</key>
 	<string>TrobexisApp</string>
 	<key>CFBundleExecutable</key>
@@ -81,6 +79,8 @@
 	<array>
 		<string>armv7</string>
 	</array>
+	<key>UIRequiresFullScreen</key>
+	<true/>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

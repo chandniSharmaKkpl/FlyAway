@@ -10,6 +10,8 @@ import {useRoute, useNavigation} from '@react-navigation/core';
 import {requestAcceptApproval} from '../approvalList/ApprovalList.action';
 import {appColor, appConstant, alertMsgConstant} from '../../constant';
 import {requestToGetApprovalDetail} from './ApprovalDetail.action';
+import {getDateInFormat, msToTime} from '../../common';
+import moment from 'moment'; 
 
 const arrayApprovalCode = [
   {code: 'SAR', codeName: 'Site Access Request'},
@@ -153,6 +155,20 @@ const handleBackButtonClick = () => {
     });
     }
 
+const returnValues = (item)=>{
+  console.log(" myMomentObjectoooooo" )
+if (item.Label === 'Start Date') {
+  const myDate = moment(item.Data, 'YYYY-MM-DD');
+ 
+  const date1 = new Date(myDate)
+
+  console.log(" myMomentObject", myDate)
+  // return getDateInFormat(item.data, true, false);
+} else {
+  return item.data;
+}
+}
+
   const returnViewBasedOnApprovalCode = approvalCode => {
     
     if (
@@ -162,9 +178,12 @@ const handleBackButtonClick = () => {
     ) {
       //** first sort array based on order they provided then display in access detail section  */
       let arraySort = sortByKey(responseDetail.responseDetail.Items, "Order")
+     
       return (
         <>
+      
           {arraySort && arraySort.map((item, index) => {
+             
             return (
               <View style={[styles.viewRow]}>
                 <Text style={styles.textBlue}>{item.Label}:</Text>

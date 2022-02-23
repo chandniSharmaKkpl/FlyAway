@@ -23,27 +23,26 @@ const getTimeMessage = () => {
   return stringToRead;
 };
 
-export const checkStringContainsSpecialChar =(string)=>{
-  var format =   /[^a-zA-Z-_\d\s]/   ///[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
-  
+export const checkStringContainsSpecialChar = string => {
+  var format = /[^a-zA-Z-_\d\s]/; ///[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+
   if (format.test(string)) {
-      return true;
+    return true;
   } else {
-      return false;
+    return false;
   }
+};
 
-}
-
-export const msToTime =(ms) => {
+export const msToTime = ms => {
   let seconds = (ms / 1000).toFixed(1);
   let minutes = (ms / (1000 * 60)).toFixed(1);
   let hours = (ms / (1000 * 60 * 60)).toFixed(1);
   let days = (ms / (1000 * 60 * 60 * 24)).toFixed(1);
-  if (seconds < 60) return seconds + " Sec";
-  else if (minutes < 60) return minutes + " Min";
-  else if (hours < 24) return hours + " Hrs";
-  else return days + " Days"
-}
+  if (seconds < 60) return seconds + ' Sec';
+  else if (minutes < 60) return minutes + ' Min';
+  else if (hours < 24) return hours + ' Hrs';
+  else return days + ' Days';
+};
 
 export const getDateInFormat = (
   dateString,
@@ -52,16 +51,26 @@ export const getDateInFormat = (
 ) => {
   if (dateString) {
     let dateTemp = Date.parse(dateString);
+    // Need to show same date format in all app
+
     if (isShortDayName) {
-      let formattedDate = format(dateTemp, 'EE, MMMM dd yyyy');
-      return formattedDate;
-    } else if (isCompleteDayName) {
-      let formattedDate = format(dateTemp, 'EEEE, MMMM dd yyyy');
-      return formattedDate;
-    } else {
       let formattedDate = format(dateTemp, 'dd-MM-yyyy');
       return formattedDate;
+    } else {
+      let formattedDate = format(dateTemp, 'dd-MM-yyyy hh:mm:a');
+      return formattedDate;
     }
+
+    // if (isShortDayName) {
+    //   let formattedDate = format(dateTemp, 'EE, MMMM dd yyyy');
+    //   return formattedDate;
+    // } else if (isCompleteDayName) {
+    //   let formattedDate = format(dateTemp, 'EEEE, MMMM dd yyyy');
+    //   return formattedDate;
+    // } else {
+    // let formattedDate = format(dateTemp, 'dd-MM-yyyy');
+    // return formattedDate;
+    // }
   }
   return '';
 };
@@ -93,7 +102,7 @@ export function isError(params) {
 }
 
 // const useBackButton1 = (handler) => {
-  
+
 //   // Frustration isolated! Yay! 🎉
 //   useEffect(() => {
 //     BackHandler.addEventListener("hardwareBackPress", handler);
@@ -110,6 +119,6 @@ export function isError(params) {
 export default {
   getTimeMessage,
   isError,
-  msToTime
- // useBackButton1
+  msToTime,
+  // useBackButton1
 };

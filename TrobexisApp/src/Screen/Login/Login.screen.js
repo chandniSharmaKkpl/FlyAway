@@ -68,7 +68,6 @@ const LoginScreen = props => {
     const tempUser = localDb.getUser();
     Promise.resolve(tempUser).then(response => {
       if (response) {
-        console.log(" response login url --", response.responseLoginUrl, deviceInfo.device_token); 
        
         if (response.responseLoginUrl) {
            let tempUrl = response.responseLoginUrl; 

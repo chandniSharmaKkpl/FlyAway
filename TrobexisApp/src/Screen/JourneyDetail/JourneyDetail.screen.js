@@ -118,20 +118,19 @@ const JourneyDetail = props => {
     return 'Total Time ' + strTime;
   };
 
- const returnSvgImage = (item)=>{
-
- if (item.Type === appConstant.CHARTER_FLIGHT) {
-     return <IMAGE_CHARTER_FLIGHT_SVG />
+  const returnSvgImage = item => {
+    if (item.Type === appConstant.CHARTER_FLIGHT) {
+      return <IMAGE_CHARTER_FLIGHT_SVG />;
     } else if (item.Type === appConstant.CAMP_ACCOMODATION) {
-      return <IMAGE_SITE_ACCOMODATION_SVG />
+      return <IMAGE_SITE_ACCOMODATION_SVG />;
     } else if (item.Type === appConstant.COMMERCIAL_FLIGHT) {
-      return <IMAGE_COMMERCIAL_FLIGHT_SVG />
-    }else if (item.type === appConstant.BUS) {
-      return <IMAGE_BUS_SVG />
-    } else{
-      return <IMAGE_BUS_SVG />
+      return <IMAGE_COMMERCIAL_FLIGHT_SVG />;
+    } else if (item.type === appConstant.BUS) {
+      return <IMAGE_BUS_SVG />;
+    } else {
+      return <IMAGE_BUS_SVG />;
     }
-    
+
     // else if (item.type === appConstant.CAR) {
     //   return <IMAGE_CAR_SVG/>
     // } else if (item.type === appConstant.TRANSFER) {
@@ -144,8 +143,8 @@ const JourneyDetail = props => {
     //   return <IMAGE_HOTEL_SVG />
     // } else if (item.type === appConstant.HELICOPTER) {
     //   return <IMAGE_HELICOPTER_SVG />
-    // }  
-  }
+    // }
+  };
   const itemViews = (item, type, index) => {
     let isNoShowBtnVisible = false; // This flag is using to show no show button for flights only
 
@@ -153,13 +152,8 @@ const JourneyDetail = props => {
       <View style={styles.viewRowOutSide}>
         {/* Side bus view  */}
         <View style={styles.viewLeftLine}>
-          <View
-            style={
-                 styles.viewCircleBlue
-            }>
-            <View style={styles.viewPlaneImg}>
-             {returnSvgImage(item)}
-            </View>
+          <View style={styles.viewCircleBlue}>
+            <View style={styles.viewPlaneImg}>{returnSvgImage(item)}</View>
           </View>
         </View>
 
@@ -206,8 +200,7 @@ const JourneyDetail = props => {
 
           <View style={styles.viewDepartsAndArrive}></View>
           <View style={styles.viewItinerary}>
-        
-          <View style={styles.viewLocation}>
+            <View style={styles.viewLocation}>
               {item.Type === appConstant.CAMP_ACCOMODATION ? (
                 <Text style={styles.textBlueBig}>CheckIn</Text>
               ) : (
@@ -231,29 +224,27 @@ const JourneyDetail = props => {
             </View>
 
             <View style={styles.viewLocation}>
-             
-             <View style={styles.viewSpace}/>
-                {item.Type === appConstant.CAMP_ACCOMODATION ? (
-                  <Text style={styles.textBlueBig}>CheckOut</Text>
-                ) : (
-                  <Text style={styles.textBlueBig}>Arrives</Text>
-                )}
+              <View style={styles.viewSpace} />
+              {item.Type === appConstant.CAMP_ACCOMODATION ? (
+                <Text style={styles.textBlueBig}>CheckOut</Text>
+              ) : (
+                <Text style={styles.textBlueBig}>Arrives</Text>
+              )}
 
-                <Text style={styles.textBlack}>
-                  {item.Details &&
-                  item.Details.length > 0 &&
-                  item.Details[0].Destination
-                    ? item.Details[0].Destination
-                    : ''}
-                </Text>
-                <Text style={styles.textBlack}>
-                  {item.Details &&
-                  item.Details.length > 0 &&
-                  item.Details[0].EndDate
-                    ? getTimeInFormat(item.Details[0].EndDate, false, true)
-                    : ''}
-                </Text>
-              
+              <Text style={styles.textBlack}>
+                {item.Details &&
+                item.Details.length > 0 &&
+                item.Details[0].Destination
+                  ? item.Details[0].Destination
+                  : ''}
+              </Text>
+              <Text style={styles.textBlack}>
+                {item.Details &&
+                item.Details.length > 0 &&
+                item.Details[0].EndDate
+                  ? getTimeInFormat(item.Details[0].EndDate, false, true)
+                  : ''}
+              </Text>
             </View>
           </View>
 
@@ -288,10 +279,19 @@ const JourneyDetail = props => {
 
   const getDataFromResponse = (responseDetail, type) => {
     if (responseDetail && responseDetail[type]) {
-      if (type === 'StartDate') {
-        return getDateInFormat(responseDetail[type], true, false);
+      if (type === "StartDate") {
+        return getDateInFormat(responseDetail[type], false, false);
       } else {
-        return responseDetail[type];
+        if (type === 'GivenName') {
+          let surname = ""
+          if (responseDetail['Surname']) {
+            surname = responseDetail['Surname'];
+          }
+          let name = responseDetail['GivenName'] +" "+ surname;
+          return name;
+        } else {
+          return responseDetail[type];
+        }
       }
     } else {
       return 'N/A';

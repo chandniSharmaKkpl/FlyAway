@@ -10,6 +10,9 @@ import {
   BackHandler,
   Keyboard,
 } from 'react-native';
+import { is24HourFormat } from 'react-native-device-time-format'
+import moment from 'moment'
+
 import stylesHome from '../home/Home.style';
 import commonStyle from '../../common/common.style';
 import styles from './ClientCode.style';
@@ -69,10 +72,25 @@ const ClientCodeScreen = props => {
     passcodeFallback: false, // iOS - allows the device to fall back to using the passcode, if faceid/touch is not available. this does not mean that if touchid/faceid fails the first few times it will revert to passcode, rather that if the former are not enrolled, then it will use the passcode.
   };
 
+//   const getCurrentHourFormat = async () => {
+//     const is24Hour = await is24HourFormat()
+//     var locale = window.navigator.userLanguage || window.navigator.language;
+// let offset = moment().zone()
+// let promise = moment(offset);
+
+// Promise.resolve(promise).then((res)=>{
+//   console.log(" Date  ", Date(), "is24Hour", is24Hour); 
+
+// })
+//     //return moment(date).format(is24Hour ? 'HH:mm' : 'h:mm A')
+//   }
+
   useFocusEffect(
     React.useCallback(() => {
       //** Whenever user will comeback to this view we will fetch all client codes and show them in the list  */
+     
       getClientCodes();
+      
     }, []),
   );
 
