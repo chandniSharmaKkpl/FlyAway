@@ -155,19 +155,19 @@ const handleBackButtonClick = () => {
     });
     }
 
-const returnValues = (item)=>{
-  console.log(" myMomentObjectoooooo" )
-if (item.Label === 'Start Date') {
-  const myDate = moment(item.Data, 'YYYY-MM-DD');
+// const returnValues = (item)=>{
+//   console.log(" myMomentObjectoooooo" )
+// if (item.Label === 'Start Date') {
+//   const myDate = moment(item.Data, 'YYYY-MM-DD');
  
-  const date1 = new Date(myDate)
+//   const date1 = new Date(myDate)
 
-  console.log(" myMomentObject", myDate)
-  // return getDateInFormat(item.data, true, false);
-} else {
-  return item.data;
-}
-}
+//   console.log(" myMomentObject", myDate)
+//   // return getDateInFormat(item.data, true, false);
+// } else {
+//   return item.data;
+// }
+// }
 
   const returnViewBasedOnApprovalCode = approvalCode => {
     

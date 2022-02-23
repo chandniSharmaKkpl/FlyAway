@@ -214,6 +214,19 @@ function TabNavigator() {
         name={appConstant.HOME_SCREEN}
         options={{
           tabBarIcon: ({tintColor, focused}) => (
+            DeviceInfo.isTablet()?
+            <View style={{width: wp('10%'), alignItems:'center'}}>
+            <View style={styles.viewImage}>
+                <Image
+                  source={imageConstant.IMAGE_HOME_WHITE}
+                  resizeMode={'contain'}
+                  style={styles.image}
+                />
+              </View>
+              <Text style={styles.tabBarLabel}>
+                {focused ? appConstant.HOME_SCREEN : ''}
+              </Text>
+              </View> :
             <>
               <View style={styles.viewImage}>
                 <Image
@@ -255,6 +268,19 @@ function TabNavigator() {
         component={HistoryScreen}
         options={{
           tabBarIcon: ({tintColor, focused}) => (
+            DeviceInfo.isTablet()?
+            <View style={{width: wp('10%'), alignItems:'center'}}>
+            <View style={styles.viewImage}>
+              <Image
+                source={imageConstant.IMAGE_CLOCK_WHITE}
+                resizeMode={'contain'}
+                style={styles.image}
+              />
+            </View>
+            <Text style={styles.tabBarLabel}>
+              {focused ? appConstant.HISTORY : ''}
+            </Text>
+          </View> :
             <>
               <View style={styles.viewImage}>
                 <Image
