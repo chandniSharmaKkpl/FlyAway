@@ -56,7 +56,7 @@ const JourneyList = props => {
   const renderItem = item => {
     let itemDetail = item.item;
     let date = itemDetail.requestdate;
-    let requestdate = date ? getDateInFormat(date, false, false) : '';
+    let requestdate = date ? getDateInFormat(date, true, false) : '';
     return (
       <View style={styles.viewOutSide}>
         <Pressable
@@ -85,7 +85,7 @@ const JourneyList = props => {
                     source={imageConstant.IMAGE_CALENDAR_BLUE}
                   />
                 </View>
-                <Text style={styles.textDetail}>{getDateInFormat(itemDetail.startdatetime)} to {getDateInFormat(itemDetail.enddatetime)}</Text>
+                <Text style={styles.textDetail}>{getDateInFormat(itemDetail.startdatetime, true, false)} to {getDateInFormat(itemDetail.enddatetime, true, false)}</Text>
               </View>
               <View style={styles.viewRow}>
                 <View style={styles.viewImages}>

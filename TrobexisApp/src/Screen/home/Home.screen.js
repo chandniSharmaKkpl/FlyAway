@@ -192,7 +192,7 @@ const HomeScreen = props => {
                 activeOpacity={0.7}
               />
             </View> */}
-            <View style={{paddingLeft: wp('12%'), paddingTop: hp('1.2%')}}>
+            <View style={{paddingLeft: wp('5%'), paddingTop: hp('1.2%')}}>
               <Text style={styles.textHello}>
                 Hello{' '}
                 {response.userProfile && response.userProfile.firstname

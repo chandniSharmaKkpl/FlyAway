@@ -32,12 +32,24 @@ import {useRoute, useNavigation} from '@react-navigation/core';
 
 import {requestToGetJourneyDetail} from './JourneyDetail.action';
 import {getTimeInFormat} from '../../component/BookingCard';
+import IMAGE_BUS_SVG from '../../../assets/image/home_page/bus.svg';
+import IMAGE_CAR_SVG from '../../../assets/image/home_page/car.svg';
+import IMAGE_CHARTER_FLIGHT_SVG from '../../../assets/image/home_page/charter_flight.svg';
+import IMAGE_HELICOPTER_SVG from '../../../assets/image/home_page/helicopter.svg';
+import IMAGE_COMMERCIAL_FLIGHT_SVG from '../../../assets/image/home_page/commercial_flight.svg';
+import IMAGE_MARINE_TRANSFER_SVG from '../../../assets/image/home_page/marine_transfer.svg';
+import IMAGE_HOTEL_SVG from '../../../assets/image/home_page/hotel.svg';
+import IMAGE_SITE_ACCOMODATION_SVG from '../../../assets/image/home_page/site_accommodation.svg';
+import IMAGE_TRANSFER_SVG from '../../../assets/image/home_page/transfer.svg';
+import IMAGE_OFFSHORE_SVG from '../../../assets/image/home_page/offshore.svg';
 
 const JourneyDetail = props => {
   const [isAlertShow, setIsAlertShow] = useState(false);
   const route = useRoute();
   const dispatch = useDispatch();
   const responseDetail = useSelector(state => state.JourneyDetailReducer);
+  const responseUser = useSelector(state => state.HomeReducer); // Getting api response
+
   const [isApiCall, setIsApiCall] = useState(false);
   const [travellerName, seTtravellerName] = useState('');
   const [busBooking, setBusBooking] = useState('');
@@ -75,15 +87,15 @@ const JourneyDetail = props => {
   }, []);
 
   const handleBackButtonClick = () => {
-    console.log(" alert show ", isAlertShow); 
+    console.log(' alert show ', isAlertShow);
     {
-    if (route.params && route.params.callingView) {
-      props.navigation.navigate(route.params.callingView);
-    } else {
-      props.navigation.goBack();
+      if (route.params && route.params.callingView) {
+        props.navigation.navigate(route.params.callingView);
+      } else {
+        props.navigation.goBack();
+      }
+      return true;
     }
-    return true;
-  }
   };
   const moveBack = () => {
     props.navigation.goBack();
@@ -103,40 +115,45 @@ const JourneyDetail = props => {
     let date2 = new Date(endTime);
     differenceTime = date2.getTime() - date1.getTime();
     let strTime = msToTime(differenceTime);
-    return "Total Time " + strTime;
+    return 'Total Time ' + strTime;
   };
 
-  const itemViews = (item, type, index) => {
-    let iconImage = '';
-    let isNoShowBtnVisible = false; // This flag is using to show no show button for flights only 
-
+  const returnSvgImage = item => {
     if (item.Type === appConstant.CHARTER_FLIGHT) {
-      isNoShowBtnVisible = true;
-      iconImage = imageConstant.IMAGE_PLANE;
+      return <IMAGE_CHARTER_FLIGHT_SVG />;
     } else if (item.Type === appConstant.CAMP_ACCOMODATION) {
-      isNoShowBtnVisible = false;
-      iconImage = imageConstant.IMAGE_BED;
+      return <IMAGE_SITE_ACCOMODATION_SVG />;
+    } else if (item.Type === appConstant.COMMERCIAL_FLIGHT) {
+      return <IMAGE_COMMERCIAL_FLIGHT_SVG />;
+    } else if (item.type === appConstant.BUS) {
+      return <IMAGE_BUS_SVG />;
     } else {
-      iconImage = imageConstant.IMAGE_BUS_WHITE;
+      return <IMAGE_BUS_SVG />;
     }
+
+    // else if (item.type === appConstant.CAR) {
+    //   return <IMAGE_CAR_SVG/>
+    // } else if (item.type === appConstant.TRANSFER) {
+    //   return <IMAGE_TRANSFER_SVG />
+    // } else if (item.type === appConstant.MARINE_TRANSFER) {
+    //   return <IMAGE_MARINE_TRANSFER_SVG />
+    // } else if (item.type === appConstant.OFFSHORE) {
+    //   return <IMAGE_OFFSHORE_SVG />
+    // } else if (item.type === appConstant.HOTEL) {
+    //   return <IMAGE_HOTEL_SVG />
+    // } else if (item.type === appConstant.HELICOPTER) {
+    //   return <IMAGE_HELICOPTER_SVG />
+    // }
+  };
+  const itemViews = (item, type, index) => {
+    let isNoShowBtnVisible = false; // This flag is using to show no show button for flights only
 
     return (
       <View style={styles.viewRowOutSide}>
         {/* Side bus view  */}
         <View style={styles.viewLeftLine}>
-          <View
-            style={
-              item.Type === appConstant.CHARTER_FLIGHT
-                ? styles.viewCircleGray
-                : styles.viewCircleBlue
-            }>
-            <View style={styles.viewPlaneImg}>
-              <Image
-                source={iconImage}
-                style={styles.imageSideColomn}
-                resizeMode={'contain'}
-              />
-            </View>
+          <View style={styles.viewCircleBlue}>
+            <View style={styles.viewPlaneImg}>{returnSvgImage(item)}</View>
           </View>
         </View>
 
@@ -168,14 +185,16 @@ const JourneyDetail = props => {
               </Text>
             </View>
 
-           {isNoShowBtnVisible? <Pressable
-              style={styles.buttonTextRed}
-              onPress={() => {
-                setIsAlertShow(true);
-              }}>
-              <Text style={styles.textNoShow}>No</Text>
-              <Text style={styles.textNoShow}>Show</Text>
-            </Pressable>:  null }
+            {isNoShowBtnVisible ? (
+              <Pressable
+                style={styles.buttonTextRed}
+                onPress={() => {
+                  setIsAlertShow(true);
+                }}>
+                <Text style={styles.textNoShow}>No</Text>
+                <Text style={styles.textNoShow}>Show</Text>
+              </Pressable>
+            ) : null}
           </View>
           <View style={styles.viewSingleLine} />
 
@@ -204,44 +223,35 @@ const JourneyDetail = props => {
               </Text>
             </View>
 
-            <View style={{width: '66%', flexDirection: 'row'}}>
-              <View style={[styles.viewArrow, {flex: 3}]}>
-                <Image
-                  resizeMode={'contain'}
-                  source={imageConstant.IMAGE_ARROW_RIGHT}
-                  style={stylesCommon.image}
-                />
-              </View>
+            <View style={styles.viewLocation}>
+              <View style={styles.viewSpace} />
+              {item.Type === appConstant.CAMP_ACCOMODATION ? (
+                <Text style={styles.textBlueBig}>CheckOut</Text>
+              ) : (
+                <Text style={styles.textBlueBig}>Arrives</Text>
+              )}
 
-              <View style={styles.viewRightLocation}>
-                {item.Type === appConstant.CAMP_ACCOMODATION ? (
-                  <Text style={styles.textBlueBig}>CheckOut</Text>
-                ) : (
-                  <Text style={styles.textBlueBig}>Arrives</Text>
-                )}
-
-                <Text style={styles.textBlack}>
-                  {item.Details &&
-                  item.Details.length > 0 &&
-                  item.Details[0].Destination
-                    ? item.Details[0].Destination
-                    : ''}
-                </Text>
-                <Text style={styles.textBlack}>
-                  {item.Details &&
-                  item.Details.length > 0 &&
-                  item.Details[0].EndDate
-                    ? getTimeInFormat(item.Details[0].EndDate, false, true)
-                    : ''}
-                </Text>
-              </View>
+              <Text style={styles.textBlack}>
+                {item.Details &&
+                item.Details.length > 0 &&
+                item.Details[0].Destination
+                  ? item.Details[0].Destination
+                  : ''}
+              </Text>
+              <Text style={styles.textBlack}>
+                {item.Details &&
+                item.Details.length > 0 &&
+                item.Details[0].EndDate
+                  ? getTimeInFormat(item.Details[0].EndDate, false, true)
+                  : ''}
+              </Text>
             </View>
           </View>
 
           <View
             style={
               item.Type === appConstant.CHARTER_FLIGHT
-                ? styles.ViewGrayBottom
+                ? styles.ViewBlueBottom
                 : styles.ViewBlueBottom
             }>
             <Text style={[styles.textWhite, {padding: '2%'}]}>
@@ -269,10 +279,19 @@ const JourneyDetail = props => {
 
   const getDataFromResponse = (responseDetail, type) => {
     if (responseDetail && responseDetail[type]) {
-      if (type === 'StartDate') {
-        return getDateInFormat(responseDetail[type], true, false);
+      if (type === "StartDate") {
+        return getDateInFormat(responseDetail[type], false, false);
       } else {
-        return responseDetail[type];
+        if (type === 'GivenName') {
+          let surname = ""
+          if (responseDetail['Surname']) {
+            surname = responseDetail['Surname'];
+          }
+          let name = responseDetail['GivenName'] +" "+ surname;
+          return name;
+        } else {
+          return responseDetail[type];
+        }
       }
     } else {
       return 'N/A';
@@ -372,7 +391,9 @@ const JourneyDetail = props => {
             setIsAlertShow(false);
           }}
         />
-      ) : <View style={{backgroundColor:'pink'}}/>}
+      ) : (
+        <View style={{backgroundColor: 'pink'}} />
+      )}
     </>
   );
 };

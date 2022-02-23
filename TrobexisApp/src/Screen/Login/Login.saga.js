@@ -1,7 +1,7 @@
 import {takeLatest, take, call, put, select, all} from 'redux-saga/effects';
 import {actionConstant, apiConstant, appConstant} from '../../constant';
 import {ApiBase} from '../../api/apiBase';
-import {successToGetAccessToken, failToGetAccessToken} from './Home.action';
+// import {successToGetAccessToken, failToGetAccessToken} from './Home.action';
 import {getToken, getUserProfile} from './Login.api';
 
 export function* workerGetAccessToken() {

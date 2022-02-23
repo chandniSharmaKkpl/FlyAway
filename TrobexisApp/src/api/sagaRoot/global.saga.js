@@ -9,7 +9,7 @@ export function* workerHandleError(errorParam) {
           payload: errorParam,
         });
     } catch (error) {
-        console.log(" root saga error ---", error); 
+        //console.log(" root saga error ---", error); 
 
     }
 }

@@ -78,7 +78,7 @@ const ReasonDecline = props => {
   };
   const moveBack = () => {
     props.navigation.goBack();
-    route.params.onBackReceiveData(route.params.approvalItem)
+    route.params.onBackReceiveData && route.params.onBackReceiveData(route.params.approvalItem)
   };
   const renderReasonList = item => {
     return (

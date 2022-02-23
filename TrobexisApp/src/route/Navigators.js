@@ -214,6 +214,19 @@ function TabNavigator() {
         name={appConstant.HOME_SCREEN}
         options={{
           tabBarIcon: ({tintColor, focused}) => (
+            DeviceInfo.isTablet()?
+            <View style={{width: wp('10%'), alignItems:'center'}}>
+            <View style={styles.viewImage}>
+                <Image
+                  source={imageConstant.IMAGE_HOME_WHITE}
+                  resizeMode={'contain'}
+                  style={styles.image}
+                />
+              </View>
+              <Text style={styles.tabBarLabel}>
+                {focused ? appConstant.HOME_SCREEN : ''}
+              </Text>
+              </View> :
             <>
               <View style={styles.viewImage}>
                 <Image
@@ -255,6 +268,19 @@ function TabNavigator() {
         component={HistoryScreen}
         options={{
           tabBarIcon: ({tintColor, focused}) => (
+            DeviceInfo.isTablet()?
+            <View style={{width: wp('10%'), alignItems:'center'}}>
+            <View style={styles.viewImage}>
+              <Image
+                source={imageConstant.IMAGE_CLOCK_WHITE}
+                resizeMode={'contain'}
+                style={styles.image}
+              />
+            </View>
+            <Text style={styles.tabBarLabel}>
+              {focused ? appConstant.HISTORY : ''}
+            </Text>
+          </View> :
             <>
               <View style={styles.viewImage}>
                 <Image
@@ -327,7 +353,8 @@ const styles = {
     fontFamily: fontConstant.BARLOW_REGULAR,
     fontSize: fontConstant.TEXT_H2_SIZE_REGULAR,
     color: appColor.WHITE,
-    // backgroundColor:'pink'
+    //  backgroundColor:'pink',
+    //  width: '100%'
   },
   image: {
     width: '100%',
@@ -341,7 +368,7 @@ const styles = {
     // justifyContent: 'flex-end',
   },
   tabBar: {
-    height: DeviceInfo.isTablet() ? hp('8%') : hp('10%'),
+    height: DeviceInfo.isTablet() ? hp('10%') : hp('10%'),
     backgroundColor: appColor.NAVY_BLUE,
   },
 };

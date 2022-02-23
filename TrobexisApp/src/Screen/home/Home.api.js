@@ -31,7 +31,6 @@ export const getUserProfile = argumentData => {
         data: response,
       }).then(response => {
         let response1 = response?.data?.data;
-console.log(" response of profile ---", response1); 
         return response1;
       }),
     )
@@ -43,7 +42,6 @@ console.log(" response of profile ---", response1);
 };
 
 export const getItinaryList = argumentData => {
-  console.log('getItinaryList argument data in api : ', argumentData);
 
   let deviceId = argumentData.user.deviceId;
   let apiBaseUrl = argumentData.user.apiBaseUrl;

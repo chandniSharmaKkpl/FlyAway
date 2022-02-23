@@ -67,7 +67,7 @@ function PushController(props) {
       })();
 
       const unsubscribe = messaging().onMessage(async remoteMessage => {
-       console.log('remoteMessage data props ', remoteMessage);
+      // console.log('remoteMessage data props ', remoteMessage);
         // console.log(
         //   'remoteMessage data props ',
         //   remoteMessage,

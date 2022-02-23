@@ -5,6 +5,8 @@ import android.content.Context;
 
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import io.sua.RNDeviceTimeFormatPackage;
+import com.horcrux.svg.SvgPackage;
 import com.rnfingerprint.FingerprintAuthPackage;
 import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.reactnativecommunity.rnpermissions.RNPermissionsPackage;

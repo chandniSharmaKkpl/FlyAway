@@ -6,6 +6,9 @@ import {
 import fontConstant from '../../constant/fontConstant';
 import appColor from '../../constant/colorConstant';
 export default StyleSheet.create({
+  viewSpace:{
+    paddingTop:'4%'
+  },
   viewDashedLine:{
     height: 270,
      width: 1,
@@ -53,6 +56,10 @@ paddingTop:'5%'
     tintColor: appColor.WHITE,
     width: '100%',
     height: '100%',
+  },
+  imageSVG:{
+   width: 50, 
+   height: 50,
   },
   viewPlaneImg: {
     position: 'absolute',
@@ -105,13 +112,13 @@ paddingTop:'5%'
     color: appColor.BLACK,
    // paddingBottom: '1%',
     paddingLeft: '2%',
-    paddingTop:'2%'
+   // paddingTop:'2%'
   },
   viewSection: {
     padding: '3%',
   },
   viewItineraryList: {
-   // paddingTop: '3%'
+    paddingTop: '3%'
   },
   viewInside: {
     //  height: hp('35%'),
@@ -131,7 +138,7 @@ paddingTop:'5%'
     marginTop: '2%',
   },
   viewRow: {
-    flexDirection: 'row',
+   // flexDirection: 'row',
     padding: '1%',
   },
   textYellow: {
@@ -169,7 +176,8 @@ paddingTop:'5%'
     paddingLeft: '5%',
     paddingRight: '5%',
     paddingBottom: '5%',
-    paddingTop:'3%'
+    paddingTop:'3%',
+   // backgroundColor:'orange'
   },
   textAreaContainer: {
     padding: '5%',
@@ -306,14 +314,14 @@ paddingTop:'5%'
     alignSelf: 'center',
   },
   viewLocation: {
-    width: '33%',
-    //backgroundColor: 'orange',
+   // width: '33%',
+   // backgroundColor: 'orange',
     // alignItems:'flex-end'
   },
   viewRightLocation: {
-    flex: 5,
-    paddingLeft: '3%',
-    marginRight: wp('1%'),
+    //flex: 5,
+    //paddingLeft: '3%',
+    //marginRight: wp('1%'),
     //backgroundColor: 'orange',
     // alignItems:'flex-end'
   },
@@ -383,15 +391,15 @@ paddingTop:'5%'
   },
 
   viewItinerary: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: wp('70%'),
+    // flexDirection: 'row',
+    // justifyContent: 'space-between',
+   // width: wp('70%'),
     paddingLeft: wp('5%'),
-    paddingRight: wp('5%'),
-    alignItems: 'center',
-    flexWrap: 'wrap',
+    paddingRight: wp('2%'),
+   // alignItems: 'center',
+   // flexWrap: 'wrap',
     paddingBottom: hp('2%'),
-    // backgroundColor:'pink'
+   //  backgroundColor:'pink'
   },
   scrollView: {
      paddingBottom: hp('20%'),

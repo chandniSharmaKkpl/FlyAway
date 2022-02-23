@@ -74,7 +74,7 @@ export const acceptApprovalApiInDetail = async argumentData => {
       });
     
       let urlString = apiConstant.GET_APPROVAL_DETAIL;
-     urlString =  urlString.replace(':approvalId', approvalId);  
+      urlString =  urlString.replace(':approvalId', approvalId);  
   
       return instance
         .get(urlString)

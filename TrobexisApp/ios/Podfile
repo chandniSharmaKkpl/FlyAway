@@ -33,6 +33,10 @@ target 'TrobexisApp' do
 
   pod 'TouchID', :path => '../node_modules/react-native-touch-id'
 
+  pod 'RNSVG', :path => '../node_modules/react-native-svg'
+
+  pod 'RNDeviceTimeFormat', :path => '../node_modules/react-native-device-time-format'
+
   target 'TrobexisAppTests' do
     inherit! :complete
     # Pods for testing
