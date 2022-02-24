@@ -55,12 +55,8 @@ const LoginScreen = props => {
         setUserTemp({email: '', password: ''});
       }
       setFormError('');
-     
-    
-
     });
 
-   
     return unsubscribe;
   }, [error]);
 
@@ -72,7 +68,6 @@ const LoginScreen = props => {
         if (response.responseLoginUrl) {
            let tempUrl = response.responseLoginUrl; 
             tempUrl = tempUrl.replace(':mobileDeviceId', deviceInfo.device_token)
-           console.log(" url ---", tempUrl); 
             setLoginUrl(tempUrl);
           } else {
             setLoginUrl(response.loginUrl);

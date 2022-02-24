@@ -125,25 +125,24 @@ const JourneyDetail = props => {
       return <IMAGE_SITE_ACCOMODATION_SVG />;
     } else if (item.Type === appConstant.COMMERCIAL_FLIGHT) {
       return <IMAGE_COMMERCIAL_FLIGHT_SVG />;
-    } else if (item.type === appConstant.BUS) {
+    } else if (item.type === appConstant.BUS || item.type === appConstant.DRIVE_IN_OUT_TRANSPORT) {
       return <IMAGE_BUS_SVG />;
-    } else {
+    } 
+    else if (item.type === appConstant.CAR_HIRE) {
+      return <IMAGE_CAR_SVG/>
+    } else if (item.type === appConstant.OTHER_GROUND_TRANSPORT) {
+      return <IMAGE_HELICOPTER_SVG />
+    } else if (item.type === appConstant.MARINE_TRANSFER) {
+      return <IMAGE_MARINE_TRANSFER_SVG />
+    } else if (item.type === appConstant.OFFSHORE) {
+      return <IMAGE_OFFSHORE_SVG />
+    } else if (item.type === appConstant.HOTEL) {
+      return <IMAGE_HOTEL_SVG />
+    } else if (item.type === appConstant.HELICOPTER) {
+      return <IMAGE_HELICOPTER_SVG />
+    }else {
       return <IMAGE_BUS_SVG />;
     }
-
-    // else if (item.type === appConstant.CAR) {
-    //   return <IMAGE_CAR_SVG/>
-    // } else if (item.type === appConstant.TRANSFER) {
-    //   return <IMAGE_TRANSFER_SVG />
-    // } else if (item.type === appConstant.MARINE_TRANSFER) {
-    //   return <IMAGE_MARINE_TRANSFER_SVG />
-    // } else if (item.type === appConstant.OFFSHORE) {
-    //   return <IMAGE_OFFSHORE_SVG />
-    // } else if (item.type === appConstant.HOTEL) {
-    //   return <IMAGE_HOTEL_SVG />
-    // } else if (item.type === appConstant.HELICOPTER) {
-    //   return <IMAGE_HELICOPTER_SVG />
-    // }
   };
   const itemViews = (item, type, index) => {
     let isNoShowBtnVisible = false; // This flag is using to show no show button for flights only
@@ -327,7 +326,7 @@ const JourneyDetail = props => {
                   ),
                 )}
                 {returnRowView(
-                  'Bus Booking: ',
+                  'Request Title: ',
                   getDataFromResponse(responseDetail.journeyDetail, 'Title'),
                 )}
                 {returnRowView(

@@ -137,8 +137,8 @@ export function* workerGetAccountUrl(argumentData, apiBase, clientToken) {
         deviceId: argumentData.DeviceId,
         apiBaseUrl: apiBase,
         loginUrl: loginUrl,
-        responseLoginUrl: responseLoginUrl,
-          // userId:  'P000000442', // Temp
+        responseLoginUrl: responseLoginUrl
+         //  userId:  'P000000442', // Temp
       };
       localDB.setUser(user);
 
