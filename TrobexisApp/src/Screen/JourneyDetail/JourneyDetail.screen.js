@@ -29,7 +29,7 @@ import {
 } from '../../constant';
 import {getDateInFormat, msToTime} from '../../common';
 import {useRoute, useNavigation} from '@react-navigation/core';
-
+import DeviceInfo from 'react-native-device-info';
 import {requestToGetJourneyDetail} from './JourneyDetail.action';
 import {getTimeInFormat} from '../../component/BookingCard';
 import IMAGE_BUS_SVG from '../../../assets/image/home_page/bus.svg';
@@ -144,7 +144,9 @@ const JourneyDetail = props => {
       return <IMAGE_BUS_SVG />;
     }
   };
+
   const itemViews = (item, type, index) => {
+
     let isNoShowBtnVisible = false; // This flag is using to show no show button for flights only
 
     return (
@@ -358,6 +360,7 @@ const JourneyDetail = props => {
                   item,
                   index,
                 ) {
+                  
                   return itemViews(item, imageConstant.IMAGE_PLANE, index);
                 })
               : null}
