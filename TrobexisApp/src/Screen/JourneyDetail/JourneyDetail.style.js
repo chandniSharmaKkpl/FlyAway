@@ -18,7 +18,7 @@ export default StyleSheet.create({
      borderRadius: 1,
      borderWidth: 1,
      left:  DeviceInfo.isTablet()? wp('3%'): wp('6%'),
-      top: DeviceInfo.isTablet()? hp('10%'):  hp('11%'),
+      top: DeviceInfo.isTablet()? hp('14.5%'):  hp('12%'),
      borderColor: appColor.GRAY_MIDIUM,
      borderStyle: 'dashed',
      zIndex: 0,
@@ -51,7 +51,7 @@ export default StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    marginTop: hp('5%'),
+    marginTop: DeviceInfo.isTablet()?hp('10%'): hp('6%'),
   },
   viewDetail:{
 paddingTop:'5%'

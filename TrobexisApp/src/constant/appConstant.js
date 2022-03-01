@@ -32,20 +32,27 @@ export default {
 
   // Word constant
   COMMENT_MAX_LIMIT: 500,
-  
+
+  // Journey detail itinerary type
   CHARTER_FLIGHT: 'Charter Flight',
   CAMP_ACCOMODATION: 'Camp Accommodation',
   COMMERCIAL_FLIGHT: 'Commercial Flight',
-  BUS:'Bus',
-  CAR_HIRE:'Car Hire',
-  HOTEL:'Hotel Accommodation',
-  OFFSHORE:'Offshore',
-  HELICOPTER: 'Helicopter',
-  TRANSFER:'Transfer',
-  MARINE_TRANSFER: 'Marine Transfer',
-  DRIVE_IN_OUT_TRANSPORT:'Drive in/out transport',
-  OTHER_GROUND_TRANSPORT:'Other/Ground Transport',
+  CAR_HIRE: 'Car Hire',
+  HOTEL: 'Hotel Accommodation',
+  DRIVE_IN_OUT_TRANSPORT: 'Drive in/out transport',
+  OTHER_GROUND_TRANSPORT: 'Other/Ground Transport',
 
+  // Classification
+  HELICOPTER: 'Helicopter',
+  WATERCRAFT: 'Watercraft',
+  BUS: 'Bus',
+  COACH: 'Coach',
+  CHARTER: 'Charter',
+  PLATFORM: 'Platform',
+  BED: 'Bed',
+  TRANSFER: 'transfer',
+
+  // Approval status
   PENDING_APPROVAL: 'Pending Approval',
   APPROVED: 'Approved',
   DECLINED: 'Declined',

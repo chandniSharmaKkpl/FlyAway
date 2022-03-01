@@ -122,31 +122,70 @@ const JourneyDetail = props => {
     if (item.Type === appConstant.CHARTER_FLIGHT) {
       return <IMAGE_CHARTER_FLIGHT_SVG />;
     } else if (item.Type === appConstant.CAMP_ACCOMODATION) {
-      return <IMAGE_SITE_ACCOMODATION_SVG />;
+      // console.log(' CAMP_ACCOMODATION ', item);
+      if (
+        item.Details &&
+        Array.isArray(item.Details) &&
+        item.Details.length > 0
+      ) {
+        let dictDetail = item.Details[0];
+        if (dictDetail.Classification) {
+          let tempC = dictDetail.Classification;
+          if (tempC === appConstant.PLATFORM) {
+            return <IMAGE_OFFSHORE_SVG />;
+          } else if (tempC === appConstant.BED) {
+            return <IMAGE_SITE_ACCOMODATION_SVG />;
+          }
+        }
+        return <IMAGE_SITE_ACCOMODATION_SVG />;
+      }
     } else if (item.Type === appConstant.COMMERCIAL_FLIGHT) {
       return <IMAGE_COMMERCIAL_FLIGHT_SVG />;
-    } else if (item.type === appConstant.BUS || item.type === appConstant.DRIVE_IN_OUT_TRANSPORT) {
-      return <IMAGE_BUS_SVG />;
-    } 
-    else if (item.type === appConstant.CAR_HIRE) {
-      return <IMAGE_CAR_SVG/>
+    } else if (
+      item.type === appConstant.BUS ||
+      item.type === appConstant.DRIVE_IN_OUT_TRANSPORT
+    ) {
+      if (
+        item.Details &&
+        Array.isArray(item.Details) &&
+        item.Details.length > 0
+      ) {
+        let dictDetail = item.Details[0];
+        if (dictDetail.Classification) {
+          let tempC = dictDetail.Classification;
+          if (tempC === appConstant.BUS || tempC === appConstant.COACH) {
+            return <IMAGE_BUS_SVG />;
+          } else if (tempC === appConstant.TRANSFER) {
+            return <IMAGE_TRANSFER_SVG />;
+          }
+        }
+      }
+    } else if (item.type === appConstant.CAR_HIRE) {
+      return <IMAGE_CAR_SVG />;
     } else if (item.type === appConstant.OTHER_GROUND_TRANSPORT) {
-      return <IMAGE_HELICOPTER_SVG />
-    } else if (item.type === appConstant.MARINE_TRANSFER) {
-      return <IMAGE_MARINE_TRANSFER_SVG />
-    } else if (item.type === appConstant.OFFSHORE) {
-      return <IMAGE_OFFSHORE_SVG />
-    } else if (item.type === appConstant.HOTEL) {
-      return <IMAGE_HOTEL_SVG />
-    } else if (item.type === appConstant.HELICOPTER) {
-      return <IMAGE_HELICOPTER_SVG />
-    }else {
+      // console.log(' OTHER_GROUND_TRANSPORT ', item);
+
+      if (
+        item.Details &&
+        Array.isArray(item.Details) &&
+        item.Details.length > 0
+      ) {
+        let dictDetail = item.Details[0];
+        if (dictDetail.Classification) {
+          let tempC = dictDetail.Classification;
+          if (tempC === appConstant.HELICOPTER) {
+            return <IMAGE_HELICOPTER_SVG />;
+          } else if (tempC === appConstant.WATERCRAFT) {
+            return <IMAGE_MARINE_TRANSFER_SVG />;
+          }
+        }
+      }
+    } else {
       return <IMAGE_BUS_SVG />;
     }
   };
 
   const itemViews = (item, type, index) => {
-
     let isNoShowBtnVisible = false; // This flag is using to show no show button for flights only
 
     return (
@@ -280,15 +319,15 @@ const JourneyDetail = props => {
 
   const getDataFromResponse = (responseDetail, type) => {
     if (responseDetail && responseDetail[type]) {
-      if (type === "StartDate") {
+      if (type === 'StartDate') {
         return getDateInFormat(responseDetail[type], false, false);
       } else {
         if (type === 'GivenName') {
-          let surname = ""
+          let surname = '';
           if (responseDetail['Surname']) {
             surname = responseDetail['Surname'];
           }
-          let name = responseDetail['GivenName'] +" "+ surname;
+          let name = responseDetail['GivenName'] + ' ' + surname;
           return name;
         } else {
           return responseDetail[type];
@@ -360,7 +399,6 @@ const JourneyDetail = props => {
                   item,
                   index,
                 ) {
-                  
                   return itemViews(item, imageConstant.IMAGE_PLANE, index);
                 })
               : null}
