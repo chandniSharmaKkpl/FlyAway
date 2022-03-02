@@ -18,6 +18,8 @@ import {
   useRoute,
   useNavigationState,
 } from '@react-navigation/native';
+import DeviceInfo from 'react-native-device-info';
+
 
 const HeaderCustom = props => {
   var countBack = 0;
@@ -46,7 +48,6 @@ const HeaderCustom = props => {
 
   const handleBackInHeader = () => {
     // console.log(' navigation---->', props);
-    
     // if (
     //   props.viewName === appConstant.HOME_SCREEN ||
     //   props.viewName === appConstant.BUS_BOOKING ||
@@ -54,7 +55,6 @@ const HeaderCustom = props => {
     // ) {
     //   countBack = countBack + 1;
     //   console.log(' back count  in home ', countBack);
-
     //   if (countBack > 1) {
     //     props.setAlertShowFromHeader(true);
     //   }
@@ -72,7 +72,13 @@ const HeaderCustom = props => {
           ? styles.topHeaderStyleAndroid
           : styles.topHeaderStyleIos
       }>
-      <Pressable style={styles.iconHeader} onPress={onClickLeftIcon}>
+      <Pressable
+        style={[
+          DeviceInfo.isTablet()
+            ? styles.iconHeaderTab
+            : styles.iconHeaderMoblie,
+        ]}
+        onPress={onClickLeftIcon}>
         {viewName === appConstant.HOME_SCREEN ||
         viewName === appConstant.BUS_BOOKING ||
         viewName === appConstant.HISTORY ? (
@@ -126,11 +132,17 @@ const styles = {
     height: hp('7%'),
     backgroundColor: appColor.NAVY_BLUE,
   },
-  iconHeader: {
+  iconHeaderTab: {
     height: hp('2.5%'),
     width: wp('8%'),
     marginTop: Platform.OS === 'android' ? hp('2%') : hp('6%'),
-    marginLeft: wp('2.6%'),
+    marginLeft: Platform.OS === 'android' ? wp('2.6%') : wp('3.5%'),
+  },
+  iconHeaderMoblie: {
+    height: hp('2.5%'),
+    width: wp('8%'),
+    marginTop: Platform.OS === 'android' ? hp('2%') : hp('6%'),
+    marginLeft: wp('4%'),
   },
 
   styleBell: {
