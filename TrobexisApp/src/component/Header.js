@@ -130,7 +130,7 @@ const styles = {
     height: hp('2.5%'),
     width: wp('8%'),
     marginTop: Platform.OS === 'android' ? hp('2%') : hp('6%'),
-    marginLeft: wp('4%'),
+    marginLeft: wp('2.6%'),
   },
 
   styleBell: {
