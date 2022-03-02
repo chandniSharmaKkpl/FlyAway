@@ -136,7 +136,7 @@ const styles = {
     height: hp('2.5%'),
     width: wp('8%'),
     marginTop: Platform.OS === 'android' ? hp('2%') : hp('6%'),
-    marginLeft: Platform.OS === 'android' ? wp('2.6%') : wp('3.5%'),
+    marginLeft:  wp('2.6%')
   },
   iconHeaderMoblie: {
     height: hp('2.5%'),

@@ -7,7 +7,6 @@ import fontConstant from '../../constant/fontConstant';
 import appColor from '../../constant/colorConstant';
 import DeviceInfo from 'react-native-device-info';
 
-
 export default StyleSheet.create({
   container: {
     width: '100%',
@@ -21,20 +20,22 @@ export default StyleSheet.create({
   },
   viewFlatList: {
     flex: 1,
+    paddingLeft: wp('3%'),
+    paddingRight: wp('3%'),
+    paddingTop:hp('3%')
   },
 
-  viewSegmentControl:{
-    padding:'5%',
-
+  viewSegmentControl: {
+    padding: '5%',
   },
-  segmentControl:{
-   width:'100%',
-   height:hp('6%')
+  segmentControl: {
+    width: '100%',
+    height: hp('6%'),
   },
   viewRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    width:wp('70%')
+    width: wp('70%'),
   },
   buttonTitle: {
     fontFamily: fontConstant.BARLOW_BOLD,
@@ -94,7 +95,7 @@ export default StyleSheet.create({
     fontSize: fontConstant.TEXT_H3_SIZE_BOLD,
     color: appColor.NAVY_BLUE,
     flexWrap: 'wrap',
-    paddingBottom:hp('1%')
+    paddingBottom: hp('1%'),
   },
   textDetail: {
     fontFamily: fontConstant.BARLOW_REGULAR,
@@ -104,7 +105,7 @@ export default StyleSheet.create({
     paddingLeft: wp('2%'),
   },
   viewImages: {
-    width: DeviceInfo.isTablet()?  wp('2.5%'): wp('3%'),
+    width: DeviceInfo.isTablet() ? wp('2.5%') : wp('3%'),
     height: hp('3%'),
   },
   image: {
