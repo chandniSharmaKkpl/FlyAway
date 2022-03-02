@@ -122,12 +122,7 @@ const JourneyDetail = props => {
     if (item.Type === appConstant.CHARTER_FLIGHT) {
       return <IMAGE_CHARTER_FLIGHT_SVG />;
     } else if (item.Type === appConstant.CAMP_ACCOMODATION) {
-      // console.log(' CAMP_ACCOMODATION ', item);
-      if (
-        item.Details &&
-        Array.isArray(item.Details) &&
-        item.Details.length > 0
-      ) {
+      if ( item.Details && Array.isArray(item.Details) && item.Details.length > 0) {
         let dictDetail = item.Details[0];
         if (dictDetail.Classification) {
           let tempC = dictDetail.Classification;
@@ -145,31 +140,24 @@ const JourneyDetail = props => {
       item.type === appConstant.BUS ||
       item.type === appConstant.DRIVE_IN_OUT_TRANSPORT
     ) {
-      if (
-        item.Details &&
-        Array.isArray(item.Details) &&
-        item.Details.length > 0
-      ) {
+      if (item.Details && Array.isArray(item.Details) && item.Details.length > 0) {
         let dictDetail = item.Details[0];
         if (dictDetail.Classification) {
           let tempC = dictDetail.Classification;
           if (tempC === appConstant.BUS || tempC === appConstant.COACH) {
             return <IMAGE_BUS_SVG />;
-          } else if (tempC === appConstant.TRANSFER) {
-            return <IMAGE_TRANSFER_SVG />;
+          } else  {
+            return <IMAGE_CAR_SVG />;
           }
         }
       }
+    } else if(item.type === appConstant.HOTEL) {
+      return <IMAGE_HOTEL_SVG />  // because, Hotel Accommodation has all categories in Hotel
     } else if (item.type === appConstant.CAR_HIRE) {
       return <IMAGE_CAR_SVG />;
     } else if (item.type === appConstant.OTHER_GROUND_TRANSPORT) {
       // console.log(' OTHER_GROUND_TRANSPORT ', item);
-
-      if (
-        item.Details &&
-        Array.isArray(item.Details) &&
-        item.Details.length > 0
-      ) {
+      if (item.Details && Array.isArray(item.Details) && item.Details.length > 0 ) {
         let dictDetail = item.Details[0];
         if (dictDetail.Classification) {
           let tempC = dictDetail.Classification;
@@ -177,7 +165,9 @@ const JourneyDetail = props => {
             return <IMAGE_HELICOPTER_SVG />;
           } else if (tempC === appConstant.WATERCRAFT) {
             return <IMAGE_MARINE_TRANSFER_SVG />;
-          }
+          } else if (tempC === appConstant.COACH) {
+            return <IMAGE_BUS_SVG />;
+          } 
         }
       }
     } else {
