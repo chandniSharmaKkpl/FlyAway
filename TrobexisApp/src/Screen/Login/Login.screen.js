@@ -4,14 +4,7 @@ import styles from './Login.style';
 import {Loader, HeaderCustom} from '../../component';
 import {useDispatch} from 'react-redux';
 import {connect} from 'react-redux';
-
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
-import {ImageBackground} from 'react-native';
-import commonStyle from '../../common/common.style';
-import {appColor, appConstant, imageConstant} from '../../constant';
+import { appConstant, imageConstant} from '../../constant';
 import {requestToGetAccessToken} from './Login.action';
 import {isEmailValid, isMobileNumberValid} from '../../helper/validations';
 import alertMsgConstant from '../../constant/alertMsgConstant';
@@ -55,12 +48,8 @@ const LoginScreen = props => {
         setUserTemp({email: '', password: ''});
       }
       setFormError('');
-     
-    
-
     });
 
-   
     return unsubscribe;
   }, [error]);
 
@@ -72,7 +61,6 @@ const LoginScreen = props => {
         if (response.responseLoginUrl) {
            let tempUrl = response.responseLoginUrl; 
             tempUrl = tempUrl.replace(':mobileDeviceId', deviceInfo.device_token)
-           console.log(" url ---", tempUrl); 
             setLoginUrl(tempUrl);
           } else {
             setLoginUrl(response.loginUrl);

@@ -23,9 +23,7 @@ import {
 
 import {requestGetApprovalListWithStatus} from './ApprovalList.action';
 import {getDateInFormat} from '../../common';
-import {
-  requestAcceptApproval
-} from './ApprovalList.action';
+import {requestAcceptApproval} from './ApprovalList.action';
 import localDb from '../../database/localDb';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import {useRoute, useNavigation} from '@react-navigation/core';
@@ -80,7 +78,6 @@ const ApprovalList = props => {
     };
   }, []);
 
- 
   const handleBackButtonClick = () => {
     if (route.params && route.params.callingView) {
       props.navigation.navigate(route.params.callingView);
@@ -144,7 +141,7 @@ const ApprovalList = props => {
     props.navigation.navigate(appConstant.REASON, {
       approvalItem: item,
       onBackReceiveData: onBackReceiveData,
-      callingView: appConstant.approvalList
+      callingView: appConstant.approvalList,
     });
   };
 

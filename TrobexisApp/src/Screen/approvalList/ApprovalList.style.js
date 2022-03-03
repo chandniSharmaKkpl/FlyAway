@@ -5,14 +5,16 @@ import {
 } from 'react-native-responsive-screen';
 import fontConstant from '../../constant/fontConstant';
 import appColor from '../../constant/colorConstant';
+import DeviceInfo from 'react-native-device-info';
+
 export default StyleSheet.create({
-  textEmpty:{
+  textEmpty: {
     fontFamily: fontConstant.BARLOW_BOLD,
     fontSize: fontConstant.TEXT_12_SIZE_BOLD,
     color: appColor.NAVY_BLUE,
     flexWrap: 'wrap',
-    alignSelf:'center',
-    paddingTop:hp('10%')
+    alignSelf: 'center',
+    paddingTop: hp('10%'),
   },
   container: {
     width: '100%',
@@ -26,20 +28,21 @@ export default StyleSheet.create({
   },
   viewFlatList: {
     flex: 1,
-   // backgroundColor: appColor.RED,
-paddingLeft:wp('3%'),
-paddingRight:wp('1%')
+    // backgroundColor: appColor.RED,
+    paddingLeft: wp('3%'),
+    paddingRight: wp('3%'),
+
   },
-  iconNumber:{
-    fontSize:20, 
+  iconNumber: {
+    fontSize: 20,
     color: appColor.NAVY_BLUE,
     //width:'100%'
   },
   viewSegmentControl: {
     paddingLeft: wp('5%'),
-    paddingRight:wp('5%'),
-    paddingTop:hp('2%'),
-    paddingBottom:hp('2%')
+    paddingRight: wp('5%'),
+    paddingTop: hp('2%'),
+    paddingBottom: hp('2%'),
   },
   segmentControl: {
     width: '100%',
@@ -59,10 +62,9 @@ paddingRight:wp('1%')
   },
   viewInside1: {
     paddingTop: '1%',
-    paddingBottom:'1%',
-    paddingRight:'1%',
-   // backgroundColor: appColor.GREEN,
-
+    paddingBottom: '1%',
+    paddingRight: '1%',
+    // backgroundColor: appColor.GREEN,
   },
   buttonGreen: {
     justifyContent: 'center',
@@ -101,7 +103,6 @@ paddingRight:wp('1%')
     elevation: 5,
     backgroundColor: appColor.WHITE,
     margin: 10,
-    
   },
   textTitle: {
     fontFamily: fontConstant.BARLOW_BOLD,
@@ -118,10 +119,14 @@ paddingRight:wp('1%')
     paddingLeft: wp('2%'),
   },
   viewImages: {
-    width: wp('3%'),
+    width: DeviceInfo.isTablet() ? wp('2.5%') : wp('3%'),
     height: hp('3%'),
   },
-  
+
+  viewImageIpad: {
+    width: wp('2.5%'),
+    height: hp('2.5%'),
+  },
   image: {
     width: '100%',
     height: '100%',
@@ -147,7 +152,7 @@ paddingRight:wp('1%')
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: '2%',
-   // backgroundColor: 'pink',
+    // backgroundColor: 'pink',
     //  width:'75%'
   },
   viewButtons: {

@@ -5,21 +5,24 @@ import {
 } from 'react-native-responsive-screen';
 import fontConstant from '../../constant/fontConstant';
 import appColor from '../../constant/colorConstant';
+import DeviceInfo from 'react-native-device-info';
+
 export default StyleSheet.create({
   viewSpace:{
     paddingTop:'4%'
   },
   viewDashedLine:{
-    height: 270,
+    height:  DeviceInfo.isTablet()? wp('49%'): wp('75%'),
      width: 1,
      position: 'absolute',
      borderRadius: 1,
      borderWidth: 1,
-     left: '6%',
-     top:'29%',
+     left:  DeviceInfo.isTablet()? wp('3%'): wp('6%'),
+      top: DeviceInfo.isTablet()? hp('14.5%'):  hp('12%'),
      borderColor: appColor.GRAY_MIDIUM,
      borderStyle: 'dashed',
      zIndex: 0,
+    // backgroundColor: 'pink'
    },
    viewDotted:{
     position: 'absolute',
@@ -27,7 +30,7 @@ export default StyleSheet.create({
     bottom: 0,
     width: 1,
     height: '100%',
-    backgroundColor: 'white',
+    backgroundColor: appColor.WHITE,
     zIndex: 1,
   },
   viewRowOutSide: {
@@ -36,7 +39,8 @@ export default StyleSheet.create({
    // backgroundColor:'pink'
   },
   viewLeftLine:{
-    zIndex:9999
+    alignItems:'center'
+  //  zIndex:9999
    //backgroundColor:'green',
   // paddingTop:"18%"
   },
@@ -47,7 +51,7 @@ export default StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    marginTop: hp('5%'),
+    marginTop: DeviceInfo.isTablet()?hp('10%'): hp('6%'),
   },
   viewDetail:{
 paddingTop:'5%'
@@ -230,7 +234,7 @@ paddingTop:'5%'
     // margin: 10,
     marginLeft:'3%',
     marginTop:'10%',
-    flexWrap: 'wrap',
+    //flexWrap: 'wrap',
     alignSelf: 'center',
 
     // overflow:'hidden'
@@ -285,6 +289,15 @@ paddingTop:'5%'
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
     width: '100%',
+  },
+
+  ViewBlueBottomIpad: {
+    backgroundColor: appColor.RED,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+    width: 100,
   },
 
   ViewGrayBottom: {
