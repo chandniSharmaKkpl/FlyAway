@@ -1,6 +1,6 @@
 import { all, fork } from 'redux-saga/effects';
 
-import { watchGetAccessToken } from '../../Screen/Login/Login.saga';
+import { watchGetAccessToken } from '../../Screen/login/Login.saga';
 import { watchItinaryList, watchGetUserProfile, watchApprovalList } from '../../Screen/home/Home.saga';
 import { watchToGetBusStop} from '../../Screen/busBooking/BusBooking.saga';
 import {watchToGetBusRoute} from '../../Screen/pickABus/PickABus.saga';

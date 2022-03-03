@@ -17,7 +17,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import DeviceInfo from 'react-native-device-info';
-import LoginScreen from '../Screen/Login/Login.screen';
+import LoginScreen from '../Screen/login/Login.screen';
 import ForgotPassword from '../Screen/ForgotPassword/ForgotPassword.screen';
 import AuthContext from '../context/AuthContext';
 import ClientCodeScreen from '../Screen/clientCode/ClientCode.screen';

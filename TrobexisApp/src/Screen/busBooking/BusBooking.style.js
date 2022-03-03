@@ -7,6 +7,13 @@ import fontConstant from '../../constant/fontConstant';
 import appColor from '../../constant/colorConstant';
 
 export default StyleSheet.create({
+  iconHeader: {
+    height: hp('2.5%'),
+    width: wp('8%'),
+    marginTop: Platform.OS === 'android' ? hp('2%') : hp('6%'),
+    marginLeft: wp('4%'),
+    position:'absolute'
+  },
   viewCalendar: {
     paddingTop: hp('2%'),
     paddingLeft: wp('5%'),
@@ -21,6 +28,20 @@ export default StyleSheet.create({
     width: '100%',
     height: '100%',
     backgroundColor: appColor.LIGH_BLUE,
+  },
+  webview:{
+    width: wp('100%'), 
+    height:hp('100%'), 
+    position:'absolute'
+  },
+  IndicatorStyle: {
+    position: "absolute",
+    alignItems: "center",
+    justifyContent: "center",
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0
   },
 
   viewCalendar1: {
