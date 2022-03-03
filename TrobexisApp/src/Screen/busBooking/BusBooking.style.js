@@ -30,6 +30,7 @@ export default StyleSheet.create({
     backgroundColor: appColor.LIGH_BLUE,
   },
   webview:{
+    marginTop:hp('3%'),
     width: wp('100%'), 
     height:hp('100%'), 
     position:'absolute'
