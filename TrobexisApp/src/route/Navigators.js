@@ -17,7 +17,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import DeviceInfo from 'react-native-device-info';
-import LoginScreen from '../Screen/login/Login.screen';
+import LoginScreen from '../Screen/Login/Login.screen';
 import ForgotPassword from '../Screen/ForgotPassword/ForgotPassword.screen';
 import AuthContext from '../context/AuthContext';
 import ClientCodeScreen from '../Screen/clientCode/ClientCode.screen';
@@ -243,7 +243,7 @@ function TabNavigator() {
         }}
         component={HomeStack}
       />
-      {/* <TabObject.Screen
+      <TabObject.Screen
         name={appConstant.BUS_BOOKING}
         component={BusBookingStack}
         options={{
@@ -262,7 +262,7 @@ function TabNavigator() {
             </>
           ),
         }}
-      /> */}
+      />
       <TabObject.Screen
         name={appConstant.HISTORY}
         component={HistoryScreen}

@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux';
 import HomeReducer from '../../Screen/home/Home.reducer';
-import LoginReducer from '../../Screen/login/Login.reducer';
+import LoginReducer from '../../Screen/Login/Login.reducer';
 import BusBookingReducer from '../../Screen/busBooking/BusBooking.reducer';
 import PickABusReducer from '../../Screen/pickABus/PickABus.reducer';
 import BookingSummaryReducer from '../../Screen/bookingSummary/BookingSummary.reducer';
