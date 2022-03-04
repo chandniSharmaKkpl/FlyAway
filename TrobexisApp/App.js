@@ -6,33 +6,27 @@
  * @flow strict-local
  */
 import 'react-native-gesture-handler';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 import React, {useEffect} from 'react';
-import {
-  StatusBar,
-  useColorScheme
-} from 'react-native';
+import {StatusBar, useColorScheme} from 'react-native';
 
-import {
-  Colors
-} from 'react-native/Libraries/NewAppScreen';
-import { Provider } from 'react-redux';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {Provider} from 'react-redux';
 import {StoreRoot} from './src/store';
-import { NavigationContainer } from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 import NavigationSetup from './src/route/Navigators';
 import SplashScreen from 'react-native-splash-screen';
 import AuthContext from './src/context/AuthContext';
-import Toast from "react-native-toast-notifications";
-
+import Toast from 'react-native-toast-notifications';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
   const [user, setUser] = React.useState(null);
 
   useEffect(() => {
-        SplashScreen.hide();
-      }, []);
+    SplashScreen.hide();
+  }, []);
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -40,21 +34,17 @@ const App = () => {
 
   return (
     <SafeAreaProvider style={backgroundStyle}>
-      <AuthContext.Provider value={{ user, setUserData: setUser}}>
-
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <Provider store={StoreRoot}>
-      <NavigationContainer>
-           <NavigationSetup />
-      </NavigationContainer>
-      </Provider>
+      <AuthContext.Provider value={{user, setUserData: setUser}}>
+        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+        <Provider store={StoreRoot}>
+          <NavigationContainer>
+            <NavigationSetup />
+          </NavigationContainer>
+        </Provider>
       </AuthContext.Provider>
-      <Toast ref={(ref) => global['toast'] = ref} />
-
+      <Toast ref={ref => (global.toast = ref)} />
     </SafeAreaProvider>
   );
 };
-
-
 
 export default App;

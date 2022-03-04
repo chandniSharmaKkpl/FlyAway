@@ -89,8 +89,13 @@ const BusBookingScreen = props => {
         console.log(' response --', response);
         if (response.responseLoginUrl) {
           let tempUrl = ''; //'https://app-aue.trobexisuat.com/TONEAPPUAT/MobileApp/MobileFunctions.aspx?key=20220303112522419a7ec0496e6b749799ff6d2f429894a363&action=BUSBOOKING';  //response.responseLoginUrl;
-         
-         tempUrl = response.apiBaseUrl+ response.client+'MobileApp/MobileFunctions.aspx?key='+response.clientToken+"&action=BUSBOOKING"
+
+          tempUrl =
+            response.apiBaseUrl +
+            response.client +
+            '/MobileApp/MobileFunctions.aspx?key=' +
+            response.clientToken +
+            '&action=BUSBOOKING';
           console.log(' url ---', tempUrl);
           setBusBookingUrl(tempUrl);
         } else {

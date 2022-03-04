@@ -15,6 +15,7 @@ export default StyleSheet.create({
         width: wp('100%'),
         height: hp('20%'),
     },
+   
     viewTitle: {
         flexDirection: 'row',
         //alignItems:'center'
@@ -35,7 +36,7 @@ export default StyleSheet.create({
        
         fontFamily: fontConstant.BARLOW_BOLD,
         fontSize: fontConstant.TEXT_H1_SIZE_BOLD,
-        color: appColor.WHITE,
+        color: appColor.WHITE, 
     },
     textTimeWish: {
         fontFamily: fontConstant.BARLOW_REGULAR,
