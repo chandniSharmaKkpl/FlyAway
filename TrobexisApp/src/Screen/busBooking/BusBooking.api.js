@@ -1,6 +1,7 @@
 import {actionConstant, apiConstant, appConstant} from '../../constant';
 import localDB from '../../database/localDb';
 import {ApiBase} from '../../api/apiBase';
+import axios from 'axios'; 
 
 export const  getBusRoute = (token1) => {
   // Get access token
@@ -46,4 +47,43 @@ return ApiBase(token1)
   });
 };
 
-  
+export const getAccessTokenBusBooking = argumentData => {
+
+
+  let deviceId = argumentData.data.user.deviceId? argumentData.data.user.deviceId:'';
+  let apiBaseUrl = argumentData.data.user.apiBaseUrl;
+  let clientToken = argumentData.data.user.clientToken;
+
+  //console.log(" busbooking calling 111", deviceId, apiBaseUrl, clientToken); 
+
+
+  let instance = axios.create({
+    baseURL: apiBaseUrl,
+    timeout: 30000,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${clientToken}`,
+      DeviceId: deviceId,
+      DeviceType: Platform.OS === 'android' ? 'ANDROID' : 'IOS',
+    },
+  });
+
+  let urlString = apiConstant.ACCESS_TOKEN_BASED_CLIENT_TOKEN;
+  console.log(" busbooking calling url", urlString); 
+
+  return instance
+    .get(urlString)
+    .then(response =>
+      Promise.resolve({
+        data: response,
+      }).then(response => {
+        console.log(" response --@@@@@@@- ACCESS_TOKEN_BASED_CLIENT_TOKEN ", response); 
+        let response1 = response.data.data;
+        return response1;
+      }),
+    )
+    .catch(err => {
+      console.log('136 list satus  api Erorr: ', err.response);
+      return err.response.data;
+    });
+};

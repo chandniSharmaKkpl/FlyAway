@@ -125,7 +125,6 @@ const LoginScreen = props => {
   };
   // Getting device info from push controller
   const getDeviceInfo = value => {
-    console.log(' device info ----->', value);
     setDeviceInfo(value);
   };
 

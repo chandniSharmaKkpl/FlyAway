@@ -130,11 +130,21 @@ export function* workerGetAccountUrl(argumentData, apiBase, clientToken) {
         payload: responseAccountUrl,
       });
 
+      let  loginUrl = '';
+      let  responseLoginUrl = '';
+      let functionUrl = '';
 
-      let loginUrl = responseAccountUrl[0].value;
-      let responseLoginUrl =  responseAccountUrl[0].value;
-      loginUrl = loginUrl.replace(':mobileDeviceId', argumentData.DeviceId);
-
+      if (responseAccountUrl && Array.isArray(responseAccountUrl)  ) {
+        loginUrl = responseAccountUrl[0].value;
+        responseLoginUrl =  responseAccountUrl[0].value;
+       loginUrl = loginUrl.replace(':mobileDeviceId', argumentData.DeviceId);
+ 
+       functionUrl = responseAccountUrl[1].value;
+       console.log(" functionurl ==", functionUrl);
+      } else {
+        
+      }
+      
       let user = {
         client: argumentData.client,
         clientToken: clientToken,
@@ -142,7 +152,8 @@ export function* workerGetAccountUrl(argumentData, apiBase, clientToken) {
         apiBaseUrl: apiBase,
         loginUrl: loginUrl,
         responseLoginUrl: responseLoginUrl,
-         userId:  'P000000442', // Temp
+        functionUrl: functionUrl,
+      // userId:  'P000000442', // Temp
       };
       localDB.setUser(user);
 
@@ -167,9 +178,9 @@ export function* workerGetAccountUrl(argumentData, apiBase, clientToken) {
      
       // ** For stopping loader **//
       yield put(setLoader(false));
-        argumentData.navigation.navigate(appConstant.DRAWER_NAVIGATOR); // Temp
-      //  let dict = {loginUrl: loginUrl, responseLoginUrl: responseLoginUrl}
-      //  argumentData.navigation.navigate(appConstant.LOGIN, {data: dict });
+      //  argumentData.navigation.navigate(appConstant.DRAWER_NAVIGATOR); // Temp
+       let dict = {loginUrl: loginUrl, responseLoginUrl: responseLoginUrl}
+       argumentData.navigation.navigate(appConstant.LOGIN, {data: dict });
     }
   } catch (error) {
     yield put(setLoader(false));

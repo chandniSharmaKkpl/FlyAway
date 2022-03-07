@@ -30,7 +30,7 @@ import {
 } from 'react-native-responsive-screen';
 import {appColor, appConstant, imageConstant} from '../../constant';
 import {requestToGetItinaryList} from '../home/Home.action';
-import {requestToGetBusStop} from './BusBooking.action';
+import {requestToGetBusStop,requestToGetAccessTokenBusBooking} from './BusBooking.action';
 
 const BusBookingScreen = props => {
   const [arrayBooking, setArrayBooking] = useState([1]); // All bookings data will get in this array
@@ -40,7 +40,7 @@ const BusBookingScreen = props => {
   const [toLoc, setToLoc] = useState('bwb'); // To location
 
   const dispatch = useDispatch(); // Calling api
-  const response = useSelector(state => state.BusBookingReducer); // Getting api response
+  const responseBusBooking = useSelector(state => state.BusBookingReducer); // Getting api response
   const responseItinaryList = useSelector(state => state.HomeReducer); // Getting api response
   const [deviceInfo, setDeviceInfo] = useState({}); // Getting user device info from push controller.
   const [busBookingUrl, setBusBookingUrl] = useState(null);
@@ -58,7 +58,6 @@ const BusBookingScreen = props => {
   };
   // Getting device info from push controller
   const getDeviceInfo = value => {
-    console.log(' device info ----->', value);
     setDeviceInfo(value);
   };
   const hideSpinner = () => {
@@ -68,10 +67,18 @@ const BusBookingScreen = props => {
   useEffect(() => {
     const unsubscribe = props.navigation.addListener('focus', () => {
       BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
-      let date = new Date();
-      let currentDate = format(date, 'EEEE, MMMM dd yyyy');
-      setSelectedDate(currentDate);
-      //  dispatch(requestToGetItinaryList())
+     
+      // Getting access token for bus booking then pass it in webview url 
+      const tempUser = localDb.getUser();
+      Promise.resolve(tempUser).then(response => {
+        if (response) {
+          let param = {
+            user: response,
+            navigation: props.navigation,
+          };  
+          dispatch(requestToGetAccessTokenBusBooking(param));
+        }
+      });
     });
     return () => {
       BackHandler.removeEventListener(
@@ -82,23 +89,26 @@ const BusBookingScreen = props => {
     };
   }, []);
 
-  React.useEffect(() => {
+
+  useEffect(() => {
+
+    {console.log(" Busbooking reducer ", responseBusBooking)}
     const tempUser = localDb.getUser();
+    var functionUrl = ''; 
+
     Promise.resolve(tempUser).then(response => {
       if (response) {
-        console.log(' response --', response);
-        if (response.responseLoginUrl) {
-          let tempUrl = ''; //'https://app-aue.trobexisuat.com/TONEAPPUAT/MobileApp/MobileFunctions.aspx?key=20220303112522419a7ec0496e6b749799ff6d2f429894a363&action=BUSBOOKING';  //response.responseLoginUrl;
-         
-         tempUrl = response.apiBaseUrl+ response.client+'MobileApp/MobileFunctions.aspx?key='+response.deviceId+"&action=BUSBOOKING"
-          console.log(' url ---', tempUrl);
-          setBusBookingUrl(tempUrl);
+        if (response.functionUrl && responseBusBooking.accessTokenBusBooking.token) {
+           functionUrl = response.functionUrl; 
+         functionUrl = functionUrl.replace(':actionKey', 'BUSBOOKING');
+         functionUrl = functionUrl.replace(':accessKey', responseBusBooking.accessTokenBusBooking.token)
+          console.log(" ++++++ ",functionUrl); 
+          setBusBookingUrl(functionUrl)
         } else {
-          setBusBookingUrl(response.loginUrl);
         }
       }
     });
-  }, []);
+  }, [responseBusBooking.accessTokenBusBooking])
 
   const renderItem = item => {
     return (
@@ -133,7 +143,6 @@ const BusBookingScreen = props => {
 
   const convertDate = date => {
     let convertedDate = '';
-
     let dateTemp = Date.parse(selectedDate);
     convertedDate = format(dateTemp, "yyyy'-'MM'-'dd'T'HH':'mm':'ss");
     console.log(' converted date is ', convertedDate);
