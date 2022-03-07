@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useCallback, useEffect } from 'react';
+import {useState, useCallback, useEffect} from 'react';
 
 import {
   Image,
@@ -16,17 +16,22 @@ import {
 import {Avatar} from 'react-native-elements';
 
 import commonStyle from '../common/common.style';
-import {imageConstant, appColor, fontConstant, appConstant, alertMsgConstant} from '../constant';
+import {
+  imageConstant,
+  appColor,
+  fontConstant,
+  appConstant,
+  alertMsgConstant,
+} from '../constant';
 import IconIonicons from 'react-native-vector-icons/Ionicons';
 import IconAntDesgin from 'react-native-vector-icons/AntDesign';
-import IconMaterial from 'react-native-vector-icons/MaterialCommunityIcons'; 
-import IconFontAwesome from 'react-native-vector-icons/FontAwesome'; 
+import IconMaterial from 'react-native-vector-icons/MaterialCommunityIcons';
+import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
 import DeviceInfo from 'react-native-device-info';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/core';
 import localDb from '../database/localDb';
-import {  AlertView } from '../component';
-
+import {AlertView} from '../component';
 
 export default CustomDrawer = () => {
   const navigation = useNavigation();
@@ -35,18 +40,19 @@ export default CustomDrawer = () => {
   const response = useSelector(state => state.HomeReducer); // Getting api response
   const [isAlertShow, setIsAlertShow] = useState(false);
 
-  const onPressItem =(screenName)=>{
+  const onPressItem = screenName => {
     if (screenName === appConstant.SCAN) {
       navigation.navigate(screenName);
     } else {
-      alert(alertMsgConstant.COMING_SOON)
+      alert(alertMsgConstant.COMING_SOON);
     }
-   
-  }
+  };
   const returnDrawerSection = (title, icon, screenName) => {
     return (
       <View style={styles.drawerSection}>
-        <Pressable style={styles.btnDrawer} onPress={()=> onPressItem(screenName)}>
+        <Pressable
+          style={styles.btnDrawer}
+          onPress={() => onPressItem(screenName)}>
           <View style={styles.viewCircleBlue}>{icon}</View>
           <Text style={styles.textDrawerTitle}>{title}</Text>
         </Pressable>
@@ -57,23 +63,24 @@ export default CustomDrawer = () => {
 
   return (
     <>
-    <View style={styles.appDrawer}>
-      <View style={styles.drawer}>
-        <View style={styles.viewTop}>
-          <ImageBackground
-            style={commonStyle.image}
-            source={imageConstant.IMAGE_DRAWER_BG}>
-            <View style={styles.viewTop1}>
-              <View style={{flex: 0.9}} />
-             
-                <Pressable style={styles.viewCrossBtn} onPress={() => navigation.navigate(appConstant.TAB)}>
+      <View style={styles.appDrawer}>
+        <View style={styles.drawer}>
+          <View style={styles.viewTop}>
+            <ImageBackground
+              style={commonStyle.image}
+              source={imageConstant.IMAGE_DRAWER_BG}>
+              <View style={styles.viewTop1}>
+                <View style={{flex: 0.9}} />
+
+                <Pressable
+                  style={styles.viewCrossBtn}
+                  onPress={() => navigation.navigate(appConstant.TAB)}>
                   <IconIonicons name="close-outline" style={styles.iconClose} />
                 </Pressable>
-              
-            </View>
+              </View>
 
-            <View style={styles.viewTitle}>
-              {/* <View style={styles.viewImageUser}>
+              <View style={styles.viewTitle}>
+                {/* <View style={styles.viewImageUser}>
                 <Avatar
                   size={DeviceInfo.isTablet() ? 'xlarge' : 'large'}
                   source={imageConstant.IMAGE_USER}
@@ -81,19 +88,19 @@ export default CustomDrawer = () => {
                   activeOpacity={0.7}
                 />
               </View> */}
-              <View style={{paddingLeft: wp('5%')}}>
-                <Text style={styles.textUserNameTop}>
-                  {response.userProfile && response.userProfile.firstname
-                    ? response.userProfile.firstname
-                    : ''}
-                </Text>
+                <View style={{paddingLeft: wp('5%')}}>
+                  <Text style={styles.textUserNameTop}>
+                    {response.userProfile && response.userProfile.firstname
+                      ? response.userProfile.firstname
+                      : ''}
+                  </Text>
+                </View>
               </View>
-            </View>
-          </ImageBackground>
+            </ImageBackground>
 
-          {/* Creating Drawer sections */}
+            {/* Creating Drawer sections */}
 
-          {/* {returnDrawerSection(
+            {/* {returnDrawerSection(
             'Scan QR Code',
             <IconIonicons name="scan-sharp" style={styles.iconDrawerMenu} />,
             appConstant.SCAN,
@@ -113,85 +120,85 @@ export default CustomDrawer = () => {
             <IconFontAwesome name="lock" style={styles.iconDrawerMenu} />,
             appConstant.SUPPORT,
           )} */}
-        </View>
-      </View>
-
-      {isAlertShow ? null:   <View style={styles.viewLogout}>
-      <Pressable style={styles.btnDrawer} onPress={()=> {
-       setIsAlertShow(true)
-         }}>
-          <View >
-            <IconMaterial name="logout" style={styles.iconLogout}/>
           </View>
-          <Text style={styles.textLogout}>Logout</Text>
-        </Pressable>
-      </View>}
+        </View>
 
-     
-    </View>
-     {isAlertShow ? (
-      <AlertView
-        title={alertMsgConstant.PLEASE_CONFIRM}
-        subtitle={alertMsgConstant.ARE_YOU_SURE_TO_LOGOUT}
-        confirmBtnTxt={alertMsgConstant.YES}
-        cancelBtnTxt={alertMsgConstant.NO}
-        buttonCount={2}
-        bigBtnText={''}
-        onPressConfirmBtn={() => {
-          setIsAlertShow(false);
-          localDb.setUser(null);
-          navigation.navigate(appConstant.CLIENT_CODE);
-        }}
-        onPressCancel={() => {
-          setIsAlertShow(false);
-        }}
-        onPressBigBtn={() => {
-        }}
-      />
-    ) : null}
+        {isAlertShow ? null : (
+          <View style={styles.viewLogout}>
+            <Pressable
+              style={styles.btnDrawer}
+              onPress={() => {
+                setIsAlertShow(true);
+              }}>
+              <View>
+                <IconMaterial name="logout" style={styles.iconLogout} />
+              </View>
+              <Text style={styles.textLogout}>Logout</Text>
+            </Pressable>
+          </View>
+        )}
+      </View>
+      {isAlertShow ? (
+        <AlertView
+          title={alertMsgConstant.PLEASE_CONFIRM}
+          subtitle={alertMsgConstant.ARE_YOU_SURE_TO_LOGOUT}
+          confirmBtnTxt={alertMsgConstant.YES}
+          cancelBtnTxt={alertMsgConstant.NO}
+          buttonCount={2}
+          bigBtnText={''}
+          onPressConfirmBtn={() => {
+            setIsAlertShow(false);
+            localDb.setUser(null);
+            navigation.navigate(appConstant.CLIENT_CODE);
+          }}
+          onPressCancel={() => {
+            setIsAlertShow(false);
+          }}
+          onPressBigBtn={() => {}}
+        />
+      ) : null}
     </>
   );
 };
 
 const styles = StyleSheet.create({
-  iconLogout:{
+  iconLogout: {
     fontSize: 25,
     color: appColor.WHITE,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
-  viewLogout:{
+  viewLogout: {
     backgroundColor: appColor.RED,
-    height:hp('8%'), 
+    height: hp('8%'),
   },
-  textLogout:{
+  textLogout: {
     fontFamily: fontConstant.BARLOW_REGULAR,
     fontSize: fontConstant.TEXT_16_SIZE_REGULAR,
     color: appColor.WHITE,
     paddingLeft: wp('1%'),
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   textDrawerTitle: {
     fontFamily: fontConstant.BARLOW_REGULAR,
     fontSize: fontConstant.TEXT_16_SIZE_REGULAR,
     color: appColor.BLACK,
     paddingLeft: wp('1%'),
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   singleLine: {
     backgroundColor: appColor.LIGH_ORANGE,
     height: hp('0.2%'),
-   // paddingBottom:0
+    // paddingBottom:0
   },
   drawerSection: {
-    
     height: '25%',
     marginBottom: 5,
   },
   viewTitle: {
     flexDirection: 'row',
     alignItems: 'center',
-   // backgroundColor:'pink',
-    marginTop:'-5%'
+    // backgroundColor:'pink',
+    marginTop: '-5%',
   },
   viewImageUser: {
     width: wp('9%'),
@@ -211,7 +218,7 @@ const styles = StyleSheet.create({
     //flex:1,
     paddingTop: hp('3.3%'),
     paddingRight: wp('2%'),
-   // backgroundColor:'orange'
+    // backgroundColor:'orange'
   },
   viewCrossBtn: {
     // width: wp('5%'),
@@ -227,7 +234,7 @@ const styles = StyleSheet.create({
   iconDrawerMenu: {
     fontSize: 15,
     color: appColor.WHITE,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   viewCircleBlue: {
     backgroundColor: appColor.BLUE_DARK,
@@ -240,8 +247,8 @@ const styles = StyleSheet.create({
   btnDrawer: {
     flexDirection: 'row',
     alignItems: 'center',
-    height:'100%',
-    paddingLeft:wp('2%')
+    height: '100%',
+    paddingLeft: wp('2%'),
     //backgroundColor:appColor.RED
   },
 
@@ -252,7 +259,7 @@ const styles = StyleSheet.create({
   },
   viewTop: {
     height: hp('15%'),
-  backgroundColor: 'orange',
+    backgroundColor: 'orange',
   },
   imageBgd: {
     width: wp('5%'),

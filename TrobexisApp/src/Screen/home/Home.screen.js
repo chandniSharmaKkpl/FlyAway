@@ -313,7 +313,7 @@ const HomeScreen = props => {
             <Loader loading={response.isRequesting} />
           ) : null}
         </KeyboardAwareScrollView>
-      </View>
+      </View>  
       {isAlertShow ? (
         <AlertView
           title={alertMsgConstant.PLEASE_CONFIRM}

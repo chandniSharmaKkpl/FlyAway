@@ -291,7 +291,7 @@ function TabNavigator() {
                     style={styles.image}
                   />
                 </View>
-                <Text style={styles.tabBarLabel}>
+                <Text style={styles.tabBarLabel_History}>
                   {focused ? appConstant.HISTORY : ''}
                 </Text>
               </>
@@ -353,14 +353,18 @@ const styles = {
     fontFamily: fontConstant.BARLOW_REGULAR,
     fontSize: fontConstant.TEXT_H3_SIZE_REGULAR,
     color: appColor.WHITE,
-    //  backgroundColor:'pink',
-    //  width: '100%'
   },
   tabBarLabel_Bus: {
     fontFamily: fontConstant.BARLOW_REGULAR,
     fontSize: fontConstant.TEXT_H3_SIZE_REGULAR,
     color: appColor.WHITE,
     width: wp('12%'),
+  },
+  tabBarLabel_History : {
+    ontFamily: fontConstant.BARLOW_REGULAR,
+    fontSize: fontConstant.TEXT_H3_SIZE_REGULAR,
+    color: appColor.WHITE,
+    width: wp('7%'),
   },
 
   image: {

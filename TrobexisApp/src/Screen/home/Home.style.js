@@ -12,7 +12,7 @@ export default StyleSheet.create({
         backgroundColor: appColor.NAVY_BLUE,
         borderBottomLeftRadius: 20,
         borderBottomRightRadius: 20,
-        width: wp('100%'),
+        // width: wp('100%'),
         height: hp('20%'),
     },
    

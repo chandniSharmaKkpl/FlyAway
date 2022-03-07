@@ -1,7 +1,7 @@
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
-platform :ios, '10.0'
+platform :ios, '11.0'
 
 target 'TrobexisApp' do
   config = use_native_modules!
@@ -35,7 +35,7 @@ target 'TrobexisApp' do
 
   pod 'RNSVG', :path => '../node_modules/react-native-svg'
 
-  pod 'RNDeviceTimeFormat', :path => '../node_modules/react-native-device-time-format'
+  pod 'RNDeviceTimeFormat', :path => '../node_modules/react-native-device-time-format/ios'
 
   target 'TrobexisAppTests' do
     inherit! :complete
@@ -52,10 +52,19 @@ target 'TrobexisApp' do
 #    react_native_post_install(installer)
 #  end
   
+  
+  # use_flipper!
+  # post_install do |installer|
+  #   flipper_post_install(installer)
+  # end
+
+  
+  
+  
   post_install do |installer|
-    installer.pods_project.targets.each do |target|
+#    installer.pods_project.targets.each do |target|
        react_native_post_install(installer)
-      end
+#      end
     installer.pods_project.targets.each do |target|
     target.build_configurations.each do |config|
      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '10.0'
