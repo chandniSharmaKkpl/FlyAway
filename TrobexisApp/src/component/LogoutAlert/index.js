@@ -1,27 +1,22 @@
 import React from 'react';
 import {View, Text, Image} from 'react-native';
-import appColor from '../constant/colorConstant';
-import fontConstant from '../constant/fontConstant';
-import format from 'date-fns/format';
+import appColor from '../../constant/colorConstant';
+import fontConstant from '../../constant/fontConstant';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {Dimensions} from 'react-native';
-import imageConstant from '../constant/imageConstant';
-import appConstant from '../constant/appConstant';
 import {Pressable} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-
-var windowWidth = Dimensions.get('window').width;
-var windowHeight = Dimensions.get('window').height;
-Dimensions.addEventListener('change', () => {
-  // orientation has changed, check if it is portrait or landscape here
-  console.log('change');
-  windowWidth = Dimensions.get('window').width;
-  windowHeight = Dimensions.get('window').height;
-});
+import {TouchableOpacity} from 'react-native';
+import {connect, useDispatch} from 'react-redux';
+import localDb from '../../database/localDb';
+// import {useNavigation} from '@react-navigation/core';
+import {appConstant} from '../../constant';
+import {hideAlert} from './actions';
+import {reset} from '../../Navigator/RootNavigation';
 const AlertView = props => {
+  //   const navigation = useNavigation();
+  const dispatch = useDispatch(); // Calling api
   const {
     title,
     subtitle,
@@ -29,13 +24,24 @@ const AlertView = props => {
     cancelBtnTxt,
     buttonCount,
     bigBtnText,
-    onPressConfirmBtn,
-    onPressCancel,
-    onPressBigBtn,
-  } = props;
+    isAlertShow,
+  } = props.alert;
 
-  return (
-    <View style={styles.viewOutSide}>
+  console.log('isAlertShow', props.alert);
+
+  const onPressConfirmBtn = () => {
+    console.log('onPressConfirmBtn');
+    dispatch(hideAlert());
+    localDb.setUser(null);
+    reset(1, [{name: appConstant.CLIENT_CODE}]);
+    // navigation.navigate(appConstant.CLIENT_CODE);
+  };
+  const onPressCancel = () => dispatch(hideAlert());
+
+  const onPressBigBtn = () => {};
+
+  return isAlertShow ? (
+    <View style={[styles.viewOutSide, [{width: '100%', height: '100%'}]]}>
       <View
         style={
           buttonCount === 2
@@ -72,6 +78,8 @@ const AlertView = props => {
         ) : null}
       </View>
     </View>
+  ) : (
+    <View />
   );
 };
 
@@ -95,9 +103,8 @@ const styles = {
     padding: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0, 0.6) ',
-    // position: 'absolute',
-    // bottom: 0,
+    backgroundColor: 'rgba(0,0,0, 0.6)',
+    position: 'absolute',
   },
   viewInside1: {
     backgroundColor: appColor.WHITE,
@@ -190,4 +197,12 @@ const styles = {
   },
 };
 
-export default AlertView;
+const mapStateToProps = state => {
+  // Redux Store --> Component
+  return {
+    alert: state.AlertReducer,
+  };
+};
+// Map Dispatch To Props (Dispatch Actions To Reducers. Reducers Then Modify The Data And Assign It To Your Props)
+
+export default connect(mapStateToProps, null)(AlertView);

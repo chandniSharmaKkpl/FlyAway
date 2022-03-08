@@ -39,6 +39,7 @@ import {
   imageConstant,
   errorCodeConstant,
 } from '../constant';
+import AlertView from '../component/LogoutAlert';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -322,27 +323,31 @@ function NavigationSetup() {
   }, [errorData]);
 
   return (
-    <Stack.Navigator
-      initialRouteName={appConstant.LOGIN}
-      options={{gestureEnabled: true}}>
-      {currentUser ? (
-        <Stack.Screen
-          options={{headerShown: false}}
-          name={appConstant.DRAWER_NAVIGATOR}
-          component={DrawerNavigator}
-        />
-      ) : (
-        <Stack.Screen
-          name={appConstant.AUTH_STACK}
-          component={AuthStack}
-          options={{
-            header: () => null,
-            gestureEnabled: false,
-            headerTransparent: true,
-          }}
-        />
-      )}
-    </Stack.Navigator>
+    <>
+      <Stack.Navigator
+        initialRouteName={appConstant.LOGIN}
+        options={{gestureEnabled: true}}>
+        {currentUser ? (
+          <Stack.Screen
+            options={{headerShown: false}}
+            name={appConstant.DRAWER_NAVIGATOR}
+            component={DrawerNavigator}
+          />
+        ) : (
+          <Stack.Screen
+            name={appConstant.AUTH_STACK}
+            component={AuthStack}
+            options={{
+              header: () => null,
+              gestureEnabled: false,
+              headerTransparent: true,
+            }}
+          />
+        )}
+      </Stack.Navigator>
+
+      <AlertView />
+    </>
   );
 }
 
@@ -360,7 +365,7 @@ const styles = {
     color: appColor.WHITE,
     width: wp('12%'),
   },
-  tabBarLabel_History : {
+  tabBarLabel_History: {
     ontFamily: fontConstant.BARLOW_REGULAR,
     fontSize: fontConstant.TEXT_H3_SIZE_REGULAR,
     color: appColor.WHITE,

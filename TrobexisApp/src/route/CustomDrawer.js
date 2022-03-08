@@ -32,10 +32,12 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/core';
 import localDb from '../database/localDb';
 import {AlertView} from '../component';
+import {showAlert} from '../component/LogoutAlert/actions';
 
 export default CustomDrawer = () => {
   const navigation = useNavigation();
 
+  const dispatch = useDispatch();
   //console.log(' navigation object --->', navigation);
   const response = useSelector(state => state.HomeReducer); // Getting api response
   const [isAlertShow, setIsAlertShow] = useState(false);
@@ -128,7 +130,17 @@ export default CustomDrawer = () => {
             <Pressable
               style={styles.btnDrawer}
               onPress={() => {
-                setIsAlertShow(true);
+                dispatch(
+                  showAlert({
+                    title: alertMsgConstant.PLEASE_CONFIRM,
+                    subtitle: alertMsgConstant.ARE_YOU_SURE_TO_LOGOUT,
+                    confirmBtnTxt: alertMsgConstant.YES,
+                    cancelBtnTxt: alertMsgConstant.NO,
+                    buttonCount: 2,
+                    bigBtnText: '',
+                  }),
+                );
+                // setIsAlertShow(true);
               }}>
               <View>
                 <IconMaterial name="logout" style={styles.iconLogout} />
@@ -272,7 +284,7 @@ const styles = StyleSheet.create({
   },
   appDrawer: {
     flex: 1,
-    //backgroundColor: '#3389df',
+    backgroundColor: '#3389df',
   },
   drawer: {
     flex: 1,

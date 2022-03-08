@@ -1,4 +1,4 @@
-import {StyleSheet, Dimensions} from 'react-native';
+import {StyleSheet, Platform, Dimensions} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -6,22 +6,22 @@ import {
 import fontConstant from '../../constant/fontConstant';
 import appColor from '../../constant/colorConstant';
 export default StyleSheet.create({
-  viewSpace:{
-    paddingTop:'4%'
+  viewSpace: {
+    paddingTop: '4%',
   },
-  viewDashedLine:{
+  viewDashedLine: {
     height: 270,
-     width: 1,
-     position: 'absolute',
-     borderRadius: 1,
-     borderWidth: 1,
-     left: '6%',
-     top:'29%',
-     borderColor: appColor.GRAY_MIDIUM,
-     borderStyle: 'dashed',
-     zIndex: 0,
-   },
-   viewDotted:{
+    width: 1,
+    position: 'absolute',
+    borderRadius: 1,
+    borderWidth: 1,
+    left: 25,
+    top: '29%',
+    borderColor: appColor.GRAY_MIDIUM,
+    borderStyle: 'dashed',
+    zIndex: 0,
+  },
+  viewDotted: {
     position: 'absolute',
     left: 0,
     bottom: 0,
@@ -32,13 +32,16 @@ export default StyleSheet.create({
   },
   viewRowOutSide: {
     flexDirection: 'row',
+    // backgroundColor: 'red',
     //alignItems: 'center',
-   // backgroundColor:'pink'
+    // backgroundColor:'pink'
   },
-  viewLeftLine:{
-    zIndex:9999
-   //backgroundColor:'green',
-  // paddingTop:"18%"
+  viewLeftLine: {
+    zIndex: 9999,
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    //backgroundColor:'green',
+    // paddingTop:"18%"
   },
   viewCircleBlue: {
     backgroundColor: appColor.NAVY_BLUE,
@@ -49,17 +52,17 @@ export default StyleSheet.create({
     borderRadius: 25,
     marginTop: hp('5%'),
   },
-  viewDetail:{
-paddingTop:'5%'
+  viewDetail: {
+    paddingTop: '5%',
   },
   imageSideColomn: {
     tintColor: appColor.WHITE,
     width: '100%',
     height: '100%',
   },
-  imageSVG:{
-   width: 50, 
-   height: 50,
+  imageSVG: {
+    width: 50,
+    height: 50,
   },
   viewPlaneImg: {
     position: 'absolute',
@@ -83,7 +86,6 @@ paddingTop:'5%'
     height: hp('6%'),
   },
   viewCircleGray: {
-
     backgroundColor: appColor.GRAY_MIDIUM,
     justifyContent: 'center',
     alignItems: 'center',
@@ -110,15 +112,15 @@ paddingTop:'5%'
     fontFamily: fontConstant.BARLOW_BOLD,
     fontSize: fontConstant.TEXT_H2_5_SIZE_BOLD,
     color: appColor.BLACK,
-   // paddingBottom: '1%',
+    // paddingBottom: '1%',
     paddingLeft: '2%',
-   // paddingTop:'2%'
+    // paddingTop:'2%'
   },
   viewSection: {
     padding: '3%',
   },
   viewItineraryList: {
-    paddingTop: '3%'
+    paddingTop: '3%',
   },
   viewInside: {
     //  height: hp('35%'),
@@ -138,7 +140,7 @@ paddingTop:'5%'
     marginTop: '2%',
   },
   viewRow: {
-   // flexDirection: 'row',
+    // flexDirection: 'row',
     padding: '1%',
   },
   textYellow: {
@@ -151,13 +153,13 @@ paddingTop:'5%'
     fontSize: fontConstant.TEXT_H1_SIZE_REGULAR,
     color: appColor.RED,
   },
-  textSubTitle:{
+  textSubTitle: {
     fontFamily: fontConstant.BARLOW_REGULAR,
     fontSize: fontConstant.TEXT_H1_SIZE_REGULAR,
     color: appColor.GRAY,
-    flexWrap:'wrap', 
-    width:wp('54%'),
-   // backgroundColor:'red'
+    flexWrap: 'wrap',
+    width: wp('54%'),
+    // backgroundColor:'red'
   },
   textBlue: {
     fontFamily: fontConstant.BARLOW_SEMI_BOLD,
@@ -176,8 +178,8 @@ paddingTop:'5%'
     paddingLeft: '5%',
     paddingRight: '5%',
     paddingBottom: '5%',
-    paddingTop:'3%',
-   // backgroundColor:'orange'
+    paddingTop: '3%',
+    // backgroundColor:'orange'
   },
   textAreaContainer: {
     padding: '5%',
@@ -228,10 +230,10 @@ paddingTop:'5%'
     // height: hp('15%'),
     backgroundColor: appColor.WHITE,
     // margin: 10,
-    marginLeft:'3%',
-    marginTop:'10%',
-    flexWrap: 'wrap',
-    alignSelf: 'center',
+    marginLeft: '3%',
+    marginTop: '10%',
+    // flexWrap: 'wrap',
+    // alignSelf: 'center',
 
     // overflow:'hidden'
   },
@@ -274,7 +276,7 @@ paddingTop:'5%'
   viewLeft: {
     paddingLeft: wp('2%'),
     paddingRight: wp('2%'),
-    width:wp('55%'),
+    width: wp('55%'),
     //backgroundColor:'pink'
   },
 
@@ -314,8 +316,8 @@ paddingTop:'5%'
     alignSelf: 'center',
   },
   viewLocation: {
-   // width: '33%',
-   // backgroundColor: 'orange',
+    // width: '33%',
+    // backgroundColor: 'orange',
     // alignItems:'flex-end'
   },
   viewRightLocation: {
@@ -334,22 +336,22 @@ paddingTop:'5%'
   viewInside: {
     padding: '3.5%',
   },
-  viewInside2:{
+  viewInside2: {
     //  height: hp('35%'),
-      backgroundColor: appColor.WHITE,
-      width: '90%',
-      alignSelf: 'center',
-      borderRadius: 10,
-      borderColor: Platform.OS === 'android' ? appColor.BORDER : appColor.GRAY,
-      shadowColor: appColor.SHADOW,
-      shadowOffset: {
-        width: 1,
-        height: 1,
-      },
-      shadowOpacity: Platform.OS === 'android' ? 0.2 : 0.62,
-      shadowRadius: Platform.OS === 'android' ? 1.2 : 2.22,
-      elevation: 5,
-      marginTop:'2%'
+    backgroundColor: appColor.WHITE,
+    width: '90%',
+    alignSelf: 'center',
+    borderRadius: 10,
+    borderColor: Platform.OS === 'android' ? appColor.BORDER : appColor.GRAY,
+    shadowColor: appColor.SHADOW,
+    shadowOffset: {
+      width: 1,
+      height: 1,
+    },
+    shadowOpacity: Platform.OS === 'android' ? 0.2 : 0.62,
+    shadowRadius: Platform.OS === 'android' ? 1.2 : 2.22,
+    elevation: 5,
+    marginTop: '2%',
   },
   textRedButton: {
     fontFamily: fontConstant.BARLOW_BOLD,
@@ -393,16 +395,16 @@ paddingTop:'5%'
   viewItinerary: {
     // flexDirection: 'row',
     // justifyContent: 'space-between',
-   // width: wp('70%'),
+    // width: wp('70%'),
     paddingLeft: wp('5%'),
     paddingRight: wp('2%'),
-   // alignItems: 'center',
-   // flexWrap: 'wrap',
+    // alignItems: 'center',
+    // flexWrap: 'wrap',
     paddingBottom: hp('2%'),
-   //  backgroundColor:'pink'
+    //  backgroundColor:'pink'
   },
   scrollView: {
-     paddingBottom: hp('20%'),
+    paddingBottom: hp('20%'),
     // height:hp('90%')
-    },
+  },
 });

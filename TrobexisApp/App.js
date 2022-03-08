@@ -19,11 +19,21 @@ import NavigationSetup from './src/route/Navigators';
 import SplashScreen from 'react-native-splash-screen';
 import AuthContext from './src/context/AuthContext';
 import Toast from 'react-native-toast-notifications';
+import {navigationRef} from './src/Navigator/RootNavigation';
 
+let DialogContext = React.createContext();
 const App = () => {
+  const [showDialog, setShowDialog] = React.useState(false);
+
   const isDarkMode = useColorScheme() === 'dark';
   const [user, setUser] = React.useState(null);
 
+  const openDialog = () => {
+    setShowDialog(true);
+  };
+  const hideDialog = () => {
+    setShowDialog(false);
+  };
   useEffect(() => {
     SplashScreen.hide();
   }, []);
@@ -32,15 +42,29 @@ const App = () => {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+  // const alertConfig = {  title,
+  //   subtitle,
+  //   confirmBtnTxt,
+  //   cancelBtnTxt,
+  //   buttonCount,
+  //   bigBtnText,
+  //   onPressConfirmBtn,
+  //   onPressCancel,
+  //   onPressBigBtn,}
+
   return (
     <SafeAreaProvider style={backgroundStyle}>
       <AuthContext.Provider value={{user, setUserData: setUser}}>
+        {/* <DialogContext.Provider
+          value={{setDialogOpen: open => setShowDialog(open)}}>
+          {showDialog && <AlertView />} */}
         <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
         <Provider store={StoreRoot}>
-          <NavigationContainer>
+          <NavigationContainer ref={navigationRef}>
             <NavigationSetup />
           </NavigationContainer>
         </Provider>
+        {/* </DialogContext.Provider> */}
       </AuthContext.Provider>
       <Toast ref={ref => (global.toast = ref)} />
     </SafeAreaProvider>

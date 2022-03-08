@@ -56,6 +56,7 @@ const JourneyDetail = props => {
   const [travellerDetailDate, setTravellerDetailDate] = useState('');
   const [tvr, setTvr] = useState('');
   const [arrayRoutes, setArrayRoutes] = useState([]);
+  const [lwidth, setlWidth] = useState(100);
 
   useEffect(() => {
     const unsubscribe = props.navigation.addListener('focus', () => {
@@ -148,8 +149,15 @@ const JourneyDetail = props => {
   const itemViews = (item, type, index) => {
     let isNoShowBtnVisible = false; // This flag is using to show no show button for flights only
 
+    // const  [width, setWidth]  = useState(200);
     return (
-      <View style={styles.viewRowOutSide}>
+      <View
+        style={styles.viewRowOutSide}
+        onLayout={event => {
+          var {x, y, width, height} = event.nativeEvent.layout;
+          setlWidth(width - 115);
+          // console.log("===width", width);
+        }}>
         {/* Side bus view  */}
         <View style={styles.viewLeftLine}>
           <View style={styles.viewCircleBlue}>
@@ -158,7 +166,7 @@ const JourneyDetail = props => {
         </View>
 
         {/* Detail Section */}
-        <View style={[styles.viewOutSide]}>
+        <View style={[styles.viewOutSide, {width: lwidth}]}>
           <View style={styles.viewRowTop}>
             <View style={styles.viewLeft}>
               <Text style={styles.textYellow}>
@@ -272,6 +280,7 @@ const JourneyDetail = props => {
           <View style={styles.viewDashedLine}>
             <View style={styles.viewDotted} />
           </View>
+          // <></>
         )}
       </View>
     );
@@ -279,15 +288,15 @@ const JourneyDetail = props => {
 
   const getDataFromResponse = (responseDetail, type) => {
     if (responseDetail && responseDetail[type]) {
-      if (type === "StartDate") {
+      if (type === 'StartDate') {
         return getDateInFormat(responseDetail[type], false, false);
       } else {
         if (type === 'GivenName') {
-          let surname = ""
+          let surname = '';
           if (responseDetail['Surname']) {
             surname = responseDetail['Surname'];
           }
-          let name = responseDetail['GivenName'] +" "+ surname;
+          let name = responseDetail['GivenName'] + ' ' + surname;
           return name;
         } else {
           return responseDetail[type];
