@@ -77,7 +77,6 @@ export const getAccessTokenBusBooking = argumentData => {
       Promise.resolve({
         data: response,
       }).then(response => {
-        console.log(" response --@@@@@@@- ACCESS_TOKEN_BASED_CLIENT_TOKEN ", response); 
         let response1 = response.data.data;
         return response1;
       }),

@@ -30,7 +30,10 @@ import {
 } from 'react-native-responsive-screen';
 import {appColor, appConstant, imageConstant} from '../../constant';
 import {requestToGetItinaryList} from '../home/Home.action';
-import {requestToGetBusStop,requestToGetAccessTokenBusBooking} from './BusBooking.action';
+import {
+  requestToGetBusStop,
+  requestToGetAccessTokenBusBooking,
+} from './BusBooking.action';
 
 const BusBookingScreen = props => {
   const [arrayBooking, setArrayBooking] = useState([1]); // All bookings data will get in this array
@@ -45,6 +48,8 @@ const BusBookingScreen = props => {
   const [deviceInfo, setDeviceInfo] = useState({}); // Getting user device info from push controller.
   const [busBookingUrl, setBusBookingUrl] = useState(null);
   const [loading, setLoading] = React.useState(true);
+  const [headersWeb, setHeadersWeb] = useState({});
+  const [responseUser, setResponseUser] = useState({});
 
   const onClickBookingCard = useCallback(itinaryDetail => {
     props.navigation.navigate(appConstant.SITE_ITINARY, {
@@ -67,18 +72,22 @@ const BusBookingScreen = props => {
   useEffect(() => {
     const unsubscribe = props.navigation.addListener('focus', () => {
       BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
-     
-      // Getting access token for bus booking then pass it in webview url 
-      const tempUser = localDb.getUser();
-      Promise.resolve(tempUser).then(response => {
-        if (response) {
-          let param = {
-            user: response,
-            navigation: props.navigation,
-          };  
-          dispatch(requestToGetAccessTokenBusBooking(param));
-        }
-      });
+
+      (async () => {
+        // Getting access token for bus booking then pass it in webview url
+        const tempUser = localDb.getUser();
+        Promise.resolve(tempUser).then(response => {
+          if (response) {
+            let param = {
+              user: response,
+              navigation: props.navigation,
+            };
+            console.log(' response ====> ', response);
+            setResponseUser(response);
+            dispatch(requestToGetAccessTokenBusBooking(param));
+          }
+        });
+      })();
     });
     return () => {
       BackHandler.removeEventListener(
@@ -89,26 +98,30 @@ const BusBookingScreen = props => {
     };
   }, []);
 
-
+  //  calling token api for busbooking
   useEffect(() => {
+    const response = responseUser;
+    var functionUrl = '';
+    if (response) {
+      // console.log(' tempuser bus booking- $$$$$$$$$$$$-', responseBusBooking);
 
-    {console.log(" Busbooking reducer ", responseBusBooking)}
-    const tempUser = localDb.getUser();
-    var functionUrl = ''; 
-
-    Promise.resolve(tempUser).then(response => {
-      if (response) {
-        if (response.functionUrl && responseBusBooking.accessTokenBusBooking.token) {
-           functionUrl = response.functionUrl; 
-         functionUrl = functionUrl.replace(':actionKey', 'BUSBOOKING');
-         functionUrl = functionUrl.replace(':accessKey', responseBusBooking.accessTokenBusBooking.token)
-          console.log(" ++++++ ",functionUrl); 
-          setBusBookingUrl(functionUrl)
-        } else {
-        }
+      if (responseBusBooking.accessTokenBusBooking.token) {
+        functionUrl = response.functionUrl;
+        functionUrl = functionUrl.replace(':actionKey', 'BUSBOOKING');
+        functionUrl = functionUrl.replace(
+          ':accessKey',
+          responseBusBooking.accessTokenBusBooking.token,
+        );
+        console.log(' ++++++ ', functionUrl);
+        setBusBookingUrl(functionUrl);
+        setHeadersWeb({
+          // 'Authorization': `Bearer ${response.client}`,
+          DeviceId: response.deviceId ? response.deviceId : '',
+          DeviceType: Platform.OS === 'android' ? 'ANDROID' : 'IOS',
+        });
       }
-    });
-  }, [responseBusBooking.accessTokenBusBooking])
+    }
+  }, [responseBusBooking.accessTokenBusBooking?.token]);
 
   const renderItem = item => {
     return (
@@ -149,6 +162,18 @@ const BusBookingScreen = props => {
     return convertedDate;
   };
 
+  const gettingTokenAndAppend = response => {
+    let tempUrl =
+      response.apiBaseUrl +
+      '/' +
+      response.client +
+      '/MobileApp/MobileFunctions.aspx?key=' +
+      responseBusBooking.accessTokenBusBooking.token +
+      '&action=BUSBOOKING';
+    console.log(' url --->>>>>>>>>>>>>>>>>', tempUrl, '<<<<<<<<<<<<<<');
+    setBusBookingUrl(tempUrl);
+  };
+
   return (
     <>
       <WebView
@@ -156,6 +181,7 @@ const BusBookingScreen = props => {
         style={styles.webview}
         source={{
           uri: busBookingUrl,
+          headers: headersWeb,
         }}></WebView>
       {/* <TextInput 
             value={route && route.params && route.params.loginUrl? route.params.loginUrl: loginUrl}
