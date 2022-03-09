@@ -1,5 +1,12 @@
 import React, {useState, useCallback, useEffect} from 'react';
-import {View, Text, Image, FlatList, BackHandler, Pressable} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  FlatList,
+  BackHandler,
+  Pressable,
+} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 
 import stylesHome from '../home/Home.style';
@@ -9,23 +16,34 @@ import {Avatar} from 'react-native-elements';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+  listenOrientationChange as lor,
+  removeOrientationListener as rol,
+} from '../../responsiveScreen';
 import {appColor, appConstant, imageConstant} from '../../constant';
-import { requestToGetBusRoute } from './PickABus.action';
-import { connect } from 'react-redux';
+import {requestToGetBusRoute} from './PickABus.action';
+import {connect} from 'react-redux';
 
 const PickABus = props => {
+  const [orientation, setOrientation] = React.useState('portrait');
+
   const [arrayBooking, setArrayBooking] = useState([1]);
-   const response = useSelector(state => state.PickABusReducer);
-   const dispatch = useDispatch();
+  const response = useSelector(state => state.PickABusReducer);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    console.log('setOrientation', orientation);
+    lor(setOrientation);
+    return () => {
+      rol();
+    };
+  }, []);
 
   React.useEffect(() => {
     let array = [1, 2, 3];
     arrayBooking.push(array);
-    const unsubscribe = props.navigation.addListener("focus", () => {
-
-    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
-    dispatch(requestToGetBusRoute(props.route.params.busBookingData))
+    const unsubscribe = props.navigation.addListener('focus', () => {
+      BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+      dispatch(requestToGetBusRoute(props.route.params.busBookingData));
     });
     return () => {
       unsubscribe;
@@ -40,12 +58,17 @@ const PickABus = props => {
     props.navigation.goBack();
   };
 
-
   const renderItem = item => {
     return (
-      <Pressable 
-       onPress={()=> props.navigation.navigate(appConstant.ADD_LUGGAGE, 
-       {pickABusData:{"selectedBus":item, "busBookingData": props.route.params.busBookingData} })}>
+      <Pressable
+        onPress={() =>
+          props.navigation.navigate(appConstant.ADD_LUGGAGE, {
+            pickABusData: {
+              selectedBus: item,
+              busBookingData: props.route.params.busBookingData,
+            },
+          })
+        }>
         <BookingCard
           item={item.item}
           titleColor={appColor.NAVY_BLUE}
@@ -65,10 +88,10 @@ const PickABus = props => {
           title={'Pick a Bus'}
           viewName={appConstant.PICK_A_BUS}
           leftIcon={true}
-          onClickLeftIcon={()=> props.navigation.goBack()}
+          onClickLeftIcon={() => props.navigation.goBack()}
           rightIcon={false}
           centerTitle={true}
-          onClickRightIcon={()=>{}}
+          onClickRightIcon={() => {}}
           rightIconImage={''}
           viewName={appConstant.PICK_A_BUS}
         />
@@ -84,11 +107,9 @@ const PickABus = props => {
           />
         </View>
         {response.isRequesting ? <Loader loading={props.isRequesting} /> : null}
-
       </View>
     </>
   );
 };
 
-
-export default PickABus; 
+export default PickABus;

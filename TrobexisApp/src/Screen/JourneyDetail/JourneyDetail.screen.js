@@ -29,7 +29,10 @@ import {
 } from '../../constant';
 import {getDateInFormat, msToTime} from '../../common';
 import {useRoute, useNavigation} from '@react-navigation/core';
-
+import {
+  listenOrientationChange as lor,
+  removeOrientationListener as rol,
+} from '../../responsiveScreen';
 import {requestToGetJourneyDetail} from './JourneyDetail.action';
 import {getTimeInFormat} from '../../component/BookingCard';
 import IMAGE_BUS_SVG from '../../../assets/image/home_page/bus.svg';
@@ -44,6 +47,8 @@ import IMAGE_TRANSFER_SVG from '../../../assets/image/home_page/transfer.svg';
 import IMAGE_OFFSHORE_SVG from '../../../assets/image/home_page/offshore.svg';
 
 const JourneyDetail = props => {
+  const [orientation, setOrientation] = React.useState('portrait');
+
   const [isAlertShow, setIsAlertShow] = useState(false);
   const route = useRoute();
   const dispatch = useDispatch();
@@ -57,6 +62,14 @@ const JourneyDetail = props => {
   const [tvr, setTvr] = useState('');
   const [arrayRoutes, setArrayRoutes] = useState([]);
   const [lwidth, setlWidth] = useState(100);
+
+  useEffect(() => {
+    console.log('setOrientation', orientation);
+    lor(setOrientation);
+    return () => {
+      rol();
+    };
+  }, []);
 
   useEffect(() => {
     const unsubscribe = props.navigation.addListener('focus', () => {

@@ -366,7 +366,7 @@ const styles = {
     width: wp('12%'),
   },
   tabBarLabel_History: {
-    ontFamily: fontConstant.BARLOW_REGULAR,
+    fontFamily: fontConstant.BARLOW_REGULAR,
     fontSize: fontConstant.TEXT_H3_SIZE_REGULAR,
     color: appColor.WHITE,
     width: wp('7%'),

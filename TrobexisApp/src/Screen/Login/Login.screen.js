@@ -8,7 +8,9 @@ import {connect} from 'react-redux';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+  listenOrientationChange as lor,
+  removeOrientationListener as rol,
+} from '../../responsiveScreen';
 import {ImageBackground} from 'react-native';
 import commonStyle from '../../common/common.style';
 import {appColor, appConstant, imageConstant} from '../../constant';
@@ -25,6 +27,7 @@ const LoginScreen = props => {
   const [isClickEye, setIsClickEye] = useState(false);
   //const newAccesstoken = get; // Getting api response
   const {setUserData} = React.useContext(AuthContext);
+  const [orientation, setOrientation] = React.useState('portrait');
 
   const [deviceInfo, setDeviceInfo] = useState({}); // Getting user device info from push controller.
   const [userTemp, setUserTemp] = React.useState({
@@ -46,6 +49,14 @@ const LoginScreen = props => {
   const [loading, setLoading] = React.useState(true);
   const dispatch = useDispatch(); // Calling api
   const [loginUrl, setLoginUrl] = useState(null);
+
+  useEffect(() => {
+    console.log('setOrientation', orientation);
+    lor(setOrientation);
+    return () => {
+      rol();
+    };
+  }, []);
 
   React.useEffect(() => {
     let isUserAvailable = false;

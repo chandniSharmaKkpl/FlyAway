@@ -20,7 +20,10 @@ import {Avatar} from 'react-native-elements';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+  listenOrientationChange as lor,
+  removeOrientationListener as rol,
+  getOrientation,
+} from '../../responsiveScreen';
 import {
   alertMsgConstant,
   appColor,
@@ -33,6 +36,8 @@ import localDb from '../../database/localDb';
 import DeviceInfo from 'react-native-device-info';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 const HomeScreen = props => {
+  const [orientation, setOrientation] = React.useState('portrait');
+
   const errorData = useSelector(state => state.GlobalReducer);
   const response = useSelector(state => state.HomeReducer); // Getting api response
   const dispatch = useDispatch(); // Calling api
@@ -40,6 +45,14 @@ const HomeScreen = props => {
   const [userProfile, setUserProfile] = useState({});
   const [isAlertShow, setIsAlertShow] = useState(false);
   var countBack = 0;
+
+  useEffect(() => {
+    console.log('setOrientation', orientation);
+    lor(setOrientation);
+    return () => {
+      rol();
+    };
+  }, []);
 
   setAlertShowFromHeader = value => {
     setIsAlertShow(value);
@@ -213,7 +226,7 @@ const HomeScreen = props => {
               style={{
                 marginTop: hp('-8%'),
                 alignSelf: 'center',
-                height: hp('18%'),
+                height: getOrientation() === 'portrait' ? hp('18%') : hp('25%'),
               }}>
               <FlatList
                 renderItem={renderItem}
@@ -313,7 +326,7 @@ const HomeScreen = props => {
             <Loader loading={response.isRequesting} />
           ) : null}
         </KeyboardAwareScrollView>
-      </View>  
+      </View>
       {isAlertShow ? (
         <AlertView
           title={alertMsgConstant.PLEASE_CONFIRM}
