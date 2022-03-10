@@ -7,10 +7,11 @@ import {
   BackHandler,
   ScrollView,
   Pressable,
+  StyleSheet,
 } from 'react-native';
 import stylesHome from '../home/Home.style';
 import stylesCommon from '../../common/common.style';
-import styles from './JourneyDetail.style';
+import style from './JourneyDetail.style';
 import {
   HeaderCustom,
   BookingCard,
@@ -62,13 +63,15 @@ const JourneyDetail = props => {
   const [tvr, setTvr] = useState('');
   const [arrayRoutes, setArrayRoutes] = useState([]);
 
+  const styles = StyleSheet.create(style);
+  // console.log('style in details screen', style);
   useEffect(() => {
-    console.log('setOrientation', orientation);
+    console.log('setOrientation Details', orientation);
     lor(setOrientation);
     return () => {
       rol();
     };
-  }, []);
+  }, [orientation]);
 
   useEffect(() => {
     const unsubscribe = props.navigation.addListener('focus', () => {
@@ -162,7 +165,7 @@ const JourneyDetail = props => {
     let isNoShowBtnVisible = false; // This flag is using to show no show button for flights only
 
     return (
-      <View style={styles.viewRowOutSide}>
+      <View style={styles.viewRowOutSide} key={index}>
         {/* Side bus view  */}
         <View style={styles.viewLeftLine}>
           <View style={styles.viewCircleBlue}>
@@ -292,15 +295,15 @@ const JourneyDetail = props => {
 
   const getDataFromResponse = (responseDetail, type) => {
     if (responseDetail && responseDetail[type]) {
-      if (type === "StartDate") {
+      if (type === 'StartDate') {
         return getDateInFormat(responseDetail[type], false, false);
       } else {
         if (type === 'GivenName') {
-          let surname = ""
+          let surname = '';
           if (responseDetail['Surname']) {
             surname = responseDetail['Surname'];
           }
-          let name = responseDetail['GivenName'] +" "+ surname;
+          let name = responseDetail['GivenName'] + ' ' + surname;
           return name;
         } else {
           return responseDetail[type];
@@ -371,6 +374,7 @@ const JourneyDetail = props => {
               ? responseDetail.journeyDetail.Itinerarys.map(function (
                   item,
                   index,
+                  key,
                 ) {
                   return itemViews(item, imageConstant.IMAGE_PLANE, index);
                 })

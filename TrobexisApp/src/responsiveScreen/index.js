@@ -66,9 +66,14 @@ const listenOrientationChange = setOrientation => {
 
 const getOrientation = () => {
   let orientation = screenWidth < screenHeight ? 'portrait' : 'landscape';
+  console.log('getOrientation', orientation);
   return orientation;
 };
-
+const testgetOrientation = data => {
+  let orientation = screenWidth < screenHeight ? 'portrait' : 'landscape';
+  console.log('testgetOrientation', orientation, data);
+  return orientation;
+};
 /**
  * Wrapper function that removes orientation change listener and should be invoked in
  * componentWillUnmount lifecycle method of every class component (UI screen) that
@@ -86,4 +91,5 @@ export {
   listenOrientationChange,
   removeOrientationListener,
   getOrientation,
+  testgetOrientation,
 };

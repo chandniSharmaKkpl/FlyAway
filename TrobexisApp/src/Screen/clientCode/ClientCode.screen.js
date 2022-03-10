@@ -313,9 +313,9 @@ const ClientCodeScreen = props => {
           </KeyboardAwareScrollView>
         </ImageBackground>
 
-        {responseData.isRequesting ? (
+        {responseData.isRequesting && (
           <Loader loading={responseData.isRequesting} />
-        ) : null}
+        )}
       </Pressable>
       {isAlertShow ? (
         <AlertView

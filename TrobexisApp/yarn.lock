@@ -6455,11 +6455,6 @@
   "resolved" "https://registry.npmjs.org/react-native-device-info/-/react-native-device-info-8.3.0.tgz"
   "version" "8.3.0"
 
-"react-native-device-time-format@^2.3.0":
-  "integrity" "sha512-al4m6MXD1nT+W8p7UsJpyc4aaNRwh85oLC+sNe+PfCxlxVUDmriBN8dEDLjaDxfnX2yDub3PHLcLmuZqcI6jrw=="
-  "resolved" "https://registry.npmjs.org/react-native-device-time-format/-/react-native-device-time-format-2.3.0.tgz"
-  "version" "2.3.0"
-
 "react-native-elements@^3.4.2":
   "integrity" "sha512-m0eAWOn7JuR1wNTNY0WHuaqst4LI/gFE4N5Bbyfsc4DiryWsMST7aAg5w/Gos4IexWIzhLKCIkPxthND1m/8Xg=="
   "resolved" "https://registry.npmjs.org/react-native-elements/-/react-native-elements-3.4.2.tgz"

@@ -29,6 +29,8 @@ const Loader = props => {
     },
   });
 
+  // console.log('style', styles);
+
   const [orientation, setOrientation] = React.useState('portrait');
 
   const {loading} = props;

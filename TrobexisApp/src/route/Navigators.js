@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Image, Text, Platform} from 'react-native';
+import {View, Image, Text, Platform, StyleSheet} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -15,7 +15,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+  listenOrientationChange as lor,
+  removeOrientationListener as rol,
+  getOrientation
+} from '../responsiveScreen';
 import DeviceInfo from 'react-native-device-info';
 import LoginScreen from '../Screen/Login/Login.screen';
 import ForgotPassword from '../Screen/ForgotPassword/ForgotPassword.screen';
@@ -64,7 +67,7 @@ const AuthStack = () => {
   const [isLogin, setIsLogin] = useState(null);
 
   // When Dashboard page will update for api this will also update
- /* useEffect(() => {
+  /* useEffect(() => {
     
     const tempUser = localDB.getUser();
     Promise.resolve(tempUser).then(response => {
@@ -193,6 +196,59 @@ const BusBookingStack = () => {
 };
 
 function TabNavigator() {
+  const [orientation, setOrientation] = React.useState('portrait');
+
+  useEffect(() => {
+    console.log('setOrientation natigate', orientation);
+    lor(setOrientation);
+    return () => {
+      rol();
+    };
+  }, [orientation]);
+
+  const styles = StyleSheet.create({
+    tabs: {
+      flex: 1,
+      flexDirection: 'column',
+      alignItems: 'center',
+      // justifyContent: 'center',
+    },
+    tabBarLabel: {
+      fontFamily: fontConstant.BARLOW_REGULAR,
+      fontSize: fontConstant.TEXT_H2_SIZE_REGULAR,
+      color: appColor.WHITE,
+      //  backgroundColor:'pink',
+      width: '100%',
+      // margin: 'auto',
+      // textAlign: 'center',
+    },
+    image: {
+      width: '100%',
+      height: '100%',
+    },
+    viewImage: {
+      width: wp('6%'),
+      height: hp('4.5%'),
+      marginTop: Platform.OS === 'android' ? hp('0.5%') : hp('1%'),
+      //  backgroundColor:'red',
+      // justifyContent: 'flex-end',
+    },
+    tabBar: {
+      height: DeviceInfo.isTablet() ? hp('10%') : hp('10%'),
+      // height:
+      //   getOrientation === 'portrait'
+      //     ? DeviceInfo.isTablet()
+      //       ? hp('10%')
+      //       : hp('10%')
+      //     : DeviceInfo.isTablet()
+      //     ? hp('10%')
+      //     : hp('10%'),
+      backgroundColor: appColor.NAVY_BLUE,
+    },
+  });
+
+  console.log('navigate+-+-styles', styles);
+
   return (
     <TabObject.Navigator
       name={appConstant.TAB}
@@ -213,33 +269,34 @@ function TabNavigator() {
       <TabObject.Screen
         name={appConstant.HOME_SCREEN}
         options={{
-          tabBarIcon: ({tintColor, focused}) => (
-            DeviceInfo.isTablet()?
-            <View style={{width: wp('10%'), alignItems:'center'}}>
-            <View style={styles.viewImage}>
-                <Image
-                  source={imageConstant.IMAGE_HOME_WHITE}
-                  resizeMode={'contain'}
-                  style={styles.image}
-                />
+          tabBarIcon: ({tintColor, focused}) =>
+            DeviceInfo.isTablet() ? (
+              <View style={{width: wp('10%'), alignItems: 'center'}}>
+                <View style={styles.viewImage}>
+                  <Image
+                    source={imageConstant.IMAGE_HOME_WHITE}
+                    resizeMode={'contain'}
+                    style={styles.image}
+                  />
+                </View>
+                <Text style={styles.tabBarLabel}>
+                  {focused ? appConstant.HOME_SCREEN : ''}
+                </Text>
               </View>
-              <Text style={styles.tabBarLabel}>
-                {focused ? appConstant.HOME_SCREEN : ''}
-              </Text>
-              </View> :
-            <>
-              <View style={styles.viewImage}>
-                <Image
-                  source={imageConstant.IMAGE_HOME_WHITE}
-                  resizeMode={'contain'}
-                  style={styles.image}
-                />
+            ) : (
+              <View style={styles.tabs}>
+                <View style={styles.viewImage}>
+                  <Image
+                    source={imageConstant.IMAGE_HOME_WHITE}
+                    resizeMode={'contain'}
+                    style={styles.image}
+                  />
+                </View>
+                <Text style={styles.tabBarLabel}>
+                  {focused ? appConstant.HOME_SCREEN : ''}
+                </Text>
               </View>
-              <Text style={styles.tabBarLabel}>
-                {focused ? appConstant.HOME_SCREEN : ''}
-              </Text>
-            </>
-          ),
+            ),
         }}
         component={HomeStack}
       />
@@ -247,53 +304,68 @@ function TabNavigator() {
         name={appConstant.BUS_BOOKING}
         component={BusBookingStack}
         options={{
-          tabBarIcon: ({tintColor, focused}) => (
-            <>
-              <View style={styles.viewImage}>
-                <Image
-                  source={imageConstant.IMAGE_BUS_WHITE}
-                  resizeMode={'contain'}
-                  style={styles.image}
-                />
+          tabBarIcon: ({tintColor, focused}) =>
+            DeviceInfo.isTablet() ? (
+              <View style={{width: wp('14%'), alignItems: 'center'}}>
+                <View style={styles.viewImage}>
+                  <Image
+                    source={imageConstant.IMAGE_BUS_WHITE}
+                    resizeMode={'contain'}
+                    style={styles.image}
+                  />
+                </View>
+                <Text style={styles.tabBarLabel}>
+                  {focused ? appConstant.BUS_BOOKING : ''}
+                </Text>
               </View>
-              <Text style={styles.tabBarLabel}>
-                {focused ? appConstant.BUS_BOOKING : ''}
-              </Text>
-            </>
-          ),
+            ) : (
+              <View style={styles.tabs}>
+                <View style={styles.viewImage}>
+                  <Image
+                    source={imageConstant.IMAGE_BUS_WHITE}
+                    resizeMode={'contain'}
+                    style={styles.image}
+                  />
+                </View>
+                <Text style={styles.tabBarLabel}>
+                  {focused ? appConstant.BUS_BOOKING : ''}
+                </Text>
+              </View>
+            ),
         }}
       />
       <TabObject.Screen
         name={appConstant.HISTORY}
         component={HistoryScreen}
         options={{
-          tabBarIcon: ({tintColor, focused}) => (
-            DeviceInfo.isTablet()?
-            <View style={{width: wp('10%'), alignItems:'center'}}>
-            <View style={styles.viewImage}>
-              <Image
-                source={imageConstant.IMAGE_CLOCK_WHITE}
-                resizeMode={'contain'}
-                style={styles.image}
-              />
-            </View>
-            <Text style={styles.tabBarLabel}>
-              {focused ? appConstant.HISTORY : ''}
-            </Text>
-          </View> :
-            <>
-              <View style={styles.viewImage}>
-                <Image
-                  source={imageConstant.IMAGE_CLOCK_WHITE}
-                  resizeMode={'contain'}
-                  style={styles.image}
-                />
+          tabBarIcon: ({tintColor, focused}) =>
+            DeviceInfo.isTablet() ? (
+              <View style={{width: wp('10%'), alignItems: 'center'}}>
+                <View style={styles.viewImage}>
+                  <Image
+                    source={imageConstant.IMAGE_CLOCK_WHITE}
+                    resizeMode={'contain'}
+                    style={styles.image}
+                  />
+                </View>
+                <Text style={styles.tabBarLabel}>
+                  {focused ? appConstant.HISTORY : ''}
+                </Text>
               </View>
-              <Text style={styles.tabBarLabel}>
-                {focused ? appConstant.HISTORY : ''}
-              </Text>
-            </>
-          ),
+            ) : (
+              <View style={styles.tabs}>
+                <View style={styles.viewImage}>
+                  <Image
+                    source={imageConstant.IMAGE_CLOCK_WHITE}
+                    resizeMode={'contain'}
+                    style={styles.image}
+                  />
+                </View>
+                <Text style={styles.tabBarLabel}>
+                  {focused ? appConstant.HISTORY : ''}
+                </Text>
+              </View>
+            ),
         }}
       />
     </TabObject.Navigator>
@@ -307,12 +379,10 @@ function NavigationSetup() {
 
   useEffect(() => {
     if (errorData && errorData.error && errorData.error.message) {
-      
       toast.show(errorData.error.message, {
         type: alertMsgConstant.TOAST_DANGER,
       });
-      if (errorData.error.code === errorCodeConstant.UNAUTHORIZED)
-       {
+      if (errorData.error.code === errorCodeConstant.UNAUTHORIZED) {
         setCurrentUser(null);
       }
       let dict = errorData.error;
@@ -325,63 +395,25 @@ function NavigationSetup() {
     <Stack.Navigator
       initialRouteName={appConstant.LOGIN}
       options={{gestureEnabled: true}}>
-       {currentUser ? (
+      {currentUser ? (
         <Stack.Screen
           options={{headerShown: false}}
           name={appConstant.DRAWER_NAVIGATOR}
           component={DrawerNavigator}
         />
       ) : (
-      <Stack.Screen
-        name={appConstant.AUTH_STACK}
-        component={AuthStack}
-        options={{
-          header: () => null,
-          gestureEnabled: false,
-          headerTransparent: true,
-        }}
-      />
-       )}  
+        <Stack.Screen
+          name={appConstant.AUTH_STACK}
+          component={AuthStack}
+          options={{
+            header: () => null,
+            gestureEnabled: false,
+            headerTransparent: true,
+          }}
+        />
+      )}
     </Stack.Navigator>
   );
 }
 
 export default NavigationSetup;
-
-const styles = {
-  tabBarLabel: {
-    fontFamily: fontConstant.BARLOW_REGULAR,
-    fontSize: fontConstant.TEXT_H2_SIZE_REGULAR,
-    color: appColor.WHITE,
-    //  backgroundColor:'pink',
-    //  width: '100%'
-  },
-  tabBarLabel_Bus: {
-    fontFamily: fontConstant.BARLOW_REGULAR,
-    fontSize: fontConstant.TEXT_H3_SIZE_REGULAR,
-    color: appColor.WHITE,
-    width: wp('12%'),
-  },
-  tabBarLabel_History: {
-    fontFamily: fontConstant.BARLOW_REGULAR,
-    fontSize: fontConstant.TEXT_H3_SIZE_REGULAR,
-    color: appColor.WHITE,
-    width: wp('7%'),
-  },
-
-  image: {
-    width: '100%',
-    height: '100%',
-  },
-  viewImage: {
-    width: wp('6%'),
-    height: hp('4.5%'),
-    marginTop: Platform.OS === 'android' ? hp('0.5%') : hp('1%'),
-    //  backgroundColor:'red',
-    // justifyContent: 'flex-end',
-  },
-  tabBar: {
-    height: DeviceInfo.isTablet() ? hp('10%') : hp('10%'),
-    backgroundColor: appColor.NAVY_BLUE,
-  },
-};
