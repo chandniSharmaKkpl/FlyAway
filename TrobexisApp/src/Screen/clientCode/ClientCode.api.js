@@ -65,9 +65,6 @@ export const getClientTokenBasedOnApiBase = (argumentData, apiBaseUrl) => {
     var username = apiConstant.USER_NAME_API_CLIENT_CODE;
     var password = apiConstant.PASSWORD_API_CLIENT_CODE;
   
-    const tokenCred = Buffer.from(`${username}:${password}`, 'utf8').toString(
-      'base64',
-    );
     let instance = axios.create({
       baseURL: apiBaseUrl,
       timeout: 30000,
@@ -127,6 +124,8 @@ export const getClientTokenBasedOnApiBase = (argumentData, apiBaseUrl) => {
           data: response,
           //status: response.status
         }).then(response => {
+          console.log("132 response ACCOUNT_URL: ", response)
+
           return response.data.data;
         }),
       ).catch((err) =>{
@@ -163,6 +162,7 @@ export const getClientTokenBasedOnApiBase = (argumentData, apiBaseUrl) => {
          data: response,
          //status: response.status
        }).then(response => {
+        console.log("168 response ACCESS_TOKEN_BASED_CLIENT_TOKEN: ", response)
          return response.data.data;
        }),
      ).catch((err) =>{

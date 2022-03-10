@@ -17,7 +17,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import DeviceInfo from 'react-native-device-info';
-import LoginScreen from '../Screen/login/Login.screen';
+import LoginScreen from '../Screen/Login/Login.screen';
 import ForgotPassword from '../Screen/ForgotPassword/ForgotPassword.screen';
 import AuthContext from '../context/AuthContext';
 import ClientCodeScreen from '../Screen/clientCode/ClientCode.screen';
@@ -243,6 +243,10 @@ function TabNavigator() {
         }}
         component={HomeStack}
       />
+      {/* 
+      Temporary client comment this and show as a tile. 
+      new line added
+      */}
       {/* <TabObject.Screen
         name={appConstant.BUS_BOOKING}
         component={BusBookingStack}
@@ -356,6 +360,19 @@ const styles = {
     //  backgroundColor:'pink',
     //  width: '100%'
   },
+  tabBarLabel_Bus: {
+    fontFamily: fontConstant.BARLOW_REGULAR,
+    fontSize: fontConstant.TEXT_H3_SIZE_REGULAR,
+    color: appColor.WHITE,
+    width: wp('12%'),
+  },
+  tabBarLabel_History: {
+    fontFamily: fontConstant.BARLOW_REGULAR,
+    fontSize: fontConstant.TEXT_H3_SIZE_REGULAR,
+    color: appColor.WHITE,
+    width: wp('7%'),
+  },
+
   image: {
     width: '100%',
     height: '100%',

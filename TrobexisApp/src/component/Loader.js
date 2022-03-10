@@ -1,14 +1,49 @@
-import React from 'react';
-import {View, ActivityIndicator} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, ActivityIndicator, StyleSheet} from 'react-native';
 import {appColor} from '../constant';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+  listenOrientationChange as lor,
+  removeOrientationListener as rol,
+} from '../responsiveScreen';
 import {BackgroundImage} from 'react-native-elements/dist/config';
 
 const Loader = props => {
+  const styles = StyleSheet.create({
+    viewTransparant: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      position: 'absolute',
+      // backgroundColor: 'pink',
+      width: wp('100%'),
+      height: hp('100%'),
+    },
+    viewWeb: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      position: 'absolute',
+      backgroundColor: 'rgb(173,207,240)',
+      width: wp('100%'),
+      height: hp('100%'),
+    },
+  });
+
+  const [orientation, setOrientation] = React.useState('portrait');
+
   const {loading} = props;
+  useEffect(() => {
+    console.log('setOrientation', orientation);
+    lor(setOrientation);
+    return () => {
+      rol();
+    };
+  }, []);
+
+  console.log('wp', wp('100%'));
+
+  console.log('hp', hp('100%'));
+
   return (
     <>
       {loading ? (
@@ -18,25 +53,6 @@ const Loader = props => {
       ) : null}
     </>
   );
-};
-
-const styles = {
-  viewTransparant: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'absolute',
-    //   backgroundColor:'pink',
-    width: wp('100%'),
-    height: hp('100%'),
-  },
-  viewWeb: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'absolute',
-    backgroundColor: 'rgb(173,207,240)' ,
-    width: wp('100%'),
-    height: hp('100%'),
-  },
 };
 
 export default Loader;

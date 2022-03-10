@@ -2,7 +2,7 @@ import {StyleSheet, Dimensions} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+} from '../../responsiveScreen';
 import fontConstant from '../../constant/fontConstant';
 import appColor from '../../constant/colorConstant';
 export default StyleSheet.create({
@@ -11,34 +11,34 @@ export default StyleSheet.create({
     height: '100%',
     backgroundColor: appColor.LIGH_BLUE,
   },
-  clientCodeRow:{
- padding:5,
+  clientCodeRow: {
+    padding: 5,
   },
- viewFlatList:{
-  //height: hp('30%'),
-  backgroundColor: appColor.WHITE,
-  position: 'absolute',
-  width: wp('83%'),
-  top: hp('15.8%'),
-  alignSelf: 'center',
-  borderBottomLeftRadius: 20,
-  borderBottomRightRadius:20,
-  //borderWidth:3,
-  borderColor: Platform.OS === 'android' ? appColor.BORDER : appColor.GRAY,
-  shadowColor: appColor.SHADOW,
-  shadowOffset: {
-    width: 1,
-    height: 1,
+  viewFlatList: {
+    //height: hp('30%'),
+    backgroundColor: appColor.WHITE,
+    position: 'absolute',
+    width: wp('83%'),
+    top: hp('15.8%'),
+    alignSelf: 'center',
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    //borderWidth:3,
+    borderColor: Platform.OS === 'android' ? appColor.BORDER : appColor.GRAY,
+    shadowColor: appColor.SHADOW,
+    shadowOffset: {
+      width: 1,
+      height: 1,
+    },
+    shadowOpacity: Platform.OS === 'android' ? 0.2 : 0.62,
+    shadowRadius: Platform.OS === 'android' ? 1.2 : 2.22,
+    elevation: 5,
   },
-  shadowOpacity: Platform.OS === 'android' ? 0.2 : 0.62,
-  shadowRadius: Platform.OS === 'android' ? 1.2 : 2.22,
-  elevation: 5,
- },
- flatList:{
-  padding:5
- },
-  imageTop:{
-   flex:0.5
+  flatList: {
+    padding: 5,
+  },
+  imageTop: {
+    flex: 0.5,
   },
   textHello: {
     fontFamily: fontConstant.BARLOW_BOLD,
@@ -64,9 +64,9 @@ export default StyleSheet.create({
     height: hp('7%'),
     borderRadius: 10,
     alignSelf: 'center',
-    alignItems:'center',
-    justifyContent:'center', 
-    marginTop:hp('5%')
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: hp('5%'),
   },
   logo: {
     height: 90,
@@ -86,8 +86,8 @@ export default StyleSheet.create({
     paddingTop: 20,
   },
   titleView: {
-    paddingTop:hp('10%') 
-    },
+    paddingTop: hp('10%'),
+  },
 
   titleStyle: {
     color: appColor.YELLOW,
@@ -97,22 +97,22 @@ export default StyleSheet.create({
   },
   inputView: {
     //flex: 1,
-      paddingTop:hp('9.5%'),
+    paddingTop: hp('9.5%'),
     //  backgroundColor:'pink',
-      justifyContent:'center',
+    justifyContent: 'center',
     // paddingHorizontal: 20,
   },
   resetPasswordView: {
     marginTop: 10,
     justifyContent: 'flex-end',
   },
-  btnSubmit:{
-   marginTop: hp('6%'),
-   width:'85%',
+  btnSubmit: {
+    marginTop: hp('6%'),
+    width: '85%',
   },
-  btnSubmitTitle:{
-   paddingTop:hp('1.4%'),
-   paddingBottom:hp('1.4%')
+  btnSubmitTitle: {
+    paddingTop: hp('1.4%'),
+    paddingBottom: hp('1.4%'),
   },
   rememberIcon: {
     height: 16,
@@ -145,7 +145,7 @@ export default StyleSheet.create({
     fontFamily: fontConstant.BARLOW_REGULAR,
     fontSize: fontConstant.TEXT_H1_SIZE_REGULAR,
   },
-  loginBtnText:{
+  loginBtnText: {
     color: appColor.WHITE,
     fontFamily: fontConstant.BARLOW_BOLD,
     fontSize: fontConstant.TEXT_20_SIZE_BOLD,
@@ -158,13 +158,13 @@ export default StyleSheet.create({
     marginVertical: 10,
     textAlign: 'center',
   },
-  tokenStyle:{
-    backgroundColor:'rgba(254, 182,8,0.7)', 
-    textAlign:'center',
-    marginTop:'15%',
-    marginBottom:'2%',
-    padding:'5%',
+  tokenStyle: {
+    backgroundColor: 'rgba(254, 182,8,0.7)',
+    textAlign: 'center',
+    marginTop: '15%',
+    marginBottom: '2%',
+    padding: '5%',
     fontFamily: fontConstant.BARLOW_REGULAR,
     fontSize: fontConstant.TEXT_16_SIZE_REGULAR,
-  }
+  },
 });
