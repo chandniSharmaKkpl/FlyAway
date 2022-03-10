@@ -243,7 +243,7 @@ function TabNavigator() {
         }}
         component={HomeStack}
       />
-      <TabObject.Screen
+      {/* <TabObject.Screen
         name={appConstant.BUS_BOOKING}
         component={BusBookingStack}
         options={{
@@ -262,7 +262,7 @@ function TabNavigator() {
             </>
           ),
         }}
-      />
+      /> */}
       <TabObject.Screen
         name={appConstant.HISTORY}
         component={HistoryScreen}
