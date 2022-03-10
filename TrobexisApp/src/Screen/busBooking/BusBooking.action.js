@@ -1,5 +1,15 @@
 import {actionConstant} from '../../constant';
 
+// Get Access Token bus booking
+
+export const requestToGetAccessTokenBusBooking = (data) => ({
+  type: actionConstant.ACTION_GET_ACCESSTOKEN_BUS_BOOKING_REQUEST,
+  payload: {
+    data: data
+  },
+});
+
+
 //  Bus Route
 
  export const requestToGetBusRoute = () => ({

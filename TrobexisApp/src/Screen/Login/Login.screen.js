@@ -4,7 +4,16 @@ import styles from './Login.style';
 import {Loader, HeaderCustom} from '../../component';
 import {useDispatch} from 'react-redux';
 import {connect} from 'react-redux';
-import { appConstant, imageConstant} from '../../constant';
+
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+  listenOrientationChange as lor,
+  removeOrientationListener as rol,
+} from '../../responsiveScreen';
+import {ImageBackground} from 'react-native';
+import commonStyle from '../../common/common.style';
+import {appColor, appConstant, imageConstant} from '../../constant';
 import {requestToGetAccessToken} from './Login.action';
 import {isEmailValid, isMobileNumberValid} from '../../helper/validations';
 import alertMsgConstant from '../../constant/alertMsgConstant';
@@ -18,6 +27,7 @@ const LoginScreen = props => {
   const [isClickEye, setIsClickEye] = useState(false);
   //const newAccesstoken = get; // Getting api response
   const {setUserData} = React.useContext(AuthContext);
+  const [orientation, setOrientation] = React.useState('portrait');
 
   const [deviceInfo, setDeviceInfo] = useState({}); // Getting user device info from push controller.
   const [userTemp, setUserTemp] = React.useState({
@@ -39,6 +49,14 @@ const LoginScreen = props => {
   const [loading, setLoading] = React.useState(true);
   const dispatch = useDispatch(); // Calling api
   const [loginUrl, setLoginUrl] = useState(null);
+
+  useEffect(() => {
+    console.log('setOrientation', orientation);
+    lor(setOrientation);
+    return () => {
+      rol();
+    };
+  }, []);
 
   React.useEffect(() => {
     let isUserAvailable = false;
@@ -113,7 +131,6 @@ const LoginScreen = props => {
   };
   // Getting device info from push controller
   const getDeviceInfo = value => {
-    console.log(' device info ----->', value);
     setDeviceInfo(value);
   };
 

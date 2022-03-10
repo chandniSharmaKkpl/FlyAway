@@ -1,8 +1,8 @@
 import { all, fork } from 'redux-saga/effects';
 
-import { watchGetAccessToken } from '../../Screen/login/Login.saga';
+import { watchGetAccessToken } from '../../Screen/Login/Login.saga';
 import { watchItinaryList, watchGetUserProfile, watchApprovalList } from '../../Screen/home/Home.saga';
-import { watchToGetBusStop} from '../../Screen/busBooking/BusBooking.saga';
+import { watchToGetAccessTokenForBusBooking} from '../../Screen/busBooking/BusBooking.saga';
 import {watchToGetBusRoute} from '../../Screen/pickABus/PickABus.saga';
 import {watchToCancelSiteTravelItinary, watchToGetItinaryDetail} from '../../Screen/siteTravelItinary/SiteTravelItinary.saga';
 import {watchPostBooking} from '../../Screen/bookingSummary/BookingSummary.saga';
@@ -32,7 +32,7 @@ export default function* sagaRoot() {
     fork(watchApprovalListWithStatus),
     fork(watchJourneyDetail),
     fork(watchGetUserProfile),
-    fork(watchToGetBusStop),
+    fork(watchToGetAccessTokenForBusBooking),
     fork(watchToGetBusRoute),
     fork(watchPostBooking),
     fork(watchToGetItinaryDetail),

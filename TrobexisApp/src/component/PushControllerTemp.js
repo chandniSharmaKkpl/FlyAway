@@ -1,3 +1,4 @@
+/* eslint-disable no-lone-blocks */
 import React, {useEffect, useState} from 'react';
 import {Alert, Platform} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
@@ -91,7 +92,7 @@ function PushController(props) {
             Promise.resolve(tempUser).then(response => {
               let tempDict = response;
               tempDict.userId = userId;
-             //  console.log(' in push notification ---', remoteMessage.notification.body);
+              console.log(' in push notification -+-+---', remoteMessage.notification.body);
               localDb.setUser(tempDict);
 
               props.navigation.navigate(appConstant.DRAWER_NAVIGATOR);
@@ -135,7 +136,7 @@ function PushController(props) {
             Promise.resolve(tempUser).then(response => {
               let tempDict = response;
               tempDict.userId = userId;
-             //  console.log(' in push notification ---', remoteMessage);
+              console.log(' in push notification -===--', remoteMessage);
               localDb.setUser(tempDict);
 
               props.navigation.navigate(appConstant.DRAWER_NAVIGATOR);
