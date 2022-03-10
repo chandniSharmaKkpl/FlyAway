@@ -1,5 +1,16 @@
 import React, {useState, useCallback, useEffect} from 'react';
-import {View, Text, Image, FlatList, Pressable, BackHandler} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  FlatList,
+  Pressable,
+  BackHandler,
+} from 'react-native';
+import {
+  listenOrientationChange as lor,
+  removeOrientationListener as rol,
+} from '../../responsiveScreen';
 import stylesHome from '../home/Home.style';
 import styles from './Journeys.style';
 import {HeaderCustom, BookingCard} from '../../component';
@@ -10,6 +21,8 @@ import {useRoute, useNavigation} from '@react-navigation/core';
 
 import {getDateInFormat} from '../../common';
 const JourneyList = props => {
+  const [orientation, setOrientation] = React.useState('portrait');
+
   const route = useRoute();
   const responseData = useSelector(state => state.HomeReducer);
   const dispatch = useDispatch();
@@ -18,8 +31,16 @@ const JourneyList = props => {
   ); // Getting approval list data from the home screen reducer
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-   //** Back button handling  */
-   useEffect(() => {
+  useEffect(() => {
+    console.log('setOrientation', orientation);
+    lor(setOrientation);
+    return () => {
+      rol();
+    };
+  }, []);
+
+  //** Back button handling  */
+  useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
     return () => {
       BackHandler.removeEventListener(
@@ -38,11 +59,12 @@ const JourneyList = props => {
     return true;
   };
 
-
-  const moveToDetailView = (itemDetail) => {
-    props.navigation.navigate(appConstant.JOURNEY_DETAIL, {itineraryId: itemDetail.id});
+  const moveToDetailView = itemDetail => {
+    props.navigation.navigate(appConstant.JOURNEY_DETAIL, {
+      itineraryId: itemDetail.id,
+    });
   };
-   const getTimeInFormat = date => {
+  const getTimeInFormat = date => {
     if (date) {
       let tripTime = '';
       let parseDate = Date.parse(date);
@@ -52,7 +74,6 @@ const JourneyList = props => {
     return '';
   };
 
-  
   const renderItem = item => {
     let itemDetail = item.item;
     let date = itemDetail.requestdate;
@@ -75,7 +96,9 @@ const JourneyList = props => {
                     source={imageConstant.IMAGE_PATH}
                   />
                 </View>
-                <Text style={styles.textDetail}>{itemDetail.departure} to {itemDetail.destination}</Text>
+                <Text style={styles.textDetail}>
+                  {itemDetail.departure} to {itemDetail.destination}
+                </Text>
               </View>
               <View style={styles.viewRow}>
                 <View style={styles.viewImages}>
@@ -85,7 +108,10 @@ const JourneyList = props => {
                     source={imageConstant.IMAGE_CALENDAR_BLUE}
                   />
                 </View>
-                <Text style={styles.textDetail}>{getDateInFormat(itemDetail.startdatetime, true, false)} to {getDateInFormat(itemDetail.enddatetime, true, false)}</Text>
+                <Text style={styles.textDetail}>
+                  {getDateInFormat(itemDetail.startdatetime, true, false)} to{' '}
+                  {getDateInFormat(itemDetail.enddatetime, true, false)}
+                </Text>
               </View>
               <View style={styles.viewRow}>
                 <View style={styles.viewImages}>
@@ -96,7 +122,10 @@ const JourneyList = props => {
                     source={imageConstant.IMAGE_CLOCK_BLACK}
                   />
                 </View>
-                <Text style={styles.textDetail}>{getTimeInFormat(itemDetail.startdatetime)} to {getTimeInFormat(itemDetail.enddatetime)}</Text>
+                <Text style={styles.textDetail}>
+                  {getTimeInFormat(itemDetail.startdatetime)} to{' '}
+                  {getTimeInFormat(itemDetail.enddatetime)}
+                </Text>
               </View>
             </View>
           </View>
@@ -111,7 +140,7 @@ const JourneyList = props => {
 
   return (
     <>
-    {/* { backHandler(moveBack)} */}
+      {/* { backHandler(moveBack)} */}
       <View style={stylesHome.container}>
         <HeaderCustom
           title={'Journeys'}
@@ -123,7 +152,6 @@ const JourneyList = props => {
           onClickRightIcon={() => {}}
           rightIconImage={''}
           viewProps={props}
-
         />
 
         <View style={styles.viewFlatList}>

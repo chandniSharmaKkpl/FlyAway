@@ -356,6 +356,19 @@ const styles = {
     //  backgroundColor:'pink',
     //  width: '100%'
   },
+  tabBarLabel_Bus: {
+    fontFamily: fontConstant.BARLOW_REGULAR,
+    fontSize: fontConstant.TEXT_H3_SIZE_REGULAR,
+    color: appColor.WHITE,
+    width: wp('12%'),
+  },
+  tabBarLabel_History: {
+    fontFamily: fontConstant.BARLOW_REGULAR,
+    fontSize: fontConstant.TEXT_H3_SIZE_REGULAR,
+    color: appColor.WHITE,
+    width: wp('7%'),
+  },
+
   image: {
     width: '100%',
     height: '100%',

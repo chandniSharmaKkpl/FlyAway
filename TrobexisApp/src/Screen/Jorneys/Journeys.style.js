@@ -2,7 +2,7 @@ import {StyleSheet, Dimensions} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+} from '../../responsiveScreen';
 import fontConstant from '../../constant/fontConstant';
 import appColor from '../../constant/colorConstant';
 export default StyleSheet.create({
@@ -20,18 +20,17 @@ export default StyleSheet.create({
     flex: 1,
   },
 
-  viewSegmentControl:{
-    padding:'5%',
-
+  viewSegmentControl: {
+    padding: '5%',
   },
-  segmentControl:{
-   width:'100%',
-   height:hp('6%')
+  segmentControl: {
+    width: '100%',
+    height: hp('6%'),
   },
   viewRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    width:wp('70%')
+    width: wp('70%'),
   },
   buttonTitle: {
     fontFamily: fontConstant.BARLOW_BOLD,
@@ -91,7 +90,7 @@ export default StyleSheet.create({
     fontSize: fontConstant.TEXT_H3_SIZE_BOLD,
     color: appColor.NAVY_BLUE,
     flexWrap: 'wrap',
-    paddingBottom:hp('1%')
+    paddingBottom: hp('1%'),
   },
   textDetail: {
     fontFamily: fontConstant.BARLOW_REGULAR,

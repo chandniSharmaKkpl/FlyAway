@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
 import {
   View,
   Text,
@@ -10,7 +10,7 @@ import {
   BackHandler,
   Keyboard,
 } from 'react-native';
-import moment from 'moment'
+import moment from 'moment';
 
 import stylesHome from '../home/Home.style';
 import commonStyle from '../../common/common.style';
@@ -25,11 +25,14 @@ import {
 } from '../../constant';
 import localDB from '../../database/localDb';
 import {checkStringContainsSpecialChar} from '../../common';
-
+// import {
+//   widthPercentageToDP as wp,
+//   heightPercentageToDP as hp,
+// } from 'react-native-responsive-screen';
 import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+  listenOrientationChange as lor,
+  removeOrientationListener as rol,
+} from '../../responsiveScreen';
 import {useDispatch, useSelector} from 'react-redux';
 import {requestToGetApiBase, setLoader} from './ClientCode.action';
 import {Platform} from 'react-native';
@@ -43,6 +46,7 @@ import {
 } from '../../component/BioMetricAuth';
 
 const ClientCodeScreen = props => {
+  const [orientation, setOrientation] = React.useState('portrait');
   const navigation = useNavigation();
   const {setUserData} = React.useContext(AuthContext);
   const [clientCode, setClientCode] = useState(''); //TONEAPPUAT
@@ -71,25 +75,32 @@ const ClientCodeScreen = props => {
     passcodeFallback: false, // iOS - allows the device to fall back to using the passcode, if faceid/touch is not available. this does not mean that if touchid/faceid fails the first few times it will revert to passcode, rather that if the former are not enrolled, then it will use the passcode.
   };
 
-//   const getCurrentHourFormat = async () => {
-//     const is24Hour = await is24HourFormat()
-//     var locale = window.navigator.userLanguage || window.navigator.language;
-// let offset = moment().zone()
-// let promise = moment(offset);
+  useEffect(() => {
+    // console.log('setOrientation', orientation);
+    lor(setOrientation);
+    return () => {
+      rol();
+    };
+  }, []);
 
-// Promise.resolve(promise).then((res)=>{
-//   console.log(" Date  ", Date(), "is24Hour", is24Hour); 
+  //   const getCurrentHourFormat = async () => {
+  //     const is24Hour = await is24HourFormat()
+  //     var locale = window.navigator.userLanguage || window.navigator.language;
+  // let offset = moment().zone()
+  // let promise = moment(offset);
 
-// })
-//     //return moment(date).format(is24Hour ? 'HH:mm' : 'h:mm A')
-//   }
+  // Promise.resolve(promise).then((res)=>{
+  //   console.log(" Date  ", Date(), "is24Hour", is24Hour);
+
+  // })
+  //     //return moment(date).format(is24Hour ? 'HH:mm' : 'h:mm A')
+  //   }
 
   useFocusEffect(
     React.useCallback(() => {
       //** Whenever user will comeback to this view we will fetch all client codes and show them in the list  */
-     
+
       getClientCodes();
-      
     }, []),
   );
 
@@ -170,16 +181,14 @@ const ClientCodeScreen = props => {
         client: trimClientCode,
         DeviceType: Platform.OS === 'android' ? 'ANDROID' : 'IOS',
         DeviceId: deviceInfo.device_token,
-        navigation: navigation
+        navigation: navigation,
       };
       dispatch(setLoader(true));
       dispatch(requestToGetApiBase(param));
     }
   };
 
-
   const checkResponseCode = useCallback(() => {
-
     if (
       responseData &&
       responseData?.responseAccountUrl &&
@@ -187,7 +196,7 @@ const ClientCodeScreen = props => {
       responseData?.responseAccountUrl[0].code &&
       responseData?.responseAccountUrl[0].code === 'Authenticate'
     ) {
-      console.log(" in chec res", responseData.responseAccountUrl)
+      console.log(' in chec res', responseData.responseAccountUrl);
       // let loginUrl = responseData.responseAccountUrl[0].value;
       // loginUrl = loginUrl.replace(':mobileDeviceId', deviceInfo.device_token);
 

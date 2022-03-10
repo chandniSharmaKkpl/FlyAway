@@ -20,7 +20,10 @@ import {Avatar} from 'react-native-elements';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+  listenOrientationChange as lor,
+  removeOrientationListener as rol,
+  getOrientation,
+} from '../../responsiveScreen';
 import {
   alertMsgConstant,
   appColor,
@@ -31,8 +34,10 @@ import {
 import {requestToGetApprovalList, requestToGetUserProfile} from './Home.action';
 import localDb from '../../database/localDb';
 import DeviceInfo from 'react-native-device-info';
-
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 const HomeScreen = props => {
+  const [orientation, setOrientation] = React.useState('portrait');
+
   const errorData = useSelector(state => state.GlobalReducer);
   const response = useSelector(state => state.HomeReducer); // Getting api response
   const dispatch = useDispatch(); // Calling api
@@ -40,6 +45,14 @@ const HomeScreen = props => {
   const [userProfile, setUserProfile] = useState({});
   const [isAlertShow, setIsAlertShow] = useState(false);
   var countBack = 0;
+
+  useEffect(() => {
+    console.log('setOrientation', orientation);
+    lor(setOrientation);
+    return () => {
+      rol();
+    };
+  }, []);
 
   setAlertShowFromHeader = value => {
     setIsAlertShow(value);
@@ -182,9 +195,10 @@ const HomeScreen = props => {
           setAlertShowFromHeader={value => setIsAlertShow(value)}
         />
         {/* Title view */}
-        <View style={styles.viewTopBackground}>
-          <View style={styles.viewTitle}>
-            {/* <View style={styles.viewImageUser}>
+        <KeyboardAwareScrollView>
+          <View style={styles.viewTopBackground}>
+            <View style={styles.viewTitle}>
+              {/* <View style={styles.viewImageUser}>
               <Avatar
                 size={DeviceInfo.isTablet() ? 'xlarge' : 'large'}
                 source={imageConstant.IMAGE_USER}
@@ -192,125 +206,126 @@ const HomeScreen = props => {
                 activeOpacity={0.7}
               />
             </View> */}
-            <View style={{paddingLeft: wp('5%'), paddingTop: hp('1.2%')}}>
-              <Text style={styles.textHello}>
-                Hello{' '}
-                {response.userProfile && response.userProfile.firstname
-                  ? response.userProfile.firstname
-                  : ''}
-              </Text>
-              <Text style={styles.textTimeWish}>{getTimeMessage()}</Text>
+              <View style={{paddingLeft: wp('5%'), paddingTop: hp('1.2%')}}>
+                <Text style={styles.textHello}>
+                  Hello{' '}
+                  {response.userProfile && response.userProfile.firstname
+                    ? response.userProfile.firstname
+                    : ''}
+                </Text>
+                <Text style={styles.textTimeWish}>{getTimeMessage()}</Text>
+              </View>
             </View>
           </View>
-        </View>
 
-        {/* Bookinng list  */}
-        {getValueToShowTile('Function.Journey') &&
-        response.itinaryListAllJourney &&
-        response.itinaryListAllJourney.length > 0 ? (
-          <View
-            style={{
-              marginTop: hp('-8%'),
-              alignSelf: 'center',
-              height: hp('18%'),
-            }}>
-            <FlatList
-              renderItem={renderItem}
-              data={response.itinaryListAllJourney}
-              horizontal={true}
-              keyExtractor={(item, index) => index.toString()}
-            />
+          {/* Bookinng list  */}
+          {getValueToShowTile('Function.Journey') &&
+          response.itinaryListAllJourney &&
+          response.itinaryListAllJourney.length > 0 ? (
+            <View
+              style={{
+                marginTop: hp('-8%'),
+                alignSelf: 'center',
+                height: getOrientation() === 'portrait' ? hp('18%') : hp('25%'),
+              }}>
+              <FlatList
+                renderItem={renderItem}
+                data={response.itinaryListAllJourney}
+                horizontal={true}
+                keyExtractor={(item, index) => index.toString()}
+              />
+            </View>
+          ) : null}
+          {/* <Text style={styles.textTitleGoes}>Title Goes Here</Text> */}
+
+          {/* Journeys / Approval and Bus Booking  */}
+          <View style={styles.viewContainSmallBox}>
+            {getValueToShowTile('Function.Journey') ? (
+              <View style={styles.viewSmallBox}>
+                {response.itinaryListAllJourney &&
+                Array.isArray(response.itinaryListAllJourney) &&
+                response.itinaryListAllJourney.length ? (
+                  <View style={styles.viewYellowBox}>
+                    <Text style={styles.textNumber}>
+                      {response.itinaryListAllJourney.length}
+                    </Text>
+                  </View>
+                ) : null}
+
+                <Pressable
+                  style={styles.viewInsideSmallBox}
+                  onPress={() => {
+                    props.navigation.navigate(appConstant.JOURNEY_LIST, {
+                      callingView: appConstant.HOME_SCREEN,
+                    });
+                  }}>
+                  <View style={styles.imageIcon}>
+                    <Image
+                      style={styles.image}
+                      resizeMode={'contain'}
+                      source={imageConstant.IMAGE_PLANE}
+                    />
+                  </View>
+                  <Text style={styles.textButtonTitle}>Journeys</Text>
+                </Pressable>
+              </View>
+            ) : null}
+
+            {getValueToShowTile('Function.Approval') ? (
+              <View style={styles.viewSmallBox}>
+                {response.approvalList &&
+                Array.isArray(response.approvalList) &&
+                response.approvalList.length ? (
+                  <View style={styles.viewYellowBox}>
+                    <Text style={styles.textNumber}>
+                      {response.approvalList.length}
+                    </Text>
+                  </View>
+                ) : null}
+                <Pressable
+                  style={styles.viewInsideSmallBox}
+                  onPress={() => {
+                    props.navigation.navigate(appConstant.APPROVALS, {
+                      callingView: appConstant.HOME_SCREEN,
+                    });
+                  }}>
+                  <View style={styles.imageIcon}>
+                    <Image
+                      style={styles.image}
+                      resizeMode={'contain'}
+                      source={imageConstant.IMAGE_LIKE}
+                    />
+                  </View>
+                  <Text style={styles.textButtonTitle}>Approvals</Text>
+                </Pressable>
+              </View>
+            ) : null}
+
+            {getValueToShowTile('Function.Bus') ? (
+              <Pressable
+                style={[styles.viewSmallBox]}
+                onPress={() => onClickBusBooking()}>
+                <View style={styles.viewYellowBox}>
+                  <Text style={styles.textNumber}>1</Text>
+                </View>
+                <View style={styles.viewInsideSmallBox}>
+                  <View style={styles.imageIcon}>
+                    <Image
+                      style={styles.image}
+                      resizeMode={'contain'}
+                      source={imageConstant.IMAGE_BUS_BLUE}
+                    />
+                  </View>
+                  <Text style={styles.textButtonTitle}>Bus Bookings</Text> 
+                </View>
+              </Pressable>
+            ) : null}
           </View>
-        ) : null}
-        {/* <Text style={styles.textTitleGoes}>Title Goes Here</Text> */}
 
-        {/* Journeys / Approval and Bus Booking  */}
-        <View style={styles.viewContainSmallBox}>
-          {getValueToShowTile('Function.Journey') ? (
-            <View style={styles.viewSmallBox}>
-              {response.itinaryListAllJourney &&
-              Array.isArray(response.itinaryListAllJourney) &&
-              response.itinaryListAllJourney.length ? (
-                <View style={styles.viewYellowBox}>
-                  <Text style={styles.textNumber}>
-                    {response.itinaryListAllJourney.length}
-                  </Text>
-                </View>
-              ) : null}
-
-              <Pressable
-                style={styles.viewInsideSmallBox}
-                onPress={() => {
-                  props.navigation.navigate(appConstant.JOURNEY_LIST, {
-                    callingView: appConstant.HOME_SCREEN,
-                  });
-                }}>
-                <View style={styles.imageIcon}>
-                  <Image
-                    style={styles.image}
-                    resizeMode={'contain'}
-                    source={imageConstant.IMAGE_PLANE}
-                  />
-                </View>
-                <Text style={styles.textButtonTitle}>Journeys</Text>
-              </Pressable>
-            </View>
+          {response.isRequesting ? (
+            <Loader loading={response.isRequesting} />
           ) : null}
-
-          {getValueToShowTile('Function.Approval') ? (
-            <View style={styles.viewSmallBox}>
-              {response.approvalList &&
-              Array.isArray(response.approvalList) &&
-              response.approvalList.length ? (
-                <View style={styles.viewYellowBox}>
-                  <Text style={styles.textNumber}>
-                    {response.approvalList.length}
-                  </Text>
-                </View>
-              ) : null}
-              <Pressable
-                style={styles.viewInsideSmallBox}
-                onPress={() => {
-                  props.navigation.navigate(appConstant.APPROVALS, {
-                    callingView: appConstant.HOME_SCREEN,
-                  });
-                }}>
-                <View style={styles.imageIcon}>
-                  <Image
-                    style={styles.image}
-                    resizeMode={'contain'}
-                    source={imageConstant.IMAGE_LIKE}
-                  />
-                </View>
-                <Text style={styles.textButtonTitle}>Approvals</Text>
-              </Pressable>
-            </View>
-          ) : null}
-
-          {getValueToShowTile('Function.Bus') ? (
-            <Pressable
-              style={[styles.viewSmallBox]}
-              onPress={() => onClickBusBooking()}>
-              <View style={styles.viewYellowBox}>
-                <Text style={styles.textNumber}>1</Text>
-              </View>
-              <View style={styles.viewInsideSmallBox}>
-                <View style={styles.imageIcon}>
-                  <Image
-                    style={styles.image}
-                    resizeMode={'contain'}
-                    source={imageConstant.IMAGE_BUS_BLUE}
-                  />
-                </View>
-                <Text style={styles.textButtonTitle}>Bus Bookings</Text>
-              </View>
-            </Pressable>
-          ) : null}
-        </View>
-
-        {response.isRequesting ? (
-          <Loader loading={response.isRequesting} />
-        ) : null}
+        </KeyboardAwareScrollView>
       </View>
       {isAlertShow ? (
         <AlertView
