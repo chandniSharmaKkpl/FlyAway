@@ -243,7 +243,10 @@ function TabNavigator() {
         }}
         component={HomeStack}
       />
-      {/* Temporary client comment this and show as a tile. */}
+      {/* 
+      Temporary client comment this and show as a tile. 
+      new line added
+      */}
       {/* <TabObject.Screen
         name={appConstant.BUS_BOOKING}
         component={BusBookingStack}
