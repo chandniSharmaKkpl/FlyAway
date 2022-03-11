@@ -116,6 +116,20 @@ export default StyleSheet.create({
     paddingLeft: '2%',
     // paddingTop:'2%'
   },
+  textConfirmed: {
+    fontFamily: fontConstant.BARLOW_BOLD,
+    fontSize: fontConstant.TEXT_H1_SIZE_REGULAR,
+    color: appColor.BLACK,
+    paddingLeft: '2%',
+    paddingTop: '2%',
+  },
+  textNotConfirmed: {
+    fontFamily: fontConstant.BARLOW_BOLD,
+    fontSize: fontConstant.TEXT_H1_SIZE_REGULAR,
+    color: appColor.RED,
+    paddingLeft: '2%',
+    paddingTop: '2%',
+  },
   viewSection: {
     padding: '3%',
   },

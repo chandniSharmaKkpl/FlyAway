@@ -64,7 +64,7 @@ const JourneyDetail = props => {
   const [lwidth, setlWidth] = useState(100);
 
   useEffect(() => {
-    console.log('setOrientation', orientation);
+    // console.log('setOrientation', orientation);
     lor(setOrientation);
     return () => {
       rol();
@@ -299,7 +299,10 @@ const JourneyDetail = props => {
     );
   };
 
+  // console.log('responseDetail-+-+', responseDetail?.journeyDetail?.Itinerarys);
   const getDataFromResponse = (responseDetail, type) => {
+    // console.log('responseDetail.Status+-+-+', responseDetail.Status);
+
     if (responseDetail && responseDetail[type]) {
       if (type === 'StartDate') {
         return getDateInFormat(responseDetail[type], false, false);
@@ -342,17 +345,6 @@ const JourneyDetail = props => {
             <View style={styles.viewInside2}>
               <View style={styles.viewContainRow}>
                 {returnRowView(
-                  'Name: ',
-                  getDataFromResponse(
-                    responseDetail.journeyDetail,
-                    'GivenName',
-                  ),
-                )}
-                {returnRowView(
-                  'Bus Booking: ',
-                  getDataFromResponse(responseDetail.journeyDetail, 'Title'),
-                )}
-                {returnRowView(
                   'Date: ',
                   getDataFromResponse(
                     responseDetail.journeyDetail,
@@ -360,7 +352,18 @@ const JourneyDetail = props => {
                   ),
                 )}
                 {returnRowView(
-                  'Travel Request ID: ',
+                  'Name: ',
+                  getDataFromResponse(
+                    responseDetail.journeyDetail,
+                    'GivenName',
+                  ),
+                )}
+                {returnRowView(
+                  'Request Title: ',
+                  getDataFromResponse(responseDetail.journeyDetail, 'Title'),
+                )}
+                {returnRowView(
+                  'Request ID: ',
                   getDataFromResponse(
                     responseDetail.journeyDetail,
                     'TravelRequestId',
@@ -372,7 +375,16 @@ const JourneyDetail = props => {
             {/* Itinerary Details */}
             <View style={styles.viewItineraryList} />
             <Text style={styles.textBlackTitle}>Itinerary Details</Text>
-
+            {responseDetail &&
+            responseDetail?.journeyDetail.Status === 'Booked' ? (
+              <Text style={styles.textConfirmed}>Confirmed Itinerary</Text>
+            ) : (
+              <Text style={styles.textNotConfirmed}>Draft Itinerary</Text>
+            )}
+              {/* {console.log(
+                'A-+-+-+-+-+-+',
+                responseDetail ? JSON.stringify(responseDetail, null, 4) : null,
+              )} */}
             {responseDetail &&
             responseDetail.journeyDetail &&
             responseDetail.journeyDetail.Itinerarys &&

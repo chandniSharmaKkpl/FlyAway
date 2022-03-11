@@ -9,6 +9,7 @@ import {
   TextInput,
   BackHandler,
   Keyboard,
+  ScrollView,
 } from 'react-native';
 import {is24HourFormat} from 'react-native-device-time-format';
 import moment from 'moment';
@@ -40,7 +41,7 @@ import {Platform} from 'react-native';
 import PushController from '../../component/PushControllerTemp';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import AuthContext from '../../context/AuthContext';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+// import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {
   checkBioMetricAvailable,
   authenticateUsingBioMetric,
@@ -247,7 +248,7 @@ const ClientCodeScreen = props => {
           source={imageConstant.IMAGE_LOGIN_BACKGROUND}
           style={commonStyle.image}
           resizeMode={'cover'}>
-          <KeyboardAwareScrollView>
+          <ScrollView>
             <View style={styles.logoImage}>
               <Image
                 source={imageConstant.IMAGE_LOGO}
@@ -311,7 +312,7 @@ const ClientCodeScreen = props => {
               style={styles.tokenStyle}
               multiline={true}
             /> */}
-          </KeyboardAwareScrollView>
+          </ScrollView>
         </ImageBackground>
 
         {responseData.isRequesting ? (

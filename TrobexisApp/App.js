@@ -9,7 +9,7 @@ import 'react-native-gesture-handler';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 import React, {useEffect} from 'react';
-import {StatusBar, useColorScheme} from 'react-native';
+import {StatusBar, useColorScheme, SafeAreaView} from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {Provider} from 'react-redux';
@@ -39,6 +39,7 @@ const App = () => {
   }, []);
 
   const backgroundStyle = {
+    flex: 1,
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
@@ -53,7 +54,8 @@ const App = () => {
   //   onPressBigBtn,}
 
   return (
-    <SafeAreaProvider style={backgroundStyle}>
+    // <SafeAreaView>
+    <SafeAreaView style={backgroundStyle}>
       <AuthContext.Provider value={{user, setUserData: setUser}}>
         {/* <DialogContext.Provider
           value={{setDialogOpen: open => setShowDialog(open)}}>
@@ -67,7 +69,8 @@ const App = () => {
         {/* </DialogContext.Provider> */}
       </AuthContext.Provider>
       <Toast ref={ref => (global.toast = ref)} />
-    </SafeAreaProvider>
+    </SafeAreaView>
+    // </SafeAreaView>
   );
 };
 

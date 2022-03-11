@@ -13,6 +13,10 @@ export default StyleSheet.create({
     color: appColor.BLACK,
     padding: '5%',
   },
+  image1: {
+    flex: 1,
+    justifyContent: 'center',
+  },
   image: {
     width: '100%',
     height: '100%',
@@ -64,5 +68,4 @@ export default StyleSheet.create({
     // height:hp('5%'),
     backgroundColor: appColor.RED,
   },
-  
 });
