@@ -31,7 +31,6 @@
     "react-native-calendars": "^1.1264.0",
     "react-native-camera": "^4.2.1",
     "react-native-device-info": "^8.3.0",
-    "react-native-device-time-format": "^2.3.0",
     "react-native-elements": "^3.4.2",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-keyboard-aware-scroll-view": "^0.9.4",

@@ -9,21 +9,24 @@ import {
   TextInput,
   Keyboard,
   ActivityIndicator,
+  ScrollView,
+  StyleSheet,
 } from 'react-native';
 import stylesCommon from '../../common/common.style';
 import {useDispatch, useSelector} from 'react-redux';
 import {Loader, AlertView} from '../../component';
 
 import stylesHome from '../home/Home.style';
-import styles from './declineReason.style';
+import style from './declineReason.style';
 import {HeaderCustom, BookingCard, backHandler} from '../../component';
 import {Avatar} from 'react-native-elements';
 import {appConstant, appColor, alertMsgConstant} from '../../constant';
 import IconAntDesing from 'react-native-vector-icons/AntDesign';
 import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+  getOrientation,
+  listenOrientationChange as lor,
+  removeOrientationListener as rol,
+} from '../../responsiveScreen';
 import {
   requestToGetDeclineReasons,
   requestDeclineApproval,
@@ -31,8 +34,12 @@ import {
 import localDb from '../../database/localDb';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useRoute, useNavigation} from '@react-navigation/core';
+import {toast} from 'react-native-toast-notifications';
+// import {ScrollView} from 'react-native-gesture-handler';
 
 const ReasonDecline = props => {
+  const [orientation, setOrientation] = React.useState('portrait');
+  const styles = StyleSheet.create(style);
   const dispatch = useDispatch();
   const responseGetReasonList = useSelector(
     state => state.DeclineReasonReducer,
@@ -44,8 +51,17 @@ const ReasonDecline = props => {
   const [reasonId, setReasonId] = useState('');
 
   const [showReasonList, setShowReasonList] = useState(false);
+  console.log('showReasonList', showReasonList);
   const [comments, setComments] = useState('');
   const [textLimit, setTextLimit] = useState(0);
+
+  useEffect(() => {
+    // console.log('setOrientation', orientation);
+    lor(setOrientation);
+    return () => {
+      rol();
+    };
+  }, []);
 
   useEffect(() => {
     // Call api to get reasons list
@@ -55,13 +71,13 @@ const ReasonDecline = props => {
         let param = {
           user: response,
           approvalId: route.params ? route.params.approvalItem.item.id : '',
-          navigation: props.navigation
+          navigation: props.navigation,
         };
         dispatch(requestToGetDeclineReasons(param));
       });
     });
     return unsubscribe;
-  }, [props.navigation, route]);
+  }, [dispatch, props.navigation, route]);
 
   const onClickSubmit = () => {
     const tempUser = localDb.getUser();
@@ -69,16 +85,17 @@ const ReasonDecline = props => {
       let param = {
         comments: comments,
         reasonId: reasonId,
-         user: response,
-         approvalId: route.params ? route.params.approvalItem.item.id : '',
-         navigation: props.navigation
-        };
+        user: response,
+        approvalId: route.params ? route.params.approvalItem.item.id : '',
+        navigation: props.navigation,
+      };
       dispatch(requestDeclineApproval(param));
     });
   };
   const moveBack = () => {
     props.navigation.goBack();
-    route.params.onBackReceiveData && route.params.onBackReceiveData(route.params.approvalItem)
+    route.params.onBackReceiveData &&
+      route.params.onBackReceiveData(route.params.approvalItem);
   };
   const renderReasonList = item => {
     return (
@@ -97,7 +114,6 @@ const ReasonDecline = props => {
   };
 
   const getDataFromResponse = () => {
-   
     if (responseGetReasonList.declineSubmitRes) {
       if (responseGetReasonList.declineSubmitRes.message) {
         toast.show(responseGetReasonList.declineSubmitRes.message, {
@@ -137,7 +153,11 @@ const ReasonDecline = props => {
                 onPress={() => {
                   setShowReasonList(!showReasonList);
                 }}>
-                <View style={styles.buttonInsideReason}>
+                <View
+                  style={[
+                    styles.buttonInsideReason,
+                    {width: getOrientation() === 'portrait' ? '100%' : '83%'},
+                  ]}>
                   <Text multiline="true" style={styles.reasonText}>
                     {/* {reason === 'Select Reason For Decline'?  getDataFromResponse(responseGetReasonList): reason} */}
                     {reason}
@@ -188,35 +208,37 @@ const ReasonDecline = props => {
               Submit Reason
             </Text>
           </Pressable>
+
           {showReasonList ? (
-            <View style={styles.viewFlatList}>
-              <>
-                {responseGetReasonList.isRequesting ? (
-                  <View style={styles.loaderFlatList}>
-                    <ActivityIndicator
-                      size="large"
-                      color={appColor.NAVY_BLUE}
-                    />
-                  </View>
-                ) : (
-                  <FlatList
-                    data={
-                      responseGetReasonList &&
-                      responseGetReasonList.declineReason
-                        ? responseGetReasonList.declineReason
-                        : []
-                    }
-                    renderItem={renderReasonList}
-                    keyExtractor={(item, index) => index.toString()}
-                  />
-                )}
-              </>
+            <View
+              style={[
+                styles.viewFlatList,
+                {width: getOrientation() === 'portrait' ? '90%' : '94%'},
+              ]}>
+              {/* <View> */}
+              {responseGetReasonList.isRequesting ? (
+                <View style={styles.loaderFlatList}>
+                  <ActivityIndicator size="large" color={appColor.NAVY_BLUE} />
+                </View>
+              ) : (
+                // <ScrollView>
+                <FlatList
+                  data={
+                    responseGetReasonList && responseGetReasonList.declineReason
+                      ? responseGetReasonList.declineReason
+                      : []
+                  }
+                  renderItem={renderReasonList}
+                  keyExtractor={(item, index) => index.toString()}
+                />
+              )}
+              {/* </View> */}
             </View>
           ) : null}
+          {responseGetReasonList.isRequesting ? (
+            <Loader loading={responseGetReasonList.isRequesting} />
+          ) : null}
         </View>
-        {responseGetReasonList.isRequesting ? (
-          <Loader loading={responseGetReasonList.isRequesting} />
-        ) : null}
       </Pressable>
     </>
   );

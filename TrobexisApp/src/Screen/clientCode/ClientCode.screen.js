@@ -11,7 +11,7 @@ import {
   Keyboard,
   ScrollView,
 } from 'react-native';
-import {is24HourFormat} from 'react-native-device-time-format';
+// import {is24HourFormat} from 'react-native-device-time-format';
 import moment from 'moment';
 
 import stylesHome from '../home/Home.style';

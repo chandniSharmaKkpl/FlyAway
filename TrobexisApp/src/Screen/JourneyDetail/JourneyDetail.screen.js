@@ -376,15 +376,20 @@ const JourneyDetail = props => {
             <View style={styles.viewItineraryList} />
             <Text style={styles.textBlackTitle}>Itinerary Details</Text>
             {responseDetail &&
-            responseDetail?.journeyDetail.Status === 'Booked' ? (
-              <Text style={styles.textConfirmed}>Confirmed Itinerary</Text>
-            ) : (
-              <Text style={styles.textNotConfirmed}>Draft Itinerary</Text>
-            )}
-              {/* {console.log(
-                'A-+-+-+-+-+-+',
-                responseDetail ? JSON.stringify(responseDetail, null, 4) : null,
-              )} */}
+            responseDetail.journeyDetail &&
+            responseDetail.journeyDetail.Status ? (
+              responseDetail.journeyDetail.Status === 'Booked' ? (
+                <Text style={styles.textConfirmed}>Confirmed Itinerary</Text>
+              ) : (
+                <Text style={styles.textNotConfirmed}>Draft Itinerary</Text>
+              )
+            ) : null}
+            {/* {console.log(
+              'A-+-+-+-+-+-+',
+              responseDetail
+                ? JSON.stringify(responseDetail, null, 4)
+                : null,
+            )} */}
             {responseDetail &&
             responseDetail.journeyDetail &&
             responseDetail.journeyDetail.Itinerarys &&

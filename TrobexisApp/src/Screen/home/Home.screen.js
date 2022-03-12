@@ -183,7 +183,7 @@ const HomeScreen = props => {
           title={''}
           viewName={appConstant.HOME_SCREEN}
           leftIcon={true}
-          rightIcon={true}
+          rightIcon={true} 
           centerTitle={false}
           onClickRightIcon={onClickRightIcon}
           rightIconImage={''}
@@ -206,7 +206,12 @@ const HomeScreen = props => {
                 activeOpacity={0.7}
               />
             </View> */}
-              <View style={{paddingLeft: wp('5%'), paddingTop: hp('1.2%')}}>
+              <View
+                style={{
+                  paddingLeft:
+                    getOrientation() === 'portrait' ? wp('5%') : wp('3.5%'),
+                  paddingTop: hp('1.2%'),
+                }}>
                 <Text style={styles.textHello}>
                   Hello{' '}
                   {response.userProfile && response.userProfile.firstname
@@ -224,7 +229,8 @@ const HomeScreen = props => {
           response.itinaryListAllJourney.length > 0 ? (
             <View
               style={{
-                marginTop: hp('-8%'),
+                marginTop:
+                  getOrientation() === 'portrait' ? hp('-8%') : hp('-13%'),
                 alignSelf: 'center',
                 height: getOrientation() === 'portrait' ? hp('18%') : hp('25%'),
               }}>

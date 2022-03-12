@@ -229,7 +229,7 @@ function TabNavigator() {
                 </Text>
               </View>
             ) : (
-              <>
+              <View style={styles.tab}>
                 <View style={styles.viewImage}>
                   <Image
                     source={imageConstant.IMAGE_HOME_WHITE}
@@ -240,7 +240,7 @@ function TabNavigator() {
                 <Text style={styles.tabBarLabel}>
                   {focused ? appConstant.HOME_SCREEN : ''}
                 </Text>
-              </>
+              </View>
             ),
         }}
         component={HomeStack}
@@ -249,20 +249,34 @@ function TabNavigator() {
         name={appConstant.BUS_BOOKING}
         component={BusBookingStack}
         options={{
-          tabBarIcon: ({tintColor, focused}) => (
-            <>
-              <View style={styles.viewImage}>
-                <Image
-                  source={imageConstant.IMAGE_BUS_WHITE}
-                  resizeMode={'contain'}
-                  style={styles.image}
-                />
+          tabBarIcon: ({tintColor, focused}) =>
+            DeviceInfo.isTablet() ? (
+              <View style={{width: wp('12%'), alignItems: 'center'}}>
+                <View style={styles.viewImage}>
+                  <Image
+                    source={imageConstant.IMAGE_BUS_WHITE}
+                    resizeMode={'contain'}
+                    style={styles.image}
+                  />
+                </View>
+                <Text style={styles.tabBarLabel}>
+                  {focused ? appConstant.BUS_BOOKING : ''}
+                </Text>
               </View>
-              <Text style={styles.tabBarLabel_Bus}>
-                {focused ? appConstant.BUS_BOOKING : ''}
-              </Text>
-            </>
-          ),
+            ) : (
+              <View>
+                <View style={styles.viewImage}>
+                  <Image
+                    source={imageConstant.IMAGE_BUS_WHITE}
+                    resizeMode={'contain'}
+                    style={styles.image}
+                  />
+                </View>
+                <Text style={styles.tabBarLabel}>
+                  {focused ? appConstant.BUS_BOOKING : ''}
+                </Text>
+              </View>
+            ),
         }}
       />
       <TabObject.Screen
@@ -284,7 +298,7 @@ function TabNavigator() {
                 </Text>
               </View>
             ) : (
-              <>
+              <View>
                 <View style={styles.viewImage}>
                   <Image
                     source={imageConstant.IMAGE_CLOCK_WHITE}
@@ -292,10 +306,10 @@ function TabNavigator() {
                     style={styles.image}
                   />
                 </View>
-                <Text style={styles.tabBarLabel_History}>
+                <Text style={styles.tabBarLabel}>
                   {focused ? appConstant.HISTORY : ''}
                 </Text>
-              </>
+              </View>
             ),
         }}
       />
@@ -354,23 +368,29 @@ function NavigationSetup() {
 export default NavigationSetup;
 
 const styles = {
+  tab: {
+    flex: 1,
+    justifyContent: 'center',
+  },
   tabBarLabel: {
     fontFamily: fontConstant.BARLOW_REGULAR,
     fontSize: fontConstant.TEXT_H3_SIZE_REGULAR,
     color: appColor.WHITE,
+    width: '100%',
+    textAlign: 'center',
   },
-  tabBarLabel_Bus: {
-    fontFamily: fontConstant.BARLOW_REGULAR,
-    fontSize: fontConstant.TEXT_H3_SIZE_REGULAR,
-    color: appColor.WHITE,
-    width: wp('12%'),
-  },
-  tabBarLabel_History: {
-    fontFamily: fontConstant.BARLOW_REGULAR,
-    fontSize: fontConstant.TEXT_H3_SIZE_REGULAR,
-    color: appColor.WHITE,
-    width: wp('7%'),
-  },
+  // tabBarLabel_Bus: {
+  //   fontFamily: fontConstant.BARLOW_REGULAR,
+  //   fontSize: fontConstant.TEXT_H3_SIZE_REGULAR,
+  //   color: appColor.WHITE,
+  //   width: wp('12%'),
+  // },
+  // tabBarLabel_History: {
+  //   fontFamily: fontConstant.BARLOW_REGULAR,
+  //   fontSize: fontConstant.TEXT_H3_SIZE_REGULAR,
+  //   color: appColor.WHITE,
+  //   width: wp('7%'),
+  // },
 
   image: {
     width: '100%',
