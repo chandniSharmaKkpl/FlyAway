@@ -2,10 +2,13 @@ import {StyleSheet, Platform, Dimensions} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
+  getOrientation,
+  testgetOrientation,
 } from '../../responsiveScreen';
+import DeviceInfo from 'react-native-device-info';
 import fontConstant from '../../constant/fontConstant';
 import appColor from '../../constant/colorConstant';
-export default StyleSheet.create({
+const style = {
   viewSpace: {
     paddingTop: '4%',
   },
@@ -27,7 +30,7 @@ export default StyleSheet.create({
     bottom: 0,
     width: 1,
     height: '100%',
-    backgroundColor: 'white',
+    backgroundColor: appColor.WHITE,
     zIndex: 1,
   },
   viewRowOutSide: {
@@ -39,7 +42,7 @@ export default StyleSheet.create({
   viewLeftLine: {
     zIndex: 9999,
     // justifyContent: 'center',
-    // alignItems: 'center',
+    alignItems: 'center',
     //backgroundColor:'green',
     // paddingTop:"18%"
   },
@@ -139,7 +142,7 @@ export default StyleSheet.create({
   viewInside: {
     //  height: hp('35%'),
     backgroundColor: appColor.WHITE,
-    width: '90%',
+    width: '100%',
     alignSelf: 'center',
     borderRadius: 10,
     borderColor: Platform.OS === 'android' ? appColor.BORDER : appColor.GRAY,
@@ -249,7 +252,7 @@ export default StyleSheet.create({
     // marginTop: '5%',
     // flexWrap: 'wrap',
     // alignSelf: 'center',
-
+    backgroundColor: 'pink',
     // overflow:'hidden'
   },
   viewRowTop: {
@@ -423,4 +426,10 @@ export default StyleSheet.create({
     paddingBottom: hp('20%'),
     // height:hp('90%')
   },
-});
+};
+
+// console.log('style', style);
+
+export default style;
+
+// "viewOutSide": {"backgroundColor": "pink", "borderColor": "#2E3642", "borderRadius": 14, "elevation": 5, "marginLeft": "3%", "marginTop": "10%", "shadowColor": "#00000014", "shadowOffset": {"height": 1, "width": 1}, "shadowOpacity": 0.92, "shadowRadius": 2.22, "width": 273}

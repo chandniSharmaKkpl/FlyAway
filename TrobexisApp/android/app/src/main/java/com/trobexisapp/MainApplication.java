@@ -15,7 +15,6 @@ import com.swmansion.reanimated.ReanimatedJSIModulePackage;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost =
@@ -25,10 +24,7 @@ public class MainApplication extends Application implements ReactApplication {
           return BuildConfig.DEBUG;
         }
 
-        @Override
-        protected JSIModulePackage getJSIModulePackage() { 
-              return new ReanimatedJSIModulePackage(); 
-            }
+
 
         @Override
         protected List<ReactPackage> getPackages() {

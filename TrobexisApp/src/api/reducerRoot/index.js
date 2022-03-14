@@ -11,24 +11,22 @@ import DeclineReasonReducer from '../../Screen/declineReasons/declineReason.redu
 import ApprovalDetailReducer from '../../Screen/approvalDetail/ApprovalDetail.reducer';
 import JourneyDetailReducer from '../../Screen/JourneyDetail/JourneyDetail.reducer';
 import ScanReducer from '../../Screen/scanScreen/Scan.reducer';
-import AlertReducer from '../../store/Alert.reducer';
-import GlobalReducer from './global.reducer';
+import GlobalReducer from "./global.reducer";
 
 const ReducerRoot = combineReducers({
-  GlobalReducer,
-  ClientCodeReducer,
-  LoginReducer,
-  ApprovalListReducer,
-  ApprovalDetailReducer,
-  JourneyDetailReducer,
-  DeclineReasonReducer,
-  HomeReducer,
-  BusBookingReducer,
-  PickABusReducer,
-  BookingSummaryReducer,
-  SiteTravelItinaryReducer,
-  ScanReducer,
-  AlertReducer,
-});
+    GlobalReducer,
+    ClientCodeReducer,
+    LoginReducer,
+    ApprovalListReducer,
+    ApprovalDetailReducer,
+    JourneyDetailReducer,
+    DeclineReasonReducer,
+    HomeReducer,
+    BusBookingReducer,
+    PickABusReducer,
+    BookingSummaryReducer,
+    SiteTravelItinaryReducer,
+    ScanReducer
+})
 
 export default ReducerRoot;

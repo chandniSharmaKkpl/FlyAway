@@ -8,10 +8,11 @@ import {
   ScrollView,
   Pressable,
   Platform,
+  StyleSheet,
 } from 'react-native';
 import stylesHome from '../home/Home.style';
 import stylesCommon from '../../common/common.style';
-import styles from './JourneyDetail.style';
+import style from './JourneyDetail.style';
 import {
   HeaderCustom,
   BookingCard,
@@ -65,15 +66,16 @@ const JourneyDetail = props => {
   const [travellerDetailDate, setTravellerDetailDate] = useState('');
   const [tvr, setTvr] = useState('');
   const [arrayRoutes, setArrayRoutes] = useState([]);
-  const [lwidth, setlWidth] = useState(100);
 
+  const styles = StyleSheet.create(style);
+  // console.log('style in details screen', style);
   useEffect(() => {
-    // console.log('setOrientation', orientation);
+    console.log('setOrientation Details', orientation);
     lor(setOrientation);
     return () => {
       rol();
     };
-  }, []);
+  }, [orientation]);
 
   useEffect(() => {
     const unsubscribe = props.navigation.addListener('focus', () => {
@@ -168,13 +170,7 @@ const JourneyDetail = props => {
     console.log('itemdetals+-+-+', item.Details[0].Destination);
     // const  [width, setWidth]  = useState(200);
     return (
-      <View
-        style={styles.viewRowOutSide}
-        onLayout={event => {
-          var {x, y, width, height} = event.nativeEvent.layout;
-          setlWidth(width - 115);
-          // console.log("===width", width);
-        }}>
+      <View style={styles.viewRowOutSide} key={index}>
         {/* Side bus view  */}
         <View style={[styles.viewLeftLine]}>
           <View
@@ -196,14 +192,7 @@ const JourneyDetail = props => {
         </View>
 
         {/* Detail Section */}
-        <View
-          style={[
-            styles.viewOutSide,
-            {
-              width: lwidth,
-              marginTop: getOrientation() === 'portrait' ? '8%' : '5%',
-            },
-          ]}>
+        <View style={[styles.viewOutSide]}>
           <View style={styles.viewRowTop}>
             <View style={styles.viewLeft}>
               <Text style={styles.textYellow}>
@@ -330,7 +319,6 @@ const JourneyDetail = props => {
             ]}>
             <View style={styles.viewDotted} />
           </View>
-          // <></>
         )}
       </View>
     );
@@ -434,6 +422,7 @@ const JourneyDetail = props => {
               ? responseDetail.journeyDetail.Itinerarys.map(function (
                   item,
                   index,
+                  key,
                 ) {
                   return itemViews(item, imageConstant.IMAGE_PLANE, index);
                 })

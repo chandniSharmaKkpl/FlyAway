@@ -1,8 +1,9 @@
-import * as React from 'react';
+import * as React from 'react'
 
 export default React.createContext({
-  user: null,
-  setUserData: val => {
-    return val;
-  },
-});
+	user: null,
+	setUserData: (val) => {
+		return val
+	}
+})
+
