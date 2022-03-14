@@ -46,7 +46,6 @@ const HeaderCustom = props => {
 
   const handleBackInHeader = () => {
     // console.log(' navigation---->', props);
-    
     // if (
     //   props.viewName === appConstant.HOME_SCREEN ||
     //   props.viewName === appConstant.BUS_BOOKING ||
@@ -54,7 +53,6 @@ const HeaderCustom = props => {
     // ) {
     //   countBack = countBack + 1;
     //   console.log(' back count  in home ', countBack);
-
     //   if (countBack > 1) {
     //     props.setAlertShowFromHeader(true);
     //   }
@@ -117,8 +115,10 @@ const styles = {
   topHeaderStyleIos: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    height: hp('10%'),
+    alignItem: 'center',
+    height: hp('6.5%'),
     backgroundColor: appColor.NAVY_BLUE,
+    // backgroundColor: 'pink',
   },
   topHeaderStyleAndroid: {
     flexDirection: 'row',
@@ -129,14 +129,14 @@ const styles = {
   iconHeader: {
     height: hp('2.5%'),
     width: wp('8%'),
-    marginTop: Platform.OS === 'android' ? hp('2%') : hp('6%'),
+    marginTop: Platform.OS === 'android' ? hp('2%') : hp('2%'),
     marginLeft: wp('4%'),
   },
 
   styleBell: {
     height: hp('3%'),
     width: wp('8%'),
-    marginTop: Platform.OS === 'android' ? hp('2%') : hp('6%'),
+    marginTop: Platform.OS === 'android' ? hp('2%') : hp('2%'),
     marginRight: wp('4%'),
   },
   styleArrow: {
@@ -152,6 +152,6 @@ const styles = {
     flexWrap: 'wrap',
     alignSelf: 'center',
 
-    marginTop: Platform.OS === 'android' ? hp('-1%') : hp('4%'),
+    marginTop: Platform.OS === 'android' ? hp('-1%') : hp('0%'),
   },
 };

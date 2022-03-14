@@ -1,8 +1,7 @@
-import {StyleSheet, Dimensions} from 'react-native';
+import {Platform} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
-  getOrientation,
 } from '../../responsiveScreen';
 import fontConstant from '../../constant/fontConstant';
 import appColor from '../../constant/colorConstant';
@@ -97,9 +96,7 @@ export default {
   textArea: {
     height: hp('20%'),
     paddingLeft: wp('5%'),
-
     textAlignVertical: 'top', // android fix for centering it at the top-left corner
-
     //justifyContent: 'flex-start',
     fontFamily: fontConstant.BARLOW_REGULAR,
     fontSize: fontConstant.TEXT_14_SIZE_BOLD,
@@ -122,7 +119,6 @@ export default {
   viewFlatList: {
     height: hp('30%'),
     // backgroundColor: 'pink',
-
     backgroundColor: appColor.WHITE,
     position: 'absolute',
     // width: getOrientation() === 'portrait' ? '90%' : '94%',

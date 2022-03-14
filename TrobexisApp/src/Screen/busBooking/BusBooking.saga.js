@@ -1,7 +1,50 @@
 import {takeLatest, call, put, select, all} from 'redux-saga/effects';
 import {actionConstant} from '../../constant';
+import {isError} from '../../common';
+import {getAccessTokenBusBooking} from './BusBooking.api';
+import localDb from '../../database/localDb'
 
-import {getBusRoute, getBusStop} from './BusBooking.api';
+export function* workerGetAccessTokenBusBooking(argumentData ) {
+  try {
+        
+    const tokenBusBooking = yield call(getAccessTokenBusBooking,argumentData.payload);
+   console.log(" token bus", tokenBusBooking); 
+    if (isError(tokenBusBooking)) {
+//** managing global error message */
+      yield put({
+        type: actionConstant.ACTION_API_ERROR_SUCCESS,
+        payload: tokenBusBooking
+      })
+//** managing loader and ui of the view */
+      yield put({
+        type: actionConstant.ACTION_GET_ACCESSTOKEN_BUS_BOOKING_FAILURE,
+        payload: tokenBusBooking,
+      });
+//** if 401 then logout and redirect to client code screen */
+      if (tokenBusBooking.code === errorCodeConstant.UNAUTHORIZED) {
+        localDb.setUser(null);
+        argumentData.payload.data.navigation.navigate(appConstant.CLIENT_CODE); 
+      }
+    }else{
+     
+      yield put({
+        type: actionConstant.ACTION_GET_ACCESSTOKEN_BUS_BOOKING_SUCCESS,
+        payload: tokenBusBooking,
+      });
+    }      
+  } catch (error) {
+    //** managing global error message */
+    yield put({
+      type: actionConstant.ACTION_API_ERROR_SUCCESS,
+      payload: error
+    })
+    //** managing loader and ui of the view */
+    yield put({
+      type: actionConstant.ACTION_GET_ACCESSTOKEN_BUS_BOOKING_FAILURE,
+      payload: error,
+    });
+  }
+}
 
 ///** Get bus route */
 export function* workerGetBusRoute() {
@@ -70,6 +113,8 @@ export function* watchToGetBusRoute() {
       });
     }
   }
+
+  
   
   export function* watchToGetBusStop() {
       yield takeLatest(
@@ -77,8 +122,17 @@ export function* watchToGetBusRoute() {
         workerGetBusStop
       );
     }
+
+    export function* watchToGetAccessTokenForBusBooking() {
+      console.log(" watch bus booking ")
+      yield takeLatest(
+        actionConstant.ACTION_GET_ACCESSTOKEN_BUS_BOOKING_REQUEST,
+        workerGetAccessTokenBusBooking
+      );
+    }
   
     
 
-  export default watchToGetBusRoute;
+
+  export default watchToGetAccessTokenForBusBooking;
   

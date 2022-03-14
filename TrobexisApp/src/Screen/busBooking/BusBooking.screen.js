@@ -30,7 +30,10 @@ import {
 } from 'react-native-responsive-screen';
 import {appColor, appConstant, imageConstant} from '../../constant';
 import {requestToGetItinaryList} from '../home/Home.action';
-import {requestToGetBusStop} from './BusBooking.action';
+import {
+  requestToGetBusStop,
+  requestToGetAccessTokenBusBooking,
+} from './BusBooking.action';
 
 const BusBookingScreen = props => {
   const [arrayBooking, setArrayBooking] = useState([1]); // All bookings data will get in this array
@@ -40,11 +43,13 @@ const BusBookingScreen = props => {
   const [toLoc, setToLoc] = useState('bwb'); // To location
 
   const dispatch = useDispatch(); // Calling api
-  const response = useSelector(state => state.BusBookingReducer); // Getting api response
+  const responseBusBooking = useSelector(state => state.BusBookingReducer); // Getting api response
   const responseItinaryList = useSelector(state => state.HomeReducer); // Getting api response
   const [deviceInfo, setDeviceInfo] = useState({}); // Getting user device info from push controller.
   const [busBookingUrl, setBusBookingUrl] = useState(null);
   const [loading, setLoading] = React.useState(true);
+  const [headersWeb, setHeadersWeb] = useState({});
+  const [responseUser, setResponseUser] = useState({});
 
   const onClickBookingCard = useCallback(itinaryDetail => {
     props.navigation.navigate(appConstant.SITE_ITINARY, {
@@ -58,7 +63,6 @@ const BusBookingScreen = props => {
   };
   // Getting device info from push controller
   const getDeviceInfo = value => {
-    console.log(' device info ----->', value);
     setDeviceInfo(value);
   };
   const hideSpinner = () => {
@@ -68,10 +72,22 @@ const BusBookingScreen = props => {
   useEffect(() => {
     const unsubscribe = props.navigation.addListener('focus', () => {
       BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
-      let date = new Date();
-      let currentDate = format(date, 'EEEE, MMMM dd yyyy');
-      setSelectedDate(currentDate);
-      //  dispatch(requestToGetItinaryList())
+
+      (async () => {
+        // Getting access token for bus booking then pass it in webview url
+        const tempUser = localDb.getUser();
+        Promise.resolve(tempUser).then(response => {
+          if (response) {
+            let param = {
+              user: response,
+              navigation: props.navigation,
+            };
+            console.log(' response ====> ', response);
+            setResponseUser(response);
+            dispatch(requestToGetAccessTokenBusBooking(param));
+          }
+        });
+      })();
     });
     return () => {
       BackHandler.removeEventListener(
@@ -82,40 +98,32 @@ const BusBookingScreen = props => {
     };
   }, []);
 
-  React.useEffect(() => {
-    const tempUser = localDb.getUser();
-    Promise.resolve(tempUser).then(response => {
-      if (response) {
-        console.log(' response --', response);
-        if (response.responseLoginUrl) {
-          let tempUrl = ''; //'https://app-aue.trobexisuat.com/TONEAPPUAT/MobileApp/MobileFunctions.aspx?key=20220303112522419a7ec0496e6b749799ff6d2f429894a363&action=BUSBOOKING';  //response.responseLoginUrl;
+  //  calling token api for busbooking
+  useEffect(() => {
+    const response = responseUser;
+    var functionUrl = '';
+    if (response) {
+      // console.log(' tempuser bus booking- $$$$$$$$$$$$-', responseBusBooking);
 
-          tempUrl =
-            response.apiBaseUrl +
-            response.client +
-            '/MobileApp/MobileFunctions.aspx?key=' +
-            response.clientToken +
-            '&action=BUSBOOKING';
-          console.log(' url ---', tempUrl);
-          setBusBookingUrl(tempUrl);
-        } else {
-          setBusBookingUrl(response.loginUrl);
-        }
+      if ( response.functionUrl && responseBusBooking.accessTokenBusBooking.token) {
+        functionUrl = response.functionUrl;
+        functionUrl = functionUrl.replace(':actionKey', 'BUSBOOKING');
+        functionUrl = functionUrl.replace(
+          ':accessKey',
+          responseBusBooking.accessTokenBusBooking.token,
+        );
+        console.log(' ++++++ ', functionUrl);
+        setBusBookingUrl(functionUrl);
+        setHeadersWeb({
+          // 'Authorization': `Bearer ${response.client}`,
+          DeviceId: response.deviceId ? response.deviceId : '',
+          DeviceType: Platform.OS === 'android' ? 'ANDROID' : 'IOS',
+        });
       }
-    });
-  }, []);
+    }
+  }, [responseBusBooking.accessTokenBusBooking?.token]);
 
-  const renderItem = item => {
-    return (
-      <Pressable onPress={() => onClickBookingCard(item.item)}>
-        <BookingCard
-          item={item.item}
-          titleColor={appColor.NAVY_BLUE}
-          viewName={appConstant.BUS_BOOKING}
-        />
-      </Pressable>
-    );
-  };
+ 
 
   const onClickCalendarDate = async selectedDay => {
     let dateString1 = selectedDay.dateString;
@@ -138,12 +146,13 @@ const BusBookingScreen = props => {
 
   const convertDate = date => {
     let convertedDate = '';
-
     let dateTemp = Date.parse(selectedDate);
     convertedDate = format(dateTemp, "yyyy'-'MM'-'dd'T'HH':'mm':'ss");
     console.log(' converted date is ', convertedDate);
     return convertedDate;
   };
+
+ 
 
   return (
     <>
@@ -152,6 +161,7 @@ const BusBookingScreen = props => {
         style={styles.webview}
         source={{
           uri: busBookingUrl,
+          headers: headersWeb,
         }}></WebView>
       {/* <TextInput 
             value={route && route.params && route.params.loginUrl? route.params.loginUrl: loginUrl}
@@ -178,102 +188,7 @@ const BusBookingScreen = props => {
     </>
   );
 
-  return (
-    <>
-      {/* {console.log(" response is in busbooking screen", response, "Itinary list", responseItinaryList)} */}
-
-      <View style={stylesHome.container}>
-        <HeaderCustom
-          title={'Make a Booking'}
-          viewName={appConstant.BUS_BOOKING}
-          leftIcon={true}
-          rightIcon={true}
-          centerTitle={true}
-          onClickRightIcon={onClickRightIcon}
-          rightIconImage={''}
-          viewProps={props}
-        />
-        <View>
-          <Text style={stylesCommon.textHeading}>Make a Booking</Text>
-
-          <View style={styles.viewCalendar1}>
-            <CustomTextInput
-              title={selectedDate}
-              rightIcon={
-                !isCalendarShow
-                  ? imageConstant.IMAGE_CALENDAR_BLACK
-                  : imageConstant.IMAGE_CLOSE
-              }
-              width={wp('90%')}
-              onClickRightIcon={onClickCalendarIcon}
-            />
-          </View>
-
-          {isCalendarShow ? (
-            <View style={styles.viewCalendar}>
-              <Calendar onDayPress={onClickCalendarDate} />
-            </View>
-          ) : null}
-
-          <View style={styles.viewButtonTextInput}>
-            <View style={styles.buttonYellow}>
-              <Text style={styles.buttonTitle}>From:</Text>
-            </View>
-            <View style={styles.viewFromText}>
-              <CustomTextInput
-                title={'Butler Park(034)'}
-                rightIcon={imageConstant.IMAGE_PATH}
-                // width={wp('72%')}
-              />
-            </View>
-          </View>
-
-          <View style={styles.viewButtonTextInput}>
-            <View style={styles.buttonYellow}>
-              <Text style={styles.buttonTitle}>To:</Text>
-            </View>
-            <View style={styles.viewFromText}>
-              <CustomTextInput
-                title={'Barrow Island(BWB)'}
-                rightIcon={imageConstant.IMAGE_PATH}
-                // width={wp('72%')}
-              />
-            </View>
-          </View>
-
-          <Pressable
-            style={styles.buttonSearchBus}
-            onPress={() =>
-              props.navigation.navigate(appConstant.PICK_A_BUS, {
-                busBookingData: {
-                  pickuplocationcode: fromLoc,
-                  dropofflocationcode: toLoc,
-                  travelDate: convertDate(selectedDate),
-                },
-              })
-            }>
-            <Text style={styles.buttonSearchBusTitle}>Search Buses</Text>
-          </Pressable>
-        </View>
-        <View>
-          <Text style={stylesCommon.textHeading}>Upcoming Journeys</Text>
-          {/* Booking list  */}
-          {responseItinaryList &&
-          Array.isArray(responseItinaryList.itinaryListAllJourney) &&
-          responseItinaryList.itinaryListAllJourney.length > 0 ? (
-            <View style={{alignSelf: 'center', height: hp('40%')}}>
-              <FlatList
-                renderItem={renderItem}
-                horizontal={true}
-                data={responseItinaryList.itinaryListAllJourney}
-                keyExtractor={(item, index) => index.toString()}
-              />
-            </View>
-          ) : null}
-        </View>
-      </View>
-    </>
-  );
+ 
 };
 
 export default BusBookingScreen;

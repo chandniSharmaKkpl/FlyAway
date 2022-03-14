@@ -34,7 +34,7 @@ export default StyleSheet.create({
     paddingLeft: wp('15%'),
     // justifyContent:'center',
     alignItems: 'center',
-  }, 
+  },
   textHello: {
     fontFamily: fontConstant.BARLOW_BOLD,
     fontSize: fontConstant.TEXT_H1_SIZE_BOLD,

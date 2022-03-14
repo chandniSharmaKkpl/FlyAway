@@ -379,18 +379,6 @@ const styles = {
     width: '100%',
     textAlign: 'center',
   },
-  // tabBarLabel_Bus: {
-  //   fontFamily: fontConstant.BARLOW_REGULAR,
-  //   fontSize: fontConstant.TEXT_H3_SIZE_REGULAR,
-  //   color: appColor.WHITE,
-  //   width: wp('12%'),
-  // },
-  // tabBarLabel_History: {
-  //   fontFamily: fontConstant.BARLOW_REGULAR,
-  //   fontSize: fontConstant.TEXT_H3_SIZE_REGULAR,
-  //   color: appColor.WHITE,
-  //   width: wp('7%'),
-  // },
 
   image: {
     width: '100%',
@@ -399,12 +387,16 @@ const styles = {
   viewImage: {
     width: wp('6%'),
     height: hp('4.5%'),
-    marginTop: Platform.OS === 'android' ? hp('0.5%') : hp('1%'),
+    marginTop: Platform.OS === 'android' ? hp('0.5%') : hp('0%'),
     //  backgroundColor:'red',
     // justifyContent: 'flex-end',
   },
   tabBar: {
-    height: DeviceInfo.isTablet() ? hp('10%') : hp('10%'),
+    height: DeviceInfo.isTablet()
+      ? hp('10%')
+      : Platform.OS === 'android'
+      ? hp('10%')
+      : hp('7%'),
     backgroundColor: appColor.NAVY_BLUE,
   },
 };

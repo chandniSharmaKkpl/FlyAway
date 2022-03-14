@@ -1,25 +1,24 @@
-import React, {useState, useCallback, useEffect} from 'react';
+/* eslint-disable react/self-closing-comp */
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
-  Image,
   FlatList,
   TouchableOpacity,
   Pressable,
   TextInput,
   Keyboard,
   ActivityIndicator,
-  ScrollView,
+  Platform,
   StyleSheet,
 } from 'react-native';
 import stylesCommon from '../../common/common.style';
 import {useDispatch, useSelector} from 'react-redux';
-import {Loader, AlertView} from '../../component';
+import {Loader} from '../../component';
 
 import stylesHome from '../home/Home.style';
 import style from './declineReason.style';
-import {HeaderCustom, BookingCard, backHandler} from '../../component';
-import {Avatar} from 'react-native-elements';
+import {HeaderCustom} from '../../component';
 import {appConstant, appColor, alertMsgConstant} from '../../constant';
 import IconAntDesing from 'react-native-vector-icons/AntDesign';
 import {
@@ -33,7 +32,7 @@ import {
 } from './declineReason.action';
 import localDb from '../../database/localDb';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {useRoute, useNavigation} from '@react-navigation/core';
+import {useRoute} from '@react-navigation/core';
 import {toast} from 'react-native-toast-notifications';
 // import {ScrollView} from 'react-native-gesture-handler';
 
@@ -156,7 +155,16 @@ const ReasonDecline = props => {
                 <View
                   style={[
                     styles.buttonInsideReason,
-                    {width: getOrientation() === 'portrait' ? '100%' : '83%'},
+                    {
+                      width:
+                        Platform.OS === 'android'
+                          ? getOrientation() === 'portrait'
+                            ? '100%'
+                            : '86%'
+                          : getOrientation() === 'portrait'
+                          ? '100%'
+                          : '86%',
+                    },
                   ]}>
                   <Text multiline="true" style={styles.reasonText}>
                     {/* {reason === 'Select Reason For Decline'?  getDataFromResponse(responseGetReasonList): reason} */}
@@ -213,7 +221,16 @@ const ReasonDecline = props => {
             <View
               style={[
                 styles.viewFlatList,
-                {width: getOrientation() === 'portrait' ? '90%' : '94%'},
+                {
+                  width:
+                    Platform.OS === 'android'
+                      ? getOrientation() === 'portrait'
+                        ? '90%'
+                        : '94%'
+                      : getOrientation() === 'portrait'
+                      ? '90%'
+                      : '92.8%',
+                },
               ]}>
               {/* <View> */}
               {responseGetReasonList.isRequesting ? (

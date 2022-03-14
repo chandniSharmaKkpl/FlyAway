@@ -7,6 +7,7 @@ import {
   BackHandler,
   ScrollView,
   Pressable,
+  Platform,
 } from 'react-native';
 import stylesHome from '../home/Home.style';
 import stylesCommon from '../../common/common.style';
@@ -30,8 +31,10 @@ import {
 import {getDateInFormat, msToTime} from '../../common';
 import {useRoute, useNavigation} from '@react-navigation/core';
 import {
+  heightPercentageToDP as hp,
   listenOrientationChange as lor,
   removeOrientationListener as rol,
+  getOrientation,
 } from '../../responsiveScreen';
 import {requestToGetJourneyDetail} from './JourneyDetail.action';
 import {getTimeInFormat} from '../../component/BookingCard';
@@ -45,6 +48,7 @@ import IMAGE_HOTEL_SVG from '../../../assets/image/home_page/hotel.svg';
 import IMAGE_SITE_ACCOMODATION_SVG from '../../../assets/image/home_page/site_accommodation.svg';
 import IMAGE_TRANSFER_SVG from '../../../assets/image/home_page/transfer.svg';
 import IMAGE_OFFSHORE_SVG from '../../../assets/image/home_page/offshore.svg';
+import styleConstructor from 'react-native-calendars/src/agenda/style';
 
 const JourneyDetail = props => {
   const [orientation, setOrientation] = React.useState('portrait');
@@ -161,7 +165,7 @@ const JourneyDetail = props => {
   };
   const itemViews = (item, type, index) => {
     let isNoShowBtnVisible = false; // This flag is using to show no show button for flights only
-
+    console.log('itemdetals+-+-+', item.Details[0].Destination);
     // const  [width, setWidth]  = useState(200);
     return (
       <View
@@ -172,14 +176,34 @@ const JourneyDetail = props => {
           // console.log("===width", width);
         }}>
         {/* Side bus view  */}
-        <View style={styles.viewLeftLine}>
-          <View style={styles.viewCircleBlue}>
+        <View style={[styles.viewLeftLine]}>
+          <View
+            style={[
+              styles.viewCircleBlue,
+              {
+                marginTop:
+                  Platform.OS === 'android'
+                    ? getOrientation() === 'portrait'
+                      ? hp('5%')
+                      : hp('8%')
+                    : getOrientation() === 'portrait'
+                    ? hp('5%')
+                    : hp('6%'),
+              },
+            ]}>
             <View style={styles.viewPlaneImg}>{returnSvgImage(item)}</View>
           </View>
         </View>
 
         {/* Detail Section */}
-        <View style={[styles.viewOutSide, {width: lwidth}]}>
+        <View
+          style={[
+            styles.viewOutSide,
+            {
+              width: lwidth,
+              marginTop: getOrientation() === 'portrait' ? '8%' : '5%',
+            },
+          ]}>
           <View style={styles.viewRowTop}>
             <View style={styles.viewLeft}>
               <Text style={styles.textYellow}>
@@ -257,7 +281,7 @@ const JourneyDetail = props => {
                 item.Details.length > 0 &&
                 item.Details[0].Destination
                   ? item.Details[0].Destination
-                  : ''}
+                  : '-'}
               </Text>
               <Text style={styles.textBlack}>
                 {item.Details &&
@@ -290,7 +314,20 @@ const JourneyDetail = props => {
         </View>
 
         {index === responseDetail.journeyDetail.Itinerarys.length - 1 ? null : (
-          <View style={styles.viewDashedLine}>
+          <View
+            style={[
+              styles.viewDashedLine,
+              {
+                top:
+                  Platform.OS === 'android'
+                    ? getOrientation() === 'portrait'
+                      ? '18%'
+                      : '20%'
+                    : getOrientation() === 'portrait'
+                    ? '18%'
+                    : '20%',
+              },
+            ]}>
             <View style={styles.viewDotted} />
           </View>
           // <></>

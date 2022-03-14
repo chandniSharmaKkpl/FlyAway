@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useState, useCallback, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {
@@ -52,7 +53,7 @@ const HomeScreen = props => {
     return () => {
       rol();
     };
-  }, []);
+  }, [orientation]);
 
   setAlertShowFromHeader = value => {
     setIsAlertShow(value);
@@ -183,7 +184,7 @@ const HomeScreen = props => {
           title={''}
           viewName={appConstant.HOME_SCREEN}
           leftIcon={true}
-          rightIcon={true} 
+          rightIcon={true}
           centerTitle={false}
           onClickRightIcon={onClickRightIcon}
           rightIconImage={''}

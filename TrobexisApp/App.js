@@ -20,9 +20,17 @@ import SplashScreen from 'react-native-splash-screen';
 import AuthContext from './src/context/AuthContext';
 import Toast from 'react-native-toast-notifications';
 import {navigationRef} from './src/Navigator/RootNavigation';
+import appColor from './src/constant/colorConstant';
+import {
+  listenOrientationChange as lor,
+  removeOrientationListener as rol,
+  getOrientation,
+} from './src/responsiveScreen';
 
 let DialogContext = React.createContext();
 const App = () => {
+  const [orientation, setOrientation] = React.useState('portrait');
+
   const [showDialog, setShowDialog] = React.useState(false);
 
   const isDarkMode = useColorScheme() === 'dark';
@@ -38,9 +46,19 @@ const App = () => {
     SplashScreen.hide();
   }, []);
 
+  useEffect(() => {
+    // console.log('setOrientation', orientation);
+    lor(setOrientation);
+    return () => {
+      rol();
+    };
+  }, []);
+
   const backgroundStyle = {
     flex: 1,
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    // backgroundColor: isDarkMode ? Colors.NAVY_BLUE : Colors.lighter,
+    backgroundColor:
+      getOrientation() === 'portrait' ? appColor.NAVY_BLUE : appColor.WHITE,
   };
 
   // const alertConfig = {  title,
