@@ -9,6 +9,9 @@ import {
   Pressable,
   BackHandler,
 } from 'react-native';
+// import SafeAreaView from 'react-native-safe-area-view';
+import {SafeAreaView} from 'react-native-safe-area-context';
+
 import styles from './Home.style';
 import {
   HeaderCustom,
@@ -55,9 +58,11 @@ const HomeScreen = props => {
     };
   }, [orientation]);
 
-  setAlertShowFromHeader = value => {
-    setIsAlertShow(value);
-  };
+  console.log('response====>', response.itinaryListAllJourney);
+
+  // const setAlertShowFromHeader = value => {
+  //   setIsAlertShow(value);
+  // };
   useEffect(() => {
     //
     const unsubscribe = props.navigation.addListener('focus', () => {
@@ -156,11 +161,6 @@ const HomeScreen = props => {
       Array.isArray(response.userProfile.settings) &&
       response.userProfile.settings.length > 0
     ) {
-      // Temporary hiding bus tile
-      if (keyName === 'Function.Bus') {
-        return false;
-      }
-
       let matchElement = response.userProfile.settings.find(
         item => item.key == keyName,
       );
@@ -179,6 +179,9 @@ const HomeScreen = props => {
     <>
       {/* {backHandler(handleBackButtonClick)} */}
       {/* {checkResponseForRedirection()} */}
+      {/* <SafeAreaView
+        style={{flex: 1, backgroundColor: appColor.NAVY_BLUE}} */}
+      {/* edges={['right', 'left', 'top']}> */}
       <View style={styles.container}>
         <HeaderCustom
           title={''}
@@ -193,11 +196,12 @@ const HomeScreen = props => {
             console.log(' open drawer ');
             props.navigation.toggleDrawer();
           }}
-          setAlertShowFromHeader={value => setIsAlertShow(value)}
+          // setAlertShowFromHeader={value => setIsAlertShow(value)}
         />
         {/* Title view */}
         <KeyboardAwareScrollView>
-          <View style={styles.viewTopBackground}>
+          
+          <View style={[styles.viewTopBackground]}>
             <View style={styles.viewTitle}>
               {/* <View style={styles.viewImageUser}>
               <Avatar
@@ -210,7 +214,7 @@ const HomeScreen = props => {
               <View
                 style={{
                   paddingLeft:
-                    getOrientation() === 'portrait' ? wp('5%') : wp('3.5%'),
+                    getOrientation() === 'portrait' ? wp('5%') : wp('3%'),
                   paddingTop: hp('1.2%'),
                 }}>
                 <Text style={styles.textHello}>
@@ -231,9 +235,9 @@ const HomeScreen = props => {
             <View
               style={{
                 marginTop:
-                  getOrientation() === 'portrait' ? hp('-8%') : hp('-13%'),
-                alignSelf: 'center',
-                height: getOrientation() === 'portrait' ? hp('18%') : hp('25%'),
+                  getOrientation() === 'portrait' ? hp('-8%') : hp('-14%'),
+                // alignSelf: 'center',
+                height: getOrientation() === 'portrait' ? hp('18%') : hp('30%'),
               }}>
               <FlatList
                 renderItem={renderItem}
@@ -309,13 +313,12 @@ const HomeScreen = props => {
             ) : null}
 
             {getValueToShowTile('Function.Bus') ? (
-              <Pressable
-                style={[styles.viewSmallBox]}
-                onPress={() => onClickBusBooking()}>
-                <View style={styles.viewYellowBox}>
-                  <Text style={styles.textNumber}>1</Text>
-                </View>
-                <View style={styles.viewInsideSmallBox}>
+              <View style={styles.viewSmallBox}>
+                <Pressable
+                  style={styles.viewInsideSmallBox}
+                  onPress={() => {
+                    onClickBusBooking();
+                  }}>
                   <View style={styles.imageIcon}>
                     <Image
                       style={styles.image}
@@ -323,9 +326,9 @@ const HomeScreen = props => {
                       source={imageConstant.IMAGE_BUS_BLUE}
                     />
                   </View>
-                  <Text style={styles.textButtonTitle}>Bus Bookings</Text> 
-                </View>
-              </Pressable>
+                  <Text style={styles.textButtonTitle}>Bus Bookings</Text>
+                </Pressable>
+              </View>
             ) : null}
           </View>
 
@@ -355,6 +358,7 @@ const HomeScreen = props => {
           onPressBigBtn={() => {}}
         />
       ) : null}
+      {/* </SafeAreaView> */}
     </>
   );
 };

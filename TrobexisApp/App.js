@@ -6,17 +6,15 @@
  * @flow strict-local
  */
 import 'react-native-gesture-handler';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 import React, {useEffect} from 'react';
 import {StatusBar, useColorScheme, SafeAreaView} from 'react-native';
 
-import {
-  Colors
-} from 'react-native/Libraries/NewAppScreen';
-import { Provider } from 'react-redux';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {Provider} from 'react-redux';
 import {StoreRoot} from './src/store';
-import { NavigationContainer } from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 import NavigationSetup from './src/route/Navigators';
 import SplashScreen from 'react-native-splash-screen';
 import AuthContext from './src/context/AuthContext';
@@ -38,8 +36,8 @@ const App = () => {
   const [user, setUser] = React.useState(null);
 
   useEffect(() => {
-        SplashScreen.hide();
-      }, []);
+    SplashScreen.hide();
+  }, []);
 
   useEffect(() => {
     // console.log('setOrientation', orientation);
@@ -58,7 +56,7 @@ const App = () => {
 
   return (
     // <SafeAreaView>
-    <SafeAreaView style={backgroundStyle}>
+    <SafeAreaProvider style={backgroundStyle}>
       <AuthContext.Provider value={{user, setUserData: setUser}}>
         {/* <DialogContext.Provider
           value={{setDialogOpen: open => setShowDialog(open)}}>
@@ -72,11 +70,9 @@ const App = () => {
         {/* </DialogContext.Provider> */}
       </AuthContext.Provider>
       <Toast ref={ref => (global.toast = ref)} />
-    </SafeAreaView>
+    </SafeAreaProvider>
     // </SafeAreaView>
   );
 };
-
-
 
 export default App;

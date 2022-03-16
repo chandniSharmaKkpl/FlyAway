@@ -17,7 +17,7 @@ import {
   heightPercentageToDP as hp,
   listenOrientationChange as lor,
   removeOrientationListener as rol,
-  getOrientation
+  getOrientation,
 } from '../responsiveScreen';
 import DeviceInfo from 'react-native-device-info';
 import LoginScreen from '../Screen/Login/Login.screen';
@@ -151,6 +151,12 @@ const HomeStack = () => {
 
       <Stack.Screen
         options={{headerShown: false}}
+        name={appConstant.BUS_BOOKING}
+        component={BusBookingScreen}
+      />
+
+      <Stack.Screen
+        options={{headerShown: false}}
         name={appConstant.REASON}
         component={ReasonScreen}
       />
@@ -208,20 +214,19 @@ function TabNavigator() {
   }, [orientation]);
 
   const styles = StyleSheet.create({
-    tabs: {
+    tab: {
       flex: 1,
-      flexDirection: 'column',
-      alignItems: 'center',
-      // justifyContent: 'center',
+      justifyContent: 'center',
+      // backgroundColor: 'black',
     },
     tabBarLabel: {
       fontFamily: fontConstant.BARLOW_REGULAR,
-      fontSize: fontConstant.TEXT_H2_SIZE_REGULAR,
+      fontSize: fontConstant.TEXT_H3_SIZE_REGULAR,
       color: appColor.WHITE,
-      //  backgroundColor:'pink',
-      width: '100%',
-      // margin: 'auto',
-      // textAlign: 'center',
+      // width: DeviceInfo.isTablet() ? '100%' : '0',
+      // width: '100%',
+      textAlign: 'center',
+      // backgroundColor: 'pink',
     },
     image: {
       width: '100%',
@@ -230,20 +235,25 @@ function TabNavigator() {
     viewImage: {
       width: wp('6%'),
       height: hp('4.5%'),
-      marginTop: Platform.OS === 'android' ? hp('0.5%') : hp('1%'),
+      marginTop:
+        Platform.OS === 'android'
+          ? hp('1%')
+          : getOrientation() === 'portrait'
+          ? hp('1%')
+          : hp('2.5%'),
+      // justifyContent: 'center',
       //  backgroundColor:'red',
+      //  alignItems: 'center',
       // justifyContent: 'flex-end',
     },
     tabBar: {
-      height: DeviceInfo.isTablet() ? hp('10%') : hp('10%'),
-      // height:
-      //   getOrientation === 'portrait'
-      //     ? DeviceInfo.isTablet()
-      //       ? hp('10%')
-      //       : hp('10%')
-      //     : DeviceInfo.isTablet()
-      //     ? hp('10%')
-      //     : hp('10%'),
+      height: DeviceInfo.isTablet()
+        ? hp('10%')
+        : Platform.OS === 'android'
+        ? hp('10%')
+        : getOrientation() === 'portrait'
+        ? hp('10%')
+        : hp('10%'),
       backgroundColor: appColor.NAVY_BLUE,
     },
   });
@@ -280,7 +290,7 @@ function TabNavigator() {
                     style={styles.image}
                   />
                 </View>
-                <Text style={styles.tabBarLabel}>
+                <Text style={[styles.tabBarLabel, {width: '100%'}]}>
                   {focused ? appConstant.HOME_SCREEN : ''}
                 </Text>
               </View>
@@ -301,7 +311,7 @@ function TabNavigator() {
         }}
         component={HomeStack}
       />
-      <TabObject.Screen
+      {/* <TabObject.Screen
         name={appConstant.BUS_BOOKING}
         component={BusBookingStack}
         options={{
@@ -334,7 +344,7 @@ function TabNavigator() {
               </View>
             ),
         }}
-      />
+      /> */}
       <TabObject.Screen
         name={appConstant.HISTORY}
         component={HistoryScreen}
@@ -349,12 +359,12 @@ function TabNavigator() {
                     style={styles.image}
                   />
                 </View>
-                <Text style={styles.tabBarLabel}>
+                <Text style={[styles.tabBarLabel, {width: '100%'}]}>
                   {focused ? appConstant.HISTORY : ''}
                 </Text>
               </View>
             ) : (
-              <View>
+              <View style={styles.tab}>
                 <View style={styles.viewImage}>
                   <Image
                     source={imageConstant.IMAGE_CLOCK_WHITE}
@@ -418,37 +428,3 @@ function NavigationSetup() {
 }
 
 export default NavigationSetup;
-
-const styles = {
-  tab: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  tabBarLabel: {
-    fontFamily: fontConstant.BARLOW_REGULAR,
-    fontSize: fontConstant.TEXT_H3_SIZE_REGULAR,
-    color: appColor.WHITE,
-    width: '100%',
-    textAlign: 'center',
-  },
-
-  image: {
-    width: '100%',
-    height: '100%',
-  },
-  viewImage: {
-    width: wp('6%'),
-    height: hp('4.5%'),
-    marginTop: Platform.OS === 'android' ? hp('0.5%') : hp('0%'),
-    //  backgroundColor:'red',
-    // justifyContent: 'flex-end',
-  },
-  tabBar: {
-    height: DeviceInfo.isTablet()
-      ? hp('10%')
-      : Platform.OS === 'android'
-      ? hp('10%')
-      : hp('7%'),
-    backgroundColor: appColor.NAVY_BLUE,
-  },
-};

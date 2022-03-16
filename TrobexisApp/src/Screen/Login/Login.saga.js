@@ -19,11 +19,9 @@ export function* workerGetAccessToken() {
   }
 }
 
-
-
 export function* watchGetAccessToken() {
   yield takeLatest(
-      actionConstant.ACTION_GET_ACCESS_TOKEN_REQUEST, workerGetAccessToken,
-    );
+    actionConstant.ACTION_GET_ACCESS_TOKEN_REQUEST,
+    workerGetAccessToken,
+  );
 }
-

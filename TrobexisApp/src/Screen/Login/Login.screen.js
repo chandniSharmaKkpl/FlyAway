@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
 import {Pressable, Image} from 'react-native';
 import styles from './Login.style';
 import {Loader, HeaderCustom} from '../../component';
@@ -38,7 +38,7 @@ const LoginScreen = props => {
   const [token, setToken] = React.useState({});
 
   const [error, setError] = React.useState({
-    emailErr: '',
+    emailErr: '', 
     passwordErr: '',
   });
   const route = useRoute();
@@ -66,12 +66,8 @@ const LoginScreen = props => {
         setUserTemp({email: '', password: ''});
       }
       setFormError('');
-     
-    
-
     });
 
-   
     return unsubscribe;
   }, [error]);
 
@@ -79,19 +75,17 @@ const LoginScreen = props => {
     const tempUser = localDb.getUser();
     Promise.resolve(tempUser).then(response => {
       if (response) {
-       
         if (response.responseLoginUrl) {
-           let tempUrl = response.responseLoginUrl; 
-            tempUrl = tempUrl.replace(':mobileDeviceId', deviceInfo.device_token)
-           console.log(" url ---", tempUrl); 
-            setLoginUrl(tempUrl);
-          } else {
-            setLoginUrl(response.loginUrl);
-          }
+          let tempUrl = response.responseLoginUrl;
+          tempUrl = tempUrl.replace(':mobileDeviceId', deviceInfo.device_token);
+          console.log(' url ---', tempUrl);
+          setLoginUrl(tempUrl);
+        } else {
+          setLoginUrl(response.loginUrl);
         }
+      }
     });
-  
-  }, [deviceInfo])
+  }, [deviceInfo]);
 
   function Validate({email, password}) {
     let emailErr = '';
@@ -177,7 +171,7 @@ const LoginScreen = props => {
         onLoad={() => hideSpinner()}
         style={styles.webview}
         source={{
-          uri:  loginUrl,
+          uri: loginUrl,
         }}></WebView>
       {/* <TextInput 
               value={route && route.params && route.params.loginUrl? route.params.loginUrl: loginUrl}
@@ -195,8 +189,10 @@ const LoginScreen = props => {
       </Pressable>
 
       {loading && <Loader viewName={appConstant.LOGIN} loading={loading} />}
-      <PushController getDeviceInfo={getDeviceInfo} navigation={props.navigation} />
-
+      <PushController
+        getDeviceInfo={getDeviceInfo}
+        navigation={props.navigation}
+      />
     </>
   );
 };

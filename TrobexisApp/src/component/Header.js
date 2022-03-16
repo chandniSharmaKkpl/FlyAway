@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   TextInput,
@@ -7,11 +7,15 @@ import {
   Pressable,
   Platform,
   BackHandler,
+  StyleSheet,
 } from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+  listenOrientationChange as lor,
+  removeOrientationListener as rol,
+  getOrientation,
+} from '../responsiveScreen';
 import {appConstant, imageConstant, appColor, fontConstant} from '../constant';
 import {
   useNavigation,
@@ -33,6 +37,15 @@ const HeaderCustom = props => {
     rightIconImage,
     onClickLeftIcon,
   } = props;
+  const [orientation, setOrientation] = useState('portrait');
+
+  useEffect(() => {
+    console.log('setOrientation custom Header', orientation);
+    lor(setOrientation);
+    return () => {
+      rol();
+    };
+  }, [orientation]);
 
   // useEffect(() => {
   //   BackHandler.addEventListener('hardwareBackPress', handleBackInHeader);
@@ -62,6 +75,67 @@ const HeaderCustom = props => {
     //   return true;
     // }
   };
+
+  const styles = StyleSheet.create({
+    topHeaderStyleIos: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      // alignItem: 'center',
+      height: getOrientation() === 'portrait' ? hp('10%') : hp('10%'),
+      backgroundColor: appColor.NAVY_BLUE,
+      // backgroundColor: 'pink',
+    },
+
+    topHeaderStyleAndroid: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      height: hp('7%'),
+      backgroundColor: appColor.NAVY_BLUE,
+    },
+    iconHeader: {
+      height: getOrientation() === 'portrait' ? hp('2.5%') : hp('4%'),
+      width: getOrientation() === 'portrait' ? wp('8%') : wp('6%'),
+      marginTop:
+        Platform.OS === 'android'
+          ? hp('2%')
+          : getOrientation() === 'portrait'
+          ? hp('6%')
+          : hp('3%'),
+      marginLeft: wp('4%'),
+    },
+
+    styleBell: {
+      height: 22,
+      width: 22,
+      marginTop:
+        Platform.OS === 'android'
+          ? hp('2%')
+          : getOrientation() === 'portrait'
+          ? hp('6%')
+          : hp('3%'),
+      marginRight: wp('4%'),
+    },
+    styleArrow: {
+      height: hp('3%'),
+      width: wp('6%'),
+      marginTop: Platform.OS === 'android' ? hp('2%') : hp('6%'),
+      marginRight: wp('4%'),
+    },
+    textTitle: {
+      fontFamily: fontConstant.BARLOW_BOLD,
+      fontSize: fontConstant.TEXT_H2_SIZE_BOLD,
+      color: appColor.WHITE,
+      flexWrap: 'wrap',
+      alignSelf: 'center',
+
+      marginTop:
+        Platform.OS === 'android'
+          ? hp('-1%')
+          : getOrientation() === 'portrait'
+          ? hp('4%')
+          : hp('0%'),
+    },
+  });
 
   return (
     <View
@@ -111,47 +185,63 @@ const HeaderCustom = props => {
 
 export default HeaderCustom;
 
-const styles = {
-  topHeaderStyleIos: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItem: 'center',
-    height: hp('6.5%'),
-    backgroundColor: appColor.NAVY_BLUE,
-    // backgroundColor: 'pink',
-  },
-  topHeaderStyleAndroid: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    height: hp('7%'),
-    backgroundColor: appColor.NAVY_BLUE,
-  },
-  iconHeader: {
-    height: hp('2.5%'),
-    width: wp('8%'),
-    marginTop: Platform.OS === 'android' ? hp('2%') : hp('2%'),
-    marginLeft: wp('4%'),
-  },
+// const styles = {
+//   topHeaderStyleIos: {
+//     flexDirection: 'row',
+//     justifyContent: 'space-between',
+//     // alignItem: 'center',
+//     height: getOrientation() === 'portrait' ? hp('10%') : hp('6.5%'),
+//     backgroundColor: appColor.NAVY_BLUE,
+//     // backgroundColor: 'pink',
+//   },
 
-  styleBell: {
-    height: hp('3%'),
-    width: wp('8%'),
-    marginTop: Platform.OS === 'android' ? hp('2%') : hp('2%'),
-    marginRight: wp('4%'),
-  },
-  styleArrow: {
-    height: hp('3%'),
-    width: wp('6%'),
-    marginTop: Platform.OS === 'android' ? hp('2%') : hp('6%'),
-    marginRight: wp('4%'),
-  },
-  textTitle: {
-    fontFamily: fontConstant.BARLOW_BOLD,
-    fontSize: fontConstant.TEXT_H2_SIZE_BOLD,
-    color: appColor.WHITE,
-    flexWrap: 'wrap',
-    alignSelf: 'center',
+//   topHeaderStyleAndroid: {
+//     flexDirection: 'row',
+//     justifyContent: 'space-between',
+//     height: hp('7%'),
+//     backgroundColor: appColor.NAVY_BLUE,
+//   },
+//   iconHeader: {
+//     height: hp('2.5%'),
+//     width: wp('8%'),
+//     marginTop:
+//       Platform.OS === 'android'
+//         ? hp('2%')
+//         : getOrientation() === 'portrait'
+//         ? hp('6%')
+//         : hp('1%'),
+//     marginLeft: wp('4%'),
+//   },
 
-    marginTop: Platform.OS === 'android' ? hp('-1%') : hp('0%'),
-  },
-};
+//   styleBell: {
+//     height: hp('3%'),
+//     width: wp('8%'),
+//     marginTop:
+//       Platform.OS === 'android'
+//         ? hp('2%')
+//         : getOrientation() === 'portrait'
+//         ? hp('6%')
+//         : hp('2%'),
+//     marginRight: wp('4%'),
+//   },
+//   styleArrow: {
+//     height: hp('3%'),
+//     width: wp('6%'),
+//     marginTop: Platform.OS === 'android' ? hp('2%') : hp('6%'),
+//     marginRight: wp('4%'),
+//   },
+//   textTitle: {
+//     fontFamily: fontConstant.BARLOW_BOLD,
+//     fontSize: fontConstant.TEXT_H2_SIZE_BOLD,
+//     color: appColor.WHITE,
+//     flexWrap: 'wrap',
+//     alignSelf: 'center',
+
+//     marginTop:
+//       Platform.OS === 'android'
+//         ? hp('-1%')
+//         : getOrientation() === 'portrait'
+//         ? hp('4%')
+//         : hp('0%'),
+//   },
+// };

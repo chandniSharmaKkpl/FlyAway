@@ -130,6 +130,7 @@ const ReasonDecline = props => {
   return (
     <>
       {getDataFromResponse()}
+
       <Pressable
         style={stylesHome.container}
         onPress={() => Keyboard.dismiss()}>
@@ -144,45 +145,49 @@ const ReasonDecline = props => {
           rightIconImage={''}
           viewProps={props}
         />
-        <View>
-          <View style={styles.viewTextInput}>
-            <Text style={styles.textHello}>Reason for Declining?</Text>
-            <View style={styles.buttonReason}>
-              <TouchableOpacity
-                onPress={() => {
-                  setShowReasonList(!showReasonList);
-                }}>
-                <View
-                  style={[
-                    styles.buttonInsideReason,
-                    {
-                      width:
-                        Platform.OS === 'android'
-                          ? getOrientation() === 'portrait'
+        <KeyboardAwareScrollView>
+          <View>
+            <View style={styles.viewTextInput}>
+              <Text style={styles.textHello}>Reason for Declining?</Text>
+              <View style={styles.buttonReason}>
+                <TouchableOpacity
+                  onPress={() => {
+                    setShowReasonList(!showReasonList);
+                  }}>
+                  <View
+                    style={[
+                      styles.buttonInsideReason,
+                      {
+                        width:
+                          Platform.OS === 'android'
+                            ? getOrientation() === 'portrait'
+                              ? '100%'
+                              : '86%'
+                            : getOrientation() === 'portrait'
                             ? '100%'
-                            : '86%'
-                          : getOrientation() === 'portrait'
-                          ? '100%'
-                          : '86%',
-                    },
-                  ]}>
-                  <Text multiline="true" style={styles.reasonText}>
-                    {/* {reason === 'Select Reason For Decline'?  getDataFromResponse(responseGetReasonList): reason} */}
-                    {reason}
-                  </Text>
-                  {showReasonList ? (
-                    <IconAntDesing name="caretup" style={styles.iconCaret} />
-                  ) : (
-                    <IconAntDesing name="caretdown" style={styles.iconCaret} />
-                  )}
-                </View>
-              </TouchableOpacity>
+                            : '86%',
+                      },
+                    ]}>
+                    <Text multiline="true" style={styles.reasonText}>
+                      {/* {reason === 'Select Reason For Decline'?  getDataFromResponse(responseGetReasonList): reason} */}
+                      {reason}
+                    </Text>
+                    {showReasonList ? (
+                      <IconAntDesing name="caretup" style={styles.iconCaret} />
+                    ) : (
+                      <IconAntDesing
+                        name="caretdown"
+                        style={styles.iconCaret}
+                      />
+                    )}
+                  </View>
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
 
-          <View style={styles.viewTextInput}>
-            <Text style={styles.textHello}>Comments (Optional)</Text>
-            <KeyboardAwareScrollView>
+            <View style={styles.viewTextInput}>
+              <Text style={styles.textHello}>Comments (Optional)</Text>
+              {/* <KeyboardAwareScrollView> */}
               <View style={styles.textAreaContainer}>
                 <TextInput
                   style={styles.textArea}
@@ -202,60 +207,66 @@ const ReasonDecline = props => {
                   {textLimit}/{appConstant.COMMENT_MAX_LIMIT}
                 </Text>
               </View>
-            </KeyboardAwareScrollView>
-          </View>
-
-          <Pressable
-            style={stylesCommon.yellowButton}
-            onPress={() => onClickSubmit()}>
-            <Text
-              style={[
-                styles.buttonSearchBusTitle,
-                stylesCommon.yellowButtonTitle,
-              ]}>
-              Submit Reason
-            </Text>
-          </Pressable>
-
-          {showReasonList ? (
-            <View
-              style={[
-                styles.viewFlatList,
-                {
-                  width:
-                    Platform.OS === 'android'
-                      ? getOrientation() === 'portrait'
-                        ? '90%'
-                        : '94%'
-                      : getOrientation() === 'portrait'
-                      ? '90%'
-                      : '92.8%',
-                },
-              ]}>
-              {/* <View> */}
-              {responseGetReasonList.isRequesting ? (
-                <View style={styles.loaderFlatList}>
-                  <ActivityIndicator size="large" color={appColor.NAVY_BLUE} />
-                </View>
-              ) : (
-                // <ScrollView>
-                <FlatList
-                  data={
-                    responseGetReasonList && responseGetReasonList.declineReason
-                      ? responseGetReasonList.declineReason
-                      : []
-                  }
-                  renderItem={renderReasonList}
-                  keyExtractor={(item, index) => index.toString()}
-                />
-              )}
-              {/* </View> */}
+              {/* </KeyboardAwareScrollView> */}
             </View>
-          ) : null}
-          {responseGetReasonList.isRequesting ? (
-            <Loader loading={responseGetReasonList.isRequesting} />
-          ) : null}
-        </View>
+
+            <Pressable
+              style={stylesCommon.yellowButton}
+              onPress={() => onClickSubmit()}>
+              <Text
+                style={[
+                  styles.buttonSearchBusTitle,
+                  stylesCommon.yellowButtonTitle,
+                ]}>
+                Submit Reason
+              </Text>
+            </Pressable>
+
+            {showReasonList ? (
+              <View
+                style={[
+                  styles.viewFlatList,
+                  {
+                    width:
+                      Platform.OS === 'android'
+                        ? getOrientation() === 'portrait'
+                          ? '90%'
+                          : '94%'
+                        : getOrientation() === 'portrait'
+                        ? '90%'
+                        : '92.8%',
+                  },
+                ]}>
+                {/* <View> */}
+                {responseGetReasonList.isRequesting ? (
+                  <View style={styles.loaderFlatList}>
+                    <ActivityIndicator
+                      size="large"
+                      color={appColor.NAVY_BLUE}
+                    />
+                  </View>
+                ) : (
+                  // <ScrollView>
+                  <FlatList
+                    data={
+                      responseGetReasonList &&
+                      responseGetReasonList.declineReason
+                        ? responseGetReasonList.declineReason
+                        : []
+                    }
+                    renderItem={renderReasonList}
+                    scrollEnabled={false}
+                    keyExtractor={(item, index) => index.toString()}
+                  />
+                )}
+                {/* </View> */}
+              </View>
+            ) : null}
+            {responseGetReasonList.isRequesting ? (
+              <Loader loading={responseGetReasonList.isRequesting} />
+            ) : null}
+          </View>
+        </KeyboardAwareScrollView>
       </Pressable>
     </>
   );

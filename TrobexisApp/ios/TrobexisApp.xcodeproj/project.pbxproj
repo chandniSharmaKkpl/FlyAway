@@ -526,10 +526,10 @@
 				CODE_SIGN_ENTITLEMENTS = TrobexisApp/TrobexisApp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Edward Deane (LW2KUYS5UD)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1.5;
+				CURRENT_PROJECT_VERSION = 2.2;
 				DEVELOPMENT_TEAM = S3932B8UMW;
 				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = TrobexisApp/Info.plist;
+				INFOPLIST_FILE = /Users/dreamworld/Desktop/ReactNative/trobexis1/TrobexisApp/ios/TrobexisApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -559,9 +559,9 @@
 				CODE_SIGN_ENTITLEMENTS = TrobexisApp/TrobexisApp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Edward Deane (S3932B8UMW)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1.5;
+				CURRENT_PROJECT_VERSION = 2.2;
 				DEVELOPMENT_TEAM = S3932B8UMW;
-				INFOPLIST_FILE = TrobexisApp/Info.plist;
+				INFOPLIST_FILE = /Users/dreamworld/Desktop/ReactNative/trobexis1/TrobexisApp/ios/TrobexisApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -1,13 +1,9 @@
 
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
-<<<<<<< HEAD
-platform :ios, '10.0'
-=======
 
 platform :ios, '10.0'
 
->>>>>>> feature/tabbar_orientation_fix
 target 'TrobexisApp' do
   config = use_native_modules!
   # add pods for desired Firebase products
@@ -29,13 +25,9 @@ target 'TrobexisApp' do
   pod 'react-native-webview', :path => '../node_modules/react-native-webview'
   pod 'TouchID', :path => '../node_modules/react-native-touch-id'
   pod 'RNSVG', :path => '../node_modules/react-native-svg'
-<<<<<<< HEAD
-  # pod 'RNDeviceTimeFormat', :path => '../node_modules/react-native-device-time-format'
-=======
 
 #  pod 'RNDeviceTimeFormat', :path => '../node_modules/react-native-device-time-format'
 
->>>>>>> feature/tabbar_orientation_fix
   target 'TrobexisAppTests' do
     inherit! :complete
     # Pods for testing

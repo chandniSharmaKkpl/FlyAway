@@ -39,7 +39,7 @@ export function* workerGetUserProfile(argumentData) {
       }
       yield call(workerGetItinaryList, argumentData);
       yield call(workerGetItinaryListAllJoureny, argumentData);
-      yield call (workerGetApprovalList,argumentData);
+      yield call(workerGetApprovalList, argumentData);
     }
   } catch (error) {
     console.log(' worker saga called error  ', error);
@@ -99,7 +99,7 @@ export function* workerGetItinaryListAllJoureny(argumentData) {
       argumentData.payload,
     );
 
-    console.log(" itinary list ===>", itinaryList); 
+    console.log(' itinary list ===>', itinaryList);
 
     if (isError(itinaryList)) {
       yield put({
@@ -145,10 +145,7 @@ export function* workerGetApprovalList(argumentData) {
     //     : argumentData.payload,
     // );
 
-    const itinaryList = yield call(
-      getApprovalList,
-      argumentData.payload
-    );
+    const itinaryList = yield call(getApprovalList, argumentData.payload);
     console.log(' approval list ======>', itinaryList);
     if (isError(itinaryList)) {
       yield put({

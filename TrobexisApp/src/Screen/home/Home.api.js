@@ -1,10 +1,15 @@
-import {actionConstant, apiConstant, appConstant, errorCodeConstant} from '../../constant';
+import {
+  actionConstant,
+  apiConstant,
+  appConstant,
+  errorCodeConstant,
+} from '../../constant';
 import localDB from '../../database/localDb';
 import {ApiBase} from '../../api/apiBase';
 import axios from 'axios';
+import {Platform} from 'react-native';
 
 export const getUserProfile = argumentData => {
-
   let deviceId = argumentData.user.deviceId;
   let apiBaseUrl = argumentData.user.apiBaseUrl;
   let clientToken = argumentData.user.clientToken;
@@ -37,12 +42,13 @@ export const getUserProfile = argumentData => {
     .catch(err => {
       console.log('42 api Erorr: ', err.response);
 
-      return err?.response?.data ? err?.response?.data : {code: errorCodeConstant.FORBIDDEN, message: "Network Error"};
+      return err?.response?.data
+        ? err?.response?.data
+        : {code: errorCodeConstant.FORBIDDEN, message: 'Network Error'};
     });
 };
 
 export const getItinaryList = argumentData => {
-
   let deviceId = argumentData.user.deviceId;
   let apiBaseUrl = argumentData.user.apiBaseUrl;
   let clientToken = argumentData.user.clientToken;
