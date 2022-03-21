@@ -200,7 +200,6 @@ const HomeScreen = props => {
         />
         {/* Title view */}
         <KeyboardAwareScrollView>
-          
           <View style={[styles.viewTopBackground]}>
             <View style={styles.viewTitle}>
               {/* <View style={styles.viewImageUser}>

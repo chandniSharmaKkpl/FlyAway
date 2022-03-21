@@ -1,14 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {
-  View,
-  TextInput,
-  Image,
-  Text,
-  Pressable,
-  Platform,
-  BackHandler,
-  StyleSheet,
-} from 'react-native';
+import {View, Image, Text, Pressable, Platform, StyleSheet} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -17,14 +8,12 @@ import {
   getOrientation,
 } from '../responsiveScreen';
 import {appConstant, imageConstant, appColor, fontConstant} from '../constant';
-import {
-  useNavigation,
-  useRoute,
-  useNavigationState,
-} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const HeaderCustom = props => {
   var countBack = 0;
+  const insets = useSafeAreaInsets();
 
   const navigation = useNavigation();
   const {
@@ -41,47 +30,20 @@ const HeaderCustom = props => {
 
   useEffect(() => {
     console.log('setOrientation custom Header', orientation);
+
     lor(setOrientation);
     return () => {
       rol();
     };
   }, [orientation]);
 
-  // useEffect(() => {
-  //   BackHandler.addEventListener('hardwareBackPress', handleBackInHeader);
-  //   return function cleanup() {
-  //     BackHandler.removeEventListener(
-  //       'hardwareBackPress',
-  //       handleBackInHeader(),
-  //     );
-  //   };
-  // }, []);
-
-  const handleBackInHeader = () => {
-    // console.log(' navigation---->', props);
-    // if (
-    //   props.viewName === appConstant.HOME_SCREEN ||
-    //   props.viewName === appConstant.BUS_BOOKING ||
-    //   props.viewName === appConstant.HISTORY
-    // ) {
-    //   countBack = countBack + 1;
-    //   console.log(' back count  in home ', countBack);
-    //   if (countBack > 1) {
-    //     props.setAlertShowFromHeader(true);
-    //   }
-    //   return true;
-    // } else {
-    //   props.viewProps.navigation.goBack();
-    //   return true;
-    // }
-  };
-
   const styles = StyleSheet.create({
     topHeaderStyleIos: {
       flexDirection: 'row',
       justifyContent: 'space-between',
       // alignItem: 'center',
-      height: getOrientation() === 'portrait' ? hp('10%') : hp('10%'),
+      height: hp('10%'),
+      paddingTop: 0,
       backgroundColor: appColor.NAVY_BLUE,
       // backgroundColor: 'pink',
     },
@@ -169,7 +131,7 @@ const HeaderCustom = props => {
           style={rightIconImage ? styles.styleArrow : styles.styleBell}
           onPress={onClickRightIcon}>
           <Image
-            // style={{width: '100%', height: '100%'}}
+            style={{width: '100%', height: '100%'}}
             resizeMode={'contain'}
             source={
               rightIconImage ? rightIconImage : imageConstant.IMAGE_GROUP_418
