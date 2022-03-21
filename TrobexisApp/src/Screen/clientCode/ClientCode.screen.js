@@ -248,82 +248,82 @@ const ClientCodeScreen = props => {
     <>
       {/* {checkResponseCode()} */}
       {/* <SafeAreaView style={{flex: 1, backgroundColor: 'red'}}> */}
-      <Pressable style={[stylesHome.container]} onPress={onClickOutside}>
-        <ImageBackground
-          source={imageConstant.IMAGE_LOGIN_BACKGROUND}
-          style={commonStyle.image}
-          resizeMode={'cover'}>
-          <KeyboardAwareScrollView scrollEnabled={true}>
-            <View style={styles.logoImage}>
-              <Image
-                source={imageConstant.IMAGE_LOGO}
-                resizeMode={'contain'}
-                style={commonStyle.image}
-              />
-            </View>
-            <View style={styles.titleView}>
-              <Text style={styles.titleStyle}>Client Code</Text>
-            </View>
+      {/* <Pressable style={[stylesHome.container]} onPress={onClickOutside}> */}
+      <ImageBackground
+        source={imageConstant.IMAGE_LOGIN_BACKGROUND}
+        style={commonStyle.image}
+        resizeMode={'cover'}>
+        <KeyboardAwareScrollView>
+          <View style={styles.logoImage}>
+            <Image
+              source={imageConstant.IMAGE_LOGO}
+              resizeMode={'contain'}
+              style={commonStyle.image}
+            />
+          </View>
+          <View style={styles.titleView}>
+            <Text style={styles.titleStyle}>Client Code</Text>
+          </View>
 
-            <View style={styles.inputView}>
-              <LoginTextView
-                onFocus={() => setIsClientCodeListShow(true)}
-                placeholder="Enter Client Code"
-                value={clientCode}
-                error={error}
-                onChangeText={value => {
-                  //** for showing dropdown of prefilled client code  */
-                  if (clientCode && clientCode.length > 0) {
-                    setIsClientCodeListShow(false);
-                  } else {
-                    //setIsClientCodeListShow(true);
-                  }
-                  setClientCode(value);
-                  if (value.trim().length > 0) {
-                    setError('');
-                  }
-                }}
-              />
+          <View style={styles.inputView}>
+            <LoginTextView
+              onFocus={() => setIsClientCodeListShow(true)}
+              placeholder="Enter Client Code"
+              value={clientCode}
+              error={error}
+              onChangeText={value => {
+                //** for showing dropdown of prefilled client code  */
+                if (clientCode && clientCode.length > 0) {
+                  setIsClientCodeListShow(false);
+                } else {
+                  //setIsClientCodeListShow(true);
+                }
+                setClientCode(value);
+                if (value.trim().length > 0) {
+                  setError('');
+                }
+              }}
+            />
 
-              <Pressable
-                style={[commonStyle.yellowButton, styles.btnSubmit]}
-                onPress={() => submitForm()}>
-                <Text style={[commonStyle.yellowButtonTitle]}>Submit</Text>
-              </Pressable>
+            <Pressable
+              style={[commonStyle.yellowButton, styles.btnSubmit]}
+              onPress={() => submitForm()}>
+              <Text style={[commonStyle.yellowButtonTitle]}>Submit</Text>
+            </Pressable>
 
-              {isClientCodeListShow &&
-              arrayClientCode &&
-              arrayClientCode.length > 0 ? (
-                <View style={styles.viewFlatList}>
-                  <>
-                    <FlatList
-                      horizontal={false}
-                      style={styles.flatList}
-                      data={arrayClientCode}
-                      renderItem={renderClientCode}
-                      keyExtractor={(item, index) => index.toString()}
-                      scrollEnabled={false}
-                    />
-                  </>
-                </View>
-              ) : null}
+            {isClientCodeListShow &&
+            arrayClientCode &&
+            arrayClientCode.length > 0 ? (
+              <View style={styles.viewFlatList}>
+                <>
+                  <FlatList
+                    horizontal={false}
+                    style={styles.flatList}
+                    data={arrayClientCode}
+                    renderItem={renderClientCode}
+                    keyExtractor={(item, index) => index.toString()}
+                    scrollEnabled={false}
+                  />
+                </>
+              </View>
+            ) : null}
 
-              {/* {localDB.getUser()? <Pressable style={styles.btnLogin} onPress={() => checkBioMetricAvailable()}>
+            {/* {localDB.getUser()? <Pressable style={styles.btnLogin} onPress={() => checkBioMetricAvailable()}>
                 <Text style={styles.loginBtnText}>Login with TouchID/FaceID</Text>
               </Pressable> :null} */}
-            </View>
-            {/* <TextInput 
+          </View>
+          {/* <TextInput 
               value={deviceInfo.device_token? deviceInfo.device_token: ''}
               style={styles.tokenStyle}
               multiline={true}
             /> */}
-          </KeyboardAwareScrollView>
-        </ImageBackground>
+        </KeyboardAwareScrollView>
+      </ImageBackground>
 
-        {responseData.isRequesting ? (
-          <Loader loading={responseData.isRequesting} />
-        ) : null}
-      </Pressable>
+      {responseData.isRequesting ? (
+        <Loader loading={responseData.isRequesting} />
+      ) : null}
+      {/* </Pressable> */}
       {/* </SafeAreaView> */}
 
       {isAlertShow ? (

@@ -169,7 +169,7 @@ const HeaderCustom = props => {
           style={rightIconImage ? styles.styleArrow : styles.styleBell}
           onPress={onClickRightIcon}>
           <Image
-            style={{width: '100%', height: '100%'}}
+            // style={{width: '100%', height: '100%'}}
             resizeMode={'contain'}
             source={
               rightIconImage ? rightIconImage : imageConstant.IMAGE_GROUP_418

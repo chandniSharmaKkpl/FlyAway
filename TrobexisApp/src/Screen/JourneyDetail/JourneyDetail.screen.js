@@ -48,6 +48,7 @@ import IMAGE_HOTEL_SVG from '../../../assets/image/home_page/hotel.svg';
 import IMAGE_SITE_ACCOMODATION_SVG from '../../../assets/image/home_page/site_accommodation.svg';
 import IMAGE_TRANSFER_SVG from '../../../assets/image/home_page/transfer.svg';
 import IMAGE_OFFSHORE_SVG from '../../../assets/image/home_page/offshore.svg';
+import HANDSHAKE_SVG from '../../../assets/image/home_page/handshake_1384726826 (1).svg';
 import styleConstructor from 'react-native-calendars/src/agenda/style';
 
 const JourneyDetail = props => {
@@ -138,6 +139,7 @@ const JourneyDetail = props => {
   };
 
   const returnSvgImage = item => {
+    console.log('itemtype===>>>', item.type);
     if (item.Type === appConstant.CHARTER_FLIGHT) {
       return <IMAGE_CHARTER_FLIGHT_SVG />;
     } else if (item.Type === appConstant.CAMP_ACCOMODATION) {
@@ -146,8 +148,10 @@ const JourneyDetail = props => {
       return <IMAGE_COMMERCIAL_FLIGHT_SVG />;
     } else if (item.type === appConstant.BUS) {
       return <IMAGE_BUS_SVG />;
+    } else if (item.type === appConstant.TBA) {
+      return <HANDSHAKE_SVG />;
     } else {
-      return <IMAGE_BUS_SVG />;
+      return <HANDSHAKE_SVG />;
     }
 
     // else if (item.type === appConstant.CAR) {

@@ -32,17 +32,18 @@ export default {
 
   // Word constant
   COMMENT_MAX_LIMIT: 500,
-  
+
   CHARTER_FLIGHT: 'Charter Flight',
   CAMP_ACCOMODATION: 'Camp Accommodation',
   COMMERCIAL_FLIGHT: 'Commercial Flight',
-  BUS:'Bus',
-  CAR:'Car',
-  HOTEL:'Hotel',
-  OFFSHORE:'Offshore',
+  BUS: 'Bus',
+  CAR: 'Car',
+  HOTEL: 'Hotel',
+  OFFSHORE: 'Offshore',
   HELICOPTER: 'Helicopter',
-  TRANSFER:'Transfer',
+  TRANSFER: 'Transfer',
   MARINE_TRANSFER: 'Marine Transfer',
+  TBA: 'TBA',
 
   PENDING_APPROVAL: 'Pending Approval',
   APPROVED: 'Approved',
