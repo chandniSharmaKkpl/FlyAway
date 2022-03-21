@@ -151,7 +151,7 @@ const JourneyDetail = props => {
     } else if (item.type === appConstant.TBA) {
       return <HANDSHAKE_SVG />;
     } else {
-      return <HANDSHAKE_SVG />;
+      return <IMAGE_BUS_SVG />;
     }
 
     // else if (item.type === appConstant.CAR) {
