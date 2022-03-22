@@ -12,20 +12,24 @@ import {
   Platform,
   StyleSheet,
 } from 'react-native';
+import DeviceInfo from 'react-native-device-info';
+
 import stylesCommon from '../../common/common.style';
 import {useDispatch, useSelector} from 'react-redux';
 import {Loader} from '../../component';
-
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+  listenOrientationChange as lor,
+  removeOrientationListener as rol,
+  getOrientation,
+} from '../../responsiveScreen';
 import stylesHome from '../home/Home.style';
 import style from './declineReason.style';
 import {HeaderCustom} from '../../component';
 import {appConstant, appColor, alertMsgConstant} from '../../constant';
 import IconAntDesing from 'react-native-vector-icons/AntDesign';
-import {
-  getOrientation,
-  listenOrientationChange as lor,
-  removeOrientationListener as rol,
-} from '../../responsiveScreen';
+
 import {
   requestToGetDeclineReasons,
   requestDeclineApproval,
@@ -33,10 +37,13 @@ import {
 import localDb from '../../database/localDb';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useRoute} from '@react-navigation/core';
-import {toast} from 'react-native-toast-notifications';
+import {useToast} from 'react-native-toast-notifications';
+
+import deviceInfoModule from 'react-native-device-info';
 // import {ScrollView} from 'react-native-gesture-handler';
 
 const ReasonDecline = props => {
+  const toast = useToast();
   const [orientation, setOrientation] = React.useState('portrait');
   const styles = StyleSheet.create(style);
   const dispatch = useDispatch();
@@ -81,6 +88,7 @@ const ReasonDecline = props => {
   const onClickSubmit = () => {
     const tempUser = localDb.getUser();
     Promise.resolve(tempUser).then(response => {
+      console.log('Decline => responce => ', response);
       let param = {
         comments: comments,
         reasonId: reasonId,
@@ -88,6 +96,7 @@ const ReasonDecline = props => {
         approvalId: route.params ? route.params.approvalItem.item.id : '',
         navigation: props.navigation,
       };
+      console.log('Decline => params => ', param);
       dispatch(requestDeclineApproval(param));
     });
   };
@@ -98,7 +107,7 @@ const ReasonDecline = props => {
   };
   const renderReasonList = item => {
     return (
-      <View>
+      <View key={item.id}>
         <Pressable
           onPress={() => {
             setReason(item.item.reason);
@@ -111,6 +120,10 @@ const ReasonDecline = props => {
       </View>
     );
   };
+
+  useEffect(() => {
+    console.log('decline reson => ', reason);
+  }, [reason]);
 
   const getDataFromResponse = () => {
     if (responseGetReasonList.declineSubmitRes) {
@@ -154,20 +167,7 @@ const ReasonDecline = props => {
                 onPress={() => {
                   setShowReasonList(!showReasonList);
                 }}>
-                <View
-                  style={[
-                    styles.buttonInsideReason,
-                    {
-                      width:
-                        Platform.OS === 'android'
-                          ? getOrientation() === 'portrait'
-                            ? '100%'
-                            : '86%'
-                          : getOrientation() === 'portrait'
-                          ? '100%'
-                          : '86%',
-                    },
-                  ]}>
+                <View style={[styles.buttonInsideReason]}>
                   <Text multiline="true" style={styles.reasonText}>
                     {/* {reason === 'Select Reason For Decline'?  getDataFromResponse(responseGetReasonList): reason} */}
                     {reason}
@@ -231,7 +231,7 @@ const ReasonDecline = props => {
                         : '94%'
                       : getOrientation() === 'portrait'
                       ? '90%'
-                      : '92.8%',
+                      : '94%',
                 },
               ]}>
               {/* <View> */}

@@ -18,9 +18,10 @@ export default {
     color: appColor.BLACK,
     paddingLeft: '2%',
     paddingRight: '2%',
-    width: wp('75%'),
     paddingTop: '2%',
     paddingBottom: '2%',
+    width: '80%',
+    // backgroundColor: appColor.GRAY,
     // height:hp('4%')
   },
   singleLine: {
@@ -43,6 +44,7 @@ export default {
   viewTextInput: {
     paddingLeft: wp('5%'),
     paddingRight: wp('5%'),
+    // backgroundColor: appColor.RED,
   },
   buttonReason: {
     paddingLeft: wp('5%'),
@@ -57,8 +59,7 @@ export default {
     shadowOpacity: Platform.OS === 'android' ? 0.2 : 0.62,
     shadowRadius: Platform.OS === 'android' ? 1.2 : 2.22,
     elevation: 5,
-    // width: wp('90%'),
-    //height: hp('6%'),
+    height: hp('6%'),
     backgroundColor: appColor.WHITE,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -107,14 +108,14 @@ export default {
   iconCaret: {
     fontSize: 14,
     color: appColor.BLUE_DARK,
+    // backgroundColor: appColor.YELLOW,
   },
   buttonInsideReason: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    // backgroundColor: 'pink',
     // width: getOrientation() === 'landscap' ? '90%' : '100%',
     alignItems: 'center',
-    height: hp('7%'),
+    width: '93%',
   },
   viewFlatList: {
     height: hp('30%'),
@@ -123,7 +124,7 @@ export default {
     position: 'absolute',
     // width: getOrientation() === 'portrait' ? '90%' : '94%',
     // width: '90%',
-    top: hp('13.8%'),
+    top: hp('14%'),
     alignSelf: 'center',
     borderBottomLeftRadius: 10,
     borderColor: Platform.OS === 'android' ? appColor.BORDER : appColor.GRAY,

@@ -18,7 +18,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import NavigationSetup from './src/route/Navigators';
 import SplashScreen from 'react-native-splash-screen';
 import AuthContext from './src/context/AuthContext';
-import Toast from 'react-native-toast-notifications';
+import Toast, {ToastProvider} from 'react-native-toast-notifications';
 import {navigationRef} from './src/Navigator/RootNavigation';
 import appColor from './src/constant/colorConstant';
 import {
@@ -57,19 +57,21 @@ const App = () => {
   return (
     // <SafeAreaView>
     <SafeAreaProvider style={backgroundStyle}>
-      <AuthContext.Provider value={{user, setUserData: setUser}}>
-        {/* <DialogContext.Provider
+      <ToastProvider>
+        <AuthContext.Provider value={{user, setUserData: setUser}}>
+          {/* <DialogContext.Provider
           value={{setDialogOpen: open => setShowDialog(open)}}>
           {showDialog && <AlertView />} */}
-        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        <Provider store={StoreRoot}>
-          <NavigationContainer ref={navigationRef}>
-            <NavigationSetup />
-          </NavigationContainer>
-        </Provider>
-        {/* </DialogContext.Provider> */}
-      </AuthContext.Provider>
-      <Toast ref={ref => (global.toast = ref)} />
+          <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+          <Provider store={StoreRoot}>
+            <NavigationContainer ref={navigationRef}>
+              <NavigationSetup />
+            </NavigationContainer>
+          </Provider>
+          {/* </DialogContext.Provider> */}
+        </AuthContext.Provider>
+        <Toast ref={ref => (global.toast = ref)} />
+      </ToastProvider>
     </SafeAreaProvider>
     // </SafeAreaView>
   );

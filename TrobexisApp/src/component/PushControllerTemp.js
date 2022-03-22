@@ -10,6 +10,7 @@ import firebase from '@react-native-firebase/app';
 import messaging from '@react-native-firebase/messaging';
 import {appConstant, alertMsgConstant} from '../constant';
 import localDb from '../database/localDb';
+import {useToast} from 'react-native-toast-notifications';
 
 ///*** Follow this step  */
 /*
@@ -23,9 +24,10 @@ Add these pods in ios pod file
  Do android specific changes as shown in the link 
  
 */
-var isSuccessMsgShow = false; 
+var isSuccessMsgShow = false;
 
 function PushController(props) {
+  const toast = useToast();
   useEffect(() => {
     {
       (async () => {
@@ -35,10 +37,10 @@ function PushController(props) {
           authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
         if (enabled) {
-         // console.log('Authorization status:', authStatus);
+          // console.log('Authorization status:', authStatus);
           const messaging1 = firebase.messaging();
           messaging1.getToken().then(deviceToken => {
-           // console.log(' deviceToken for ios ', deviceToken);
+            // console.log(' deviceToken for ios ', deviceToken);
 
             let device_info = {};
             if (deviceToken) {
@@ -63,12 +65,12 @@ function PushController(props) {
             props.getDeviceInfo(device_info);
           });
         } else {
-          alert('Permission not granted for notification');
+          // alert('Permission not granted for notification');
         }
       })();
 
       const unsubscribe = messaging().onMessage(async remoteMessage => {
-      // console.log('remoteMessage data props ', remoteMessage);
+        // console.log('remoteMessage data props ', remoteMessage);
         // console.log(
         //   'remoteMessage data props ',
         //   remoteMessage,
@@ -92,13 +94,18 @@ function PushController(props) {
             Promise.resolve(tempUser).then(response => {
               let tempDict = response;
               tempDict.userId = userId;
-              console.log(' in push notification -+-+---', remoteMessage.notification.body);
+              console.log(
+                ' in push notification -+-+---',
+                remoteMessage.notification.body,
+              );
               localDb.setUser(tempDict);
 
               props.navigation.navigate(appConstant.DRAWER_NAVIGATOR);
-              if(!isSuccessMsgShow){
-               isSuccessMsgShow = true;
-              toast.show(remoteMessage.notification.body,{type: alertMsgConstant.TOAST_SUCCESS})
+              if (!isSuccessMsgShow) {
+                isSuccessMsgShow = true;
+                toast.show(remoteMessage.notification.body, {
+                  type: alertMsgConstant.TOAST_SUCCESS,
+                });
               }
             });
           }
@@ -113,44 +120,46 @@ function PushController(props) {
         async remoteMessage => {
           console.log('Message handled in the background!', remoteMessage);
           // console.log('remoteMessage data props ', remoteMessage.data);
-        // console.log(
-        //   'remoteMessage data props ',
-        //   remoteMessage,
-        // );
+          // console.log(
+          //   'remoteMessage data props ',
+          //   remoteMessage,
+          // );
 
-        if (
-          remoteMessage &&
-          remoteMessage.data &&
-          remoteMessage.data.authenticate
-        ) {
-          let dictAuthenticate = JSON.parse(remoteMessage.data.authenticate);
+          if (
+            remoteMessage &&
+            remoteMessage.data &&
+            remoteMessage.data.authenticate
+          ) {
+            let dictAuthenticate = JSON.parse(remoteMessage.data.authenticate);
 
-          // console.log('dictAuthenticate data  ', dictAuthenticate);
+            // console.log('dictAuthenticate data  ', dictAuthenticate);
 
-          if (dictAuthenticate.status === 'SUCCESS') {
-            let userId = dictAuthenticate.userId;
-            // localDb.setUserId(userId);
-            // console.log('userid -->', userId);
-            const tempUser = localDb.getUser();
+            if (dictAuthenticate.status === 'SUCCESS') {
+              let userId = dictAuthenticate.userId;
+              // localDb.setUserId(userId);
+              // console.log('userid -->', userId);
+              const tempUser = localDb.getUser();
 
-            Promise.resolve(tempUser).then(response => {
-              let tempDict = response;
-              tempDict.userId = userId;
-              console.log(' in push notification -===--', remoteMessage);
-              localDb.setUser(tempDict);
+              Promise.resolve(tempUser).then(response => {
+                let tempDict = response;
+                tempDict.userId = userId;
+                console.log(' in push notification -===--', remoteMessage);
+                localDb.setUser(tempDict);
 
-              props.navigation.navigate(appConstant.DRAWER_NAVIGATOR);
-              let tempAtuhtenticate = dictAuthenticate;
-              tempAtuhtenticate.status = null;
-              dictAuthenticate = tempAtuhtenticate
-              toast.show(remoteMessage.notification.body,{type: alertMsgConstant.TOAST_SUCCESS})
+                props.navigation.navigate(appConstant.DRAWER_NAVIGATOR);
+                let tempAtuhtenticate = dictAuthenticate;
+                tempAtuhtenticate.status = null;
+                dictAuthenticate = tempAtuhtenticate;
+                toast.show(remoteMessage.notification.body, {
+                  type: alertMsgConstant.TOAST_SUCCESS,
+                });
+              });
+            }
+          } else {
+            toast.show('Authentication Issue', {
+              type: alertMsgConstant.TOAST_DANGER,
             });
           }
-        } else {
-          toast.show('Authentication Issue', {
-            type: alertMsgConstant.TOAST_DANGER,
-          });
-        }
         },
       );
       return () => {

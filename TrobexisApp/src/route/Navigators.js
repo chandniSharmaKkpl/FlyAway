@@ -42,7 +42,7 @@ import {
   imageConstant,
   errorCodeConstant,
 } from '../constant';
-import {toast} from 'react-native-toast-notifications';
+import {useToast} from 'react-native-toast-notifications';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -384,6 +384,7 @@ function TabNavigator() {
 }
 
 function NavigationSetup() {
+  const toast = useToast();
   const [currentUser, setCurrentUser] = useState(null);
   const errorData = useSelector(state => state.GlobalReducer);
   // When Dashboard page will update for api this will also update

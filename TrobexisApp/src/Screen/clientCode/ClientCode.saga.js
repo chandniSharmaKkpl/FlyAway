@@ -157,6 +157,7 @@ export function* workerGetAccountUrl(argumentData, apiBase, clientToken) {
 
       // *** Save client codes ***//
       const temp = localDB.getClientCode();
+      // eslint-disable-next-line no-lone-blocks
       {
         Promise.resolve(temp).then(response => {
           if (response) {

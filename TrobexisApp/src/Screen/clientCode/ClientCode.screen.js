@@ -247,8 +247,6 @@ const ClientCodeScreen = props => {
   return (
     <>
       {/* {checkResponseCode()} */}
-      {/* <SafeAreaView style={{flex: 1, backgroundColor: 'red'}}> */}
-      {/* <Pressable style={[stylesHome.container]} onPress={onClickOutside}> */}
       <ImageBackground
         source={imageConstant.IMAGE_LOGIN_BACKGROUND}
         style={commonStyle.image}
@@ -323,8 +321,6 @@ const ClientCodeScreen = props => {
       {responseData.isRequesting ? (
         <Loader loading={responseData.isRequesting} />
       ) : null}
-      {/* </Pressable> */}
-      {/* </SafeAreaView> */}
 
       {isAlertShow ? (
         <AlertView

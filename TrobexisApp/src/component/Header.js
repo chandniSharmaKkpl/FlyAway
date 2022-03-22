@@ -52,6 +52,7 @@ const HeaderCustom = props => {
       flexDirection: 'row',
       justifyContent: 'space-between',
       height: hp('7%'),
+      paddingTop: 0,
       backgroundColor: appColor.NAVY_BLUE,
     },
     iconHeader: {
@@ -67,8 +68,8 @@ const HeaderCustom = props => {
     },
 
     styleBell: {
-      height: 22,
-      width: 22,
+      height: hp('3.5%'),
+      width: wp('3.5%'),
       marginTop:
         Platform.OS === 'android'
           ? hp('2%')
