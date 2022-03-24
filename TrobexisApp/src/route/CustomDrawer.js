@@ -149,6 +149,7 @@ export default CustomDrawer = () => {
           onPressConfirmBtn={() => {
             setIsAlertShow(false);
             localDb.setUser(null);
+            localDb.clearAll();
             navigation.navigate(appConstant.CLIENT_CODE);
           }}
           onPressCancel={() => {

@@ -1,6 +1,14 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {appConstant} from '../constant';
+const clearAll = async () => {
+  try {
+    await AsyncStorage.clear();
+  } catch (e) {
+    // clear error
+  }
 
+  console.log('Done.');
+};
 const getAccessToken = async () => {
   const temp = await AsyncStorage.getItem(appConstant.ACCESS_TOKEN);
 
@@ -44,7 +52,10 @@ const setBaseUrl = async baseURL => {
 };
 
 const saveClientCode = async clientCodeArray => {
-  await AsyncStorage.setItem(appConstant.CLIENT_CODE, JSON.stringify(clientCodeArray))
+  await AsyncStorage.setItem(
+    appConstant.CLIENT_CODE,
+    JSON.stringify(clientCodeArray),
+  )
     .then(() => {
       return true;
     })
@@ -75,12 +86,12 @@ const getUser = async () => {
   return user;
 };
 
-export  const getUser1 = () => {
+export const getUser1 = () => {
   const user = getUser();
   Promise.resolve(user).then(response => {
     return response;
   });
-}
+};
 
 const setUser = async data => {
   await AsyncStorage.setItem(appConstant.USER, JSON.stringify(data))
@@ -114,7 +125,6 @@ const setUserId = async data => {
     });
 };
 
-
 export default {
   getAccessToken,
   setAccessToken,
@@ -122,8 +132,9 @@ export default {
   setBaseUrl,
   saveClientCode,
   getClientCode,
-  getUser, 
+  getUser,
   setUser,
-getUserId, 
-setUserId
+  getUserId,
+  setUserId,
+  clearAll,
 };
