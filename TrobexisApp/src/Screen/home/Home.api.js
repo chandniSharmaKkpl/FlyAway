@@ -76,7 +76,6 @@ export const getItinaryList = argumentData => {
         data: response,
       }).then(response => {
         let response1 = response.data.data;
-        console.log(' itinary list  response : ', response1);
 
         return response1;
       }),
@@ -117,7 +116,6 @@ export const getItinaryListAllJourney = argumentData => {
         data: response,
       }).then(response => {
         let response1 = response.data.data;
-        console.log(' response : ', response1);
 
         return response1;
       }),
@@ -129,7 +127,6 @@ export const getItinaryListAllJourney = argumentData => {
 };
 
 export const getApprovalList = argumentData => {
-  console.log('get approval list  argument data in api : ', argumentData);
   let deviceId = argumentData.user.deviceId;
   let apiBaseUrl = argumentData.user.apiBaseUrl;
   let clientToken = argumentData.user.clientToken;
@@ -195,7 +192,6 @@ export const getItinaryDetail = argumentData => {
         data: response,
       }).then(response => {
         let response1 = response.data.data;
-        //console.log(' response : ', response1);
 
         return response1;
       }),

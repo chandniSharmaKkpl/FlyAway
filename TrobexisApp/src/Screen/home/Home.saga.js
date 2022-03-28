@@ -137,7 +137,6 @@ export function* workerGetItinaryListAllJoureny(argumentData) {
 
 export function* workerGetApprovalList(argumentData) {
   try {
-    console.log('arg itinar======>', argumentData);
     // const itinaryList = yield call(
     //   getApprovalList,
     //   argumentData.payload?.data
@@ -146,7 +145,6 @@ export function* workerGetApprovalList(argumentData) {
     // );
 
     const itinaryList = yield call(getApprovalList, argumentData.payload);
-    console.log(' approval list ======>', itinaryList);
     if (isError(itinaryList)) {
       yield put({
         type: actionConstant.ACTION_API_ERROR_SUCCESS,

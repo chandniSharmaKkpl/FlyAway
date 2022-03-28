@@ -15,6 +15,8 @@ import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
+//import io.sua.RNDeviceTimeFormatPackage;
+
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost =

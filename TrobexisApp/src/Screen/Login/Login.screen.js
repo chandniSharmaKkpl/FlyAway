@@ -38,7 +38,7 @@ const LoginScreen = props => {
   const [token, setToken] = React.useState({});
 
   const [error, setError] = React.useState({
-    emailErr: '', 
+    emailErr: '',
     passwordErr: '',
   });
   const route = useRoute();
@@ -172,8 +172,9 @@ const LoginScreen = props => {
         style={styles.webview}
         source={{
           uri: loginUrl,
-        }}></WebView>
-      {/* <TextInput 
+        }}
+      />
+      {/* <TextInput
               value={route && route.params && route.params.loginUrl? route.params.loginUrl: loginUrl}
               style={styles.tokenStyle}
               multiline={true}

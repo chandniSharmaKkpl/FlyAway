@@ -102,8 +102,6 @@ export const getClientTokenBasedOnApiBase = (argumentData, apiBaseUrl) => {
 
   export const getAccountURL = (argumentData, apiBaseUrl, clientToken) => {
   
-    console.log(" api base url ---", apiBaseUrl)
-
     let platform = argumentData.DeviceType;
     let deviceId = argumentData.DeviceId;
  

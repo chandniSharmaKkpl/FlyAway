@@ -52,7 +52,6 @@ const HeaderCustom = props => {
       flexDirection: 'row',
       justifyContent: 'space-between',
       height: hp('7%'),
-      paddingTop: 0,
       backgroundColor: appColor.NAVY_BLUE,
     },
     iconHeader: {
@@ -68,8 +67,8 @@ const HeaderCustom = props => {
     },
 
     styleBell: {
-      height: hp('3.5%'),
-      width: wp('3.5%'),
+      height: 22,
+      width: 22,
       marginTop:
         Platform.OS === 'android'
           ? hp('2%')
@@ -147,64 +146,3 @@ const HeaderCustom = props => {
 };
 
 export default HeaderCustom;
-
-// const styles = {
-//   topHeaderStyleIos: {
-//     flexDirection: 'row',
-//     justifyContent: 'space-between',
-//     // alignItem: 'center',
-//     height: getOrientation() === 'portrait' ? hp('10%') : hp('6.5%'),
-//     backgroundColor: appColor.NAVY_BLUE,
-//     // backgroundColor: 'pink',
-//   },
-
-//   topHeaderStyleAndroid: {
-//     flexDirection: 'row',
-//     justifyContent: 'space-between',
-//     height: hp('7%'),
-//     backgroundColor: appColor.NAVY_BLUE,
-//   },
-//   iconHeader: {
-//     height: hp('2.5%'),
-//     width: wp('8%'),
-//     marginTop:
-//       Platform.OS === 'android'
-//         ? hp('2%')
-//         : getOrientation() === 'portrait'
-//         ? hp('6%')
-//         : hp('1%'),
-//     marginLeft: wp('4%'),
-//   },
-
-//   styleBell: {
-//     height: hp('3%'),
-//     width: wp('8%'),
-//     marginTop:
-//       Platform.OS === 'android'
-//         ? hp('2%')
-//         : getOrientation() === 'portrait'
-//         ? hp('6%')
-//         : hp('2%'),
-//     marginRight: wp('4%'),
-//   },
-//   styleArrow: {
-//     height: hp('3%'),
-//     width: wp('6%'),
-//     marginTop: Platform.OS === 'android' ? hp('2%') : hp('6%'),
-//     marginRight: wp('4%'),
-//   },
-//   textTitle: {
-//     fontFamily: fontConstant.BARLOW_BOLD,
-//     fontSize: fontConstant.TEXT_H2_SIZE_BOLD,
-//     color: appColor.WHITE,
-//     flexWrap: 'wrap',
-//     alignSelf: 'center',
-
-//     marginTop:
-//       Platform.OS === 'android'
-//         ? hp('-1%')
-//         : getOrientation() === 'portrait'
-//         ? hp('4%')
-//         : hp('0%'),
-//   },
-// };

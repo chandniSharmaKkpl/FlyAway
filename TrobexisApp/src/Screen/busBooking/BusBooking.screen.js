@@ -3,7 +3,7 @@ import {
   View,
   Text,
   Image,
-  FlatList,
+  Platform,
   Pressable,
   BackHandler,
 } from 'react-native';
@@ -124,7 +124,7 @@ const BusBookingScreen = props => {
         });
       }
     }
-  }, [responseBusBooking.accessTokenBusBooking?.token]);
+  }, [responseBusBooking.accessTokenBusBooking.token, responseUser]);
 
   const onClickCalendarDate = async selectedDay => {
     let dateString1 = selectedDay.dateString;

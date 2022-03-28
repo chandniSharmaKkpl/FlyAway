@@ -162,9 +162,18 @@ const HomeScreen = props => {
       Array.isArray(response.userProfile.settings) &&
       response.userProfile.settings.length > 0
     ) {
+      // Temporary hiding bus tile
+      // if (keyName === 'Function.Bus') {
+      //   return false;
+      // }
+
+      console.log('164 Keynaem', keyName);
+
       let matchElement = response.userProfile.settings.find(
         item => item.key == keyName,
       );
+
+      console.log(' match ele', matchElement, 'Keynaem', keyName);
 
       if (matchElement.value === 'Y') {
         return true;
@@ -314,6 +323,15 @@ const HomeScreen = props => {
 
             {getValueToShowTile('Function.Bus') ? (
               <View style={styles.viewSmallBox}>
+                {/* {response.approvalList &&
+                Array.isArray(response.approvalList) &&
+                response.approvalList.length ? (
+                  <View style={styles.viewYellowBox}>
+                    <Text style={styles.textNumber}>
+                      {response.approvalList.length}
+                    </Text>
+                  </View>
+                ) : null} */}
                 <Pressable
                   style={styles.viewInsideSmallBox}
                   onPress={() => {

@@ -5,13 +5,13 @@ import {
 } from '../../responsiveScreen';
 import fontConstant from '../../constant/fontConstant';
 import appColor from '../../constant/colorConstant';
+// import DeviceInfo from 'react-native-device-info';
+
 export default StyleSheet.create({
   viewSpace: {
     paddingTop: '4%',
   },
   viewDashedLine: {
-    // height: 470,
-    // flex: 1,
     width: 1,
     position: 'absolute',
     borderRadius: 1,
@@ -28,7 +28,7 @@ export default StyleSheet.create({
     bottom: 0,
     width: 1,
     height: '100%',
-    backgroundColor: 'white',
+    // backgroundColor: appColor.GRAY_MIDIUM,
     zIndex: 1,
   },
   viewRowOutSide: {
@@ -117,6 +117,7 @@ export default StyleSheet.create({
     paddingLeft: '2%',
     // paddingTop:'2%'
   },
+
   textConfirmed: {
     fontFamily: fontConstant.BARLOW_BOLD,
     fontSize: fontConstant.TEXT_H1_SIZE_REGULAR,
@@ -158,11 +159,11 @@ export default StyleSheet.create({
     // flexDirection: 'row',
     padding: '1%',
   },
-  textYellow: {
-    fontFamily: fontConstant.BARLOW_BOLD,
-    fontSize: fontConstant.TEXT_H3_SIZE_BOLD,
-    color: appColor.YELLOW,
-  },
+  // textYellow: {
+  //   fontFamily: fontConstant.BARLOW_BOLD,
+  //   fontSize: fontConstant.TEXT_H3_SIZE_BOLD,
+  //   color: appColor.YELLOW,
+  // },
   textRed: {
     fontFamily: fontConstant.BARLOW_REGULAR,
     fontSize: fontConstant.TEXT_H1_SIZE_REGULAR,
@@ -176,16 +177,16 @@ export default StyleSheet.create({
     width: wp('54%'),
     // backgroundColor:'red'
   },
-  textBlue: {
-    fontFamily: fontConstant.BARLOW_SEMI_BOLD,
-    fontSize: fontConstant.TEXT_H1_SIZE_REGULAR,
-    color: appColor.NAVY_BLUE,
-  },
-  textBlack: {
-    fontFamily: fontConstant.BARLOW_BOLD,
-    fontSize: fontConstant.TEXT_H1_SIZE_REGULAR,
-    color: appColor.GRAY,
-  },
+  // textBlue: {
+  //   fontFamily: fontConstant.BARLOW_SEMI_BOLD,
+  //   fontSize: fontConstant.TEXT_H1_SIZE_REGULAR,
+  //   color: appColor.NAVY_BLUE,
+  // },
+  // // textBlack: {
+  // //   fontFamily: fontConstant.BARLOW_BOLD,
+  // //   fontSize: fontConstant.TEXT_H1_SIZE_REGULAR,
+  // //   color: appColor.GRAY,
+  // // },
   viewInsideTitle: {
     padding: '5%',
   },
@@ -305,6 +306,15 @@ export default StyleSheet.create({
     width: '100%',
   },
 
+  ViewBlueBottomIpad: {
+    backgroundColor: appColor.RED,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+    width: 100,
+  },
+
   ViewGrayBottom: {
     backgroundColor: appColor.GRAY_MIDIUM,
     justifyContent: 'center',
@@ -335,6 +345,19 @@ export default StyleSheet.create({
     // width: '33%',
     // backgroundColor: 'orange',
     // alignItems:'flex-end'
+  },
+  textConfirmedInBox: {
+    fontFamily: fontConstant.BARLOW_REGULAR,
+    fontSize: fontConstant.TEXT_14_SIZE_REGULAR,
+    color: appColor.BLACK,
+    paddingLeft: '2%',
+    paddingTop: '0.5%',
+  },
+  textNotConfirmedInBox: {
+    fontFamily: fontConstant.BARLOW_REGULAR,
+    fontSize: fontConstant.TEXT_14_SIZE_REGULAR,
+    color: appColor.RED,
+    paddingTop: '0.5%',
   },
   viewRightLocation: {
     //flex: 5,

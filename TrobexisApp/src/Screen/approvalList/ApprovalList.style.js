@@ -5,6 +5,8 @@ import {
 } from '../../responsiveScreen';
 import fontConstant from '../../constant/fontConstant';
 import appColor from '../../constant/colorConstant';
+import DeviceInfo from 'react-native-device-info';
+
 export default StyleSheet.create({
   textEmpty: {
     fontFamily: fontConstant.BARLOW_BOLD,
@@ -117,10 +119,14 @@ export default StyleSheet.create({
     paddingLeft: wp('2%'),
   },
   viewImages: {
-    width: wp('3%'),
+    width: DeviceInfo.isTablet() ? wp('2.5%') : wp('3%'),
     height: hp('3%'),
   },
 
+  viewImageIpad: {
+    width: wp('2.5%'),
+    height: hp('2.5%'),
+  },
   image: {
     width: '100%',
     height: '100%',

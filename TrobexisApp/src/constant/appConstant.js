@@ -45,6 +45,16 @@ export default {
   MARINE_TRANSFER: 'Marine Transfer',
   TBA: 'TBA',
 
+  // Classification
+
+  WATERCRAFT: 'Watercraft',
+
+  COACH: 'Coach',
+  CHARTER: 'Charter',
+  PLATFORM: 'Platform',
+  BED: 'Bed',
+
+  // Approval status
   PENDING_APPROVAL: 'Pending Approval',
   APPROVED: 'Approved',
   DECLINED: 'Declined',
