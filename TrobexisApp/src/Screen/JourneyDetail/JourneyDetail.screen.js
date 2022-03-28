@@ -1,34 +1,13 @@
-import React, {useState, useCallback, useEffect} from 'react';
-import {
-  View,
-  Text,
-  Image,
-  FlatList,
-  BackHandler,
-  ScrollView,
-  Pressable,
-} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, Text, BackHandler, ScrollView, Pressable} from 'react-native';
 import stylesHome from '../home/Home.style';
-import stylesCommon from '../../common/common.style';
 import styles from './JourneyDetail.style';
-import {
-  HeaderCustom,
-  BookingCard,
-  AlertView,
-  Loader,
-  backHandler,
-} from '../../component';
+import {HeaderCustom, AlertView, Loader, backHandler} from '../../component';
 import {useSelector, useDispatch} from 'react-redux';
-import {Avatar} from 'react-native-elements';
 import localDb from '../../database/localDb';
-import {
-  appColor,
-  appConstant,
-  imageConstant,
-  alertMsgConstant,
-} from '../../constant';
+import {appConstant, imageConstant, alertMsgConstant} from '../../constant';
 import {getDateInFormat, msToTime} from '../../common';
-import {useRoute, useNavigation} from '@react-navigation/core';
+import {useRoute} from '@react-navigation/core';
 import {
   listenOrientationChange as lor,
   removeOrientationListener as rol,
@@ -43,7 +22,6 @@ import IMAGE_COMMERCIAL_FLIGHT_SVG from '../../../assets/image/home_page/commerc
 import IMAGE_MARINE_TRANSFER_SVG from '../../../assets/image/home_page/marine_transfer.svg';
 import IMAGE_HOTEL_SVG from '../../../assets/image/home_page/hotel.svg';
 import IMAGE_SITE_ACCOMODATION_SVG from '../../../assets/image/home_page/site_accommodation.svg';
-import IMAGE_TRANSFER_SVG from '../../../assets/image/home_page/transfer.svg';
 import IMAGE_OFFSHORE_SVG from '../../../assets/image/home_page/offshore.svg';
 
 const JourneyDetail = props => {
@@ -101,6 +79,7 @@ const JourneyDetail = props => {
 
   const handleBackButtonClick = () => {
     console.log(' alert show ', isAlertShow);
+    // eslint-disable-next-line no-lone-blocks
     {
       if (route.params && route.params.callingView) {
         props.navigation.navigate(route.params.callingView);
@@ -135,7 +114,11 @@ const JourneyDetail = props => {
     if (item.Type === appConstant.CHARTER_FLIGHT) {
       return <IMAGE_CHARTER_FLIGHT_SVG />;
     } else if (item.Type === appConstant.CAMP_ACCOMODATION) {
-      if ( item.Details && Array.isArray(item.Details) && item.Details.length > 0) {
+      if (
+        item.Details &&
+        Array.isArray(item.Details) &&
+        item.Details.length > 0
+      ) {
         let dictDetail = item.Details[0];
         if (dictDetail.Classification) {
           let tempC = dictDetail.Classification;
@@ -153,24 +136,32 @@ const JourneyDetail = props => {
       item.type === appConstant.BUS ||
       item.type === appConstant.DRIVE_IN_OUT_TRANSPORT
     ) {
-      if (item.Details && Array.isArray(item.Details) && item.Details.length > 0) {
+      if (
+        item.Details &&
+        Array.isArray(item.Details) &&
+        item.Details.length > 0
+      ) {
         let dictDetail = item.Details[0];
         if (dictDetail.Classification) {
           let tempC = dictDetail.Classification;
           if (tempC === appConstant.BUS || tempC === appConstant.COACH) {
             return <IMAGE_BUS_SVG />;
-          } else  {
+          } else {
             return <IMAGE_CAR_SVG />;
           }
         }
       }
-    } else if(item.type === appConstant.HOTEL) {
-      return <IMAGE_HOTEL_SVG />  // because, Hotel Accommodation has all categories in Hotel
+    } else if (item.type === appConstant.HOTEL) {
+      return <IMAGE_HOTEL_SVG />; // because, Hotel Accommodation has all categories in Hotel
     } else if (item.type === appConstant.CAR_HIRE) {
       return <IMAGE_CAR_SVG />;
     } else if (item.type === appConstant.OTHER_GROUND_TRANSPORT) {
       // console.log(' OTHER_GROUND_TRANSPORT ', item);
-      if (item.Details && Array.isArray(item.Details) && item.Details.length > 0 ) {
+      if (
+        item.Details &&
+        Array.isArray(item.Details) &&
+        item.Details.length > 0
+      ) {
         let dictDetail = item.Details[0];
         if (dictDetail.Classification) {
           let tempC = dictDetail.Classification;
@@ -180,7 +171,7 @@ const JourneyDetail = props => {
             return <IMAGE_MARINE_TRANSFER_SVG />;
           } else if (tempC === appConstant.COACH) {
             return <IMAGE_BUS_SVG />;
-          } 
+          }
         }
       }
     } else {

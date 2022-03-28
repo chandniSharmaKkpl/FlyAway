@@ -6,7 +6,7 @@ import {
 import DeviceInfo from 'react-native-device-info';
 import fontConstant from '../../constant/fontConstant';
 import appColor from '../../constant/colorConstant';
-import DeviceInfo from 'react-native-device-info';
+// import DeviceInfo from 'react-native-device-info';
 
 export default StyleSheet.create({
   viewSpace: {
