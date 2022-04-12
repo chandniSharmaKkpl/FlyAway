@@ -22,7 +22,7 @@ export const getJourneyDetail = argumentData => {
   let urlString = apiConstant.GET_ITINARY_DETAIL;
   urlString = urlString.replace(':itineraryId', itineraryId);
 
-  console.log('itineraryId', itineraryId);
+  console.log('itineraryId ==>', itineraryId);
 
   return instance
     .get(urlString)

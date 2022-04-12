@@ -15,7 +15,12 @@ import styles from './JourneyDetail.style';
 import {HeaderCustom, AlertView, Loader, backHandler} from '../../component';
 import {useSelector, useDispatch} from 'react-redux';
 import localDb from '../../database/localDb';
-import {appConstant, imageConstant, alertMsgConstant} from '../../constant';
+import {
+  appConstant,
+  imageConstant,
+  alertMsgConstant,
+  appColor,
+} from '../../constant';
 import {getDateInFormat, msToTime} from '../../common';
 import {useRoute} from '@react-navigation/core';
 import {
@@ -24,6 +29,7 @@ import {
   removeOrientationListener as rol,
   getOrientation,
 } from '../../responsiveScreen';
+import DeviceInfo, {getDeviceId} from 'react-native-device-info';
 import {requestToGetJourneyDetail} from './JourneyDetail.action';
 import {getTimeInFormat} from '../../component/BookingCard';
 import IMAGE_BUS_SVG from '../../../assets/image/home_page/bus.svg';
@@ -36,7 +42,6 @@ import IMAGE_HOTEL_SVG from '../../../assets/image/home_page/hotel.svg';
 import IMAGE_SITE_ACCOMODATION_SVG from '../../../assets/image/home_page/site_accommodation.svg';
 import IMAGE_OFFSHORE_SVG from '../../../assets/image/home_page/offshore.svg';
 import IMAGE_HANDSHAKE_SVG from '../../../assets/image/home_page/handshake.svg';
-import styleConstructor from 'react-native-calendars/src/agenda/style';
 
 const JourneyDetail = props => {
   const [orientation, setOrientation] = React.useState('portrait');
@@ -54,7 +59,7 @@ const JourneyDetail = props => {
   const [tvr, setTvr] = useState('');
   const [arrayRoutes, setArrayRoutes] = useState([]);
   const [lwidth, setlWidth] = useState(100);
-  const [lheight, setlHeight] = useState(101);
+  const [lheight, setlHeight] = useState(102);
 
   console.log(
     'responseDetail +-+-+',
@@ -210,13 +215,15 @@ const JourneyDetail = props => {
     let isNoShowBtnVisible = false; // This flag is using to show no show button for flights only
     // console.log('itemdetals+-+-+', item);
     // const  [width, setWidth]  = useState(200);
+
     return (
       <View
         style={styles.viewRowOutSide}
         onLayout={event => {
           var {x, y, width, height} = event.nativeEvent.layout;
+          console.log('Height =>>', height);
           setlWidth(getOrientation() === 'portrait' ? width - 82 : width - 115);
-          setlHeight(getOrientation() === 'portrait' ? height : height - 45);
+          setlHeight(getOrientation() === 'portrait' ? height : height - 20);
 
           // console.log("===width", width);
         }}>
@@ -249,7 +256,20 @@ const JourneyDetail = props => {
               marginTop: getOrientation() === 'portrait' ? '8%' : '5%',
             },
           ]}>
-          <View style={styles.viewRowTop}>
+          <View
+            style={[
+              styles.viewRowTop,
+              {
+                width: lwidth,
+                paddingLeft: DeviceInfo.isTablet()
+                  ? getOrientation() === 'portrait'
+                    ? '3%'
+                    : '3%'
+                  : getOrientation() === 'portrait'
+                  ? '5%'
+                  : '2%',
+              },
+            ]}>
             <View style={styles.viewLeft}>
               <Text style={styles.textYellow}>
                 {item.Details &&
@@ -266,7 +286,7 @@ const JourneyDetail = props => {
                 )
               </Text>
 
-              <Text style={[styles.textBlack]}>
+              <Text style={[styles.textBlack, styles.subTitle]}>
                 {item.Details &&
                 item.Details.length > 0 &&
                 item.Details[0].StartDate
@@ -274,7 +294,29 @@ const JourneyDetail = props => {
                   : ''}
               </Text>
             </View>
-
+            {(item.Type === appConstant.COMMERCIAL_FLIGHT ||
+              item.Type === appConstant.CHARTER_FLIGHT ||
+              item.Type === appConstant.HELICOPTER) && (
+              <>
+                <View
+                  style={[
+                    styles.leftLine,
+                    {
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    },
+                  ]}>
+                  <Image
+                    source={imageConstant.IMAGE_CHARTER_FLIGHT_PNG}
+                    resizeMode={'contain'}
+                    style={styles.imagePlan}
+                  />
+                  <Text style={styles.flightNumber}>QF329</Text>
+                  <Text style={styles.flightCodeNumber}>(A320-200)</Text>
+                </View>
+              </>
+            )}
             {isNoShowBtnVisible ? (
               <Pressable
                 style={styles.buttonTextRed}
@@ -286,15 +328,19 @@ const JourneyDetail = props => {
               </Pressable>
             ) : null}
           </View>
+
           <View style={styles.viewSingleLine} />
 
           <View style={styles.viewDepartsAndArrive}></View>
           <View style={styles.viewItinerary}>
             <View style={styles.viewLocation}>
-              {item.Type === appConstant.CAMP_ACCOMODATION ? (
-                <Text style={styles.textBlueBig}>CheckIn</Text>
+              {item.Type === appConstant.CAMP_ACCOMODATION ||
+              item.Type === appConstant.HOTEL ? (
+                <Text style={styles.textBlueBig}>CheckIn:</Text>
+              ) : item.Type === appConstant.CAR_HIRE ? (
+                <Text style={styles.textBlueBig}>Pick-Up:</Text>
               ) : (
-                <Text style={styles.textBlueBig}>Departs</Text>
+                <Text style={styles.textBlueBig}>Departs:</Text>
               )}
 
               <Text style={styles.textBlack}>
@@ -315,10 +361,13 @@ const JourneyDetail = props => {
 
             <View style={styles.viewLocation}>
               <View style={styles.viewSpace} />
-              {item.Type === appConstant.CAMP_ACCOMODATION ? (
-                <Text style={styles.textBlueBig}>CheckOut</Text>
+              {item.Type === appConstant.CAMP_ACCOMODATION ||
+              item.Type === appConstant.HOTEL ? (
+                <Text style={styles.textBlueBig}>CheckOut:</Text>
+              ) : item.Type === appConstant.CAR_HIRE ? (
+                <Text style={styles.textBlueBig}>Drop-off:</Text>
               ) : (
-                <Text style={styles.textBlueBig}>Arrives</Text>
+                <Text style={styles.textBlueBig}>Arrives:</Text>
               )}
 
               <Text style={styles.textBlack}>
@@ -333,15 +382,117 @@ const JourneyDetail = props => {
                 item.Details.length > 0 &&
                 item.Details[0].EndDate
                   ? getTimeInFormat(item.Details[0].EndDate, false, true)
-                  : ''}
+                  : '-'}
               </Text>
+            </View>
+
+            <View style={styles.viewLocation}>
+              <View style={styles.viewSpace} />
+              {item.Type === appConstant.MEET_AND_GREET ? (
+                <></>
+              ) : (
+                <Text style={styles.textBlueBig}>Duration:</Text>
+              )}
+              <Text style={styles.textBlack}>1h 00m 0 Stops</Text>
+            </View>
+
+            <View style={styles.viewLocation}>
+              {(item.Type === appConstant.BUS ||
+                item.Type === appConstant.CAR_HIRE) && (
+                <>
+                  <View style={styles.viewSpace} />
+                  <Text style={styles.textBlueBig}>Vehicle</Text>
+                  <Text style={styles.textBlack}></Text>
+                </>
+              )}
+            </View>
+
+            <View style={styles.viewLocation}>
+              {item.Type === appConstant.CAMP_ACCOMODATION && (
+                <>
+                  <View style={styles.viewSpace} />
+                  <Text style={styles.textBlueBig}>Room:</Text>
+                  <Text style={styles.textBlack}>A-101A</Text>
+                  <View style={styles.viewSpace} />
+                  <Text style={styles.textBlueBig}>Locker:</Text>
+                  <Text style={styles.textBlack}>A-099</Text>
+                  <View style={styles.viewSpace} />
+                  <Text style={styles.textBlueBig}>Phone:</Text>
+                  <Text style={styles.textBlack}>08 6587 5698</Text>
+                  <View style={styles.viewSpace} />
+                  <Text style={styles.textBlueBig}>Muster 1:</Text>
+                  <Text style={styles.textBlack}>Car Park</Text>
+                  <View style={styles.viewSpace} />
+                  <Text style={styles.textBlueBig}>Muster 2:</Text>
+                  <Text style={styles.textBlack}>N/A</Text>
+                  <View style={styles.viewSpace} />
+                  <Text style={styles.textBlueBig}>Tag/Token:</Text>
+                  <Text style={styles.textBlack}>Not Assigned</Text>
+                </>
+              )}
+            </View>
+
+            <View style={styles.viewLocation}>
+              {item.Type === appConstant.HOTEL && (
+                <>
+                  <View style={styles.viewSpace} />
+                  <Text style={styles.textBlueBig}>Room:</Text>
+                  <Text style={styles.textBlack}>A-101A</Text>
+                  <View style={styles.viewSpace} />
+                  <Text style={styles.textBlueBig}>Phone:</Text>
+                  <Text style={styles.textBlack}>08 6587 5698</Text>
+                  <View style={styles.viewSpace} />
+                  <Text style={styles.textBlueBig}>Address:</Text>
+                  <Text style={styles.textBlack}></Text>
+                </>
+              )}
+            </View>
+
+            <View style={styles.viewLocation}>
+              {item.Type === appConstant.WATERCRAFT && (
+                <>
+                  <View style={styles.viewSpace} />
+                  <Text style={styles.textBlueBig}>Vessel:</Text>
+                  <Text style={styles.textBlack}></Text>
+                </>
+              )}
+            </View>
+
+            <View style={styles.viewLocation}>
+              {!(
+                item.Type === appConstant.BUS ||
+                item.Type === appConstant.COACH ||
+                item.Type === appConstant.CAMP_ACCOMODATION ||
+                item.Type === appConstant.WATERCRAFT ||
+                item.Type === appConstant.MEET_AND_GREET
+              ) && (
+                <>
+                  <View style={styles.viewSpace} />
+                  <Text style={styles.textBlueBig}>Booking #</Text>
+                  <Text style={styles.textBlack}>PDD273</Text>
+                </>
+              )}
+            </View>
+
+            <View style={styles.viewLocation}>
+              {(item.Type === appConstant.COMMERCIAL_FLIGHT ||
+                item.Type === appConstant.CHARTER_FLIGHT ||
+                item.Type === appConstant.HELICOPTER) && (
+                <>
+                  <View style={styles.viewSpace} />
+                  <Text style={styles.textBlueBig}>Ticket #</Text>
+                  <Text style={styles.textNotConfirmedInBox}>
+                    Not yet ticketed
+                  </Text>
+                </>
+              )}
             </View>
 
             <View style={styles.viewLocation}>
               <View style={styles.viewSpace}>
                 <Text style={styles.textBlueBig}>Status:</Text>
                 {item.Status === 'Booked' ? (
-                  <Text style={styles.textConfirmedInBox}>Confirmed </Text>
+                  <Text style={styles.textConfirmedInBox}>Confirmed</Text>
                 ) : (
                   <Text style={styles.textNotConfirmedInBox}>
                     Not Confirmed
@@ -349,9 +500,23 @@ const JourneyDetail = props => {
                 )}
               </View>
             </View>
+
+            <View style={styles.viewLocation}>
+              {(item.Type === appConstant.HOTEL ||
+                item.Type === appConstant.MEET_AND_GREET) && (
+                <>
+                  <View style={styles.viewSpace} />
+                  <Text style={styles.textBlueBig}>Note:</Text>
+                  <Text style={styles.textBlack}>
+                    Your QR code will be scanned when you arrive at your hotel.
+                    Please have your QR code ready
+                  </Text>
+                </>
+              )}
+            </View>
           </View>
 
-          <View
+          {/* <View
             style={
               item.Type === appConstant.CHARTER_FLIGHT
                 ? styles.ViewBlueBottom
@@ -368,7 +533,7 @@ const JourneyDetail = props => {
                   )
                 : 'Total Time'}
             </Text>
-          </View>
+          </View> */}
         </View>
 
         {index === responseDetail.journeyDetail.Itinerarys.length - 1 ? null : (
@@ -379,15 +544,15 @@ const JourneyDetail = props => {
                 top:
                   Platform.OS === 'android'
                     ? getOrientation() === 'portrait'
-                      ? '18%'
-                      : '20%'
+                      ? '11%'
+                      : '12%'
                     : getOrientation() === 'portrait'
-                    ? '18%'
-                    : '20%',
-                height: lheight,
+                    ? '11%'
+                    : '12%',
+                height: '100%',
               },
             ]}>
-            <View style={styles.viewDotted} />
+            {/* <View style={styles.viewDotted} /> */}
           </View>
         )}
       </View>
@@ -474,6 +639,24 @@ const JourneyDetail = props => {
                     responseDetail.journeyDetail,
                     'TravelRequestId',
                   ),
+                )}
+                {returnRowView(
+                  'In Country Helpline ',
+                  getDataFromResponse(),
+                  // responseDetail.journeyDetail,
+                  // 'TravelRequestId',
+                )}
+                {returnRowView(
+                  'Security: ',
+                  getDataFromResponse(),
+                  // responseDetail.journeyDetail,
+                  // 'TravelRequestId',
+                )}
+                {returnRowView(
+                  'Meet & Greet Team: ',
+                  getDataFromResponse(),
+                  // responseDetail.journeyDetail,
+                  // 'TravelRequestId',
                 )}
               </View>
             </View>

@@ -238,13 +238,13 @@ const HomeScreen = props => {
           </View>
 
           {/* Bookinng list  */}
-          {getValueToShowTile('Function.Journey') &&
-          response.itinaryListAllJourney &&
-          response.itinaryListAllJourney.length > 0 ? (
+          {/* {getValueToShowTile('Function.Journey') && */}
+          {/* response.itinaryListAllJourney &&
+          response.itinaryListAllJourney.length > 0 ? ( */}
             <View
               style={{
                 marginTop:
-                  getOrientation() === 'portrait' ? hp('-8%') : hp('-14%'),
+                  getOrientation() === 'portrait' ? hp('-13%') : hp('-14%'),
                 // alignSelf: 'center',
                 height: getOrientation() === 'portrait' ? hp('18%') : hp('30%'),
               }}>
@@ -255,12 +255,12 @@ const HomeScreen = props => {
                 keyExtractor={(item, index) => index.toString()}
               />
             </View>
-          ) : null}
+          {/* ) : null} */}
           {/* <Text style={styles.textTitleGoes}>Title Goes Here</Text> */}
 
           {/* Journeys / Approval and Bus Booking  */}
           <View style={styles.viewContainSmallBox}>
-            {getValueToShowTile('Function.Journey') ? (
+            {/* {getValueToShowTile('Function.Journey') ? ( */}
               <View style={styles.viewSmallBox}>
                 {response.itinaryListAllJourney &&
                 Array.isArray(response.itinaryListAllJourney) &&
@@ -289,9 +289,9 @@ const HomeScreen = props => {
                   <Text style={styles.textButtonTitle}>Journeys</Text>
                 </Pressable>
               </View>
-            ) : null}
+            {/* ) : null} */}
 
-            {getValueToShowTile('Function.Approval') ? (
+            {/* {getValueToShowTile('Function.Approval') ? ( */}
               <View style={styles.viewSmallBox}>
                 {response.approvalList &&
                 Array.isArray(response.approvalList) &&
@@ -319,9 +319,9 @@ const HomeScreen = props => {
                   <Text style={styles.textButtonTitle}>Approvals</Text>
                 </Pressable>
               </View>
-            ) : null}
+            {/* ) : null} */}
 
-            {getValueToShowTile('Function.Bus') ? (
+            {/* {getValueToShowTile('Function.Bus') ? ( */}
               <View style={styles.viewSmallBox}>
                 {/* {response.approvalList &&
                 Array.isArray(response.approvalList) &&
@@ -347,7 +347,7 @@ const HomeScreen = props => {
                   <Text style={styles.textButtonTitle}>Bus Bookings</Text>
                 </Pressable>
               </View>
-            ) : null}
+            {/* ) : null} */}
           </View>
 
           {response.isRequesting ? (

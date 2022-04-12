@@ -21,6 +21,9 @@ IMAGE_LOGIN_BACKGROUND:  require('../../assets/image/login_page/login_background
 IMAGE_CLOUD:  require('../../assets/image/login_page/login_cloud.png'),  
 IMAGE_LOGIN_BOTTOM:  require('../../assets/image/login_page/login_bottom.png'),  
 IMAGE_DRAWER_BG:  require('../../assets/image/home_page/drawer_top_bg.png'),
+IMAGE_CHARTER_FLIGHT_PNG : require('../../assets/image/home_page/qantas-airways.png'),
+IMAGE_TELEPHONE_PNG: require('../../assets/image/home_page/telephone.png'),
+
 
 // SVG images 
 

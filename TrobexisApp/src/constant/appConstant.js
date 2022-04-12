@@ -44,11 +44,11 @@ export default {
   TRANSFER: 'Transfer',
   MARINE_TRANSFER: 'Marine Transfer',
   TBA: 'TBA',
-
+  MEET_AND_GREET : 'Meet and Greet',
   // Classification
 
   WATERCRAFT: 'Watercraft',
-
+  CAR_HIRE : 'Var Hire',
   COACH: 'Coach',
   CHARTER: 'Charter',
   PLATFORM: 'Platform',
