@@ -124,7 +124,7 @@ export default StyleSheet.create({
   },
 
   viewItineraryList: {
-    paddingTop: '3%',
+  marginTop : '8%',
   },
   viewInside: {
     backgroundColor: appColor.WHITE,
@@ -156,6 +156,8 @@ export default StyleSheet.create({
     color: appColor.GRAY,
     flexWrap: 'wrap',
     width: wp('54%'),
+    marginTop: '2%',
+    marginBottom: '2%',
   },
 
   viewInsideTitle: {
@@ -373,9 +375,7 @@ export default StyleSheet.create({
     shadowOpacity: Platform.OS === 'android' ? 0.2 : 0.62,
     shadowRadius: Platform.OS === 'android' ? 1.2 : 2.22,
     elevation: 5,
-    // marginVertical: '10%',
     marginTop: '2%',
-    // marginBottom: '12%',
   },
   textRedButton: {
     fontFamily: fontConstant.BARLOW_BOLD,

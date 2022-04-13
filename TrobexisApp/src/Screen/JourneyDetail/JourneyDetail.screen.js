@@ -605,17 +605,6 @@ const JourneyDetail = props => {
             <View style={styles.viewInside2}>
               <View style={styles.viewContainRow}>
                 {returnRowView(
-                  'Name: ',
-                  getDataFromResponse(
-                    responseDetail.journeyDetail,
-                    'GivenName',
-                  ),
-                )}
-                {returnRowView(
-                  'Request Title: ',
-                  getDataFromResponse(responseDetail.journeyDetail, 'Title'),
-                )}
-                {returnRowView(
                   'Date: ',
                   getDataFromResponse(
                     responseDetail.journeyDetail,
@@ -634,7 +623,7 @@ const JourneyDetail = props => {
                   getDataFromResponse(responseDetail.journeyDetail, 'Title'),
                 )}
                 {returnRowView(
-                  'Request ID: ',
+                  'Travel Request ID: ',
                   getDataFromResponse(
                     responseDetail.journeyDetail,
                     'TravelRequestId',
@@ -662,7 +651,7 @@ const JourneyDetail = props => {
             </View>
 
             {/* Itinerary Details */}
-            <View style={styles.viewItineraryList} />
+            <View style={{marginTop: getOrientation() === 'portrait' ? '8%' : '5%'}} />
             <Text style={styles.textBlackTitle}>Itinerary Details</Text>
             {responseDetail &&
             responseDetail.journeyDetail &&

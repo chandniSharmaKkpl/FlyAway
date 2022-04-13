@@ -244,7 +244,7 @@ const HomeScreen = props => {
             <View
               style={{
                 marginTop:
-                  getOrientation() === 'portrait' ? hp('-13%') : hp('-14%'),
+                  getOrientation() === 'portrait' ? hp('-8%') : hp('-14%'),
                 // alignSelf: 'center',
                 height: getOrientation() === 'portrait' ? hp('18%') : hp('30%'),
               }}>

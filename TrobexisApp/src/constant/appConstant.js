@@ -32,7 +32,7 @@ export default {
 
   // Word constant
   COMMENT_MAX_LIMIT: 500,
-
+  OTHER_GROUND_TRANSPORT : 'Other/Ground Transport',
   CHARTER_FLIGHT: 'Charter Flight',
   CAMP_ACCOMODATION: 'Camp Accommodation',
   COMMERCIAL_FLIGHT: 'Commercial Flight',
