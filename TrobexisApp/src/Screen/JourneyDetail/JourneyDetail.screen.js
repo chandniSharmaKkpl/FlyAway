@@ -32,16 +32,8 @@ import {
 import DeviceInfo, {getDeviceId} from 'react-native-device-info';
 import {requestToGetJourneyDetail} from './JourneyDetail.action';
 import {getTimeInFormat} from '../../component/BookingCard';
-import IMAGE_BUS_SVG from '../../../assets/image/home_page/bus.svg';
-import IMAGE_CAR_SVG from '../../../assets/image/home_page/car.svg';
-import IMAGE_CHARTER_FLIGHT_SVG from '../../../assets/image/home_page/charter_flight.svg';
-import IMAGE_HELICOPTER_SVG from '../../../assets/image/home_page/helicopter.svg';
-import IMAGE_COMMERCIAL_FLIGHT_SVG from '../../../assets/image/home_page/commercial_flight.svg';
-import IMAGE_MARINE_TRANSFER_SVG from '../../../assets/image/home_page/marine_transfer.svg';
-import IMAGE_HOTEL_SVG from '../../../assets/image/home_page/hotel.svg';
-import IMAGE_SITE_ACCOMODATION_SVG from '../../../assets/image/home_page/site_accommodation.svg';
-import IMAGE_OFFSHORE_SVG from '../../../assets/image/home_page/offshore.svg';
-import IMAGE_HANDSHAKE_SVG from '../../../assets/image/home_page/handshake.svg';
+import {supplierType} from '../../utils/supplierType.json';
+import {Images} from '../../constant/SvgImgConst';
 
 const JourneyDetail = props => {
   const [orientation, setOrientation] = React.useState('portrait');
@@ -136,9 +128,31 @@ const JourneyDetail = props => {
     return 'Total Time ' + strTime;
   };
 
+  
+  const returnSupplierCodeImage = supplierType1 => {
+    const image = Images[supplierType1];
+    return image();
+  };
+  {
+    /* if(supplierType.AIR_CANADA === appConstant.AIR_CANADA){
+      return <Image source={imageConstant.AIR_CANADA} style={{}}/>
+    }  else if(supplierType.AIR_FRANCE === appConstant.AIR_FRANCE){
+      return <Image source={imageConstant.AIR_FRANCE} style={{}}/>
+    }else if(supplierType.AIR_INDIA === appConstant.AIR_INDIA){
+      return <Image source={imageConstant.AIR_FRANCE} style={{}}/>
+    }else if(supplierType.AIR_NEW_ZEALAND === appConstant.AIR_NEW_ZEALAND){
+      return <Image source={imageConstant.AIR_FRANCE} style={{}}/>
+    }else if(supplierType.ALASKAN_AIRLINES === appConstant.ALASKAN_AIRLINES){
+      return <Image source={imageConstant.ALASKAN_AIRLINES} style={{}}/>
+    }else if(supplierType.AMERICAN_AIRLINES === appConstant.AMERICAN_AIRLINES){
+      return <Image source={imageConstant.AMERICAN_AIRLINES} style={{}}/>
+    }
+  } */
+  }
+
   const returnSvgImage = item => {
     if (item.Type === appConstant.CHARTER_FLIGHT) {
-      return <IMAGE_CHARTER_FLIGHT_SVG />;
+      return <Images.IMAGE_CHARTER_FLIGHT_SVG />;
     } else if (item.Type === appConstant.CAMP_ACCOMODATION) {
       if (
         item.Details &&
@@ -149,19 +163,19 @@ const JourneyDetail = props => {
         if (dictDetail.Classification) {
           let tempC = dictDetail.Classification;
           if (tempC === appConstant.PLATFORM) {
-            return <IMAGE_OFFSHORE_SVG />;
+            return <Images.IMAGE_OFFSHORE_SVG />;
           }
           // else if (tempC === appConstant.BED) {
           //   return <IMAGE_SITE_ACCOMODATION_SVG />;
           // }
           else {
-            return <IMAGE_SITE_ACCOMODATION_SVG />;
+            return <Images.IMAGE_SITE_ACCOMODATION_SVG />;
           }
         }
-        return <IMAGE_SITE_ACCOMODATION_SVG />;
+        return <Images.IMAGE_SITE_ACCOMODATION_SVG />;
       }
     } else if (item.Type === appConstant.COMMERCIAL_FLIGHT) {
-      return <IMAGE_COMMERCIAL_FLIGHT_SVG />;
+      return <Images.IMAGE_COMMERCIAL_FLIGHT_SVG />;
     } else if (
       item.type === appConstant.BUS ||
       item.type === appConstant.DRIVE_IN_OUT_TRANSPORT
@@ -175,16 +189,16 @@ const JourneyDetail = props => {
         if (dictDetail.Classification) {
           let tempC = dictDetail.Classification;
           if (tempC === appConstant.BUS || tempC === appConstant.COACH) {
-            return <IMAGE_BUS_SVG />;
+            return <Images.IMAGE_BUS_SVG />;
           } else {
-            return <IMAGE_CAR_SVG />;
+            return <Images.IMAGE_CAR_SVG />;
           }
         }
       }
     } else if (item.type === appConstant.HOTEL) {
-      return <IMAGE_HOTEL_SVG />; // because, Hotel Accommodation has all categories in Hotel
+      return <Images.IMAGE_HOTEL_SVG />; // because, Hotel Accommodation has all categories in Hotel
     } else if (item.type === appConstant.CAR_HIRE) {
-      return <IMAGE_CAR_SVG />;
+      return <Images.IMAGE_CAR_SVG />;
     } else if (item.type === appConstant.OTHER_GROUND_TRANSPORT) {
       // console.log(' OTHER_GROUND_TRANSPORT ', item);
       if (
@@ -196,18 +210,18 @@ const JourneyDetail = props => {
         if (dictDetail.Classification) {
           let tempC = dictDetail.Classification;
           if (tempC === appConstant.HELICOPTER) {
-            return <IMAGE_HELICOPTER_SVG />;
+            return <Images.IMAGE_HELICOPTER_SVG />;
           } else if (tempC === appConstant.WATERCRAFT) {
-            return <IMAGE_MARINE_TRANSFER_SVG />;
+            return <Images.IMAGE_MARINE_TRANSFER_SVG />;
           } else if (tempC === appConstant.COACH) {
-            return <IMAGE_BUS_SVG />;
+            return <Images.IMAGE_BUS_SVG />;
           }
         }
       }
     } else if (item.type === appConstant.TBA) {
-      return <IMAGE_HANDSHAKE_SVG />;
+      return <Images.IMAGE_HANDSHAKE_SVG />;
     } else {
-      return <IMAGE_BUS_SVG />;
+      return <Images.IMAGE_BUS_SVG />;
     }
   };
 
@@ -307,11 +321,14 @@ const JourneyDetail = props => {
                       alignItems: 'center',
                     },
                   ]}>
-                  <Image
+                  <View style={styles.viewPlaneImg}>
+                    {returnSupplierCodeImage('AF')}
+                  </View>
+                  {/* <Image
                     source={imageConstant.IMAGE_CHARTER_FLIGHT_PNG}
                     resizeMode={'contain'}
                     style={styles.imagePlan}
-                  />
+                  /> */}
                   <Text style={styles.flightNumber}>QF329</Text>
                   <Text style={styles.flightCodeNumber}>(A320-200)</Text>
                 </View>
@@ -336,7 +353,7 @@ const JourneyDetail = props => {
             <View style={styles.viewLocation}>
               {item.Type === appConstant.CAMP_ACCOMODATION ||
               item.Type === appConstant.HOTEL ? (
-                <Text style={styles.textBlueBig}>CheckIn:</Text>
+                <Text style={styles.textBlueBig}>Check-In:</Text>
               ) : item.Type === appConstant.CAR_HIRE ? (
                 <Text style={styles.textBlueBig}>Pick-Up:</Text>
               ) : (
@@ -363,7 +380,7 @@ const JourneyDetail = props => {
               <View style={styles.viewSpace} />
               {item.Type === appConstant.CAMP_ACCOMODATION ||
               item.Type === appConstant.HOTEL ? (
-                <Text style={styles.textBlueBig}>CheckOut:</Text>
+                <Text style={styles.textBlueBig}>Check-Out:</Text>
               ) : item.Type === appConstant.CAR_HIRE ? (
                 <Text style={styles.textBlueBig}>Drop-off:</Text>
               ) : (
@@ -393,7 +410,7 @@ const JourneyDetail = props => {
               ) : (
                 <Text style={styles.textBlueBig}>Duration:</Text>
               )}
-              <Text style={styles.textBlack}>1h 00m 0 Stops</Text>
+              <Text style={styles.textBlack}>-</Text>
             </View>
 
             <View style={styles.viewLocation}>
@@ -412,22 +429,22 @@ const JourneyDetail = props => {
                 <>
                   <View style={styles.viewSpace} />
                   <Text style={styles.textBlueBig}>Room:</Text>
-                  <Text style={styles.textBlack}>A-101A</Text>
+                  <Text style={styles.textBlack}>-</Text>
                   <View style={styles.viewSpace} />
                   <Text style={styles.textBlueBig}>Locker:</Text>
-                  <Text style={styles.textBlack}>A-099</Text>
+                  <Text style={styles.textBlack}>-</Text>
                   <View style={styles.viewSpace} />
                   <Text style={styles.textBlueBig}>Phone:</Text>
-                  <Text style={styles.textBlack}>08 6587 5698</Text>
+                  <Text style={styles.textBlack}>-</Text>
                   <View style={styles.viewSpace} />
                   <Text style={styles.textBlueBig}>Muster 1:</Text>
-                  <Text style={styles.textBlack}>Car Park</Text>
+                  <Text style={styles.textBlack}>-</Text>
                   <View style={styles.viewSpace} />
                   <Text style={styles.textBlueBig}>Muster 2:</Text>
-                  <Text style={styles.textBlack}>N/A</Text>
+                  <Text style={styles.textBlack}>-</Text>
                   <View style={styles.viewSpace} />
                   <Text style={styles.textBlueBig}>Tag/Token:</Text>
-                  <Text style={styles.textBlack}>Not Assigned</Text>
+                  <Text style={styles.textBlack}>-</Text>
                 </>
               )}
             </View>
@@ -469,7 +486,7 @@ const JourneyDetail = props => {
                 <>
                   <View style={styles.viewSpace} />
                   <Text style={styles.textBlueBig}>Booking #</Text>
-                  <Text style={styles.textBlack}>PDD273</Text>
+                  <Text style={styles.textBlack}>-</Text>
                 </>
               )}
             </View>
@@ -481,9 +498,7 @@ const JourneyDetail = props => {
                 <>
                   <View style={styles.viewSpace} />
                   <Text style={styles.textBlueBig}>Ticket #</Text>
-                  <Text style={styles.textNotConfirmedInBox}>
-                    Not yet ticketed
-                  </Text>
+                  <Text style={styles.textBlack}>-</Text>
                 </>
               )}
             </View>
@@ -651,7 +666,9 @@ const JourneyDetail = props => {
             </View>
 
             {/* Itinerary Details */}
-            <View style={{marginTop: getOrientation() === 'portrait' ? '8%' : '5%'}} />
+            <View
+              style={{marginTop: getOrientation() === 'portrait' ? '8%' : '5%'}}
+            />
             <Text style={styles.textBlackTitle}>Itinerary Details</Text>
             {responseDetail &&
             responseDetail.journeyDetail &&
