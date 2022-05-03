@@ -36,6 +36,7 @@ export const getUserProfile = argumentData => {
         data: response,
       }).then(response => {
         let response1 = response?.data?.data;
+       // alert(" profile response "+" "+JSON.stringify(response1)); 
         return response1;
       }),
     )

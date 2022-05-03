@@ -394,7 +394,11 @@ export default StyleSheet.create({
     color: appColor.BLACK,
     flexWrap: 'wrap',
   },
-
+dayNumberText:{
+  fontFamily: fontConstant.BARLOW_REGULAR,
+  fontSize: fontConstant.TEXT_10_SIZE_REGULAR,
+  color: appColor.BLACK,
+},
   textBusBookValue: {
     fontFamily: fontConstant.BARLOW_REGULAR,
     fontSize: fontConstant.TEXT_14_SIZE_REGULAR,

@@ -34,7 +34,7 @@ import {requestToGetJourneyDetail} from './JourneyDetail.action';
 import {getTimeInFormat} from '../../component/BookingCard';
 import {supplierType} from '../../utils/supplierType.json';
 import {Images} from '../../constant/SvgImgConst';
-
+import moment from 'moment';
 const JourneyDetail = props => {
   const [orientation, setOrientation] = React.useState('portrait');
 
@@ -128,10 +128,24 @@ const JourneyDetail = props => {
     return 'Total Time ' + strTime;
   };
 
-  
-  const returnSupplierCodeImage = supplierType1 => {
-    const image = Images[supplierType1];
-    return image();
+  const returnSupplierCodeImage = item => {
+
+    if(item.Details &&
+      item.Details.length > 0 &&
+      item.Details[0].Flight){
+      let flightStr = item.Details[0].Flight; 
+      let supplierType1 = flightStr.slice(0,2); 
+      //let supplierType1;
+    //  console.log(" item is supplier code supplierType1 ----> ", supplierType1);
+//supplierType1 = 'AI'
+      const image = Images[supplierType1];
+
+      console.log(" item  image ----> ", image);
+
+      return image();
+    } 
+    return null
+   
   };
   {
     /* if(supplierType.AIR_CANADA === appConstant.AIR_CANADA){
@@ -225,10 +239,62 @@ const JourneyDetail = props => {
     }
   };
 
+  const ConvertSectoDay = n => {
+    var day = parseInt(n / (24 * 3600));
+    console.log('------------->');
+    n = n % (24 * 3600);
+    var hour = parseInt(n / 3600);
+
+    n %= 3600;
+    var minutes = n / 60;
+
+    n %= 60;
+    var seconds = n;
+
+    let strToSend = '';
+    if (day > 0) {
+      strToSend = day + ' ' + 'days ';
+    }
+    if (hour > 0) {
+      strToSend = strToSend + ' ' + hour + ' ' + 'hours';
+    }
+    if (minutes > 0) {
+      strToSend = strToSend + ' ' + minutes + ' ' + 'minutes';
+    }
+    if (seconds > 0) {
+      strToSend = strToSend + ' ' + seconds + ' ' + 'seconds';
+    }
+
+    return strToSend;
+  };
+
   const itemViews = (item, type, index) => {
     let isNoShowBtnVisible = false; // This flag is using to show no show button for flights only
     // console.log('itemdetals+-+-+', item);
     // const  [width, setWidth]  = useState(200);
+    const endDate =
+      item.Details[0] && item.Details[0].EndDate ? item.Details[0].EndDate : '';
+    const startDate =
+      item.Details[0] && item.Details[0].StartDate
+        ? item.Details[0].StartDate
+        : '';
+
+    var formatStartDate = moment(startDate);
+    var formatEndDate = moment(endDate);
+    let days = 0;
+    let duration = '';
+    if (formatStartDate && formatEndDate) {
+      days = formatEndDate.diff(formatStartDate, 'days');
+      let hours = formatEndDate.diff(formatStartDate, 'hours');
+      // let minutes = formatEndDate.diff(formatStartDate, 'minutes');
+
+      let seconds = formatEndDate.diff(formatStartDate, 'seconds');
+
+      if (seconds) {
+        duration = ConvertSectoDay(seconds);
+        console.log(' duration days------->  ', duration);
+      }
+    }
 
     return (
       <View
@@ -321,15 +387,19 @@ const JourneyDetail = props => {
                       alignItems: 'center',
                     },
                   ]}>
-                  <View style={styles.viewPlaneImg}>
-                    {returnSupplierCodeImage('AF')}
+                  <View style={styles.imagePlan}>
+                    {returnSupplierCodeImage(item)}
                   </View>
                   {/* <Image
                     source={imageConstant.IMAGE_CHARTER_FLIGHT_PNG}
                     resizeMode={'contain'}
                     style={styles.imagePlan}
                   /> */}
-                  <Text style={styles.flightNumber}>QF329</Text>
+                {item.Details &&
+      item.Details.length > 0 &&
+      item.Details[0].Flight ? <Text style={styles.flightNumber}>{item.Details &&
+        item.Details.length > 0 &&
+        item.Details[0].Flight}</Text> : null}
                   <Text style={styles.flightCodeNumber}>(A320-200)</Text>
                 </View>
               </>
@@ -394,13 +464,25 @@ const JourneyDetail = props => {
                   ? item.Details[0].Destination
                   : '-'}
               </Text>
-              <Text style={styles.textBlack}>
-                {item.Details &&
-                item.Details.length > 0 &&
-                item.Details[0].EndDate
-                  ? getTimeInFormat(item.Details[0].EndDate, false, true)
-                  : '-'}
-              </Text>
+              <View style={{flexDirection: 'row'}}>
+                <Text
+                  style={[
+                    styles.textBlack,
+                    {alignItems: 'flex-end', lineHeight: 25},
+                  ]}>
+                  {item.Details &&
+                  item.Details.length > 0 &&
+                  item.Details[0].EndDate
+                    ? getTimeInFormat(item.Details[0].EndDate, false, true)
+                    : '-'}
+                </Text>
+                {days > 0 && (
+                  <Text
+                    style={[styles.dayNumberText, {alignItems: 'flex-start'}]}>
+                    {' +' + days}
+                  </Text>
+                )}
+              </View>
             </View>
 
             <View style={styles.viewLocation}>
@@ -410,7 +492,7 @@ const JourneyDetail = props => {
               ) : (
                 <Text style={styles.textBlueBig}>Duration:</Text>
               )}
-              <Text style={styles.textBlack}>-</Text>
+              <Text style={styles.textBlack}>{duration ? duration : '-'}</Text>
             </View>
 
             <View style={styles.viewLocation}>

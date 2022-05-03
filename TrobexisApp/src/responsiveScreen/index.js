@@ -66,12 +66,12 @@ const listenOrientationChange = setOrientation => {
 
 const getOrientation = () => {
   let orientation = screenWidth < screenHeight ? 'portrait' : 'landscape';
-  console.log('getOrientation', orientation);
+  // console.log('getOrientation', orientation);
   return orientation;
 };
 const testgetOrientation = data => {
   let orientation = screenWidth < screenHeight ? 'portrait' : 'landscape';
-  console.log('testgetOrientation', orientation, data);
+  // console.log('testgetOrientation', orientation, data);
   return orientation;
 };
 /**

@@ -52,14 +52,14 @@ const HomeScreen = props => {
   var countBack = 0;
 
   useEffect(() => {
-    console.log('setOrientation', orientation);
+   
     lor(setOrientation);
     return () => {
       rol();
     };
   }, [orientation]);
 
-  console.log('response====>', response.itinaryListAllJourney);
+ 
 
   // const setAlertShowFromHeader = value => {
   //   setIsAlertShow(value);
@@ -73,6 +73,7 @@ const HomeScreen = props => {
           user: response,
           navigation: props.navigation,
         };
+        // alert(" Dashboard params to call api"+" "+JSON.stringify(param));
         dispatch(requestToGetUserProfile(param));
         // dispatch(requestToGetApprovalList(param));
       });
