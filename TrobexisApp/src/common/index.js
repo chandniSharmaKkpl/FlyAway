@@ -75,6 +75,31 @@ export const getDateInFormat = (
   return '';
 };
 
+export const getDateInFormatNoTime = (
+  dateString,
+  
+) => {
+  if (dateString) {
+    let dateTemp = Date.parse(dateString);
+    // Need to show same date format in all app
+
+    let formattedDate = format(dateTemp, 'dd MMMM yyyy');
+    return formattedDate;
+    // if (isShortDayName) {
+    //   let formattedDate = format(dateTemp, 'EE, MMMM dd yyyy');
+    //   return formattedDate;
+    // } else if (isCompleteDayName) {
+      // let formattedDate = format(dateTemp, 'EEEE, MMMM dd yyyy');
+      // return formattedDate;
+    // } else {
+    // let formattedDate = format(dateTemp, 'dd-MM-yyyy');
+    // return formattedDate;
+    // }
+  }
+  return '';
+};
+
+
 export function isError(params) {
   if (params.code && Number.isInteger(params.code)) {
     switch (params.code) {

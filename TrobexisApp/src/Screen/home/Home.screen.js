@@ -73,8 +73,9 @@ const HomeScreen = props => {
           user: response,
           navigation: props.navigation,
         };
-        // alert(" Dashboard params to call api"+" "+JSON.stringify(param));
+
         dispatch(requestToGetUserProfile(param));
+
         // dispatch(requestToGetApprovalList(param));
       });
     });
@@ -95,7 +96,7 @@ const HomeScreen = props => {
   }, []);
 
   const handleBackButtonClick = () => {
-    countBack = countBack + 1;
+    // countBack = countBack + 1;
     console.log(' back count Homeview  ', countBack);
 
     // if (countBack > 1)

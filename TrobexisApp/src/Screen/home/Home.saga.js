@@ -14,6 +14,7 @@ import workerHandleError from '../../api/sagaRoot/global.saga';
 export function* workerGetUserProfile(argumentData) {
   try {
     const userProfile = yield call(getUserProfile, argumentData.payload);
+    alert("userProfile in saga"+JSON.stringify(userProfile));
     if (isError(userProfile)) {
       //** For showing global error message  */
       yield put({
@@ -42,8 +43,7 @@ export function* workerGetUserProfile(argumentData) {
       yield call(workerGetApprovalList, argumentData);
     }
   } catch (error) {
-    console.log(' worker saga called error  ', error);
-
+    alert("userProfile error in saga"+JSON.stringify(error));
     //** For showing global error message  */
     yield put({
       type: actionConstant.ACTION_API_ERROR_SUCCESS,

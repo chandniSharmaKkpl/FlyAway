@@ -70,11 +70,6 @@ function PushController(props) {
       })();
 
       const unsubscribe = messaging().onMessage(async remoteMessage => {
-        console.log('remoteMessage data props ', remoteMessage);
-        console.log(
-          'remoteMessage data props ',
-          remoteMessage,
-        );
 
         if (
           remoteMessage &&
@@ -83,41 +78,41 @@ function PushController(props) {
         ) {
           let dictAuthenticate = JSON.parse(remoteMessage.data.authenticate);
 
-         console.log('dictAuthenticate data ----------> ', dictAuthenticate);
+          //  console.log('dictAuthenticate data ----------> ', dictAuthenticate);
 
-         alert("Remote message data authenticate json response"+" "+JSON.stringify(dictAuthenticate))
+          alert(
+            'Remote message data authenticate json response' +
+              ' ' +
+              JSON.stringify(remoteMessage),
+          );
           if (dictAuthenticate.status === 'SUCCESS') {
             let userId = dictAuthenticate.userId;
             // localDb.setUserId(userId);
-             console.log('userid -------------->', userId);
+            alert('Remote message get userID from response' + ' ' + userId);
+            if (userId) {
+              const tempUser = localDb.getUser();
 
-             alert("Remote message get userID from response"+" "+ userId)
+              Promise.resolve(tempUser).then(response => {
 
+                let tempDict = response;
+                tempDict.userId = userId;
 
-            const tempUser = localDb.getUser();
+                localDb.setUser(tempDict);
 
-            Promise.resolve(tempUser).then(response => {
-
-              console.log('tempUser -------------->', tempUser);
-
-              alert("Local storage user get"+" "+ JSON.stringify(tempUser));
-
-              let tempDict = response;
-              tempDict.userId = userId;
-              console.log(
-                ' in push notification -+-+---',
-                remoteMessage.notification.body,
-              );
-              localDb.setUser(tempDict);
-
-              props.navigation.navigate(appConstant.DRAWER_NAVIGATOR);
-              if (!isSuccessMsgShow) {
-                isSuccessMsgShow = true;
-                toast.show(remoteMessage.notification.body, {
-                  type: alertMsgConstant.TOAST_SUCCESS,
-                });
-              }
-            });
+                props.navigation.navigate(appConstant.DRAWER_NAVIGATOR);
+                // if (!isSuccessMsgShow)
+                 {
+                  isSuccessMsgShow = true;
+                  toast.show(remoteMessage.notification.body, {
+                    type: alertMsgConstant.TOAST_SUCCESS,
+                  });
+                }
+              });
+            }else{
+              toast.show('Userid not receiving', {
+                type: alertMsgConstant.TOAST_DANGER,
+              });
+            }
           }
         } else {
           toast.show('Authentication Issue', {
@@ -128,7 +123,7 @@ function PushController(props) {
 
       const backgndHandler = messaging().setBackgroundMessageHandler(
         async remoteMessage => {
-          console.log('Message handled in the background!', remoteMessage);
+          // console.log('Message handled in the background!', remoteMessage);
           // console.log('remoteMessage data props ', remoteMessage.data);
           // console.log(
           //   'remoteMessage data props ',
@@ -144,17 +139,18 @@ function PushController(props) {
 
             // console.log('dictAuthenticate data  ', dictAuthenticate);
 
-          //  alert(" background msg recive remote msg data authenticate", JSON.stringify(dictAuthenticate))
+            alert(
+              ' background msg recive remote msg data authenticate',
+              JSON.stringify(dictAuthenticate),
+            );
 
             if (dictAuthenticate.status === 'SUCCESS') {
-
               let userId = dictAuthenticate.userId;
               // localDb.setUserId(userId);
               // console.log('userid -->', userId);
               const tempUser = localDb.getUser();
 
-            //  alert(" background msg recive userid", userId)
-
+              //  alert(" background msg recive userid", userId)
 
               Promise.resolve(tempUser).then(response => {
                 let tempDict = response;
@@ -162,8 +158,7 @@ function PushController(props) {
                 console.log(' in push notification -===--', remoteMessage);
                 localDb.setUser(tempDict);
 
-              //  alert(" background msg recive local user", JSON.stringify(tempDict)); 
-
+                //  alert(" background msg recive local user", JSON.stringify(tempDict));
 
                 props.navigation.navigate(appConstant.DRAWER_NAVIGATOR);
                 let tempAtuhtenticate = dictAuthenticate;

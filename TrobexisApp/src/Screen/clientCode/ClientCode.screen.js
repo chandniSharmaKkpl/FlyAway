@@ -4,6 +4,7 @@ import {
   Text,
   Image,
   FlatList,
+  Alert,
   ImageBackground,
   Pressable,
   TextInput,
@@ -69,6 +70,8 @@ const ClientCodeScreen = props => {
   //const [countBack, setCountBack] = React.useState(0)
   var countBack = 0;
 
+console.log("isAlertShow =====>", isAlertShow);
+
   const optionalConfigObject = {
     title: 'Authentication Required', // Android
     imageColor: '#e00606', // Android
@@ -110,6 +113,18 @@ const ClientCodeScreen = props => {
     }, []),
   );
 
+  const handleBackAction = () => {
+    Alert.alert("Exit app", "Are you sure you want to go back?", [
+      {
+        text: "Cancel",
+        onPress: () => null,
+        style: "cancel"
+      },
+      { text: "YES", onPress: () => BackHandler.exitApp() }
+    ]);
+    return true;
+  };
+
   React.useEffect(() => {
     const unsubscribe = props.navigation.addListener('focus', () => {
       const tempUser = localDB.getUser();
@@ -123,15 +138,22 @@ const ClientCodeScreen = props => {
       });
     });
 
-    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    // BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
 
     return () => {
-      BackHandler.removeEventListener(
-        'hardwareBackPress',
-        handleBackButtonClick,
-      );
-      unsubscribe;
+      // BackHandler.removeEventListener(
+      //   'hardwareBackPress',
+      //   handleBackButtonClick,
+      // );
+      unsubscribe;      
     };
+  }, []);
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", handleBackAction);
+
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", handleBackAction);
   }, []);
 
   //** Getting client codes from the async storage  */
@@ -161,8 +183,9 @@ const ClientCodeScreen = props => {
   };
 
   const handleBackButtonClick = () => {
-    countBack = countBack + 1;
-    if (countBack > 1) {
+    // countBack = countBack + 1;
+    // if (countBack > 1) 
+    {
       setIsAlertShow(true);
     }
     return true;
@@ -250,7 +273,8 @@ const ClientCodeScreen = props => {
       <ImageBackground
         source={imageConstant.IMAGE_LOGIN_BACKGROUND}
         style={commonStyle.image}
-        resizeMode={'cover'}>
+        resizeMode={'cover'}
+        >
         <KeyboardAwareScrollView>
           <View style={styles.logoImage}>
             <Image
@@ -261,6 +285,7 @@ const ClientCodeScreen = props => {
           </View>
           <View style={styles.titleView}>
             <Text style={styles.titleStyle}>Client Code</Text>
+            <Text style={{textAlign: 'center'}}>App Version 2.5(3.0)</Text>
           </View>
 
           <View style={styles.inputView}>
@@ -310,11 +335,11 @@ const ClientCodeScreen = props => {
                 <Text style={styles.loginBtnText}>Login with TouchID/FaceID</Text>
               </Pressable> :null} */}
           </View>
-          {/* <TextInput 
+          <TextInput 
               value={deviceInfo.device_token? deviceInfo.device_token: ''}
               style={styles.tokenStyle}
               multiline={true}
-            /> */}
+            />
         </KeyboardAwareScrollView>
       </ImageBackground>
 
@@ -323,6 +348,8 @@ const ClientCodeScreen = props => {
       ) : null}
 
       {isAlertShow ? (
+        // console.log("AlertView  ===>  res", isAlertShow)
+        // alert()
         <AlertView
           title={alertMsgConstant.PLEASE_CONFIRM}
           subtitle={alertMsgConstant.EXIT_CONFIRM}
@@ -332,7 +359,8 @@ const ClientCodeScreen = props => {
           bigBtnText={''}
           onPressConfirmBtn={() => {
             setIsAlertShow(false);
-            BackHandler.exitApp();
+            alert("exit")
+            BackHandler.exitApp()
           }}
           onPressCancel={() => {
             setIsAlertShow(false);

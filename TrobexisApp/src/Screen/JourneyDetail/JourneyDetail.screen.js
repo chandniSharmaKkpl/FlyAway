@@ -21,7 +21,7 @@ import {
   alertMsgConstant,
   appColor,
 } from '../../constant';
-import {getDateInFormat, msToTime} from '../../common';
+import {getDateInFormat, msToTime, getDateInFormatNoTime} from '../../common';
 import {useRoute} from '@react-navigation/core';
 import {
   heightPercentageToDP as hp,
@@ -35,6 +35,8 @@ import {getTimeInFormat} from '../../component/BookingCard';
 import {supplierType} from '../../utils/supplierType.json';
 import {Images} from '../../constant/SvgImgConst';
 import moment from 'moment';
+import {ConfirmedStatus} from '../../utils/JourneyDetailsStatus';
+
 const JourneyDetail = props => {
   const [orientation, setOrientation] = React.useState('portrait');
 
@@ -52,7 +54,15 @@ const JourneyDetail = props => {
   const [arrayRoutes, setArrayRoutes] = useState([]);
   const [lwidth, setlWidth] = useState(100);
   const [lheight, setlHeight] = useState(102);
+  const [status, setStatus] = useState('Confirmed Itinerary');
 
+  const checkStatus = incomingstatus => {
+    if (!ConfirmedStatus.includes(incomingstatus)) {
+      setTimeout(() => {
+        setStatus('Draft Itinerary');
+      }, 500);
+    }
+  };
   console.log(
     'responseDetail +-+-+',
     JSON.stringify(responseDetail.journeyDetail.Itinerarys, null, 4),
@@ -129,23 +139,20 @@ const JourneyDetail = props => {
   };
 
   const returnSupplierCodeImage = item => {
-
-    if(item.Details &&
-      item.Details.length > 0 &&
-      item.Details[0].Flight){
-      let flightStr = item.Details[0].Flight; 
-      let supplierType1 = flightStr.slice(0,2); 
+    if (item.Details && item.Details.length > 0 && item.Details[0].Flight) {
+      let flightStr = item.Details[0].Flight;
+      let supplierType1 = flightStr.slice(0, 2);
+      console.log('flightStr  ==>', flightStr);
       //let supplierType1;
-    //  console.log(" item is supplier code supplierType1 ----> ", supplierType1);
-//supplierType1 = 'AI'
+      //  console.log(" item is supplier code supplierType1 ----> ", supplierType1);
+      //supplierType1 = 'AI'
       const image = Images[supplierType1];
 
-      console.log(" item  image ----> ", image);
+      console.log(' item  image ----> ', image);
 
-      return image();
-    } 
-    return null
-   
+      return image && image();
+    }
+    return null;
   };
   {
     /* if(supplierType.AIR_CANADA === appConstant.AIR_CANADA){
@@ -366,11 +373,11 @@ const JourneyDetail = props => {
                 )
               </Text>
 
-              <Text style={[styles.textBlack, styles.subTitle]}>
+              <Text style={[styles.textBlack, styles.subTitle,{paddingTop:'2%'}]}>
                 {item.Details &&
                 item.Details.length > 0 &&
                 item.Details[0].StartDate
-                  ? getDateInFormat(item.Details[0].StartDate, false, true)
+                  ? getDateInFormatNoTime(item.Details[0].StartDate, false, true)
                   : ''}
               </Text>
             </View>
@@ -395,12 +402,16 @@ const JourneyDetail = props => {
                     resizeMode={'contain'}
                     style={styles.imagePlan}
                   /> */}
-                {item.Details &&
-      item.Details.length > 0 &&
-      item.Details[0].Flight ? <Text style={styles.flightNumber}>{item.Details &&
-        item.Details.length > 0 &&
-        item.Details[0].Flight}</Text> : null}
-                  <Text style={styles.flightCodeNumber}>(A320-200)</Text>
+                  {item.Details &&
+                  item.Details.length > 0 &&
+                  item.Details[0].Flight ? (
+                    <Text style={styles.flightNumber}>
+                      {item.Details &&
+                        item.Details.length > 0 &&
+                        item.Details[0].Flight}
+                    </Text>
+                  ) : null}
+                  {/* <Text style={styles.flightCodeNumber}>(A320-200)</Text> */}
                 </View>
               </>
             )}
@@ -588,7 +599,7 @@ const JourneyDetail = props => {
             <View style={styles.viewLocation}>
               <View style={styles.viewSpace}>
                 <Text style={styles.textBlueBig}>Status:</Text>
-                {item.Status === 'Booked' ? (
+                {item.Status === 'Booked' || item.Status === 'Reserved' ? (
                   <Text style={styles.textConfirmedInBox}>Confirmed</Text>
                 ) : (
                   <Text style={styles.textNotConfirmedInBox}>
@@ -752,21 +763,18 @@ const JourneyDetail = props => {
               style={{marginTop: getOrientation() === 'portrait' ? '8%' : '5%'}}
             />
             <Text style={styles.textBlackTitle}>Itinerary Details</Text>
+
             {responseDetail &&
             responseDetail.journeyDetail &&
-            responseDetail.journeyDetail.Status ? (
-              responseDetail.journeyDetail.Status === 'Booked' ? (
+            responseDetail.journeyDetail.Itinerarys &&
+            responseDetail.journeyDetail.Itinerarys.length > 0 ? (
+              status === 'Confirmed Itinerary' ? (
                 <Text style={styles.textConfirmed}>Confirmed Itinerary</Text>
               ) : (
                 <Text style={styles.textNotConfirmed}>Draft Itinerary</Text>
               )
             ) : null}
-            {/* {console.log(
-              'A-+-+-+-+-+-+',
-              responseDetail
-                ? JSON.stringify(responseDetail, null, 4)
-                : null,
-            )} */}
+
             {responseDetail &&
             responseDetail.journeyDetail &&
             responseDetail.journeyDetail.Itinerarys &&
@@ -775,6 +783,7 @@ const JourneyDetail = props => {
                   item,
                   index,
                 ) {
+                  checkStatus(item.Status);
                   return itemViews(item, imageConstant.IMAGE_PLANE, index);
                 })
               : null}

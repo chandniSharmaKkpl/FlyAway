@@ -14,6 +14,8 @@ export const getUserProfile = argumentData => {
   let apiBaseUrl = argumentData.user.apiBaseUrl;
   let clientToken = argumentData.user.clientToken;
   let userId = argumentData.user.userId;
+  console.log("getuser profile params to call api"+" "+"Deviceid->"+deviceId+"apibase url->"+apiBaseUrl+"Client token->"+clientToken+"userId->"+userId);
+  alert("getuser profile params to call api"+" "+"Deviceid->"+deviceId+"apibase url->"+apiBaseUrl+"Client token->"+clientToken+"userId->"+userId);
 
   let instance = axios.create({
     baseURL: apiBaseUrl,
@@ -35,13 +37,16 @@ export const getUserProfile = argumentData => {
       Promise.resolve({
         data: response,
       }).then(response => {
+        alert(" profile response "+" "+JSON.stringify(response)); 
         let response1 = response?.data?.data;
-       // alert(" profile response "+" "+JSON.stringify(response1)); 
         return response1;
       }),
     )
     .catch(err => {
-      console.log('42 api Erorr: ', err.response);
+     // console.log('42 api Erorr: ', err.response);
+      alert("Error profile response "+ JSON.stringify(err?.response));
+
+      
 
       return err?.response?.data
         ? err?.response?.data
