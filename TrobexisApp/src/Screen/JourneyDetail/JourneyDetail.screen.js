@@ -63,10 +63,10 @@ const JourneyDetail = props => {
       }, 500);
     }
   };
-  console.log(
-    'responseDetail +-+-+',
-    JSON.stringify(responseDetail.journeyDetail.Itinerarys, null, 4),
-  );
+  // console.log(
+  //   'responseDetail +-+-+',
+  //   JSON.stringify(responseDetail.journeyDetail.Itinerarys, null, 4),
+  // );
 
   useEffect(() => {
     // console.log('setOrientation', orientation);
@@ -106,7 +106,7 @@ const JourneyDetail = props => {
   }, []);
 
   const handleBackButtonClick = () => {
-    console.log(' alert show ', isAlertShow);
+    // console.log(' alert show ', isAlertShow);
     // eslint-disable-next-line no-lone-blocks
     {
       if (route.params && route.params.callingView) {
@@ -142,13 +142,13 @@ const JourneyDetail = props => {
     if (item.Details && item.Details.length > 0 && item.Details[0].Flight) {
       let flightStr = item.Details[0].Flight;
       let supplierType1 = flightStr.slice(0, 2);
-      console.log('flightStr  ==>', flightStr);
+      // console.log('flightStr  ==>', flightStr);
       //let supplierType1;
       //  console.log(" item is supplier code supplierType1 ----> ", supplierType1);
       //supplierType1 = 'AI'
       const image = Images[supplierType1];
 
-      console.log(' item  image ----> ', image);
+      // console.log(' item  image ----> ', image);
 
       return image && image();
     }
@@ -172,6 +172,7 @@ const JourneyDetail = props => {
   }
 
   const returnSvgImage = item => {
+    console.log("returnSvgImage ==> ",item.Type);
     if (item.Type === appConstant.CHARTER_FLIGHT) {
       return <Images.IMAGE_CHARTER_FLIGHT_SVG />;
     } else if (item.Type === appConstant.CAMP_ACCOMODATION) {
@@ -216,7 +217,7 @@ const JourneyDetail = props => {
           }
         }
       }
-    } else if (item.type === appConstant.HOTEL) {
+    } else if (item.type === appConstant.HOTEL_ACCOMMODATION) {
       return <Images.IMAGE_HOTEL_SVG />; // because, Hotel Accommodation has all categories in Hotel
     } else if (item.type === appConstant.CAR_HIRE) {
       return <Images.IMAGE_CAR_SVG />;
@@ -248,7 +249,7 @@ const JourneyDetail = props => {
 
   const ConvertSectoDay = n => {
     var day = parseInt(n / (24 * 3600));
-    console.log('------------->');
+    // console.log('------------->');
     n = n % (24 * 3600);
     var hour = parseInt(n / 3600);
 
@@ -277,7 +278,7 @@ const JourneyDetail = props => {
 
   const itemViews = (item, type, index) => {
     let isNoShowBtnVisible = false; // This flag is using to show no show button for flights only
-    // console.log('itemdetals+-+-+', item);
+    console.log('itemdetals+-+-+', JSON.stringify(item,null, 4));
     // const  [width, setWidth]  = useState(200);
     const endDate =
       item.Details[0] && item.Details[0].EndDate ? item.Details[0].EndDate : '';
@@ -299,7 +300,7 @@ const JourneyDetail = props => {
 
       if (seconds) {
         duration = ConvertSectoDay(seconds);
-        console.log(' duration days------->  ', duration);
+        // console.log(' duration days------->  ', duration);
       }
     }
 
@@ -308,7 +309,7 @@ const JourneyDetail = props => {
         style={styles.viewRowOutSide}
         onLayout={event => {
           var {x, y, width, height} = event.nativeEvent.layout;
-          console.log('Height =>>', height);
+          // console.log('Height =>>', height);
           setlWidth(getOrientation() === 'portrait' ? width - 82 : width - 115);
           setlHeight(getOrientation() === 'portrait' ? height : height - 20);
 
@@ -783,6 +784,7 @@ const JourneyDetail = props => {
                   item,
                   index,
                 ) {
+                // console.log("responseDetail.journeyDetail ==>",JSON.stringify(item,null, 4));
                   checkStatus(item.Status);
                   return itemViews(item, imageConstant.IMAGE_PLANE, index);
                 })

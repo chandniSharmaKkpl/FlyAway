@@ -11,7 +11,7 @@ const initialState = {
 };
 
 export default (state = initialState, {type, payload}) => {
-  console.log('type & paylod =>>', payload);
+  // console.log('type & paylod =>>', payload);
   switch (type) {
     // GET USER PROFILE
     case actionConstant.ACTION_GET_USER_PROFILE_REQUEST: {

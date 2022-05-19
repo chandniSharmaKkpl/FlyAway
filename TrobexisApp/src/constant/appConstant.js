@@ -29,6 +29,7 @@ export default {
   SETTING: 'Setting',
   SCAN: 'Scan',
   SUPPORT: 'Support',
+  ABOUT_APP_VERSION: 'AboutAppVersion',
 
   // Word constant
   COMMENT_MAX_LIMIT: 500,
@@ -41,6 +42,7 @@ export default {
   HOTEL: 'Hotel',
   OFFSHORE: 'Offshore',
   HELICOPTER: 'Helicopter',
+  HOTEL_ACCOMMODATION : 'Hotel Accommodation',
   TRANSFER: 'Transfer',
   MARINE_TRANSFER: 'Marine Transfer',
   TBA: 'TBA',

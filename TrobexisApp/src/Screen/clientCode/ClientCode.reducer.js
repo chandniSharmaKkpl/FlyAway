@@ -45,6 +45,7 @@ export default (state = initialState, {type, payload}) => {
     }
 
     case actionConstant.ACTION_GET_CLIENT_TOKEN_SUCCESS: {
+      console.log("clientToken ==>", payload);
       return {
         ...state,
         clientToken: payload,

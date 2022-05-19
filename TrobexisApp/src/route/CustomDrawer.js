@@ -8,6 +8,7 @@ import {
   View,
   ImageBackground,
   Text,
+  FlatList,
 } from 'react-native';
 import {
   widthPercentageToDP as wp,
@@ -32,6 +33,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/core';
 import localDb from '../database/localDb';
 import {AlertView} from '../component';
+import {Touchable} from 'react-native';
 
 export default CustomDrawer = () => {
   const navigation = useNavigation();
@@ -60,6 +62,29 @@ export default CustomDrawer = () => {
       </View>
     );
   };
+
+  const aboutApp = () => {
+    navigation.navigate(appConstant.ABOUT_APP_VERSION);
+  };
+
+  const menuName = [
+    {
+      id: 1,
+      name: 'About',
+      func: aboutApp,
+    },
+  ];
+
+  const Item = ({name, func}) => (
+    <Pressable onPress={func}>
+      <View style={styles.item}>
+        <Text style={styles.title}>{name}</Text>
+      </View>
+      <View style={styles.dividerLine}></View>
+    </Pressable>
+  );
+
+  const renderItem = ({item}) => <Item name={item.name} func={item.func} />;
 
   return (
     <>
@@ -97,6 +122,14 @@ export default CustomDrawer = () => {
                 </View>
               </View>
             </ImageBackground>
+
+            <View style={styles.container}>
+              <FlatList
+                data={menuName}
+                renderItem={renderItem}
+                keyExtractor={item => item.id}
+              />
+            </View>
 
             {/* Creating Drawer sections */}
 
@@ -163,6 +196,21 @@ export default CustomDrawer = () => {
 };
 
 const styles = StyleSheet.create({
+  item: {
+    padding: 20,
+  },
+  dividerLine: {
+    borderWidth: 0.3,
+    borderColor: appColor.GRAY_MIDIUM,
+  },
+  title: {
+    fontFamily: fontConstant.BARLOW_REGULAR,
+    fontSize: fontConstant.TEXT_16_SIZE_REGULAR,
+    color: appColor.BLACK,
+    paddingLeft: wp('1%'),
+    fontWeight: 'bold',
+  },
+
   iconLogout: {
     fontSize: 25,
     color: appColor.WHITE,
@@ -179,6 +227,7 @@ const styles = StyleSheet.create({
     paddingLeft: wp('1%'),
     fontWeight: 'bold',
   },
+
   textDrawerTitle: {
     fontFamily: fontConstant.BARLOW_REGULAR,
     fontSize: fontConstant.TEXT_16_SIZE_REGULAR,

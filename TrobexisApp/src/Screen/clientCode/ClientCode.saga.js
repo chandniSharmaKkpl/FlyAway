@@ -105,7 +105,7 @@ export function* workerGetClientTokenBaseOnApiBase(argumentData, apiBase) {
 //** Worker Account URL  */
 
 export function* workerGetAccountUrl(argumentData, apiBase, clientToken) {
-  console.log(' argument data ---', argumentData);
+  // console.log(' argument data ---', argumentData);
 
   try {
     const responseAccountUrl = yield call(
@@ -151,7 +151,7 @@ export function* workerGetAccountUrl(argumentData, apiBase, clientToken) {
         loginUrl: loginUrl,
         responseLoginUrl: responseLoginUrl,
         functionUrl: functionUrl,
-      // userId: 'P000000443', // Temp
+       userId: 'SHARRIS', // Temp
       };
       localDB.setUser(user);
 
@@ -176,9 +176,9 @@ export function* workerGetAccountUrl(argumentData, apiBase, clientToken) {
 
       // ** For stopping loader **//
       yield put(setLoader(false));
-      //  argumentData.navigation.navigate(appConstant.DRAWER_NAVIGATOR); // Temp
-      let dict = {loginUrl: loginUrl, responseLoginUrl: responseLoginUrl};
-      argumentData.navigation.navigate(appConstant.LOGIN, {data: dict});
+        argumentData.navigation.navigate(appConstant.DRAWER_NAVIGATOR); // Temp
+      // let dict = {loginUrl: loginUrl, responseLoginUrl: responseLoginUrl};
+      // argumentData.navigation.navigate(appConstant.LOGIN, {data: dict});
     }
   } catch (error) {
     yield put(setLoader(false));

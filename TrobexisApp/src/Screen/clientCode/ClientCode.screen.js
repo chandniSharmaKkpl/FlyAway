@@ -70,7 +70,7 @@ const ClientCodeScreen = props => {
   //const [countBack, setCountBack] = React.useState(0)
   var countBack = 0;
 
-console.log("isAlertShow =====>", isAlertShow);
+// console.log("isAlertShow =====>", isAlertShow);
 
   const optionalConfigObject = {
     title: 'Authentication Required', // Android
@@ -285,7 +285,7 @@ console.log("isAlertShow =====>", isAlertShow);
           </View>
           <View style={styles.titleView}>
             <Text style={styles.titleStyle}>Client Code</Text>
-            <Text style={{textAlign: 'center'}}>App Version 2.5(3.0)</Text>
+            {/* <Text style={{textAlign: 'center'}}>App Version 2.5(3.2)</Text> */}
           </View>
 
           <View style={styles.inputView}>
@@ -335,11 +335,11 @@ console.log("isAlertShow =====>", isAlertShow);
                 <Text style={styles.loginBtnText}>Login with TouchID/FaceID</Text>
               </Pressable> :null} */}
           </View>
-          <TextInput 
+          {/* <TextInput 
               value={deviceInfo.device_token? deviceInfo.device_token: ''}
               style={styles.tokenStyle}
               multiline={true}
-            />
+            /> */}
         </KeyboardAwareScrollView>
       </ImageBackground>
 

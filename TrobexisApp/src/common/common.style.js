@@ -13,6 +13,11 @@ export default StyleSheet.create({
     color: appColor.BLACK,
     padding: '5%',
   },
+  normalText : {
+    fontFamily: fontConstant.BARLOW_REGULAR,
+    fontSize: fontConstant.TEXT_14_SIZE_BOLD,
+    paddingHorizontal: '5%',
+  },
   image1: {
     flex: 1,
     justifyContent: 'center',

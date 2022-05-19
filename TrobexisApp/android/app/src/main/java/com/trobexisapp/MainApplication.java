@@ -1,4 +1,4 @@
-package com.trobexisapp;
+  package com.trobexisapp;
 
 import android.app.Application;
 import android.content.Context;
@@ -11,7 +11,7 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JSIModulePackage;
 import com.facebook.soloader.SoLoader;
 import com.swmansion.reanimated.ReanimatedJSIModulePackage;
-import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 

@@ -33,6 +33,7 @@ import JourneyDetail from '../Screen/JourneyDetail/JourneyDetail.screen';
 import ApprovalList from '../Screen/approvalList/ApprovalList.screen';
 import CustomDrawer from '../route/CustomDrawer';
 import Scan from '../Screen/scanScreen/Scan.screen';
+import AboutAppVersion from '../Screen/AboutAppVersion'
 import {useSelector, useDispatch} from 'react-redux';
 import {
   appColor,
@@ -59,6 +60,7 @@ function DrawerNavigator() {
       <Drawer.Screen name={appConstant.SCAN} component={Scan} />
 
       <Drawer.Screen name={appConstant.TAB} component={TabNavigator} />
+      <Drawer.Screen name={appConstant.ABOUT_APP_VERSION} component={AboutAppVersion} />
     </Drawer.Navigator>
   );
 }
@@ -259,7 +261,7 @@ function TabNavigator() {
     },
   });
 
-  console.log('navigate+-+-styles', styles);
+  // console.log('navigate+-+-styles', styles);
 
   return (
     <TabObject.Navigator

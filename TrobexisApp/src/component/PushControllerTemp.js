@@ -45,9 +45,6 @@ function PushController(props) {
             let device_info = {};
             if (deviceToken) {
               device_info.device_token = deviceToken ? deviceToken : '';
-
-              // alert(deviceToken);
-              console.log('deviceToken', deviceToken);
             }
             DeviceInfo.syncUniqueId().then(uniqueId => {
               device_info.device_uuid = uniqueId;
@@ -65,12 +62,10 @@ function PushController(props) {
             props.getDeviceInfo(device_info);
           });
         } else {
-          // alert('Permission not granted for notification');
         }
       })();
 
       const unsubscribe = messaging().onMessage(async remoteMessage => {
-
         if (
           remoteMessage &&
           remoteMessage.data &&
@@ -78,22 +73,13 @@ function PushController(props) {
         ) {
           let dictAuthenticate = JSON.parse(remoteMessage.data.authenticate);
 
-          //  console.log('dictAuthenticate data ----------> ', dictAuthenticate);
-
-          alert(
-            'Remote message data authenticate json response' +
-              ' ' +
-              JSON.stringify(remoteMessage),
-          );
           if (dictAuthenticate.status === 'SUCCESS') {
             let userId = dictAuthenticate.userId;
             // localDb.setUserId(userId);
-            alert('Remote message get userID from response' + ' ' + userId);
             if (userId) {
               const tempUser = localDb.getUser();
 
               Promise.resolve(tempUser).then(response => {
-
                 let tempDict = response;
                 tempDict.userId = userId;
 
@@ -101,14 +87,14 @@ function PushController(props) {
 
                 props.navigation.navigate(appConstant.DRAWER_NAVIGATOR);
                 // if (!isSuccessMsgShow)
-                 {
+                {
                   isSuccessMsgShow = true;
                   toast.show(remoteMessage.notification.body, {
                     type: alertMsgConstant.TOAST_SUCCESS,
                   });
                 }
               });
-            }else{
+            } else {
               toast.show('Userid not receiving', {
                 type: alertMsgConstant.TOAST_DANGER,
               });
@@ -123,13 +109,6 @@ function PushController(props) {
 
       const backgndHandler = messaging().setBackgroundMessageHandler(
         async remoteMessage => {
-          // console.log('Message handled in the background!', remoteMessage);
-          // console.log('remoteMessage data props ', remoteMessage.data);
-          // console.log(
-          //   'remoteMessage data props ',
-          //   remoteMessage,
-          // );
-
           if (
             remoteMessage &&
             remoteMessage.data &&
@@ -137,28 +116,17 @@ function PushController(props) {
           ) {
             let dictAuthenticate = JSON.parse(remoteMessage.data.authenticate);
 
-            // console.log('dictAuthenticate data  ', dictAuthenticate);
-
-            alert(
-              ' background msg recive remote msg data authenticate',
-              JSON.stringify(dictAuthenticate),
-            );
-
             if (dictAuthenticate.status === 'SUCCESS') {
               let userId = dictAuthenticate.userId;
               // localDb.setUserId(userId);
               // console.log('userid -->', userId);
               const tempUser = localDb.getUser();
 
-              //  alert(" background msg recive userid", userId)
-
               Promise.resolve(tempUser).then(response => {
                 let tempDict = response;
                 tempDict.userId = userId;
                 console.log(' in push notification -===--', remoteMessage);
                 localDb.setUser(tempDict);
-
-                //  alert(" background msg recive local user", JSON.stringify(tempDict));
 
                 props.navigation.navigate(appConstant.DRAWER_NAVIGATOR);
                 let tempAtuhtenticate = dictAuthenticate;
