@@ -39,6 +39,7 @@ import IMAGE_UNITED_AIRLINES_SVG from "../../assets/image/journey_detail/United_
 import IMAGE_VIRGIN_ATLANTIC_SVG from "../../assets/image/journey_detail/virgin_atlantic_airlines.svg";
 import IMAGE_VIRGIN_AUSTRALIA_SVG from "../../assets/image/journey_detail/virgin_australia_airlines.svg";
 import IMAGE_AIR_NEW_ZEALAND_SVG from "../../assets/image/journey_detail/new_zealand.svg";
+import IMAGE_REQUEST from '../../assets/image/home_page/Request.svg';
 
 export const Images = {
   IMAGE_BUS_SVG: IMAGE_BUS_SVG,
@@ -51,6 +52,7 @@ export const Images = {
   IMAGE_SITE_ACCOMODATION_SVG: IMAGE_SITE_ACCOMODATION_SVG,
   IMAGE_TRANSFER_SVG: IMAGE_TRANSFER_SVG,
   IMAGE_OFFSHORE_SVG: IMAGE_OFFSHORE_SVG,
+  IMAGE_REQUEST: IMAGE_REQUEST,
   "AI": IMAGE_AIR_INDIA_SVG,
   "AC": IMAGE_AIR_CANADA_SVG,
   "AF": IMAGE_AIR_FRANCE_SVG,

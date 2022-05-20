@@ -34,6 +34,7 @@ import {
   requestToGetBusStop,
   requestToGetAccessTokenBusBooking,
 } from './BusBooking.action';
+import { StatusBar } from 'react-native';
 
 const BusBookingScreen = props => {
   const [arrayBooking, setArrayBooking] = useState([1]); // All bookings data will get in this array

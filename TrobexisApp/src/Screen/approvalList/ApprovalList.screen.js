@@ -20,6 +20,7 @@ import {
   imageConstant,
   alertMsgConstant,
 } from '../../constant';
+import {Images} from '../../constant/SvgImgConst';
 import {useToast} from 'react-native-toast-notifications';
 
 import {requestGetApprovalListWithStatus} from './ApprovalList.action';
@@ -175,11 +176,12 @@ const ApprovalList = props => {
                 <Text style={styles.textTitle}>{itemDetail.requiredby}</Text>
                 <View style={styles.viewRow}>
                   <View style={styles.viewImages}>
-                    <Image
+                    {/* <Image
                       style={styles.image}
                       resizeMode={'contain'}
-                      source={imageConstant.IMAGE_PATH}
-                    />
+                      source={Images.IMAGE_REQUEST}
+                    /> */}
+                    <Images.IMAGE_REQUEST />
                   </View>
                   <Text style={styles.textDetail}>
                     {itemDetail.description}

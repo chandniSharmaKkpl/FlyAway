@@ -63,13 +63,8 @@ const JourneyDetail = props => {
       }, 500);
     }
   };
-  // console.log(
-  //   'responseDetail +-+-+',
-  //   JSON.stringify(responseDetail.journeyDetail.Itinerarys, null, 4),
-  // );
 
   useEffect(() => {
-    // console.log('setOrientation', orientation);
     lor(setOrientation);
     return () => {
       rol();
@@ -90,7 +85,8 @@ const JourneyDetail = props => {
       });
     });
     return () => {
-      unsubscribe;
+      console.log('unsubscribe ==> JourneyDetail');
+      unsubscribe();
     };
   }, []);
 
@@ -106,7 +102,6 @@ const JourneyDetail = props => {
   }, []);
 
   const handleBackButtonClick = () => {
-    // console.log(' alert show ', isAlertShow);
     // eslint-disable-next-line no-lone-blocks
     {
       if (route.params && route.params.callingView) {
@@ -142,37 +137,13 @@ const JourneyDetail = props => {
     if (item.Details && item.Details.length > 0 && item.Details[0].Flight) {
       let flightStr = item.Details[0].Flight;
       let supplierType1 = flightStr.slice(0, 2);
-      // console.log('flightStr  ==>', flightStr);
-      //let supplierType1;
-      //  console.log(" item is supplier code supplierType1 ----> ", supplierType1);
-      //supplierType1 = 'AI'
       const image = Images[supplierType1];
-
-      // console.log(' item  image ----> ', image);
-
       return image && image();
     }
     return null;
   };
-  {
-    /* if(supplierType.AIR_CANADA === appConstant.AIR_CANADA){
-      return <Image source={imageConstant.AIR_CANADA} style={{}}/>
-    }  else if(supplierType.AIR_FRANCE === appConstant.AIR_FRANCE){
-      return <Image source={imageConstant.AIR_FRANCE} style={{}}/>
-    }else if(supplierType.AIR_INDIA === appConstant.AIR_INDIA){
-      return <Image source={imageConstant.AIR_FRANCE} style={{}}/>
-    }else if(supplierType.AIR_NEW_ZEALAND === appConstant.AIR_NEW_ZEALAND){
-      return <Image source={imageConstant.AIR_FRANCE} style={{}}/>
-    }else if(supplierType.ALASKAN_AIRLINES === appConstant.ALASKAN_AIRLINES){
-      return <Image source={imageConstant.ALASKAN_AIRLINES} style={{}}/>
-    }else if(supplierType.AMERICAN_AIRLINES === appConstant.AMERICAN_AIRLINES){
-      return <Image source={imageConstant.AMERICAN_AIRLINES} style={{}}/>
-    }
-  } */
-  }
 
   const returnSvgImage = item => {
-    console.log("returnSvgImage ==> ",item.Type);
     if (item.Type === appConstant.CHARTER_FLIGHT) {
       return <Images.IMAGE_CHARTER_FLIGHT_SVG />;
     } else if (item.Type === appConstant.CAMP_ACCOMODATION) {
@@ -198,10 +169,7 @@ const JourneyDetail = props => {
       }
     } else if (item.Type === appConstant.COMMERCIAL_FLIGHT) {
       return <Images.IMAGE_COMMERCIAL_FLIGHT_SVG />;
-    } else if (
-      item.type === appConstant.BUS ||
-      item.type === appConstant.DRIVE_IN_OUT_TRANSPORT
-    ) {
+    } else if (item.Type === appConstant.BUS) {
       if (
         item.Details &&
         Array.isArray(item.Details) &&
@@ -217,20 +185,21 @@ const JourneyDetail = props => {
           }
         }
       }
-    } else if (item.type === appConstant.HOTEL_ACCOMMODATION) {
+    } else if (item.Type === appConstant.HOTEL_ACCOMMODATION) {
       return <Images.IMAGE_HOTEL_SVG />; // because, Hotel Accommodation has all categories in Hotel
-    } else if (item.type === appConstant.CAR_HIRE) {
+    } else if (item.Type === appConstant.CAR_HIRE) {
       return <Images.IMAGE_CAR_SVG />;
-    } else if (item.type === appConstant.OTHER_GROUND_TRANSPORT) {
-      // console.log(' OTHER_GROUND_TRANSPORT ', item);
+    } else if (item.Type === appConstant.OTHER_GROUND_TRANSPORT) {
       if (
         item.Details &&
         Array.isArray(item.Details) &&
         item.Details.length > 0
       ) {
         let dictDetail = item.Details[0];
+        
         if (dictDetail.Classification) {
           let tempC = dictDetail.Classification;
+          
           if (tempC === appConstant.HELICOPTER) {
             return <Images.IMAGE_HELICOPTER_SVG />;
           } else if (tempC === appConstant.WATERCRAFT) {
@@ -240,7 +209,7 @@ const JourneyDetail = props => {
           }
         }
       }
-    } else if (item.type === appConstant.TBA) {
+    } else if (item.Type === appConstant.TBA) {
       return <Images.IMAGE_HANDSHAKE_SVG />;
     } else {
       return <Images.IMAGE_BUS_SVG />;
@@ -249,7 +218,6 @@ const JourneyDetail = props => {
 
   const ConvertSectoDay = n => {
     var day = parseInt(n / (24 * 3600));
-    // console.log('------------->');
     n = n % (24 * 3600);
     var hour = parseInt(n / 3600);
 
@@ -278,8 +246,6 @@ const JourneyDetail = props => {
 
   const itemViews = (item, type, index) => {
     let isNoShowBtnVisible = false; // This flag is using to show no show button for flights only
-    console.log('itemdetals+-+-+', JSON.stringify(item,null, 4));
-    // const  [width, setWidth]  = useState(200);
     const endDate =
       item.Details[0] && item.Details[0].EndDate ? item.Details[0].EndDate : '';
     const startDate =
@@ -300,20 +266,17 @@ const JourneyDetail = props => {
 
       if (seconds) {
         duration = ConvertSectoDay(seconds);
-        // console.log(' duration days------->  ', duration);
       }
     }
 
     return (
       <View
+        key={index}
         style={styles.viewRowOutSide}
         onLayout={event => {
           var {x, y, width, height} = event.nativeEvent.layout;
-          // console.log('Height =>>', height);
           setlWidth(getOrientation() === 'portrait' ? width - 82 : width - 115);
           setlHeight(getOrientation() === 'portrait' ? height : height - 20);
-
-          // console.log("===width", width);
         }}>
         {/* Side bus view  */}
         <View style={[styles.viewLeftLine]}>
@@ -374,11 +337,16 @@ const JourneyDetail = props => {
                 )
               </Text>
 
-              <Text style={[styles.textBlack, styles.subTitle,{paddingTop:'2%'}]}>
+              <Text
+                style={[styles.textBlack, styles.subTitle, {paddingTop: '2%'}]}>
                 {item.Details &&
                 item.Details.length > 0 &&
                 item.Details[0].StartDate
-                  ? getDateInFormatNoTime(item.Details[0].StartDate, false, true)
+                  ? getDateInFormatNoTime(
+                      item.Details[0].StartDate,
+                      false,
+                      true,
+                    )
                   : ''}
               </Text>
             </View>
@@ -668,7 +636,6 @@ const JourneyDetail = props => {
     );
   };
 
-  // console.log('responseDetail-+-+', responseDetail?.journeyDetail?.Itinerarys);
   const getDataFromResponse = (responseDetail, type) => {
     // console.log('responseDetail.Status+-+-+', responseDetail.Status);
 
@@ -784,7 +751,7 @@ const JourneyDetail = props => {
                   item,
                   index,
                 ) {
-                // console.log("responseDetail.journeyDetail ==>",JSON.stringify(item,null, 4));
+                  // console.log("responseDetail.journeyDetail ==>",JSON.stringify(item,null, 4));
                   checkStatus(item.Status);
                   return itemViews(item, imageConstant.IMAGE_PLANE, index);
                 })

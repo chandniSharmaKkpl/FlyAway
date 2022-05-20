@@ -50,7 +50,7 @@ export default {
   // Classification
 
   WATERCRAFT: 'Watercraft',
-  CAR_HIRE : 'Var Hire',
+  CAR_HIRE : 'Car Hire',
   COACH: 'Coach',
   CHARTER: 'Charter',
   PLATFORM: 'Platform',

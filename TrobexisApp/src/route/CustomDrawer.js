@@ -3,13 +3,15 @@ import {useState, useCallback, useEffect} from 'react';
 
 import {
   Image,
-  Pressable,
+Pressable,
   StyleSheet,
   View,
   ImageBackground,
   Text,
   FlatList,
+
 } from 'react-native';
+import {TouchableOpacity} from 'react-native-gesture-handler'
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -37,8 +39,6 @@ import {Touchable} from 'react-native';
 
 export default CustomDrawer = () => {
   const navigation = useNavigation();
-
-  //console.log(' navigation object --->', navigation);
   const response = useSelector(state => state.HomeReducer); // Getting api response
   const [isAlertShow, setIsAlertShow] = useState(false);
 
@@ -74,14 +74,19 @@ export default CustomDrawer = () => {
       func: aboutApp,
     },
   ];
-
   const Item = ({name, func}) => (
-    <Pressable onPress={func}>
+    <TouchableOpacity  onPress={() => {
+      func();
+    }}>
       <View style={styles.item}>
-        <Text style={styles.title}>{name}</Text>
+        <Text
+          style={styles.title}
+         >
+          {name}
+        </Text>
       </View>
       <View style={styles.dividerLine}></View>
-    </Pressable>
+    </TouchableOpacity>
   );
 
   const renderItem = ({item}) => <Item name={item.name} func={item.func} />;
@@ -364,4 +369,5 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     marginRight: 20,
   },
+  container: {},
 });

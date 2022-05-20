@@ -32,7 +32,6 @@ const JourneyList = props => {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   useEffect(() => {
-    console.log('setOrientation', orientation);
     lor(setOrientation);
     return () => {
       rol();
@@ -76,7 +75,6 @@ const JourneyList = props => {
 
   const renderItem = item => {
     let itemDetail = item.item;
-    console.log("itemDetails  res ===>", JSON.stringify(itemDetail,null,4));
     let date = itemDetail.requestdate;
     let requestdate = date ? getDateInFormat(date, true, false) : '';
     return (
