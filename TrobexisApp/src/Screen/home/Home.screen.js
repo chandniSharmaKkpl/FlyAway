@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useState, useCallback, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {
@@ -8,6 +9,9 @@ import {
   Pressable,
   BackHandler,
 } from 'react-native';
+// import SafeAreaView from 'react-native-safe-area-view';
+import {SafeAreaView} from 'react-native-safe-area-context';
+
 import styles from './Home.style';
 import {
   HeaderCustom,
@@ -31,6 +35,7 @@ import {
   imageConstant,
   errorCodeConstant,
 } from '../../constant';
+
 import {requestToGetApprovalList, requestToGetUserProfile} from './Home.action';
 import localDb from '../../database/localDb';
 import DeviceInfo from 'react-native-device-info';
@@ -47,16 +52,18 @@ const HomeScreen = props => {
   var countBack = 0;
 
   useEffect(() => {
-    console.log('setOrientation', orientation);
+   
     lor(setOrientation);
     return () => {
       rol();
     };
-  }, []);
+  }, [orientation]);
 
-  setAlertShowFromHeader = value => {
-    setIsAlertShow(value);
-  };
+ 
+
+  // const setAlertShowFromHeader = value => {
+  //   setIsAlertShow(value);
+  // };
   useEffect(() => {
     //
     const unsubscribe = props.navigation.addListener('focus', () => {
@@ -66,7 +73,9 @@ const HomeScreen = props => {
           user: response,
           navigation: props.navigation,
         };
+
         dispatch(requestToGetUserProfile(param));
+
         // dispatch(requestToGetApprovalList(param));
       });
     });
@@ -87,7 +96,7 @@ const HomeScreen = props => {
   }, []);
 
   const handleBackButtonClick = () => {
-    countBack = countBack + 1;
+    // countBack = countBack + 1;
     console.log(' back count Homeview  ', countBack);
 
     // if (countBack > 1)
@@ -155,20 +164,18 @@ const HomeScreen = props => {
       Array.isArray(response.userProfile.settings) &&
       response.userProfile.settings.length > 0
     ) {
-
       // Temporary hiding bus tile
       // if (keyName === 'Function.Bus') {
       //   return false;
       // }
 
-      console.log("164 Keynaem", keyName)
-
+      console.log('164 Keynaem', keyName);
 
       let matchElement = response.userProfile.settings.find(
         item => item.key == keyName,
       );
 
-      console.log(" match ele", matchElement, "Keynaem", keyName)
+      console.log(' match ele', matchElement, 'Keynaem', keyName);
 
       if (matchElement.value === 'Y') {
         return true;
@@ -184,6 +191,9 @@ const HomeScreen = props => {
     <>
       {/* {backHandler(handleBackButtonClick)} */}
       {/* {checkResponseForRedirection()} */}
+      {/* <SafeAreaView
+        style={{flex: 1, backgroundColor: appColor.NAVY_BLUE}} */}
+      {/* edges={['right', 'left', 'top']}> */}
       <View style={styles.container}>
         <HeaderCustom
           title={''}
@@ -198,11 +208,11 @@ const HomeScreen = props => {
             console.log(' open drawer ');
             props.navigation.toggleDrawer();
           }}
-          setAlertShowFromHeader={value => setIsAlertShow(value)}
+          // setAlertShowFromHeader={value => setIsAlertShow(value)}
         />
         {/* Title view */}
         <KeyboardAwareScrollView>
-          <View style={styles.viewTopBackground}>
+          <View style={[styles.viewTopBackground]}>
             <View style={styles.viewTitle}>
               {/* <View style={styles.viewImageUser}>
               <Avatar
@@ -215,7 +225,7 @@ const HomeScreen = props => {
               <View
                 style={{
                   paddingLeft:
-                    getOrientation() === 'portrait' ? wp('5%') : wp('3.5%'),
+                    getOrientation() === 'portrait' ? wp('5%') : wp('3%'),
                   paddingTop: hp('1.2%'),
                 }}>
                 <Text style={styles.textHello}>
@@ -230,24 +240,24 @@ const HomeScreen = props => {
           </View>
 
           {/* Bookinng list  */}
-          {getValueToShowTile('Function.Journey') &&
-          response.itinaryListAllJourney &&
-          response.itinaryListAllJourney.length > 0 ? (
-            <View
-              style={{
-                marginTop:
-                  getOrientation() === 'portrait' ? hp('-8%') : hp('-13%'),
-                alignSelf: 'center',
-                height: getOrientation() === 'portrait' ? hp('18%') : hp('25%'),
-              }}>
-              <FlatList
-                renderItem={renderItem}
-                data={response.itinaryListAllJourney}
-                horizontal={true}
-                keyExtractor={(item, index) => index.toString()}
-              />
-            </View>
-          ) : null}
+          {/* {getValueToShowTile('Function.Journey') && */}
+          {/* response.itinaryListAllJourney &&
+          response.itinaryListAllJourney.length > 0 ? ( */}
+          <View
+            style={{
+              marginTop:
+                getOrientation() === 'portrait' ? hp('-8%') : hp('-14%'),
+              // alignSelf: 'center',
+              height: getOrientation() === 'portrait' ? hp('18%') : hp('30%'),
+            }}>
+            <FlatList
+              renderItem={renderItem}
+              data={response.itinaryListAllJourney}
+              horizontal={true}
+              keyExtractor={(item, index) => index.toString()}
+            />
+          </View>
+          {/* ) : null} */}
           {/* <Text style={styles.textTitleGoes}>Title Goes Here</Text> */}
 
           {/* Journeys / Approval and Bus Booking  */}
@@ -313,7 +323,7 @@ const HomeScreen = props => {
               </View>
             ) : null}
 
-{getValueToShowTile('Function.Bus') ? (
+            {getValueToShowTile('Function.Bus') ? (
               <View style={styles.viewSmallBox}>
                 {/* {response.approvalList &&
                 Array.isArray(response.approvalList) &&
@@ -327,7 +337,7 @@ const HomeScreen = props => {
                 <Pressable
                   style={styles.viewInsideSmallBox}
                   onPress={() => {
-                    onClickBusBooking()
+                    onClickBusBooking();
                   }}>
                   <View style={styles.imageIcon}>
                     <Image
@@ -340,8 +350,6 @@ const HomeScreen = props => {
                 </Pressable>
               </View>
             ) : null}
-
-           
           </View>
 
           {response.isRequesting ? (
@@ -370,6 +378,7 @@ const HomeScreen = props => {
           onPressBigBtn={() => {}}
         />
       ) : null}
+      {/* </SafeAreaView> */}
     </>
   );
 };

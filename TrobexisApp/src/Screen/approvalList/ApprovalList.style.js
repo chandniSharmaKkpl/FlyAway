@@ -2,7 +2,7 @@ import {StyleSheet, Dimensions} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+} from '../../responsiveScreen';
 import fontConstant from '../../constant/fontConstant';
 import appColor from '../../constant/colorConstant';
 import DeviceInfo from 'react-native-device-info';
@@ -30,8 +30,7 @@ export default StyleSheet.create({
     flex: 1,
     // backgroundColor: appColor.RED,
     paddingLeft: wp('3%'),
-    paddingRight: wp('3%'),
-
+    paddingRight: wp('1%'),
   },
   iconNumber: {
     fontSize: 20,
@@ -71,6 +70,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     borderRadius: 7,
     backgroundColor: appColor.GREEN,
+    // padding: hp('0.5%'),
   },
   buttonRed: {
     justifyContent: 'center',
@@ -136,7 +136,7 @@ export default StyleSheet.create({
     fontFamily: fontConstant.BARLOW_BOLD,
     fontSize: fontConstant.TEXT_12_SIZE_BOLD,
     color: appColor.WHITE,
-    padding: '2%',
+    padding: hp('1%'),
   },
   segmentText: {
     fontSize: fontConstant.TEXT_15_SIZE_BOLD,

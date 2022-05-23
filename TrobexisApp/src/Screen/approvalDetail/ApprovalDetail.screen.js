@@ -11,7 +11,7 @@ import {requestAcceptApproval} from '../approvalList/ApprovalList.action';
 import {appColor, appConstant, alertMsgConstant} from '../../constant';
 import {requestToGetApprovalDetail} from './ApprovalDetail.action';
 import {getDateInFormat, msToTime} from '../../common';
-import moment from 'moment'; 
+import moment from 'moment';
 
 const arrayApprovalCode = [
   {code: 'SAR', codeName: 'Site Access Request'},
@@ -32,25 +32,25 @@ const ApprovalDetail = props => {
 
   const [isApiCall, setIsApiCall] = useState(false);
 
- //** Back button handling  */
- useEffect(() => {
-  BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
-  return () => {
-    BackHandler.removeEventListener(
-      'hardwareBackPress',
-      handleBackButtonClick,
-    );
-  };
-}, []);
+  //** Back button handling  */
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
 
-const handleBackButtonClick = () => {
-  if (route.params && route.params.callingView) {
-    props.navigation.navigate(route.params.callingView);
-  } else {
-    props.navigation.goBack();
-  }
-  return true;
-};
+  const handleBackButtonClick = () => {
+    if (route.params && route.params.callingView) {
+      props.navigation.navigate(route.params.callingView);
+    } else {
+      props.navigation.goBack();
+    }
+    return true;
+  };
 
   useEffect(() => {
     const unsubscribe = props.navigation.addListener('focus', () => {
@@ -100,7 +100,6 @@ const handleBackButtonClick = () => {
     });
   };
 
-  
   const onClickDecline = () => {
     props.navigation.navigate(appConstant.REASON, {
       approvalItem: {item: route.params.approvalItem},
@@ -149,48 +148,47 @@ const handleBackButtonClick = () => {
   };
 
   function sortByKey(array, key) {
-    return array.sort(function(a, b) {
-        var x = a[key]; var y = b[key];
-        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+    return array.sort(function (a, b) {
+      var x = a[key];
+      var y = b[key];
+      return x < y ? -1 : x > y ? 1 : 0;
     });
-    }
+  }
 
-// const returnValues = (item)=>{
-//   console.log(" myMomentObjectoooooo" )
-// if (item.Label === 'Start Date') {
-//   const myDate = moment(item.Data, 'YYYY-MM-DD');
- 
-//   const date1 = new Date(myDate)
+  // const returnValues = (item)=>{
+  //   console.log(" myMomentObjectoooooo" )
+  // if (item.Label === 'Start Date') {
+  //   const myDate = moment(item.Data, 'YYYY-MM-DD');
 
-//   console.log(" myMomentObject", myDate)
-//   // return getDateInFormat(item.data, true, false);
-// } else {
-//   return item.data;
-// }
-// }
+  //   const date1 = new Date(myDate)
+
+  //   console.log(" myMomentObject", myDate)
+  //   // return getDateInFormat(item.data, true, false);
+  // } else {
+  //   return item.data;
+  // }
+  // }
 
   const returnViewBasedOnApprovalCode = approvalCode => {
-    
     if (
       responseDetail &&
       responseDetail.responseDetail &&
       responseDetail.responseDetail.Items
     ) {
       //** first sort array based on order they provided then display in access detail section  */
-      let arraySort = sortByKey(responseDetail.responseDetail.Items, "Order")
-     
+      let arraySort = sortByKey(responseDetail.responseDetail.Items, 'Order');
+
       return (
         <>
-      
-          {arraySort && arraySort.map((item, index) => {
-             
-            return (
-              <View style={[styles.viewRow]}>
-                <Text style={styles.textBlue}>{item.Label}:</Text>
-                <Text style={styles.textSubTitle}>{item.Data}</Text>
-              </View>
-            );
-          })}
+          {arraySort &&
+            arraySort.map((item, index) => {
+              return (
+                <View style={[styles.viewRow]}>
+                  <Text style={styles.textBlue}>{item.Label}:</Text>
+                  <Text style={styles.textSubTitle}>{item.Data}</Text>
+                </View>
+              );
+            })}
         </>
       );
     } else {
@@ -279,11 +277,11 @@ const handleBackButtonClick = () => {
               <Text style={styles.textBlackTitle}>Comments / Messages</Text>
               <View style={styles.viewInside}>
                 {/* <View style={styles.textAreaContainer}> */}
-                {/* <Text style={styles.textArea}>
+            {/* <Text style={styles.textArea}>
                   {getDataFromResponse(responseDetail, 'Comments')}
                 </Text>
               </View> */}
-              {/* </View> 
+            {/* </View> 
             </View> */}
 
             {route.params &&

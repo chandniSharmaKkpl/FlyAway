@@ -1,5 +1,5 @@
 import {takeLatest, take, call, put, select, all} from 'redux-saga/effects';
-import DeviceInfo from 'react-native-device-info'
+import DeviceInfo from 'react-native-device-info';
 
 import {
   actionConstant,
@@ -105,8 +105,7 @@ export function* workerGetClientTokenBaseOnApiBase(argumentData, apiBase) {
 //** Worker Account URL  */
 
 export function* workerGetAccountUrl(argumentData, apiBase, clientToken) {
-
-  console.log(" argument data ---", argumentData); 
+  // console.log(' argument data ---', argumentData);
 
   try {
     const responseAccountUrl = yield call(
@@ -130,21 +129,20 @@ export function* workerGetAccountUrl(argumentData, apiBase, clientToken) {
         payload: responseAccountUrl,
       });
 
-      let  loginUrl = '';
-      let  responseLoginUrl = '';
+      let loginUrl = '';
+      let responseLoginUrl = '';
       let functionUrl = '';
 
-      if (responseAccountUrl && Array.isArray(responseAccountUrl)  ) {
+      if (responseAccountUrl && Array.isArray(responseAccountUrl)) {
         loginUrl = responseAccountUrl[0].value;
-        responseLoginUrl =  responseAccountUrl[0].value;
-       loginUrl = loginUrl.replace(':mobileDeviceId', argumentData.DeviceId);
- 
-       functionUrl = responseAccountUrl[1].value;
-       console.log(" functionurl ==", functionUrl);
+        responseLoginUrl = responseAccountUrl[0].value;
+        loginUrl = loginUrl.replace(':mobileDeviceId', argumentData.DeviceId);
+
+        functionUrl = responseAccountUrl[1].value;
+        console.log(' functionurl ==', functionUrl);
       } else {
-        
       }
-      
+
       let user = {
         client: argumentData.client,
         clientToken: clientToken,
@@ -153,34 +151,34 @@ export function* workerGetAccountUrl(argumentData, apiBase, clientToken) {
         loginUrl: loginUrl,
         responseLoginUrl: responseLoginUrl,
         functionUrl: functionUrl,
-       userId:  'HC123', // Temp
+      //  userId: 'SHARRIS', // Temp
       };
       localDB.setUser(user);
 
       // *** Save client codes ***//
       const temp = localDB.getClientCode();
-     {
+      // eslint-disable-next-line no-lone-blocks
+      {
         Promise.resolve(temp).then(response => {
           if (response) {
             //** Only unique client codes will be saved  */
-             if (response.indexOf(argumentData.client) < 0)
-              {
+            if (response.indexOf(argumentData.client) < 0) {
               let arrayTemp = [...response, argumentData.client];
               localDB.saveClientCode(arrayTemp);
             }
-          }else{
+          } else {
             //**For first time case */
             let arrayTemp = [argumentData.client];
             localDB.saveClientCode(arrayTemp);
           }
         });
-      } 
-     
+      }
+
       // ** For stopping loader **//
       yield put(setLoader(false));
-        argumentData.navigation.navigate(appConstant.DRAWER_NAVIGATOR); // Temp
-      //  let dict = {loginUrl: loginUrl, responseLoginUrl: responseLoginUrl}
-      //  argumentData.navigation.navigate(appConstant.LOGIN, {data: dict });
+        // argumentData.navigation.navigate(appConstant.DRAWER_NAVIGATOR); // Temp
+      let dict = {loginUrl: loginUrl, responseLoginUrl: responseLoginUrl};
+      argumentData.navigation.navigate(appConstant.LOGIN, {data: dict});
     }
   } catch (error) {
     yield put(setLoader(false));

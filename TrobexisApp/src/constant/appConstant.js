@@ -29,28 +29,32 @@ export default {
   SETTING: 'Setting',
   SCAN: 'Scan',
   SUPPORT: 'Support',
+  ABOUT_APP_VERSION: 'AboutAppVersion',
 
   // Word constant
   COMMENT_MAX_LIMIT: 500,
-
-  // Journey detail itinerary type
+  OTHER_GROUND_TRANSPORT : 'Other/Ground Transport',
   CHARTER_FLIGHT: 'Charter Flight',
   CAMP_ACCOMODATION: 'Camp Accommodation',
   COMMERCIAL_FLIGHT: 'Commercial Flight',
-  CAR_HIRE: 'Car Hire',
-  HOTEL: 'Hotel Accommodation',
-  DRIVE_IN_OUT_TRANSPORT: 'Drive in/out transport',
-  OTHER_GROUND_TRANSPORT: 'Other/Ground Transport',
-
-  // Classification
-  HELICOPTER: 'Helicopter',
-  WATERCRAFT: 'Watercraft',
   BUS: 'Bus',
+  CAR: 'Car',
+  HOTEL: 'Hotel',
+  OFFSHORE: 'Offshore',
+  HELICOPTER: 'Helicopter',
+  HOTEL_ACCOMMODATION : 'Hotel Accommodation',
+  TRANSFER: 'Transfer',
+  MARINE_TRANSFER: 'Marine Transfer',
+  TBA: 'TBA',
+  MEET_AND_GREET : 'Meet and Greet',
+  // Classification
+
+  WATERCRAFT: 'Watercraft',
+  CAR_HIRE : 'Car Hire',
   COACH: 'Coach',
   CHARTER: 'Charter',
   PLATFORM: 'Platform',
   BED: 'Bed',
-  TRANSFER: 'transfer',
 
   // Approval status
   PENDING_APPROVAL: 'Pending Approval',
@@ -68,4 +72,42 @@ export default {
   FVR: 'FVR', //Fleet Vehicle Requests
   EQR: 'EQR', //Equipment Request
   APL: 'APL', //Accommodation Plans
+
+  // Airline name and code
+  AIR_CANADA: 'AC',
+  AIR_FRANCE: 'AF',
+  AIR_INDIA: 'AI',
+  AIR_NEW_ZEALAND: 'NZ',
+  ALASKAN_AIRLINES: 'AS',
+  AMERICAN_AIRLINES: 'AA',
+  AVIANCA: 'AV',
+  AUSTRIAN: 'OS',
+  BRITISH_AIRWAYS: 'BA',
+  CATHAY_PACIFIC: 'CX',
+  CHAINA_AIRLINES: 'CI',
+  DELTA: 'DL',
+  EMIRATES: 'EK',
+  EVA: 'BR',
+  GARUDA_INDONESIA_AIRLINES: 'GA',
+  JAPAN_AIRLINESL: 'JL',
+  KLM_ROYAL_DUTCH_AIRLINES: 'KL',
+  KOREAN_AIR: 'KE',
+  LAN: 'LA',
+  LUFTHANSA: 'LH',
+  MALAYSIAN: 'MH',
+  PHILIPPINES_AIRLINES: 'PR',
+  QANTAS: 'QF',
+  QATAR_AIRWAYS: 'QR',
+  SINGAPORE_AIRLINES: 'SQ',
+  SOUTH_AFRICAN_AIRWAYS: 'SA',
+  SOUTHWEST_AIRLINES: 'WN',
+  SWISS_INTERNATIONAL_AIRLINES: 'LX',
+  THAI_AIRWAYS: 'TG',
+  TURKISH_AIRLINES: 'TK',
+  UNITED_AIRLINES: 'UA',
+  VIRGIN_ATLANTIC: 'VS',
+  VIRGIN_AUSTRALIA: 'VA'
 };
+
+
+

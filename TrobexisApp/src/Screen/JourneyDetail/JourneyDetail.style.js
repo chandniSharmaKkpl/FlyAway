@@ -3,53 +3,37 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from '../../responsiveScreen';
-import DeviceInfo from 'react-native-device-info';
 import fontConstant from '../../constant/fontConstant';
 import appColor from '../../constant/colorConstant';
-// import DeviceInfo from 'react-native-device-info';
 
 export default StyleSheet.create({
   viewSpace: {
     paddingTop: '4%',
   },
   viewDashedLine: {
-    // height: 270,
-    height: DeviceInfo.isTablet() ? wp('49%') : wp('75%'),
     width: 1,
     position: 'absolute',
     borderRadius: 1,
     borderWidth: 1,
-    left: DeviceInfo.isTablet() ? wp('3%') : wp('6%'),
-    top: DeviceInfo.isTablet() ? hp('14.5%') : hp('12%'),
-    // left: '6%',
-    // top: '29%',
-    // left: 25,
-    // top: '29%',
+    left: 25,
+    // top: '20%',
     borderColor: appColor.GRAY_MIDIUM,
     borderStyle: 'dashed',
     zIndex: 0,
   },
   viewDotted: {
-    position: 'absolute',
-    left: 0,
-    bottom: 0,
-    width: 1,
-    height: '100%',
-    backgroundColor: appColor.WHITE,
-    zIndex: 1,
+    // position: 'absolute',
+    // left: 0,
+    // bottom: 0,
+    // width: 1,
+    // height: '100%',
+    // zIndex: 1,
   },
   viewRowOutSide: {
     flexDirection: 'row',
-    // backgroundColor: 'red',
-    //alignItems: 'center',
-    // backgroundColor:'pink'
   },
   viewLeftLine: {
     zIndex: 9999,
-    // justifyContent: 'center',
-    alignItems: 'center',
-    //backgroundColor:'green',
-    // paddingTop:"18%"
   },
   viewCircleBlue: {
     backgroundColor: appColor.NAVY_BLUE,
@@ -58,7 +42,6 @@ export default StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    marginTop: DeviceInfo.isTablet() ? hp('10%') : hp('6%'),
   },
   viewDetail: {
     paddingTop: '5%',
@@ -78,7 +61,6 @@ export default StyleSheet.create({
     justifyContent: 'center',
     width: '43%',
     height: '43%',
-    // backgroundColor:'pink'
   },
   textNoShow: {
     fontFamily: fontConstant.BARLOW_SEMI_BOLD,
@@ -120,18 +102,31 @@ export default StyleSheet.create({
     fontFamily: fontConstant.BARLOW_BOLD,
     fontSize: fontConstant.TEXT_H2_5_SIZE_BOLD,
     color: appColor.BLACK,
-    // paddingBottom: '1%',
     paddingLeft: '2%',
-    // paddingTop:'2%'
+  },
+
+  textConfirmed: {
+    fontFamily: fontConstant.BARLOW_BOLD,
+    fontSize: fontConstant.TEXT_H1_SIZE_REGULAR,
+    color: appColor.BLACK,
+    paddingLeft: '2%',
+    paddingTop: '0.5%',
+  },
+  textNotConfirmed: {
+    fontFamily: fontConstant.BARLOW_BOLD,
+    fontSize: fontConstant.TEXT_H1_SIZE_REGULAR,
+    color: appColor.RED,
+    paddingLeft: '2%',
+    paddingTop: '0.5%',
   },
   viewSection: {
     padding: '3%',
   },
+
   viewItineraryList: {
-    paddingTop: '3%',
+  marginTop : '8%',
   },
   viewInside: {
-    //  height: hp('35%'),
     backgroundColor: appColor.WHITE,
     width: '90%',
     alignSelf: 'center',
@@ -148,13 +143,7 @@ export default StyleSheet.create({
     marginTop: '2%',
   },
   viewRow: {
-    // flexDirection: 'row',
     padding: '1%',
-  },
-  textYellow: {
-    fontFamily: fontConstant.BARLOW_BOLD,
-    fontSize: fontConstant.TEXT_H3_SIZE_BOLD,
-    color: appColor.YELLOW,
   },
   textRed: {
     fontFamily: fontConstant.BARLOW_REGULAR,
@@ -163,22 +152,14 @@ export default StyleSheet.create({
   },
   textSubTitle: {
     fontFamily: fontConstant.BARLOW_REGULAR,
-    fontSize: fontConstant.TEXT_H1_SIZE_REGULAR,
+    fontSize: fontConstant.TEXT_H2_SIZE_REGULAR,
     color: appColor.GRAY,
     flexWrap: 'wrap',
     width: wp('54%'),
-    // backgroundColor:'red'
+    marginTop: '2%',
+    marginBottom: '2%',
   },
-  textBlue: {
-    fontFamily: fontConstant.BARLOW_SEMI_BOLD,
-    fontSize: fontConstant.TEXT_H1_SIZE_REGULAR,
-    color: appColor.NAVY_BLUE,
-  },
-  textBlack: {
-    fontFamily: fontConstant.BARLOW_BOLD,
-    fontSize: fontConstant.TEXT_H1_SIZE_REGULAR,
-    color: appColor.GRAY,
-  },
+
   viewInsideTitle: {
     padding: '5%',
   },
@@ -187,7 +168,6 @@ export default StyleSheet.create({
     paddingRight: '5%',
     paddingBottom: '5%',
     paddingTop: '3%',
-    // backgroundColor:'orange'
   },
   textAreaContainer: {
     padding: '5%',
@@ -206,17 +186,13 @@ export default StyleSheet.create({
     marginBottom: hp('5%'),
     flexDirection: 'row',
     justifyContent: 'space-between',
-    //alignItems:'center'
   },
   textArea: {
     height: hp('10%'),
-    // justifyContent: 'flex-start',
     fontFamily: fontConstant.BARLOW_REGULAR,
     fontSize: fontConstant.TEXT_14_SIZE_BOLD,
-    //backgroundColor:'pink',
     width: '100%',
     padding: '5%',
-    // paddingTop:hp('2%')
   },
   viewButtonBottom: {
     paddingTop: '5%',
@@ -234,28 +210,23 @@ export default StyleSheet.create({
     shadowOpacity: 0.92,
     shadowRadius: 2.22,
     elevation: 5,
-    width: wp('77%'),
-    // height: hp('15%'),
+    // width: wp('100%'),
     backgroundColor: appColor.WHITE,
-    // margin: 10,
     marginLeft: '3%',
-    marginTop: '10%',
-    // flexWrap: 'wrap',
-    // alignSelf: 'center',
-
-    // overflow:'hidden'
   },
   viewRowTop: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: wp('77%'),
+    // width: wp('77%'),
+    height: hp('11%'),
     alignItems: 'center',
-    // paddingLeft: wp('5%'),
-    paddingTop: hp('2%'),
-    paddingBottom: hp('2%'),
-    //  backgroundColor:'pink',
-    paddingRight: '5%',
+    // paddingTop: hp('2%'),
+    // paddingBottom: hp('2%'),
+    // paddingRight: '5%',
     paddingLeft: '5%',
+    position: 'relative',
+    // backgroundColor: 'pink',
+
   },
   buttonBusYellow: {
     justifyContent: 'center',
@@ -270,13 +241,36 @@ export default StyleSheet.create({
     height: hp('3%'),
   },
   textYellow: {
-    fontFamily: fontConstant.BARLOW_BOLD,
-    fontSize: fontConstant.TEXT_H3_SIZE_BOLD,
+    fontFamily: fontConstant.BARLOW_SEMI_BOLD,
+    fontSize: fontConstant.TEXT_16_SIZE_REGULAR,
     color: appColor.YELLOW,
   },
+  leftLine: {
+    height: '100%',
+    // width: 1,
+    // flex: 1,
+    borderLeftWidth: 1,
+    paddingLeft: 15,
+    paddingRight: 15,
+    borderLeftColor: appColor.NAVY_BLUE,
+    // backgroundColor: 'pink',
+  },
+  imagePlan: {
+    height: 30,
+    aspectRatio: 1,
+    // padding: '15%',
+  },
+  flightNumber: {
+    fontFamily: fontConstant.BARLOW_REGULAR,
+    fontSize: fontConstant.TEXT_H3_SIZE_REGULAR,
+  },
+  flightCodeNumber: {
+    fontFamily: fontConstant.BARLOW_REGULAR,
+    fontSize: fontConstant.TEXT_H3_SIZE_REGULAR,
+    marginTop: 8,
+  },
   viewSingleLine: {
-    //  position:'relative',
-    width: '100%', //hp('40%'),
+    width: '100%',
     height: hp('0.07%'),
     backgroundColor: appColor.NAVY_BLUE,
   },
@@ -284,8 +278,9 @@ export default StyleSheet.create({
   viewLeft: {
     paddingLeft: wp('2%'),
     paddingRight: wp('2%'),
-    width: wp('55%'),
-    //backgroundColor:'pink'
+    width: wp('50%'),
+    paddingTop: hp('2%'),
+    paddingBottom: hp('2%'),
   },
 
   ViewBlueBottom: {
@@ -323,8 +318,8 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   textBlueBig: {
-    fontFamily: fontConstant.BARLOW_BOLD,
-    fontSize: fontConstant.TEXT_H3_SIZE_BOLD,
+    fontFamily: fontConstant.BARLOW_SEMI_BOLD,
+    fontSize: fontConstant.TEXT_H2_SIZE_REGULAR,
     color: appColor.NAVY_BLUE,
   },
   viewArrow: {
@@ -337,6 +332,18 @@ export default StyleSheet.create({
     // backgroundColor: 'orange',
     // alignItems:'flex-end'
   },
+  textConfirmedInBox: {
+    fontFamily: fontConstant.BARLOW_REGULAR,
+    fontSize: fontConstant.TEXT_H2_SIZE_REGULAR,
+    color: appColor.BLACK,
+    paddingTop: '0.5%',
+  },
+  textNotConfirmedInBox: {
+    fontFamily: fontConstant.BARLOW_REGULAR,
+    fontSize: fontConstant.TEXT_H2_SIZE_REGULAR,
+    color: appColor.RED,
+    paddingTop: '0.5%',
+  },
   viewRightLocation: {
     //flex: 5,
     //paddingLeft: '3%',
@@ -348,13 +355,13 @@ export default StyleSheet.create({
     fontFamily: fontConstant.BARLOW_REGULAR,
     fontSize: fontConstant.TEXT_H1_SIZE_REGULAR,
     color: appColor.WHITE,
+    alignItems: 'center',
   },
 
   viewInside: {
     padding: '3.5%',
   },
   viewInside2: {
-    //  height: hp('35%'),
     backgroundColor: appColor.WHITE,
     width: '90%',
     alignSelf: 'center',
@@ -378,50 +385,42 @@ export default StyleSheet.create({
   },
   textBlue: {
     fontFamily: fontConstant.BARLOW_SEMI_BOLD,
-    fontSize: fontConstant.TEXT_14_SIZE_REGULAR,
+    fontSize: fontConstant.TEXT_H2_SIZE_REGULAR,
     color: appColor.NAVY_BLUE,
   },
   textBlack: {
     fontFamily: fontConstant.BARLOW_REGULAR,
-    fontSize: fontConstant.TEXT_14_SIZE_REGULAR,
+    fontSize: fontConstant.TEXT_H2_SIZE_REGULAR,
     color: appColor.BLACK,
     flexWrap: 'wrap',
   },
-
+dayNumberText:{
+  fontFamily: fontConstant.BARLOW_REGULAR,
+  fontSize: fontConstant.TEXT_10_SIZE_REGULAR,
+  color: appColor.BLACK,
+},
   textBusBookValue: {
     fontFamily: fontConstant.BARLOW_REGULAR,
     fontSize: fontConstant.TEXT_14_SIZE_REGULAR,
     color: appColor.BLACK,
     flexWrap: 'wrap',
     width: wp('60%'),
-    // backgroundColor:'pink'
   },
 
   viewDepartsAndArrive: {
     flexDirection: 'row',
-    // justifyContent: 'space-between',
     paddingTop: hp('2%'),
-    // paddingBottom:hp('2%'),
     paddingLeft: wp('5%'),
     paddingRight: wp('5%'),
     alignItems: 'center',
-    //flexWrap:'wrap',
-    //flex:1,
   },
 
   viewItinerary: {
-    // flexDirection: 'row',
-    // justifyContent: 'space-between',
-    // width: wp('70%'),
     paddingLeft: wp('5%'),
     paddingRight: wp('2%'),
-    // alignItems: 'center',
-    // flexWrap: 'wrap',
     paddingBottom: hp('2%'),
-    //  backgroundColor:'pink'
   },
   scrollView: {
     paddingBottom: hp('20%'),
-    // height:hp('90%')
   },
 });

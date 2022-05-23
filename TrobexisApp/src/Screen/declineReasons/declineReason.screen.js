@@ -1,38 +1,51 @@
-import React, {useState, useCallback, useEffect} from 'react';
+/* eslint-disable react/self-closing-comp */
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
-  Image,
   FlatList,
   TouchableOpacity,
   Pressable,
   TextInput,
   Keyboard,
   ActivityIndicator,
+  Platform,
+  StyleSheet,
 } from 'react-native';
+import DeviceInfo from 'react-native-device-info';
+
 import stylesCommon from '../../common/common.style';
 import {useDispatch, useSelector} from 'react-redux';
-import {Loader, AlertView} from '../../component';
-
-import stylesHome from '../home/Home.style';
-import styles from './declineReason.style';
-import {HeaderCustom, BookingCard, backHandler} from '../../component';
-import {Avatar} from 'react-native-elements';
-import {appConstant, appColor, alertMsgConstant} from '../../constant';
-import IconAntDesing from 'react-native-vector-icons/AntDesign';
+import {Loader} from '../../component';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+  listenOrientationChange as lor,
+  removeOrientationListener as rol,
+  getOrientation,
+} from '../../responsiveScreen';
+import stylesHome from '../home/Home.style';
+import style from './declineReason.style';
+import {HeaderCustom} from '../../component';
+import {appConstant, appColor, alertMsgConstant} from '../../constant';
+import IconAntDesing from 'react-native-vector-icons/AntDesign';
+
 import {
   requestToGetDeclineReasons,
   requestDeclineApproval,
 } from './declineReason.action';
 import localDb from '../../database/localDb';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {useRoute, useNavigation} from '@react-navigation/core';
+import {useRoute} from '@react-navigation/core';
+import {useToast} from 'react-native-toast-notifications';
+
+import deviceInfoModule from 'react-native-device-info';
+// import {ScrollView} from 'react-native-gesture-handler';
 
 const ReasonDecline = props => {
+  const toast = useToast();
+  const [orientation, setOrientation] = React.useState('portrait');
+  const styles = StyleSheet.create(style);
   const dispatch = useDispatch();
   const responseGetReasonList = useSelector(
     state => state.DeclineReasonReducer,
@@ -44,8 +57,17 @@ const ReasonDecline = props => {
   const [reasonId, setReasonId] = useState('');
 
   const [showReasonList, setShowReasonList] = useState(false);
+  console.log('showReasonList', showReasonList);
   const [comments, setComments] = useState('');
   const [textLimit, setTextLimit] = useState(0);
+
+  useEffect(() => {
+    // console.log('setOrientation', orientation);
+    lor(setOrientation);
+    return () => {
+      rol();
+    };
+  }, []);
 
   useEffect(() => {
     // Call api to get reasons list
@@ -55,34 +77,37 @@ const ReasonDecline = props => {
         let param = {
           user: response,
           approvalId: route.params ? route.params.approvalItem.item.id : '',
-          navigation: props.navigation
+          navigation: props.navigation,
         };
         dispatch(requestToGetDeclineReasons(param));
       });
     });
     return unsubscribe;
-  }, [props.navigation, route]);
+  }, [dispatch, props.navigation, route]);
 
   const onClickSubmit = () => {
     const tempUser = localDb.getUser();
     Promise.resolve(tempUser).then(response => {
+      console.log('Decline => responce => ', response);
       let param = {
         comments: comments,
         reasonId: reasonId,
-         user: response,
-         approvalId: route.params ? route.params.approvalItem.item.id : '',
-         navigation: props.navigation
-        };
+        user: response,
+        approvalId: route.params ? route.params.approvalItem.item.id : '',
+        navigation: props.navigation,
+      };
+      console.log('Decline => params => ', param);
       dispatch(requestDeclineApproval(param));
     });
   };
   const moveBack = () => {
     props.navigation.goBack();
-    route.params.onBackReceiveData && route.params.onBackReceiveData(route.params.approvalItem)
+    route.params.onBackReceiveData &&
+      route.params.onBackReceiveData(route.params.approvalItem);
   };
   const renderReasonList = item => {
     return (
-      <View>
+      <View key={item.id}>
         <Pressable
           onPress={() => {
             setReason(item.item.reason);
@@ -96,8 +121,11 @@ const ReasonDecline = props => {
     );
   };
 
+  useEffect(() => {
+    console.log('decline reson => ', reason);
+  }, [reason]);
+
   const getDataFromResponse = () => {
-   
     if (responseGetReasonList.declineSubmitRes) {
       if (responseGetReasonList.declineSubmitRes.message) {
         toast.show(responseGetReasonList.declineSubmitRes.message, {
@@ -115,20 +143,22 @@ const ReasonDecline = props => {
   return (
     <>
       {getDataFromResponse()}
-      <Pressable
+
+      {/* <Pressable
         style={stylesHome.container}
-        onPress={() => Keyboard.dismiss()}>
-        <HeaderCustom
-          title={'Reason For Decline'}
-          viewName={appConstant.REASON}
-          leftIcon={true}
-          onClickLeftIcon={() => moveBack()}
-          rightIcon={false}
-          centerTitle={true}
-          onClickRightIcon={() => {}}
-          rightIconImage={''}
-          viewProps={props}
-        />
+        onPress={() => Keyboard.dismiss()}> */}
+      <HeaderCustom
+        title={'Reason For Decline'}
+        viewName={appConstant.REASON}
+        leftIcon={true}
+        onClickLeftIcon={() => moveBack()}
+        rightIcon={false}
+        centerTitle={true}
+        onClickRightIcon={() => {}}
+        rightIconImage={''}
+        viewProps={props}
+      />
+      <KeyboardAwareScrollView>
         <View>
           <View style={styles.viewTextInput}>
             <Text style={styles.textHello}>Reason for Declining?</Text>
@@ -137,7 +167,7 @@ const ReasonDecline = props => {
                 onPress={() => {
                   setShowReasonList(!showReasonList);
                 }}>
-                <View style={styles.buttonInsideReason}>
+                <View style={[styles.buttonInsideReason]}>
                   <Text multiline="true" style={styles.reasonText}>
                     {/* {reason === 'Select Reason For Decline'?  getDataFromResponse(responseGetReasonList): reason} */}
                     {reason}
@@ -154,27 +184,27 @@ const ReasonDecline = props => {
 
           <View style={styles.viewTextInput}>
             <Text style={styles.textHello}>Comments (Optional)</Text>
-            <KeyboardAwareScrollView>
-              <View style={styles.textAreaContainer}>
-                <TextInput
-                  style={styles.textArea}
-                  underlineColorAndroid="transparent"
-                  placeholder="Add Additional Comments"
-                  placeholderTextColor="grey"
-                  // numberOfLines={10}
-                  multiline={true}
-                  value={comments}
-                  onChangeText={value => {
-                    if (value.length <= appConstant.COMMENT_MAX_LIMIT) {
-                      setComments(value);
-                      setTextLimit(value.length);
-                    }
-                  }}></TextInput>
-                <Text style={styles.textLimit}>
-                  {textLimit}/{appConstant.COMMENT_MAX_LIMIT}
-                </Text>
-              </View>
-            </KeyboardAwareScrollView>
+            {/* <KeyboardAwareScrollView> */}
+            <View style={styles.textAreaContainer}>
+              <TextInput
+                style={styles.textArea}
+                underlineColorAndroid="transparent"
+                placeholder="Add Additional Comments"
+                placeholderTextColor="grey"
+                // numberOfLines={10}
+                multiline={true}
+                value={comments}
+                onChangeText={value => {
+                  if (value.length <= appConstant.COMMENT_MAX_LIMIT) {
+                    setComments(value);
+                    setTextLimit(value.length);
+                  }
+                }}></TextInput>
+              <Text style={styles.textLimit}>
+                {textLimit}/{appConstant.COMMENT_MAX_LIMIT}
+              </Text>
+            </View>
+            {/* </KeyboardAwareScrollView> */}
           </View>
 
           <Pressable
@@ -188,36 +218,49 @@ const ReasonDecline = props => {
               Submit Reason
             </Text>
           </Pressable>
+
           {showReasonList ? (
-            <View style={styles.viewFlatList}>
-              <>
-                {responseGetReasonList.isRequesting ? (
-                  <View style={styles.loaderFlatList}>
-                    <ActivityIndicator
-                      size="large"
-                      color={appColor.NAVY_BLUE}
-                    />
-                  </View>
-                ) : (
-                  <FlatList
-                    data={
-                      responseGetReasonList &&
-                      responseGetReasonList.declineReason
-                        ? responseGetReasonList.declineReason
-                        : []
-                    }
-                    renderItem={renderReasonList}
-                    keyExtractor={(item, index) => index.toString()}
-                  />
-                )}
-              </>
+            <View
+              style={[
+                styles.viewFlatList,
+                {
+                  width:
+                    Platform.OS === 'android'
+                      ? getOrientation() === 'portrait'
+                        ? '90%'
+                        : '94%'
+                      : getOrientation() === 'portrait'
+                      ? '90%'
+                      : '94%',
+                },
+              ]}>
+              {/* <View> */}
+              {responseGetReasonList.isRequesting ? (
+                <View style={styles.loaderFlatList}>
+                  <ActivityIndicator size="large" color={appColor.NAVY_BLUE} />
+                </View>
+              ) : (
+                // <ScrollView>
+                <FlatList
+                  data={
+                    responseGetReasonList && responseGetReasonList.declineReason
+                      ? responseGetReasonList.declineReason
+                      : []
+                  }
+                  renderItem={renderReasonList}
+                  scrollEnabled={false}
+                  keyExtractor={(item, index) => index.toString()}
+                />
+              )}
+              {/* </View> */}
             </View>
           ) : null}
+          {responseGetReasonList.isRequesting ? (
+            <Loader loading={responseGetReasonList.isRequesting} />
+          ) : null}
         </View>
-        {responseGetReasonList.isRequesting ? (
-          <Loader loading={responseGetReasonList.isRequesting} />
-        ) : null}
-      </Pressable>
+      </KeyboardAwareScrollView>
+      {/* </Pressable> */}
     </>
   );
 };

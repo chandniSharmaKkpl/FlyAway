@@ -3,7 +3,7 @@ import {
   View,
   Text,
   Image,
-  FlatList,
+  Platform,
   Pressable,
   BackHandler,
 } from 'react-native';
@@ -34,6 +34,7 @@ import {
   requestToGetBusStop,
   requestToGetAccessTokenBusBooking,
 } from './BusBooking.action';
+import { StatusBar } from 'react-native';
 
 const BusBookingScreen = props => {
   const [arrayBooking, setArrayBooking] = useState([1]); // All bookings data will get in this array
@@ -105,7 +106,10 @@ const BusBookingScreen = props => {
     if (response) {
       // console.log(' tempuser bus booking- $$$$$$$$$$$$-', responseBusBooking);
 
-      if ( response.functionUrl && responseBusBooking.accessTokenBusBooking.token) {
+      if (
+        response.functionUrl &&
+        responseBusBooking.accessTokenBusBooking.token
+      ) {
         functionUrl = response.functionUrl;
         functionUrl = functionUrl.replace(':actionKey', 'BUSBOOKING');
         functionUrl = functionUrl.replace(
@@ -121,9 +125,7 @@ const BusBookingScreen = props => {
         });
       }
     }
-  }, [responseBusBooking.accessTokenBusBooking?.token]);
-
- 
+  }, [responseBusBooking.accessTokenBusBooking.token, responseUser]);
 
   const onClickCalendarDate = async selectedDay => {
     let dateString1 = selectedDay.dateString;
@@ -151,8 +153,6 @@ const BusBookingScreen = props => {
     console.log(' converted date is ', convertedDate);
     return convertedDate;
   };
-
- 
 
   return (
     <>
@@ -187,8 +187,6 @@ const BusBookingScreen = props => {
       />
     </>
   );
-
- 
 };
 
 export default BusBookingScreen;

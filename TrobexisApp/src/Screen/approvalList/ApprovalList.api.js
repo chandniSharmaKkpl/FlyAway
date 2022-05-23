@@ -85,7 +85,7 @@ export const declineApprovalApi = argumentData => {
         data: response,
       }).then(response => {
         let response1 = response.data.data;
-      //  console.log(' response : ', response1);
+       console.log(' response => : ', response1);
 
         return response1;
       }),
@@ -117,6 +117,8 @@ export const getApprovalListWithStatus = argumentData => {
   let urlString = apiConstant.GET_APPROVAL_LIST_PLUS_STATUS;
   urlString = urlString.replace(':userId', userId);
   urlString = urlString.replace(':status', status);
+ 
+console.log("urlString ==>", urlString);
 
   return instance
     .get(urlString)

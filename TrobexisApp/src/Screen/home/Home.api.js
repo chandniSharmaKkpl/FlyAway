@@ -1,10 +1,15 @@
-import {actionConstant, apiConstant, appConstant, errorCodeConstant} from '../../constant';
+import {
+  actionConstant,
+  apiConstant,
+  appConstant,
+  errorCodeConstant,
+} from '../../constant';
 import localDB from '../../database/localDb';
 import {ApiBase} from '../../api/apiBase';
 import axios from 'axios';
+import {Platform} from 'react-native';
 
 export const getUserProfile = argumentData => {
-
   let deviceId = argumentData.user.deviceId;
   let apiBaseUrl = argumentData.user.apiBaseUrl;
   let clientToken = argumentData.user.clientToken;
@@ -35,14 +40,13 @@ export const getUserProfile = argumentData => {
       }),
     )
     .catch(err => {
-      console.log('42 api Erorr: ', err.response);
-
-      return err?.response?.data ? err?.response?.data : {code: errorCodeConstant.FORBIDDEN, message: "Network Error"};
+      return err?.response?.data
+        ? err?.response?.data
+        : {code: errorCodeConstant.FORBIDDEN, message: 'Network Error'};
     });
 };
 
 export const getItinaryList = argumentData => {
-
   let deviceId = argumentData.user.deviceId;
   let apiBaseUrl = argumentData.user.apiBaseUrl;
   let clientToken = argumentData.user.clientToken;
@@ -61,7 +65,6 @@ export const getItinaryList = argumentData => {
 
   let urlString = apiConstant.GET_ITINARY_LIST;
   urlString = urlString.replace(':userId', userId);
-  //console.log(' url  data  : ', urlString);
 
   return instance
     .get(urlString)
@@ -75,14 +78,11 @@ export const getItinaryList = argumentData => {
       }),
     )
     .catch(err => {
-      //console.log('88 api Erorr: ', err.response);
       return err.response.data;
     });
 };
 
 export const getItinaryListAllJourney = argumentData => {
-  // console.log('getItinaryListAllJourney argument data in api : ', argumentData);
-
   let deviceId = argumentData.user.deviceId;
   let apiBaseUrl = argumentData.user.apiBaseUrl;
   let clientToken = argumentData.user.clientToken;
@@ -101,7 +101,6 @@ export const getItinaryListAllJourney = argumentData => {
 
   let urlString = apiConstant.GET_ITINARY_LIST_ALL_JOURNEY;
   urlString = urlString.replace(':userId', userId);
-  //console.log(' url  data  : ', urlString);
 
   return instance
     .get(urlString)
@@ -115,7 +114,6 @@ export const getItinaryListAllJourney = argumentData => {
       }),
     )
     .catch(err => {
-      //console.log('88 api Erorr: ', err.response);
       return err.response.data;
     });
 };
@@ -139,7 +137,6 @@ export const getApprovalList = argumentData => {
 
   let urlString = apiConstant.GET_APPROVAL_LIST;
   urlString = urlString.replace(':userId', userId);
-  //console.log(' url  data  : ', urlString);
 
   return instance
     .get(urlString)
@@ -158,8 +155,6 @@ export const getApprovalList = argumentData => {
 };
 
 export const getItinaryDetail = argumentData => {
-  //console.log('getUserProfile argument data in api : ', argumentData);
-
   let deviceId = argumentData.user.deviceId;
   let apiBaseUrl = argumentData.user.apiBaseUrl;
   let clientToken = argumentData.user.clientToken;
@@ -177,7 +172,6 @@ export const getItinaryDetail = argumentData => {
 
   let urlString = apiConstant.GET_ITINARY_DETAIL;
   urlString = urlString.replace(':itineraryId', 'L4192');
-  //console.log(' url  data  : ', urlString);
 
   return instance
     .get(urlString)
@@ -191,7 +185,6 @@ export const getItinaryDetail = argumentData => {
       }),
     )
     .catch(err => {
-      //console.log('88 api Erorr: ', err.response);
       return err.response.data;
     });
 };

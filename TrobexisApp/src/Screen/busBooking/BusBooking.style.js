@@ -33,7 +33,8 @@ export default StyleSheet.create({
     marginTop:hp('3%'),
     width: wp('100%'), 
     height:hp('100%'), 
-    position:'absolute'
+    position:'absolute',
+    // backgroundColor: appColor.LIGH_BLUE
   },
   IndicatorStyle: {
     position: "absolute",

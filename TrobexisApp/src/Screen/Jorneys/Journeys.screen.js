@@ -32,7 +32,6 @@ const JourneyList = props => {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   useEffect(() => {
-    console.log('setOrientation', orientation);
     lor(setOrientation);
     return () => {
       rol();

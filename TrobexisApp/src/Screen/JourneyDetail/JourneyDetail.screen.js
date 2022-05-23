@@ -1,28 +1,41 @@
-import React, {useState, useEffect} from 'react';
-import {View, Text, BackHandler, ScrollView, Pressable} from 'react-native';
+/* eslint-disable react-native/no-inline-styles */
+import React, {useState, useCallback, useEffect} from 'react';
+import {
+  View,
+  Text,
+  Image,
+  FlatList,
+  BackHandler,
+  ScrollView,
+  Pressable,
+  Platform,
+} from 'react-native';
 import stylesHome from '../home/Home.style';
 import styles from './JourneyDetail.style';
 import {HeaderCustom, AlertView, Loader, backHandler} from '../../component';
 import {useSelector, useDispatch} from 'react-redux';
 import localDb from '../../database/localDb';
-import {appConstant, imageConstant, alertMsgConstant} from '../../constant';
-import {getDateInFormat, msToTime} from '../../common';
+import {
+  appConstant,
+  imageConstant,
+  alertMsgConstant,
+  appColor,
+} from '../../constant';
+import {getDateInFormat, msToTime, getDateInFormatNoTime} from '../../common';
 import {useRoute} from '@react-navigation/core';
 import {
+  heightPercentageToDP as hp,
   listenOrientationChange as lor,
   removeOrientationListener as rol,
+  getOrientation,
 } from '../../responsiveScreen';
+import DeviceInfo, {getDeviceId} from 'react-native-device-info';
 import {requestToGetJourneyDetail} from './JourneyDetail.action';
 import {getTimeInFormat} from '../../component/BookingCard';
-import IMAGE_BUS_SVG from '../../../assets/image/home_page/bus.svg';
-import IMAGE_CAR_SVG from '../../../assets/image/home_page/car.svg';
-import IMAGE_CHARTER_FLIGHT_SVG from '../../../assets/image/home_page/charter_flight.svg';
-import IMAGE_HELICOPTER_SVG from '../../../assets/image/home_page/helicopter.svg';
-import IMAGE_COMMERCIAL_FLIGHT_SVG from '../../../assets/image/home_page/commercial_flight.svg';
-import IMAGE_MARINE_TRANSFER_SVG from '../../../assets/image/home_page/marine_transfer.svg';
-import IMAGE_HOTEL_SVG from '../../../assets/image/home_page/hotel.svg';
-import IMAGE_SITE_ACCOMODATION_SVG from '../../../assets/image/home_page/site_accommodation.svg';
-import IMAGE_OFFSHORE_SVG from '../../../assets/image/home_page/offshore.svg';
+import {supplierType} from '../../utils/supplierType.json';
+import {Images} from '../../constant/SvgImgConst';
+import moment from 'moment';
+import {ConfirmedStatus} from '../../utils/JourneyDetailsStatus';
 
 const JourneyDetail = props => {
   const [orientation, setOrientation] = React.useState('portrait');
@@ -39,9 +52,19 @@ const JourneyDetail = props => {
   const [travellerDetailDate, setTravellerDetailDate] = useState('');
   const [tvr, setTvr] = useState('');
   const [arrayRoutes, setArrayRoutes] = useState([]);
+  const [lwidth, setlWidth] = useState(100);
+  const [lheight, setlHeight] = useState(102);
+  const [status, setStatus] = useState('Confirmed Itinerary');
+
+  const checkStatus = incomingstatus => {
+    if (!ConfirmedStatus.includes(incomingstatus)) {
+      setTimeout(() => {
+        setStatus('Draft Itinerary');
+      }, 500);
+    }
+  };
 
   useEffect(() => {
-    console.log('setOrientation', orientation);
     lor(setOrientation);
     return () => {
       rol();
@@ -62,7 +85,8 @@ const JourneyDetail = props => {
       });
     });
     return () => {
-      unsubscribe;
+      console.log('unsubscribe ==> JourneyDetail');
+      unsubscribe();
     };
   }, []);
 
@@ -78,7 +102,6 @@ const JourneyDetail = props => {
   }, []);
 
   const handleBackButtonClick = () => {
-    console.log(' alert show ', isAlertShow);
     // eslint-disable-next-line no-lone-blocks
     {
       if (route.params && route.params.callingView) {
@@ -110,9 +133,19 @@ const JourneyDetail = props => {
     return 'Total Time ' + strTime;
   };
 
+  const returnSupplierCodeImage = item => {
+    if (item.Details && item.Details.length > 0 && item.Details[0].Flight) {
+      let flightStr = item.Details[0].Flight;
+      let supplierType1 = flightStr.slice(0, 2);
+      const image = Images[supplierType1];
+      return image && image();
+    }
+    return null;
+  };
+
   const returnSvgImage = item => {
     if (item.Type === appConstant.CHARTER_FLIGHT) {
-      return <IMAGE_CHARTER_FLIGHT_SVG />;
+      return <Images.IMAGE_CHARTER_FLIGHT_SVG />;
     } else if (item.Type === appConstant.CAMP_ACCOMODATION) {
       if (
         item.Details &&
@@ -123,19 +156,20 @@ const JourneyDetail = props => {
         if (dictDetail.Classification) {
           let tempC = dictDetail.Classification;
           if (tempC === appConstant.PLATFORM) {
-            return <IMAGE_OFFSHORE_SVG />;
-          } else if (tempC === appConstant.BED) {
-            return <IMAGE_SITE_ACCOMODATION_SVG />;
+            return <Images.IMAGE_OFFSHORE_SVG />;
+          }
+          // else if (tempC === appConstant.BED) {
+          //   return <IMAGE_SITE_ACCOMODATION_SVG />;
+          // }
+          else {
+            return <Images.IMAGE_SITE_ACCOMODATION_SVG />;
           }
         }
-        return <IMAGE_SITE_ACCOMODATION_SVG />;
+        return <Images.IMAGE_SITE_ACCOMODATION_SVG />;
       }
     } else if (item.Type === appConstant.COMMERCIAL_FLIGHT) {
-      return <IMAGE_COMMERCIAL_FLIGHT_SVG />;
-    } else if (
-      item.type === appConstant.BUS ||
-      item.type === appConstant.DRIVE_IN_OUT_TRANSPORT
-    ) {
+      return <Images.IMAGE_COMMERCIAL_FLIGHT_SVG />;
+    } else if (item.Type === appConstant.BUS) {
       if (
         item.Details &&
         Array.isArray(item.Details) &&
@@ -145,55 +179,148 @@ const JourneyDetail = props => {
         if (dictDetail.Classification) {
           let tempC = dictDetail.Classification;
           if (tempC === appConstant.BUS || tempC === appConstant.COACH) {
-            return <IMAGE_BUS_SVG />;
+            return <Images.IMAGE_BUS_SVG />;
           } else {
-            return <IMAGE_CAR_SVG />;
+            return <Images.IMAGE_CAR_SVG />;
           }
         }
       }
-    } else if (item.type === appConstant.HOTEL) {
-      return <IMAGE_HOTEL_SVG />; // because, Hotel Accommodation has all categories in Hotel
-    } else if (item.type === appConstant.CAR_HIRE) {
-      return <IMAGE_CAR_SVG />;
-    } else if (item.type === appConstant.OTHER_GROUND_TRANSPORT) {
-      // console.log(' OTHER_GROUND_TRANSPORT ', item);
+    } else if (item.Type === appConstant.HOTEL_ACCOMMODATION) {
+      return <Images.IMAGE_HOTEL_SVG />; // because, Hotel Accommodation has all categories in Hotel
+    } else if (item.Type === appConstant.CAR_HIRE) {
+      return <Images.IMAGE_CAR_SVG />;
+    } else if (item.Type === appConstant.OTHER_GROUND_TRANSPORT) {
       if (
         item.Details &&
         Array.isArray(item.Details) &&
         item.Details.length > 0
       ) {
         let dictDetail = item.Details[0];
+        
         if (dictDetail.Classification) {
           let tempC = dictDetail.Classification;
+          
           if (tempC === appConstant.HELICOPTER) {
-            return <IMAGE_HELICOPTER_SVG />;
+            return <Images.IMAGE_HELICOPTER_SVG />;
           } else if (tempC === appConstant.WATERCRAFT) {
-            return <IMAGE_MARINE_TRANSFER_SVG />;
+            return <Images.IMAGE_MARINE_TRANSFER_SVG />;
           } else if (tempC === appConstant.COACH) {
-            return <IMAGE_BUS_SVG />;
+            return <Images.IMAGE_BUS_SVG />;
           }
         }
       }
+    } else if (item.Type === appConstant.TBA) {
+      return <Images.IMAGE_HANDSHAKE_SVG />;
     } else {
-      return <IMAGE_BUS_SVG />;
+      return <Images.IMAGE_BUS_SVG />;
     }
+  };
+
+  const ConvertSectoDay = n => {
+    var day = parseInt(n / (24 * 3600));
+    n = n % (24 * 3600);
+    var hour = parseInt(n / 3600);
+
+    n %= 3600;
+    var minutes = n / 60;
+
+    n %= 60;
+    var seconds = n;
+
+    let strToSend = '';
+    if (day > 0) {
+      strToSend = day + ' ' + 'days ';
+    }
+    if (hour > 0) {
+      strToSend = strToSend + ' ' + hour + ' ' + 'hours';
+    }
+    if (minutes > 0) {
+      strToSend = strToSend + ' ' + minutes + ' ' + 'minutes';
+    }
+    if (seconds > 0) {
+      strToSend = strToSend + ' ' + seconds + ' ' + 'seconds';
+    }
+
+    return strToSend;
   };
 
   const itemViews = (item, type, index) => {
     let isNoShowBtnVisible = false; // This flag is using to show no show button for flights only
+    const endDate =
+      item.Details[0] && item.Details[0].EndDate ? item.Details[0].EndDate : '';
+    const startDate =
+      item.Details[0] && item.Details[0].StartDate
+        ? item.Details[0].StartDate
+        : '';
+
+    var formatStartDate = moment(startDate);
+    var formatEndDate = moment(endDate);
+    let days = 0;
+    let duration = '';
+    if (formatStartDate && formatEndDate) {
+      days = formatEndDate.diff(formatStartDate, 'days');
+      let hours = formatEndDate.diff(formatStartDate, 'hours');
+      // let minutes = formatEndDate.diff(formatStartDate, 'minutes');
+
+      let seconds = formatEndDate.diff(formatStartDate, 'seconds');
+
+      if (seconds) {
+        duration = ConvertSectoDay(seconds);
+      }
+    }
 
     return (
-      <View style={styles.viewRowOutSide}>
+      <View
+        key={index}
+        style={styles.viewRowOutSide}
+        onLayout={event => {
+          var {x, y, width, height} = event.nativeEvent.layout;
+          setlWidth(getOrientation() === 'portrait' ? width - 82 : width - 115);
+          setlHeight(getOrientation() === 'portrait' ? height : height - 20);
+        }}>
         {/* Side bus view  */}
-        <View style={styles.viewLeftLine}>
-          <View style={styles.viewCircleBlue}>
+        <View style={[styles.viewLeftLine]}>
+          <View
+            style={[
+              styles.viewCircleBlue,
+              {
+                marginTop:
+                  Platform.OS === 'android'
+                    ? getOrientation() === 'portrait'
+                      ? hp('5%')
+                      : hp('8%')
+                    : getOrientation() === 'portrait'
+                    ? hp('5%')
+                    : hp('10%'),
+              },
+            ]}>
             <View style={styles.viewPlaneImg}>{returnSvgImage(item)}</View>
           </View>
         </View>
 
         {/* Detail Section */}
-        <View style={[styles.viewOutSide]}>
-          <View style={styles.viewRowTop}>
+        <View
+          style={[
+            styles.viewOutSide,
+            {
+              width: lwidth,
+              marginTop: getOrientation() === 'portrait' ? '8%' : '5%',
+            },
+          ]}>
+          <View
+            style={[
+              styles.viewRowTop,
+              {
+                width: lwidth,
+                paddingLeft: DeviceInfo.isTablet()
+                  ? getOrientation() === 'portrait'
+                    ? '3%'
+                    : '3%'
+                  : getOrientation() === 'portrait'
+                  ? '5%'
+                  : '2%',
+              },
+            ]}>
             <View style={styles.viewLeft}>
               <Text style={styles.textYellow}>
                 {item.Details &&
@@ -210,15 +337,53 @@ const JourneyDetail = props => {
                 )
               </Text>
 
-              <Text style={[styles.textBlack]}>
+              <Text
+                style={[styles.textBlack, styles.subTitle, {paddingTop: '2%'}]}>
                 {item.Details &&
                 item.Details.length > 0 &&
                 item.Details[0].StartDate
-                  ? getDateInFormat(item.Details[0].StartDate, false, true)
+                  ? getDateInFormatNoTime(
+                      item.Details[0].StartDate,
+                      false,
+                      true,
+                    )
                   : ''}
               </Text>
             </View>
-
+            {(item.Type === appConstant.COMMERCIAL_FLIGHT ||
+              item.Type === appConstant.CHARTER_FLIGHT ||
+              item.Type === appConstant.HELICOPTER) && (
+              <>
+                <View
+                  style={[
+                    styles.leftLine,
+                    {
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    },
+                  ]}>
+                  <View style={styles.imagePlan}>
+                    {returnSupplierCodeImage(item)}
+                  </View>
+                  {/* <Image
+                    source={imageConstant.IMAGE_CHARTER_FLIGHT_PNG}
+                    resizeMode={'contain'}
+                    style={styles.imagePlan}
+                  /> */}
+                  {item.Details &&
+                  item.Details.length > 0 &&
+                  item.Details[0].Flight ? (
+                    <Text style={styles.flightNumber}>
+                      {item.Details &&
+                        item.Details.length > 0 &&
+                        item.Details[0].Flight}
+                    </Text>
+                  ) : null}
+                  {/* <Text style={styles.flightCodeNumber}>(A320-200)</Text> */}
+                </View>
+              </>
+            )}
             {isNoShowBtnVisible ? (
               <Pressable
                 style={styles.buttonTextRed}
@@ -230,15 +395,19 @@ const JourneyDetail = props => {
               </Pressable>
             ) : null}
           </View>
+
           <View style={styles.viewSingleLine} />
 
           <View style={styles.viewDepartsAndArrive}></View>
           <View style={styles.viewItinerary}>
             <View style={styles.viewLocation}>
-              {item.Type === appConstant.CAMP_ACCOMODATION ? (
-                <Text style={styles.textBlueBig}>CheckIn</Text>
+              {item.Type === appConstant.CAMP_ACCOMODATION ||
+              item.Type === appConstant.HOTEL ? (
+                <Text style={styles.textBlueBig}>Check-In:</Text>
+              ) : item.Type === appConstant.CAR_HIRE ? (
+                <Text style={styles.textBlueBig}>Pick-Up:</Text>
               ) : (
-                <Text style={styles.textBlueBig}>Departs</Text>
+                <Text style={styles.textBlueBig}>Departs:</Text>
               )}
 
               <Text style={styles.textBlack}>
@@ -259,10 +428,13 @@ const JourneyDetail = props => {
 
             <View style={styles.viewLocation}>
               <View style={styles.viewSpace} />
-              {item.Type === appConstant.CAMP_ACCOMODATION ? (
-                <Text style={styles.textBlueBig}>CheckOut</Text>
+              {item.Type === appConstant.CAMP_ACCOMODATION ||
+              item.Type === appConstant.HOTEL ? (
+                <Text style={styles.textBlueBig}>Check-Out:</Text>
+              ) : item.Type === appConstant.CAR_HIRE ? (
+                <Text style={styles.textBlueBig}>Drop-off:</Text>
               ) : (
-                <Text style={styles.textBlueBig}>Arrives</Text>
+                <Text style={styles.textBlueBig}>Arrives:</Text>
               )}
 
               <Text style={styles.textBlack}>
@@ -270,25 +442,164 @@ const JourneyDetail = props => {
                 item.Details.length > 0 &&
                 item.Details[0].Destination
                   ? item.Details[0].Destination
-                  : ''}
+                  : '-'}
               </Text>
-              <Text style={styles.textBlack}>
-                {item.Details &&
-                item.Details.length > 0 &&
-                item.Details[0].EndDate
-                  ? getTimeInFormat(item.Details[0].EndDate, false, true)
-                  : ''}
-              </Text>
+              <View style={{flexDirection: 'row'}}>
+                <Text
+                  style={[
+                    styles.textBlack,
+                    {alignItems: 'flex-end', lineHeight: 25},
+                  ]}>
+                  {item.Details &&
+                  item.Details.length > 0 &&
+                  item.Details[0].EndDate
+                    ? getTimeInFormat(item.Details[0].EndDate, false, true)
+                    : '-'}
+                </Text>
+                {days > 0 && (
+                  <Text
+                    style={[styles.dayNumberText, {alignItems: 'flex-start'}]}>
+                    {' +' + days}
+                  </Text>
+                )}
+              </View>
+            </View>
+
+            <View style={styles.viewLocation}>
+              <View style={styles.viewSpace} />
+              {item.Type === appConstant.MEET_AND_GREET ? (
+                <></>
+              ) : (
+                <Text style={styles.textBlueBig}>Duration:</Text>
+              )}
+              <Text style={styles.textBlack}>{duration ? duration : '-'}</Text>
+            </View>
+
+            <View style={styles.viewLocation}>
+              {(item.Type === appConstant.BUS ||
+                item.Type === appConstant.CAR_HIRE) && (
+                <>
+                  <View style={styles.viewSpace} />
+                  <Text style={styles.textBlueBig}>Vehicle</Text>
+                  <Text style={styles.textBlack}></Text>
+                </>
+              )}
+            </View>
+
+            <View style={styles.viewLocation}>
+              {item.Type === appConstant.CAMP_ACCOMODATION && (
+                <>
+                  <View style={styles.viewSpace} />
+                  <Text style={styles.textBlueBig}>Room:</Text>
+                  <Text style={styles.textBlack}>-</Text>
+                  <View style={styles.viewSpace} />
+                  <Text style={styles.textBlueBig}>Locker:</Text>
+                  <Text style={styles.textBlack}>-</Text>
+                  <View style={styles.viewSpace} />
+                  <Text style={styles.textBlueBig}>Phone:</Text>
+                  <Text style={styles.textBlack}>-</Text>
+                  <View style={styles.viewSpace} />
+                  <Text style={styles.textBlueBig}>Muster 1:</Text>
+                  <Text style={styles.textBlack}>-</Text>
+                  <View style={styles.viewSpace} />
+                  <Text style={styles.textBlueBig}>Muster 2:</Text>
+                  <Text style={styles.textBlack}>-</Text>
+                  <View style={styles.viewSpace} />
+                  <Text style={styles.textBlueBig}>Tag/Token:</Text>
+                  <Text style={styles.textBlack}>-</Text>
+                </>
+              )}
+            </View>
+
+            <View style={styles.viewLocation}>
+              {item.Type === appConstant.HOTEL && (
+                <>
+                  <View style={styles.viewSpace} />
+                  <Text style={styles.textBlueBig}>Room:</Text>
+                  <Text style={styles.textBlack}>A-101A</Text>
+                  <View style={styles.viewSpace} />
+                  <Text style={styles.textBlueBig}>Phone:</Text>
+                  <Text style={styles.textBlack}>08 6587 5698</Text>
+                  <View style={styles.viewSpace} />
+                  <Text style={styles.textBlueBig}>Address:</Text>
+                  <Text style={styles.textBlack}></Text>
+                </>
+              )}
+            </View>
+
+            <View style={styles.viewLocation}>
+              {item.Type === appConstant.WATERCRAFT && (
+                <>
+                  <View style={styles.viewSpace} />
+                  <Text style={styles.textBlueBig}>Vessel:</Text>
+                  <Text style={styles.textBlack}></Text>
+                </>
+              )}
+            </View>
+
+            <View style={styles.viewLocation}>
+              {!(
+                item.Type === appConstant.BUS ||
+                item.Type === appConstant.COACH ||
+                item.Type === appConstant.CAMP_ACCOMODATION ||
+                item.Type === appConstant.WATERCRAFT ||
+                item.Type === appConstant.MEET_AND_GREET
+              ) && (
+                <>
+                  <View style={styles.viewSpace} />
+                  <Text style={styles.textBlueBig}>Booking #</Text>
+                  <Text style={styles.textBlack}>-</Text>
+                </>
+              )}
+            </View>
+
+            <View style={styles.viewLocation}>
+              {(item.Type === appConstant.COMMERCIAL_FLIGHT ||
+                item.Type === appConstant.CHARTER_FLIGHT ||
+                item.Type === appConstant.HELICOPTER) && (
+                <>
+                  <View style={styles.viewSpace} />
+                  <Text style={styles.textBlueBig}>Ticket #</Text>
+                  <Text style={styles.textBlack}>-</Text>
+                </>
+              )}
+            </View>
+
+            <View style={styles.viewLocation}>
+              <View style={styles.viewSpace}>
+                <Text style={styles.textBlueBig}>Status:</Text>
+                {item.Status === 'Booked' || item.Status === 'Reserved' ? (
+                  <Text style={styles.textConfirmedInBox}>Confirmed</Text>
+                ) : (
+                  <Text style={styles.textNotConfirmedInBox}>
+                    Not Confirmed
+                  </Text>
+                )}
+              </View>
+            </View>
+
+            <View style={styles.viewLocation}>
+              {(item.Type === appConstant.HOTEL ||
+                item.Type === appConstant.MEET_AND_GREET) && (
+                <>
+                  <View style={styles.viewSpace} />
+                  <Text style={styles.textBlueBig}>Note:</Text>
+                  <Text style={styles.textBlack}>
+                    Your QR code will be scanned when you arrive at your hotel.
+                    Please have your QR code ready
+                  </Text>
+                </>
+              )}
             </View>
           </View>
 
-          <View
+          {/* <View
             style={
               item.Type === appConstant.CHARTER_FLIGHT
                 ? styles.ViewBlueBottom
                 : styles.ViewBlueBottom
             }>
-            <Text style={[styles.textWhite, {padding: '2%'}]}>
+            <Text style={[styles.textWhite, {padding: hp('2%')}]}>
               {item.Details &&
               item.Details.length > 0 &&
               item.Details[0].StartDate &&
@@ -299,12 +610,26 @@ const JourneyDetail = props => {
                   )
                 : 'Total Time'}
             </Text>
-          </View>
+          </View> */}
         </View>
 
         {index === responseDetail.journeyDetail.Itinerarys.length - 1 ? null : (
-          <View style={styles.viewDashedLine}>
-            <View style={styles.viewDotted} />
+          <View
+            style={[
+              styles.viewDashedLine,
+              {
+                top:
+                  Platform.OS === 'android'
+                    ? getOrientation() === 'portrait'
+                      ? '11%'
+                      : '12%'
+                    : getOrientation() === 'portrait'
+                    ? '11%'
+                    : '12%',
+                height: '100%',
+              },
+            ]}>
+            {/* <View style={styles.viewDotted} /> */}
           </View>
         )}
       </View>
@@ -312,6 +637,8 @@ const JourneyDetail = props => {
   };
 
   const getDataFromResponse = (responseDetail, type) => {
+    // console.log('responseDetail.Status+-+-+', responseDetail.Status);
+
     if (responseDetail && responseDetail[type]) {
       if (type === 'StartDate') {
         return getDateInFormat(responseDetail[type], false, false);
@@ -354,6 +681,13 @@ const JourneyDetail = props => {
             <View style={styles.viewInside2}>
               <View style={styles.viewContainRow}>
                 {returnRowView(
+                  'Date: ',
+                  getDataFromResponse(
+                    responseDetail.journeyDetail,
+                    'StartDate',
+                  ),
+                )}
+                {returnRowView(
                   'Name: ',
                   getDataFromResponse(
                     responseDetail.journeyDetail,
@@ -365,25 +699,49 @@ const JourneyDetail = props => {
                   getDataFromResponse(responseDetail.journeyDetail, 'Title'),
                 )}
                 {returnRowView(
-                  'Date: ',
-                  getDataFromResponse(
-                    responseDetail.journeyDetail,
-                    'StartDate',
-                  ),
-                )}
-                {returnRowView(
                   'Travel Request ID: ',
                   getDataFromResponse(
                     responseDetail.journeyDetail,
                     'TravelRequestId',
                   ),
                 )}
+                {returnRowView(
+                  'In Country Helpline ',
+                  getDataFromResponse(),
+                  // responseDetail.journeyDetail,
+                  // 'TravelRequestId',
+                )}
+                {returnRowView(
+                  'Security: ',
+                  getDataFromResponse(),
+                  // responseDetail.journeyDetail,
+                  // 'TravelRequestId',
+                )}
+                {returnRowView(
+                  'Meet & Greet Team: ',
+                  getDataFromResponse(),
+                  // responseDetail.journeyDetail,
+                  // 'TravelRequestId',
+                )}
               </View>
             </View>
 
             {/* Itinerary Details */}
-            <View style={styles.viewItineraryList} />
+            <View
+              style={{marginTop: getOrientation() === 'portrait' ? '8%' : '5%'}}
+            />
             <Text style={styles.textBlackTitle}>Itinerary Details</Text>
+
+            {responseDetail &&
+            responseDetail.journeyDetail &&
+            responseDetail.journeyDetail.Itinerarys &&
+            responseDetail.journeyDetail.Itinerarys.length > 0 ? (
+              status === 'Confirmed Itinerary' ? (
+                <Text style={styles.textConfirmed}>Confirmed Itinerary</Text>
+              ) : (
+                <Text style={styles.textNotConfirmed}>Draft Itinerary</Text>
+              )
+            ) : null}
 
             {responseDetail &&
             responseDetail.journeyDetail &&
@@ -393,6 +751,8 @@ const JourneyDetail = props => {
                   item,
                   index,
                 ) {
+                  // console.log("responseDetail.journeyDetail ==>",JSON.stringify(item,null, 4));
+                  checkStatus(item.Status);
                   return itemViews(item, imageConstant.IMAGE_PLANE, index);
                 })
               : null}
@@ -406,7 +766,6 @@ const JourneyDetail = props => {
           <Loader loading={responseDetail.isRequesting} />
         ) : null}
       </View>
-
       {isAlertShow ? (
         <AlertView
           title={alertMsgConstant.PLEASE_CONFIRM}

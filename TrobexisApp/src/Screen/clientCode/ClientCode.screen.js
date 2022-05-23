@@ -4,13 +4,18 @@ import {
   Text,
   Image,
   FlatList,
+  Alert,
   ImageBackground,
   Pressable,
   TextInput,
   BackHandler,
   Keyboard,
+  ScrollView,
+  SafeAreaView,
 } from 'react-native';
+// import {is24HourFormat} from 'react-native-device-time-format';
 import moment from 'moment';
+// import {SafeAreaView} from 'react-navigation/native';
 
 import stylesHome from '../home/Home.style';
 import commonStyle from '../../common/common.style';
@@ -39,11 +44,13 @@ import {Platform} from 'react-native';
 import PushController from '../../component/PushControllerTemp';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import AuthContext from '../../context/AuthContext';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+// import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {
   checkBioMetricAvailable,
   authenticateUsingBioMetric,
 } from '../../component/BioMetricAuth';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const ClientCodeScreen = props => {
   const [orientation, setOrientation] = React.useState('portrait');
@@ -62,6 +69,8 @@ const ClientCodeScreen = props => {
   const [isAlertShow, setIsAlertShow] = useState(false); // Android back handling show alert
   //const [countBack, setCountBack] = React.useState(0)
   var countBack = 0;
+
+// console.log("isAlertShow =====>", isAlertShow);
 
   const optionalConfigObject = {
     title: 'Authentication Required', // Android
@@ -104,6 +113,18 @@ const ClientCodeScreen = props => {
     }, []),
   );
 
+  const handleBackAction = () => {
+    Alert.alert("Exit app", "Are you sure you want to go back?", [
+      {
+        text: "Cancel",
+        onPress: () => null,
+        style: "cancel"
+      },
+      { text: "YES", onPress: () => BackHandler.exitApp() }
+    ]);
+    return true;
+  };
+
   React.useEffect(() => {
     const unsubscribe = props.navigation.addListener('focus', () => {
       const tempUser = localDB.getUser();
@@ -117,15 +138,22 @@ const ClientCodeScreen = props => {
       });
     });
 
-    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    // BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
 
     return () => {
-      BackHandler.removeEventListener(
-        'hardwareBackPress',
-        handleBackButtonClick,
-      );
-      unsubscribe;
+      // BackHandler.removeEventListener(
+      //   'hardwareBackPress',
+      //   handleBackButtonClick,
+      // );
+      unsubscribe;      
     };
+  }, []);
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", handleBackAction);
+
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", handleBackAction);
   }, []);
 
   //** Getting client codes from the async storage  */
@@ -155,8 +183,9 @@ const ClientCodeScreen = props => {
   };
 
   const handleBackButtonClick = () => {
-    countBack = countBack + 1;
-    if (countBack > 1) {
+    // countBack = countBack + 1;
+    // if (countBack > 1) 
+    {
       setIsAlertShow(true);
     }
     return true;
@@ -241,83 +270,86 @@ const ClientCodeScreen = props => {
   return (
     <>
       {/* {checkResponseCode()} */}
-      <Pressable style={stylesHome.container} onPress={onClickOutside}>
-        <ImageBackground
-          source={imageConstant.IMAGE_LOGIN_BACKGROUND}
-          style={commonStyle.image}
-          resizeMode={'cover'}>
-          <KeyboardAwareScrollView>
-            <View style={styles.logoImage}>
-              <Image
-                source={imageConstant.IMAGE_LOGO}
-                resizeMode={'contain'}
-                style={commonStyle.image}
-              />
-            </View>
-            <View style={styles.titleView}>
-              <Text style={styles.titleStyle}>Client Code</Text>
-            </View>
+      <ImageBackground
+        source={imageConstant.IMAGE_LOGIN_BACKGROUND}
+        style={commonStyle.image}
+        resizeMode={'cover'}
+        >
+        <KeyboardAwareScrollView>
+          <View style={styles.logoImage}>
+            <Image
+              source={imageConstant.IMAGE_LOGO}
+              resizeMode={'contain'}
+              style={commonStyle.image}
+            />
+          </View>
+          <View style={styles.titleView}>
+            <Text style={styles.titleStyle}>Client Code</Text>
+            {/* <Text style={{textAlign: 'center'}}>App Version 2.5(3.2)</Text> */}
+          </View>
 
-            <View style={styles.inputView}>
-              <LoginTextView
-                onFocus={() => setIsClientCodeListShow(true)}
-                placeholder="Enter Client Code"
-                value={clientCode}
-                error={error}
-                onChangeText={value => {
-                  //** for showing dropdown of prefilled client code  */
-                  if (clientCode && clientCode.length > 0) {
-                    setIsClientCodeListShow(false);
-                  } else {
-                    //setIsClientCodeListShow(true);
-                  }
-                  setClientCode(value);
-                  if (value.trim().length > 0) {
-                    setError('');
-                  }
-                }}
-              />
+          <View style={styles.inputView}>
+            <LoginTextView
+              onFocus={() => setIsClientCodeListShow(true)}
+              placeholder="Enter Client Code"
+              value={clientCode}
+              error={error}
+              onChangeText={value => {
+                //** for showing dropdown of prefilled client code  */
+                if (clientCode && clientCode.length > 0) {
+                  setIsClientCodeListShow(false);
+                } else {
+                  //setIsClientCodeListShow(true);
+                }
+                setClientCode(value);
+                if (value.trim().length > 0) {
+                  setError('');
+                }
+              }}
+            />
 
-              <Pressable
-                style={[commonStyle.yellowButton, styles.btnSubmit]}
-                onPress={() => submitForm()}>
-                <Text style={[commonStyle.yellowButtonTitle]}>Submit</Text>
-              </Pressable>
+            <Pressable
+              style={[commonStyle.yellowButton, styles.btnSubmit]}
+              onPress={() => submitForm()}>
+              <Text style={[commonStyle.yellowButtonTitle]}>Submit</Text>
+            </Pressable>
 
-              {isClientCodeListShow &&
-              arrayClientCode &&
-              arrayClientCode.length > 0 ? (
-                <View style={styles.viewFlatList}>
-                  <>
-                    <FlatList
-                      horizontal={false}
-                      style={styles.flatList}
-                      data={arrayClientCode}
-                      renderItem={renderClientCode}
-                      keyExtractor={(item, index) => index.toString()}
-                    />
-                  </>
-                </View>
-              ) : null}
+            {isClientCodeListShow &&
+            arrayClientCode &&
+            arrayClientCode.length > 0 ? (
+              <View style={styles.viewFlatList}>
+                <>
+                  <FlatList
+                    horizontal={false}
+                    style={styles.flatList}
+                    data={arrayClientCode}
+                    renderItem={renderClientCode}
+                    keyExtractor={(item, index) => index.toString()}
+                    scrollEnabled={false}
+                  />
+                </>
+              </View>
+            ) : null}
 
-              {/* {localDB.getUser()? <Pressable style={styles.btnLogin} onPress={() => checkBioMetricAvailable()}>
+            {/* {localDB.getUser()? <Pressable style={styles.btnLogin} onPress={() => checkBioMetricAvailable()}>
                 <Text style={styles.loginBtnText}>Login with TouchID/FaceID</Text>
               </Pressable> :null} */}
-            </View>
-
-            {/* <TextInput 
+          </View>
+          {/* <TextInput 
               value={deviceInfo.device_token? deviceInfo.device_token: ''}
               style={styles.tokenStyle}
               multiline={true}
             /> */}
-          </KeyboardAwareScrollView>
-        </ImageBackground>
+        </KeyboardAwareScrollView>
+      </ImageBackground>
 
-        {responseData.isRequesting ? (
-          <Loader loading={responseData.isRequesting} />
-        ) : null}
-      </Pressable>
+      {responseData.isRequesting ? (
+        <Loader loading={responseData.isRequesting} />
+      ) : null}
+
       {isAlertShow ? (
+        // console.log("AlertView  ===>  res", isAlertShow)
+        // alert()
         <AlertView
           title={alertMsgConstant.PLEASE_CONFIRM}
           subtitle={alertMsgConstant.EXIT_CONFIRM}
@@ -327,7 +359,8 @@ const ClientCodeScreen = props => {
           bigBtnText={''}
           onPressConfirmBtn={() => {
             setIsAlertShow(false);
-            BackHandler.exitApp();
+            alert("exit")
+            BackHandler.exitApp()
           }}
           onPressCancel={() => {
             setIsAlertShow(false);
