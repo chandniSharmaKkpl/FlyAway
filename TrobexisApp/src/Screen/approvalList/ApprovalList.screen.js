@@ -162,9 +162,9 @@ const ApprovalList = props => {
     console.log(item);
     let itemDetail = item.item;
     let date =
-      itemDetail && itemDetail.requestdate ? itemDetail.requestdate : '';
+      itemDetail && itemDetail.startdate ? itemDetail.startdate : '';
 
-    let requestdate = date ? getDateInFormat(date, false, false) : '';
+    let startdate = date ? getDateInFormat(date, false, false) : '';
     if (itemDetail) {
       return (
         <View style={styles.viewOutSide}>
@@ -206,7 +206,7 @@ const ApprovalList = props => {
                       source={imageConstant.IMAGE_CALENDAR_BLUE}
                     />
                   </View>
-                  <Text style={styles.textDetail}>{requestdate}</Text>
+                  <Text style={styles.textDetail}>{startdate}</Text>
                 </View>
               </View>
               {itemDetail.status &&
