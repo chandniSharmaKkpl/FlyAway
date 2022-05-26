@@ -285,7 +285,7 @@ const ClientCodeScreen = props => {
           </View>
           <View style={styles.titleView}>
             <Text style={styles.titleStyle}>Client Code</Text>
-            <Text style={{textAlign: 'center'}}>App Version 2.5(3.2)</Text>
+            <Text style={{textAlign: 'center'}}>App Version 2.5(3.3)</Text>
           </View>
 
           <View style={styles.inputView}>
