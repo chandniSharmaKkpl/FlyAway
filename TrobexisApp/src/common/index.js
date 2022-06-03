@@ -1,6 +1,8 @@
 import React, {useState, useCallback, useEffect} from 'react';
 import format from 'date-fns/format';
 import {errorCodeConstant} from '../constant';
+import localDb from '../database/localDb';
+import moment from 'moment';
 
 const getTimeMessage = () => {
   var d = new Date();
@@ -44,41 +46,91 @@ export const msToTime = ms => {
   else return days + ' Days';
 };
 
+export const getDateTimeOfView = async (
+  dateString,
+  isDate,
+  isTime,
+  isDateTime,
+) => {
+  let dateValueArray = await getDateInFormat(dateString, false, false);
+
+  for (let index = 0; index < dateValueArray.length; index++) {
+    const element = dateValueArray[index];
+
+    if (isDate && !isTime && !isDateTime) {
+      if (element.key == 'Format.Date') {
+        let formattedDate = moment(dateString).format(element.value);
+        return formattedDate;
+      }
+    }
+    if (!isDate && isTime && !isDateTime) {
+      if (element.key == 'Format.Time') {
+        let formattedDate = moment(dateString).format(element.value);
+        return formattedDate;
+      }
+    }
+  }
+};
+
 export const getDateInFormat = (
   dateString,
   isShortDayName,
   isCompleteDayName,
 ) => {
   if (dateString) {
-    let dateTemp = Date.parse(dateString);
-    // Need to show same date format in all app
-
-    if (isShortDayName) {
-      let formattedDate = format(dateTemp, 'dd-MM-yyyy');
-      return formattedDate;
-    } else {
-      let formattedDate = format(dateTemp, 'dd-MM-yyyy hh:mm:a');
-      return formattedDate;
-    }
-
-    // if (isShortDayName) {
-    //   let formattedDate = format(dateTemp, 'EE, MMMM dd yyyy');
-    //   return formattedDate;
-    // } else if (isCompleteDayName) {
-    //   let formattedDate = format(dateTemp, 'EEEE, MMMM dd yyyy');
-    //   return formattedDate;
-    // } else {
-    // let formattedDate = format(dateTemp, 'dd-MM-yyyy');
-    // return formattedDate;
-    // }
+    return new Promise((resolve, reject) => {
+      try {
+        let userSetting = localDb.getUserSettings();
+        resolve(userSetting);
+      } catch (error) {
+        reject(error);
+      }
+    });
   }
-  return '';
 };
 
-export const getDateInFormatNoTime = (
-  dateString,
-  
-) => {
+/*
+
+        let arrayTemp = response;
+        resolve(arrayTemp);
+
+        // Need to show same date format in all app
+
+        // let userSetting = localDb.getUserSettings();
+        // var promiseResponse = '';
+        // Promise.resolve(userSetting).then(response => {
+        //   let arrayTemp = response;
+
+        let formatter = arrayTemp.map(dataObj => {
+          if (!isShortDayName && !isCompleteDayName) {
+            if (dataObj.key == 'Format.Datetime') {
+              let formattedDate = moment(dateString).format(dataObj.value);
+              console.log(
+                ' formattedDate date time --->',
+                formattedDate,
+                'dataObj.value',
+                dataObj.value,
+              );
+              return formattedDate;
+            }
+          } else {
+            if (isShortDayName) {
+              if (dataObj.key == 'Format.Date') {
+                let formattedDate = moment(dateString).format(dataObj.value);
+                // console.log(" formattedDate --->", formattedDate, "dataObj.value", dataObj.value)
+                //  return formattedDate;
+              }
+            } else {
+              if (dataObj.key == 'Format.Datetime') {
+                let formattedDate = moment(dateString).format(dataObj.value);
+                // console.log(" formattedDate --->", formattedDate, "dataObj.value", dataObj.value)
+                // return formattedDate;
+              }
+            }
+          }
+        });
+*/
+export const getDateInFormatNoTime = dateString => {
   if (dateString) {
     let dateTemp = Date.parse(dateString);
     // Need to show same date format in all app
@@ -89,8 +141,8 @@ export const getDateInFormatNoTime = (
     //   let formattedDate = format(dateTemp, 'EE, MMMM dd yyyy');
     //   return formattedDate;
     // } else if (isCompleteDayName) {
-      // let formattedDate = format(dateTemp, 'EEEE, MMMM dd yyyy');
-      // return formattedDate;
+    // let formattedDate = format(dateTemp, 'EEEE, MMMM dd yyyy');
+    // return formattedDate;
     // } else {
     // let formattedDate = format(dateTemp, 'dd-MM-yyyy');
     // return formattedDate;
@@ -98,7 +150,6 @@ export const getDateInFormatNoTime = (
   }
   return '';
 };
-
 
 export function isError(params) {
   if (params.code && Number.isInteger(params.code)) {
@@ -145,5 +196,6 @@ export default {
   getTimeMessage,
   isError,
   msToTime,
+  getDateTimeOfView,
   // useBackButton1
 };

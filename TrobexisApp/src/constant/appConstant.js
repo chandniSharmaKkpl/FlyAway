@@ -1,3 +1,6 @@
+import DeviceInfo from 'react-native-device-info';
+
+let version = DeviceInfo.getVersion();
 //  Word constant, Alert constants will go hereex
 
 export default {
@@ -106,7 +109,12 @@ export default {
   TURKISH_AIRLINES: 'TK',
   UNITED_AIRLINES: 'UA',
   VIRGIN_ATLANTIC: 'VS',
-  VIRGIN_AUSTRALIA: 'VA'
+  VIRGIN_AUSTRALIA: 'VA',
+
+  // Api date & version
+
+  APP_VERSION : version,
+  USER_SETTING:'settings'
 };
 
 

@@ -125,6 +125,30 @@ const setUserId = async data => {
     });
 };
 
+const setUserSettings = async (data) => {
+  await AsyncStorage.setItem(appConstant.USER_SETTING, JSON.stringify(data))
+  .then(() => {
+    return true;
+  })
+  .catch(() => {
+    return false;
+  });
+};
+
+const getUserSettings = async () => {
+  const userSettings = await AsyncStorage.getItem(appConstant.USER_SETTING);
+  let userSettingsArray;
+  if (userSettings) {
+    userSettingsArray = JSON.parse(userSettings);
+    var itemArray = userSettingsArray.settings;
+  
+    return itemArray;
+  } else {
+    return null;
+  }
+};
+
+
 export default {
   getAccessToken,
   setAccessToken,
@@ -137,4 +161,6 @@ export default {
   getUserId,
   setUserId,
   clearAll,
+  getUserSettings,
+  setUserSettings
 };

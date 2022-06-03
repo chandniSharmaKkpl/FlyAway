@@ -32,6 +32,8 @@ export function* workerGetUserProfile(argumentData) {
       }
     } else {
       if (userProfile) {
+        // console.log(" response 1 is ===> ", userProfile);
+        localDb.setUserSettings(userProfile);
         yield put({
           type: actionConstant.ACTION_GET_USER_PROFILE_SUCCESS,
           payload: userProfile,
@@ -95,9 +97,6 @@ export function* workerGetItinaryListAllJoureny(argumentData) {
       getItinaryListAllJourney,
       argumentData.payload,
     );
-
-    console.log(' itinary list ===>', itinaryList);
-
     if (isError(itinaryList)) {
       yield put({
         type: actionConstant.ACTION_API_ERROR_SUCCESS,

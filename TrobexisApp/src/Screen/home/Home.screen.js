@@ -97,8 +97,6 @@ const HomeScreen = props => {
 
   const handleBackButtonClick = () => {
     // countBack = countBack + 1;
-    console.log(' back count Homeview  ', countBack);
-
     // if (countBack > 1)
     {
       setIsAlertShow(true);
@@ -168,15 +166,9 @@ const HomeScreen = props => {
       // if (keyName === 'Function.Bus') {
       //   return false;
       // }
-
-      console.log('164 Keynaem', keyName);
-
       let matchElement = response.userProfile.settings.find(
         item => item.key == keyName,
       );
-
-      console.log(' match ele', matchElement, 'Keynaem', keyName);
-
       if (matchElement.value === 'Y') {
         return true;
       } else {
@@ -205,7 +197,6 @@ const HomeScreen = props => {
           rightIconImage={''}
           viewProps={props}
           onClickLeftIcon={() => {
-            console.log(' open drawer ');
             props.navigation.toggleDrawer();
           }}
           // setAlertShowFromHeader={value => setIsAlertShow(value)}

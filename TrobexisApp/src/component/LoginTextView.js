@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, Image, TextInput, StyleSheet} from 'react-native';
+import {Text, View, Image, TextInput, StyleSheet, Platform} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -39,7 +39,7 @@ const LoginTextView = props => {
           onChangeText={onChangeText}
           secureTextEntry={secureTextEntry}
           keyboardType={keyboardType}
-          // placeholderTextColor={placeHolderColor?placeHolderColor:'white'}
+          placeholderTextColor={ Platform.OS === 'android' ?  placeHolderColor?placeHolderColor:'lightgray' : null}
           onSubmitEditing={onSubmitEditing}
           placeholder={placeholder}
           // editable={editable}

@@ -22,7 +22,12 @@ import {
 } from '../../constant';
 import {Images} from '../../constant/SvgImgConst';
 import {useToast} from 'react-native-toast-notifications';
-
+import {
+  widthPercentageToDP as wp,
+  listenOrientationChange as lor,
+  removeOrientationListener as rol,
+  getOrientation,
+} from '../../responsiveScreen';
 import {requestGetApprovalListWithStatus} from './ApprovalList.action';
 import {getDateInFormat} from '../../common';
 import {requestAcceptApproval} from './ApprovalList.action';
@@ -38,6 +43,7 @@ const ApprovalList = props => {
   const responseData = useSelector(state => state.HomeReducer);
   const responseApprovalData = useSelector(state => state.ApprovalListReducer);
   const route = useRoute();
+  const [orientation, setOrientation] = React.useState('portrait');
 
   const dispatch = useDispatch();
   const [approvalList, setApprovalList] = useState(
@@ -46,6 +52,13 @@ const ApprovalList = props => {
   const [refreshing, setRefreshing] = React.useState(false);
 
   const [selectedIndex, setSelectedIndex] = useState(0);
+
+  useEffect(() => {
+    lor(setOrientation);
+    return () => {
+      rol();
+    };
+  }, []);
 
   //** This method will call when coming back from approval detail screen and show the data based on last selected index */
   onBackReceiveData = data => {
@@ -161,8 +174,7 @@ const ApprovalList = props => {
   const renderItem = item => {
     console.log(item);
     let itemDetail = item.item;
-    let date =
-      itemDetail && itemDetail.startdate ? itemDetail.startdate : '';
+    let date = itemDetail && itemDetail.startdate ? itemDetail.startdate : '';
 
     let startdate = date ? getDateInFormat(date, false, false) : '';
     if (itemDetail) {
@@ -173,14 +185,17 @@ const ApprovalList = props => {
             onPress={() => moveToDetailView(itemDetail)}>
             <View style={styles.viewInside2}>
               <View>
-                <Text style={styles.textTitle}>{itemDetail.requiredby}</Text>
+                <Text
+                  style={[
+                    styles.textTitle,
+                    {
+                      width: getOrientation() === 'portrait' ? wp('70%') : null,
+                    },
+                  ]}>
+                  {itemDetail.requiredby}
+                </Text>
                 <View style={styles.viewRow}>
                   <View style={styles.viewImages}>
-                    {/* <Image
-                      style={styles.image}
-                      resizeMode={'contain'}
-                      source={Images.IMAGE_REQUEST}
-                    /> */}
                     <Images.IMAGE_REQUEST />
                   </View>
                   <Text style={styles.textDetail}>

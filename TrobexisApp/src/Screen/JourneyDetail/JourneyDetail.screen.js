@@ -34,6 +34,8 @@ import {requestToGetJourneyDetail} from './JourneyDetail.action';
 import {getTimeInFormat} from '../../component/BookingCard';
 import {supplierType} from '../../utils/supplierType.json';
 import {Images} from '../../constant/SvgImgConst';
+import DeviceTimeFormat from 'react-native-device-time-format';
+import { is24HourFormat } from 'react-native-device-time-format'
 import moment from 'moment';
 import {ConfirmedStatus} from '../../utils/JourneyDetailsStatus';
 
@@ -55,7 +57,8 @@ const JourneyDetail = props => {
   const [lwidth, setlWidth] = useState(100);
   const [lheight, setlHeight] = useState(102);
   const [status, setStatus] = useState('Confirmed Itinerary');
-
+  const [state, setState] = useState();
+  const [currentTime, setCurrentTime] = useState("");
   const checkStatus = incomingstatus => {
     if (!ConfirmedStatus.includes(incomingstatus)) {
       setTimeout(() => {
@@ -73,6 +76,7 @@ const JourneyDetail = props => {
 
   useEffect(() => {
     const unsubscribe = props.navigation.addListener('focus', () => {
+      getCurrentHourFormat(); 
       const tempUser = localDb.getUser();
       Promise.resolve(tempUser).then(response => {
         let param = {
@@ -100,6 +104,8 @@ const JourneyDetail = props => {
       );
     };
   }, []);
+
+
 
   const handleBackButtonClick = () => {
     // eslint-disable-next-line no-lone-blocks
@@ -196,10 +202,10 @@ const JourneyDetail = props => {
         item.Details.length > 0
       ) {
         let dictDetail = item.Details[0];
-        
+
         if (dictDetail.Classification) {
           let tempC = dictDetail.Classification;
-          
+
           if (tempC === appConstant.HELICOPTER) {
             return <Images.IMAGE_HELICOPTER_SVG />;
           } else if (tempC === appConstant.WATERCRAFT) {
@@ -243,6 +249,15 @@ const JourneyDetail = props => {
 
     return strToSend;
   };
+
+  const getCurrentHourFormat = async () => {
+    const is24Hour = await is24HourFormat()
+    console.log(" user devie format ----", is24Hour)
+    //return moment(date).format(is24Hour ? 'HH:mm' : 'h:mm A')
+  }
+
+  
+
 
   const itemViews = (item, type, index) => {
     let isNoShowBtnVisible = false; // This flag is using to show no show button for flights only

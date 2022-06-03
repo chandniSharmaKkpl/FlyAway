@@ -19,7 +19,7 @@ import {appColor, appConstant, imageConstant} from '../../constant';
 import format from 'date-fns/format';
 import {useRoute, useNavigation} from '@react-navigation/core';
 
-import {getDateInFormat} from '../../common';
+import {getDateInFormat, getDateTimeOfView} from '../../common';
 const JourneyList = props => {
   const [orientation, setOrientation] = React.useState('portrait');
 
@@ -30,6 +30,11 @@ const JourneyList = props => {
     responseData.itinaryListAllJourney,
   ); // Getting approval list data from the home screen reducer
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [getDate, setGetDate] = useState();
+  const [getStartTime, setGetStartTime] = useState();
+  const [getEndTime, setGetEndTime] = useState();
+  const [journeyListDateTime, setJourneyListDateTime] = useState();
+  console.log('Journey responseData -->');
 
   useEffect(() => {
     lor(setOrientation);
@@ -37,6 +42,39 @@ const JourneyList = props => {
       rol();
     };
   }, []);
+
+  // useEffect(() => {
+  //   journeyList.map(item => {
+  //     console.log('journeyList =>', item);
+  //     setJourneyListDateTime(item);
+  //   });
+  // }, [journeyList]);
+
+  useEffect(async () => {
+    let valueDate1 = await getDateTimeOfView(
+      journeyListDateTime.startdatetime,
+      true,
+      false,
+      false,
+    );
+    setGetDate(valueDate1);
+
+    let valueStartTime = await getDateTimeOfView(
+      journeyListDateTime.startdatetime,
+      false,
+      true,
+      false,
+    );
+    setGetStartTime(valueStartTime);
+
+    let valueStartTime1 = await getDateTimeOfView(
+      journeyListDateTime.enddatetime,
+      false,
+      true,
+      false,
+    );
+    setGetEndTime(valueStartTime1);
+  }, [journeyListDateTime]);
 
   //** Back button handling  */
   useEffect(() => {
@@ -76,7 +114,9 @@ const JourneyList = props => {
   const renderItem = item => {
     let itemDetail = item.item;
     let date = itemDetail.requestdate;
-    let requestdate = date ? getDateInFormat(date, true, false) : '';
+    setJourneyListDateTime(itemDetail);
+    // let requestdate = date ? getDateInFormat(date, true, false) : '';
+
     return (
       <View style={styles.viewOutSide}>
         <Pressable
@@ -108,8 +148,8 @@ const JourneyList = props => {
                   />
                 </View>
                 <Text style={styles.textDetail}>
-                  {getDateInFormat(itemDetail.startdatetime, true, false)} to{' '}
-                  {getDateInFormat(itemDetail.enddatetime, true, false)}
+                  {getDate}
+                  {/* Api response {itemDetail.enddatetime} */}
                 </Text>
               </View>
               <View style={styles.viewRow}>
@@ -122,8 +162,7 @@ const JourneyList = props => {
                   />
                 </View>
                 <Text style={styles.textDetail}>
-                  {getTimeInFormat(itemDetail.startdatetime)} to{' '}
-                  {getTimeInFormat(itemDetail.enddatetime)}
+                  {getStartTime} to {getEndTime}
                 </Text>
               </View>
             </View>

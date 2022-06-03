@@ -5,6 +5,7 @@ export default {
   PASSWORD_API_CLIENT_CODE:'4rGECCEbmVuZJngZTVt4K8jyLgBQGPf4fFeXGrx9LBzsy5usU6', 
 
   BASE_URL: 'https://app-aue.trobexisuat.com/T1DEVMobile/api/',
+  ERROR_API_BASE_URL :'https://app-aue.trobexisuat.com/T1MobileService/api/',
   GET_ACCESS_TOKEN: 'account/accesstoken/',
   USER_PROFILE: '/api/users/:userId/profile',
   GET_ITINARY_LIST: '/api/users/:userId/itineraries?cancancel=true',

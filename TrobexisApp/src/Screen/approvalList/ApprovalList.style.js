@@ -110,6 +110,7 @@ export default StyleSheet.create({
     color: appColor.NAVY_BLUE,
     flexWrap: 'wrap',
     paddingBottom: hp('1%'),
+    // width: wp('70%')
   },
   textDetail: {
     fontFamily: fontConstant.BARLOW_REGULAR,

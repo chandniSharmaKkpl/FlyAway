@@ -51,6 +51,8 @@ import {
 } from '../../component/BioMetricAuth';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+// import moment from 'moment';
+
 
 const ClientCodeScreen = props => {
   const [orientation, setOrientation] = React.useState('portrait');
@@ -70,7 +72,7 @@ const ClientCodeScreen = props => {
   //const [countBack, setCountBack] = React.useState(0)
   var countBack = 0;
 
-// console.log("isAlertShow =====>", isAlertShow);
+  // console.log("isAlertShow =====>", isAlertShow);
 
   const optionalConfigObject = {
     title: 'Authentication Required', // Android
@@ -107,6 +109,7 @@ const ClientCodeScreen = props => {
 
   useFocusEffect(
     React.useCallback(() => {
+
       //** Whenever user will comeback to this view we will fetch all client codes and show them in the list  */
 
       getClientCodes();
@@ -114,13 +117,13 @@ const ClientCodeScreen = props => {
   );
 
   const handleBackAction = () => {
-    Alert.alert("Exit app", "Are you sure you want to go back?", [
+    Alert.alert('Exit app', 'Are you sure you want to go back?', [
       {
-        text: "Cancel",
+        text: 'Cancel',
         onPress: () => null,
-        style: "cancel"
+        style: 'cancel',
       },
-      { text: "YES", onPress: () => BackHandler.exitApp() }
+      {text: 'YES', onPress: () => BackHandler.exitApp()},
     ]);
     return true;
   };
@@ -145,15 +148,15 @@ const ClientCodeScreen = props => {
       //   'hardwareBackPress',
       //   handleBackButtonClick,
       // );
-      unsubscribe;      
+      unsubscribe;
     };
   }, []);
 
   useEffect(() => {
-    BackHandler.addEventListener("hardwareBackPress", handleBackAction);
+    BackHandler.addEventListener('hardwareBackPress', handleBackAction);
 
     return () =>
-      BackHandler.removeEventListener("hardwareBackPress", handleBackAction);
+      BackHandler.removeEventListener('hardwareBackPress', handleBackAction);
   }, []);
 
   //** Getting client codes from the async storage  */
@@ -184,7 +187,7 @@ const ClientCodeScreen = props => {
 
   const handleBackButtonClick = () => {
     // countBack = countBack + 1;
-    // if (countBack > 1) 
+    // if (countBack > 1)
     {
       setIsAlertShow(true);
     }
@@ -263,6 +266,8 @@ const ClientCodeScreen = props => {
     );
   };
 
+ 
+
   const onClickOutside = () => {
     Keyboard.dismiss();
     setIsClientCodeListShow(false);
@@ -273,8 +278,7 @@ const ClientCodeScreen = props => {
       <ImageBackground
         source={imageConstant.IMAGE_LOGIN_BACKGROUND}
         style={commonStyle.image}
-        resizeMode={'cover'}
-        >
+        resizeMode={'cover'}>
         <KeyboardAwareScrollView>
           <View style={styles.logoImage}>
             <Image
@@ -284,6 +288,7 @@ const ClientCodeScreen = props => {
             />
           </View>
           <View style={styles.titleView}>
+            
             <Text style={styles.titleStyle}>Client Code</Text>
             <Text style={{textAlign: 'center'}}>App Version 2.5(3.3)</Text>
           </View>
@@ -359,8 +364,8 @@ const ClientCodeScreen = props => {
           bigBtnText={''}
           onPressConfirmBtn={() => {
             setIsAlertShow(false);
-            alert("exit")
-            BackHandler.exitApp()
+            alert('exit');
+            BackHandler.exitApp();
           }}
           onPressCancel={() => {
             setIsAlertShow(false);
