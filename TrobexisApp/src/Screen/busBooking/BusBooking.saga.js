@@ -8,7 +8,7 @@ export function* workerGetAccessTokenBusBooking(argumentData ) {
   try {
         
     const tokenBusBooking = yield call(getAccessTokenBusBooking,argumentData.payload);
-   console.log(" token bus", tokenBusBooking); 
+  //  console.log(" token bus", tokenBusBooking); 
     if (isError(tokenBusBooking)) {
 //** managing global error message */
       yield put({

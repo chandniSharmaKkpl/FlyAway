@@ -32,7 +32,7 @@ export function* workerGetUserProfile(argumentData) {
       }
     } else {
       if (userProfile) {
-        // console.log(" response 1 is ===> ", userProfile);
+        // console.log(" response 1 is ===> ", JSON.stringify(userProfile?.settings,null,4));
         localDb.setUserSettings(userProfile);
         yield put({
           type: actionConstant.ACTION_GET_USER_PROFILE_SUCCESS,

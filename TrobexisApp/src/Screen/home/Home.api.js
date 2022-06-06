@@ -15,7 +15,7 @@ export const getUserProfile = argumentData => {
   let apiBaseUrl = argumentData.user.apiBaseUrl;
   let clientToken = argumentData.user.clientToken;
   let userId = argumentData.user.userId;
-  console.log(" user in api method", argumentData.user);
+  // console.log(" user in api method", argumentData.user);
   let clientCode = argumentData.user.client;
 
   let instance = axios.create({

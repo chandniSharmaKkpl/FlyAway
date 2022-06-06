@@ -5,7 +5,7 @@ import {ApiBase} from '../../api/apiBase';
 export const cancelSiteTravelItinary = (token1, argument) => {
 
   let urlString = apiConstant.GET_ITINARY_DETAIL;
-  console.log("cancel  site travel param ", argument); 
+  // console.log("cancel  site travel param ", argument); 
 
   urlString = urlString.replace(":itineraryId", argument.payload.params)
 
@@ -16,7 +16,7 @@ export const cancelSiteTravelItinary = (token1, argument) => {
         data: response,
         //status: response.status
       }).then(apiResponse => {
-        console.log("cancel site travel response ", apiResponse); 
+        // console.log("cancel site travel response ", apiResponse); 
 
         return apiResponse.data.data;
       }),
@@ -37,7 +37,7 @@ export const getItinaryDetail = (token1, argument) => {
         data: response,
         //status: response.status
       }).then(apiResponse => {
-        console.log("trip detail response ", apiResponse); 
+        // console.log("trip detail response ", apiResponse); 
         return apiResponse.data.data;
       }),
     ).catch(err=>{

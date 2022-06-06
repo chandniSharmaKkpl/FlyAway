@@ -1,44 +1,55 @@
-import React, {useState, useEffect} from 'react';
-import {View, Text, ScrollView, Pressable, BackHandler} from 'react-native';
-import stylesHome from '../home/Home.style';
-import {useDispatch, useSelector} from 'react-redux';
-import styles from './ApprovalDetail.style';
-import {HeaderCustom, BookingCard, Loader, backHandler} from '../../component';
-import stylesCommon from '../../common/common.style';
-import localDb from '../../database/localDb';
-import {useRoute, useNavigation} from '@react-navigation/core';
-import {requestAcceptApproval} from '../approvalList/ApprovalList.action';
-import {appColor, appConstant, alertMsgConstant} from '../../constant';
-import {requestToGetApprovalDetail} from './ApprovalDetail.action';
-import {getDateInFormat, msToTime} from '../../common';
-import moment from 'moment';
+import React, { useState, useEffect } from "react";
+import { View, Text, ScrollView, Pressable, BackHandler } from "react-native";
+import stylesHome from "../home/Home.style";
+import { useDispatch, useSelector } from "react-redux";
+import styles from "./ApprovalDetail.style";
+import {
+  HeaderCustom,
+  BookingCard,
+  Loader,
+  backHandler,
+} from "../../component";
+import stylesCommon from "../../common/common.style";
+import localDb from "../../database/localDb";
+import { useRoute, useNavigation } from "@react-navigation/core";
+import { requestAcceptApproval } from "../approvalList/ApprovalList.action";
+import { appColor, appConstant, alertMsgConstant } from "../../constant";
+import { requestToGetApprovalDetail } from "./ApprovalDetail.action";
+import {
+  approvalDateTimeFormate,
+  convertDateTime,
+  getDateInFormat,
+  msToTime,
+} from "../../common";
+import moment from "moment";
 
 const arrayApprovalCode = [
-  {code: 'SAR', codeName: 'Site Access Request'},
-  {code: 'WTR', codeName: 'Workforce Travel Request'},
-  {code: 'WKO', codeName: 'Work Orders'},
-  {code: 'CTR', codeName: 'Corporate Travel Request'},
-  {code: 'TSH', codeName: 'Timesheets'},
-  {code: 'CRM', codeName: 'Crew Movements'},
-  {code: 'FVR', codeName: 'Fleet Vehicle Requests'},
-  {code: 'EQR', codeName: 'Equipment Request'},
-  {code: 'APL', codeName: 'Accommodation Plans'},
+  { code: "SAR", codeName: "Site Access Request" },
+  { code: "WTR", codeName: "Workforce Travel Request" },
+  { code: "WKO", codeName: "Work Orders" },
+  { code: "CTR", codeName: "Corporate Travel Request" },
+  { code: "TSH", codeName: "Timesheets" },
+  { code: "CRM", codeName: "Crew Movements" },
+  { code: "FVR", codeName: "Fleet Vehicle Requests" },
+  { code: "EQR", codeName: "Equipment Request" },
+  { code: "APL", codeName: "Accommodation Plans" },
 ];
 
-const ApprovalDetail = props => {
+const ApprovalDetail = (props) => {
   const route = useRoute();
   const dispatch = useDispatch();
-  const responseDetail = useSelector(state => state.ApprovalDetailReducer);
+  const responseDetail = useSelector((state) => state.ApprovalDetailReducer);
+  const responseUser = useSelector((state) => state.HomeReducer); // Getting api response
 
   const [isApiCall, setIsApiCall] = useState(false);
 
   //** Back button handling  */
   useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    BackHandler.addEventListener("hardwareBackPress", handleBackButtonClick);
     return () => {
       BackHandler.removeEventListener(
-        'hardwareBackPress',
-        handleBackButtonClick,
+        "hardwareBackPress",
+        handleBackButtonClick
       );
     };
   }, []);
@@ -53,11 +64,11 @@ const ApprovalDetail = props => {
   };
 
   useEffect(() => {
-    const unsubscribe = props.navigation.addListener('focus', () => {
+    const unsubscribe = props.navigation.addListener("focus", () => {
       const tempUser = localDb.getUser();
-      Promise.resolve(tempUser).then(response => {
+      Promise.resolve(tempUser).then((response) => {
         let param = {
-          approvalId: route.params.approvalId ? route.params.approvalId : '',
+          approvalId: route.params.approvalId ? route.params.approvalId : "",
           user: response,
           navigation: props.navigation,
         };
@@ -90,9 +101,9 @@ const ApprovalDetail = props => {
   const onClickApprove = () => {
     setIsApiCall(true);
     const tempUser = localDb.getUser();
-    Promise.resolve(tempUser).then(response => {
+    Promise.resolve(tempUser).then((response) => {
       let param = {
-        approvalId: route.params.approvalId ? route.params.approvalId : '',
+        approvalId: route.params.approvalId ? route.params.approvalId : "",
         user: response,
         navigation: props.navigation,
       };
@@ -102,7 +113,7 @@ const ApprovalDetail = props => {
 
   const onClickDecline = () => {
     props.navigation.navigate(appConstant.REASON, {
-      approvalItem: {item: route.params.approvalItem},
+      approvalItem: { item: route.params.approvalItem },
     });
   };
 
@@ -110,18 +121,18 @@ const ApprovalDetail = props => {
     {
       if (responseDetail) {
         let itemsData = responseDetail.responseDetail;
-        if (value === 'Description') {
+        if (value === "Description") {
           return itemsData.Description;
         } else {
           let tempArray = itemsData.Items;
           if (tempArray) {
             return findIdByValue(tempArray, value);
           } else {
-            return '';
+            return "";
           }
         }
       } else {
-        return '';
+        return "";
       }
     }
   };
@@ -132,18 +143,18 @@ const ApprovalDetail = props => {
   };
 
   const findIdByValue = (data, value) => {
-    const el = data.find(el => el.Label === value); // Possibly returns `undefined`
+    const el = data.find((el) => el.Label === value); // Possibly returns `undefined`
     return el && el.Data; // so check result is truthy and extract `id`
   };
 
-  const getDetailNameOfApprovalCode = approvalCode => {
+  const getDetailNameOfApprovalCode = (approvalCode) => {
     let matchElement = arrayApprovalCode.find(
-      item => item.code == approvalCode,
+      (item) => item.code == approvalCode
     );
     if (matchElement) {
-      return matchElement.codeName + ' ';
+      return matchElement.codeName + " ";
     } else {
-      return '';
+      return "";
     }
   };
 
@@ -169,19 +180,35 @@ const ApprovalDetail = props => {
   // }
   // }
 
-  const returnViewBasedOnApprovalCode = approvalCode => {
+  const returnViewBasedOnApprovalCode = (approvalCode) => {
     if (
       responseDetail &&
       responseDetail.responseDetail &&
       responseDetail.responseDetail.Items
     ) {
       //** first sort array based on order they provided then display in access detail section  */
-      let arraySort = sortByKey(responseDetail.responseDetail.Items, 'Order');
-
+      let arraySort = sortByKey(responseDetail.responseDetail.Items, "Order");
       return (
         <>
           {arraySort &&
             arraySort.map((item, index) => {
+              if (item.Type == "DateTime") {
+                console.log("item.Type == DateTime", item.Type == "DateTime");
+                return (
+                  <View style={[styles.viewRow]}>
+                    <Text style={styles.textBlue}>{item.Label}:</Text>
+                    <Text style={styles.textSubTitle}>
+                      {approvalDateTimeFormate(
+                        item.Data,
+                        false,
+                        false, 
+                        true,
+                        responseUser.userProfile.settings
+                      )}
+                    </Text>
+                  </View>
+                );
+              }
               return (
                 <View style={[styles.viewRow]}>
                   <Text style={styles.textBlue}>{item.Label}:</Text>
@@ -201,14 +228,14 @@ const ApprovalDetail = props => {
       {(checkResponseCode(), backHandler(handleBackButtonClick))}
       <View style={stylesHome.container}>
         <HeaderCustom
-          title={'Approval Details'}
+          title={"Approval Details"}
           viewName={appConstant.APPROVAL_DETAIL}
           leftIcon={true}
           onClickLeftIcon={() => moveBack()}
           rightIcon={false}
           centerTitle={true}
           onClickRightIcon={() => {}}
-          rightIconImage={''}
+          rightIconImage={""}
           viewProps={props}
         />
         <ScrollView>
@@ -217,46 +244,46 @@ const ApprovalDetail = props => {
               <Text style={styles.textBlackTitle}>
                 <Text>
                   {getDetailNameOfApprovalCode(
-                    responseDetail.responseDetail.Type,
+                    responseDetail.responseDetail.Type
                   )}
                 </Text>
                 (
                 <Text>
-                  {responseDetail ? responseDetail.responseDetail.Type : ''}
-                </Text>{' '}
+                  {responseDetail ? responseDetail.responseDetail.Type : ""}
+                </Text>{" "}
                 #
                 {route.params && route.params.approvalId
                   ? route.params.approvalId
-                  : ''}
+                  : ""}
                 )
               </Text>
               <View style={styles.viewInside}>
                 <View style={styles.viewInsideTitle}>
                   <Text style={styles.textYellow}>
-                    {getDataFromResponse(responseDetail, 'Traveller Name')}(
-                    {getDataFromResponse(responseDetail, 'Traveller ID')})
+                    {getDataFromResponse(responseDetail, "Traveller Name")}(
+                    {getDataFromResponse(responseDetail, "Traveller ID")})
                   </Text>
                   <Text style={styles.textRed}>
-                    {getDataFromResponse(responseDetail, 'Status')}
+                    {getDataFromResponse(responseDetail, "Status")}
                   </Text>
                 </View>
                 <View style={styles.viewGrayLine} />
                 <View style={styles.viewContainRow}>
                   {returnRowView(
-                    'Request Creation Date:',
-                    getDataFromResponse(responseDetail, 'Start Date'),
+                    "Request Creation Date:",
+                    getDataFromResponse(responseDetail, "Start Date")
                   )}
                   {returnRowView(
-                    'Company Name:',
-                    getDataFromResponse(responseDetail, 'Company Name'),
+                    "Company Name:",
+                    getDataFromResponse(responseDetail, "Company Name")
                   )}
                   {returnRowView(
-                    'Sub Contractor:',
-                    getDataFromResponse(responseDetail, 'SubContract Name'),
+                    "Sub Contractor:",
+                    getDataFromResponse(responseDetail, "SubContract Name")
                   )}
                   {returnRowView(
-                    'Position:',
-                    getDataFromResponse(responseDetail, 'Position'),
+                    "Position:",
+                    getDataFromResponse(responseDetail, "Position")
                   )}
                 </View>
               </View>
@@ -267,7 +294,7 @@ const ApprovalDetail = props => {
               <View style={styles.viewInside}>
                 <View style={styles.viewInsideTitle}>
                   {returnViewBasedOnApprovalCode(
-                    responseDetail ? responseDetail.responseDetail.Type : '',
+                    responseDetail ? responseDetail.responseDetail.Type : ""
                   )}
                 </View>
               </View>
@@ -290,24 +317,28 @@ const ApprovalDetail = props => {
               <View style={styles.viewButtonBottom}>
                 <Pressable
                   style={stylesCommon.greenButton}
-                  onPress={() => onClickApprove()}>
+                  onPress={() => onClickApprove()}
+                >
                   <Text
                     style={[
                       styles.buttonSearchBusTitle,
                       stylesCommon.yellowButtonTitle,
-                    ]}>
+                    ]}
+                  >
                     Approve
                   </Text>
                 </Pressable>
 
                 <Pressable
                   style={stylesCommon.redButton}
-                  onPress={() => onClickDecline()}>
+                  onPress={() => onClickDecline()}
+                >
                   <Text
                     style={[
                       styles.buttonSearchBusTitle,
                       stylesCommon.yellowButtonTitle,
-                    ]}>
+                    ]}
+                  >
                     Decline
                   </Text>
                 </Pressable>

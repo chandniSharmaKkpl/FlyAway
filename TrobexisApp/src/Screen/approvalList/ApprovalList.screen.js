@@ -29,7 +29,7 @@ import {
   getOrientation,
 } from '../../responsiveScreen';
 import {requestGetApprovalListWithStatus} from './ApprovalList.action';
-import {getDateInFormat} from '../../common';
+import {getDateInFormat, getDateTimeOfView, convertDateTime} from '../../common';
 import {requestAcceptApproval} from './ApprovalList.action';
 import localDb from '../../database/localDb';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
@@ -50,8 +50,9 @@ const ApprovalList = props => {
     responseApprovalData.approvalList,
   ); // Getting approval list data from the home screen reducer
   const [refreshing, setRefreshing] = React.useState(false);
-
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [getDate, setGetDate] = useState('2022-06-10T14:45:00');
+
 
   useEffect(() => {
     lor(setOrientation);
@@ -60,8 +61,19 @@ const ApprovalList = props => {
     };
   }, []);
 
+  // useEffect(async () => {
+  //   let valueDate1 = await getDateTimeOfView(
+      
+  //     true,
+  //     false,
+  //     false
+  //   );
+  //   setGetDate(valueDate1);
+
+  // }, []);
+
   //** This method will call when coming back from approval detail screen and show the data based on last selected index */
-  onBackReceiveData = data => {
+ const onBackReceiveData = data => {
     let tempIndex = 0;
     if (data.status === appConstant.PENDING_APPROVAL) {
       tempIndex = PENDING_INDEX;
@@ -172,11 +184,12 @@ const ApprovalList = props => {
   };
 
   const renderItem = item => {
-    console.log(item);
+    // console.log(item);
     let itemDetail = item.item;
+    // console.log("itemDetails", itemDetail);
     let date = itemDetail && itemDetail.startdate ? itemDetail.startdate : '';
 
-    let startdate = date ? getDateInFormat(date, false, false) : '';
+    let startdate = date ? getDateTimeOfView(date, true, false, false) : '';
     if (itemDetail) {
       return (
         <View style={styles.viewOutSide}>
@@ -221,7 +234,7 @@ const ApprovalList = props => {
                       source={imageConstant.IMAGE_CALENDAR_BLUE}
                     />
                   </View>
-                  <Text style={styles.textDetail}>{startdate}</Text>
+                  <Text style={styles.textDetail}>{convertDateTime(itemDetail.requestdate,true,false,false,responseData.userProfile.settings)}</Text>
                 </View>
               </View>
               {itemDetail.status &&

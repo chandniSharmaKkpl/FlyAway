@@ -1,31 +1,31 @@
-import React, {useState, useCallback, useEffect} from 'react';
-import format from 'date-fns/format';
-import {errorCodeConstant} from '../constant';
-import localDb from '../database/localDb';
-import moment from 'moment';
+import React, { useState, useCallback, useEffect } from "react";
+import format from "date-fns/format";
+import { errorCodeConstant } from "../constant";
+import localDb from "../database/localDb";
+import moment from "moment";
 
 const getTimeMessage = () => {
   var d = new Date();
   var hour = d.getHours();
-  var amPm = '';
-  let stringToRead = '';
+  var amPm = "";
+  let stringToRead = "";
   if (hour < 12) {
-    amPm = 'am';
-    stringToRead = 'Good morning!';
+    amPm = "am";
+    stringToRead = "Good morning!";
   } else {
-    amPm = 'pm';
+    amPm = "pm";
     if (hour >= 12 && hour <= 17) {
-      stringToRead = 'Good Afternoon!';
+      stringToRead = "Good Afternoon!";
     } else {
       if (hour > 17 && hour <= 24) {
-        stringToRead = 'Good Evening!';
+        stringToRead = "Good Evening!";
       }
     }
   }
   return stringToRead;
 };
 
-export const checkStringContainsSpecialChar = string => {
+export const checkStringContainsSpecialChar = (string) => {
   var format = /[^a-zA-Z-_\d\s]/; ///[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
 
   if (format.test(string)) {
@@ -35,37 +35,87 @@ export const checkStringContainsSpecialChar = string => {
   }
 };
 
-export const msToTime = ms => {
+export const msToTime = (ms) => {
   let seconds = (ms / 1000).toFixed(1);
   let minutes = (ms / (1000 * 60)).toFixed(1);
   let hours = (ms / (1000 * 60 * 60)).toFixed(1);
   let days = (ms / (1000 * 60 * 60 * 24)).toFixed(1);
-  if (seconds < 60) return seconds + ' Sec';
-  else if (minutes < 60) return minutes + ' Min';
-  else if (hours < 24) return hours + ' Hrs';
-  else return days + ' Days';
+  if (seconds < 60) return seconds + " Sec";
+  else if (minutes < 60) return minutes + " Min";
+  else if (hours < 24) return hours + " Hrs";
+  else return days + " Days";
+};
+
+export const convertDateTime = (
+  dateString,
+  isDate,
+  isTime,
+  isDateTime,
+  dateValueArray
+) => {
+  if (!dateValueArray) return null;
+  for (let index = 0; index < dateValueArray.length; index++) {
+    const element = dateValueArray[index];
+
+    if (isDate && !isTime && !isDateTime) {
+      if (element.key == "Format.Date") {
+        let formattedDate = moment(dateString).format(element.value);
+        return formattedDate;
+      }
+    }
+    if (!isDate && isTime && !isDateTime) {
+      if (element.key == "Format.Time") {
+        let formattedDate = moment(dateString).format(element.value);
+        return formattedDate;
+      }
+    }
+  }
 };
 
 export const getDateTimeOfView = async (
   dateString,
   isDate,
   isTime,
-  isDateTime,
+  isDateTime
 ) => {
   let dateValueArray = await getDateInFormat(dateString, false, false);
-
   for (let index = 0; index < dateValueArray.length; index++) {
     const element = dateValueArray[index];
 
     if (isDate && !isTime && !isDateTime) {
-      if (element.key == 'Format.Date') {
+      if (element.key == "Format.Date") {
         let formattedDate = moment(dateString).format(element.value);
         return formattedDate;
       }
     }
     if (!isDate && isTime && !isDateTime) {
-      if (element.key == 'Format.Time') {
+      if (element.key == "Format.Time") {
         let formattedDate = moment(dateString).format(element.value);
+        return formattedDate;
+      }
+    }
+  }
+};
+
+export const approvalDateTimeFormate = (
+  dateString,
+  isDate,
+  isTime,
+  isDateTime,
+  dateValueArray
+) => {
+  if (!dateValueArray) return null;
+  for (let index = 0; index < dateValueArray.length; index++) {
+    const element = dateValueArray[index];
+    if (!isDate && !isTime && isDateTime) {
+      if (element.key == "Format.Datetime") { 
+        console.log(
+          "approvalDateTimeFormate ==>",
+          element.value,
+          dateString,
+          moment(dateString).format(element.value)
+        );
+        let formattedDate = moment(dateString,["lll"]).format(element.value);
         return formattedDate;
       }
     }
@@ -75,7 +125,7 @@ export const getDateTimeOfView = async (
 export const getDateInFormat = (
   dateString,
   isShortDayName,
-  isCompleteDayName,
+  isCompleteDayName
 ) => {
   if (dateString) {
     return new Promise((resolve, reject) => {
@@ -130,12 +180,12 @@ export const getDateInFormat = (
           }
         });
 */
-export const getDateInFormatNoTime = dateString => {
+export const getDateInFormatNoTime = (dateString) => {
   if (dateString) {
     let dateTemp = Date.parse(dateString);
     // Need to show same date format in all app
 
-    let formattedDate = format(dateTemp, 'dd MMMM yyyy');
+    let formattedDate = format(dateTemp, "dd MMMM yyyy");
     return formattedDate;
     // if (isShortDayName) {
     //   let formattedDate = format(dateTemp, 'EE, MMMM dd yyyy');
@@ -148,7 +198,7 @@ export const getDateInFormatNoTime = dateString => {
     // return formattedDate;
     // }
   }
-  return '';
+  return "";
 };
 
 export function isError(params) {

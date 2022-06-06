@@ -162,7 +162,7 @@ export const getClientTokenBasedOnApiBase = (argumentData, apiBaseUrl) => {
          data: response,
          //status: response.status
        }).then(response => {
-        console.log("168 response ACCESS_TOKEN_BASED_CLIENT_TOKEN: ", response)
+        // console.log("168 response ACCESS_TOKEN_BASED_CLIENT_TOKEN: ", response)
          return response.data.data;
        }),
      ).catch((err) =>{
