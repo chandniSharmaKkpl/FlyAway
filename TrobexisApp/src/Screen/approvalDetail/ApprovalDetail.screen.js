@@ -82,7 +82,23 @@ const ApprovalDetail = (props) => {
     };
   }, []);
 
-  const returnRowView = (title, subTitle) => {
+  const returnRowView = (title, subTitle, type) => {
+    if (type == "DateTime") {
+      return (
+        <View style={[styles.viewRow]}>
+          <Text style={styles.textBlue}>{title}:</Text>
+          <Text style={styles.textSubTitle}>
+            {approvalDateTimeFormate(
+              subTitle,
+              false,
+              false,
+              true,
+              responseUser.userProfile.settings
+            )}
+          </Text>
+        </View>
+      );
+    }
     return (
       <View style={styles.viewRow}>
         <Text style={styles.textBlue}>{title}</Text>
@@ -136,6 +152,7 @@ const ApprovalDetail = (props) => {
       }
     }
   };
+
   const checkResponseCode = () => {
     if (isApiCall) {
       setIsApiCall(false);
@@ -166,20 +183,6 @@ const ApprovalDetail = (props) => {
     });
   }
 
-  // const returnValues = (item)=>{
-  //   console.log(" myMomentObjectoooooo" )
-  // if (item.Label === 'Start Date') {
-  //   const myDate = moment(item.Data, 'YYYY-MM-DD');
-
-  //   const date1 = new Date(myDate)
-
-  //   console.log(" myMomentObject", myDate)
-  //   // return getDateInFormat(item.data, true, false);
-  // } else {
-  //   return item.data;
-  // }
-  // }
-
   const returnViewBasedOnApprovalCode = (approvalCode) => {
     if (
       responseDetail &&
@@ -193,7 +196,6 @@ const ApprovalDetail = (props) => {
           {arraySort &&
             arraySort.map((item, index) => {
               if (item.Type == "DateTime") {
-                console.log("item.Type == DateTime", item.Type == "DateTime");
                 return (
                   <View style={[styles.viewRow]}>
                     <Text style={styles.textBlue}>{item.Label}:</Text>
@@ -201,7 +203,7 @@ const ApprovalDetail = (props) => {
                       {approvalDateTimeFormate(
                         item.Data,
                         false,
-                        false, 
+                        false,
                         true,
                         responseUser.userProfile.settings
                       )}
@@ -271,7 +273,8 @@ const ApprovalDetail = (props) => {
                 <View style={styles.viewContainRow}>
                   {returnRowView(
                     "Request Creation Date:",
-                    getDataFromResponse(responseDetail, "Start Date")
+                    getDataFromResponse(responseDetail, "Start Date"),
+                    "DateTime"
                   )}
                   {returnRowView(
                     "Company Name:",

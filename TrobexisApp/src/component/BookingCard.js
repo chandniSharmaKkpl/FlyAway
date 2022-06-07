@@ -14,19 +14,30 @@ import moment from 'moment';
 
 const BookingCard = props => {
   const {item, viewName} = props;
-  const [getDate, setGetDate] = useState();
-  const [getStartTime, setGetStartTime] = useState();
-  const [getEndTime, setGetEndTime] = useState();
+  // const [getDate, setGetDate] = useState();
+  // const [getStartTime, setGetStartTime] = useState();
+  // const [getEndTime, setGetEndTime] = useState();
+  const [getStartDate, setGetStartDate] = useState();
+  const [getEndDate, setGetEndDate] = useState();
+
+  // console.log(
+  //   "itemitemitem", getDate
+  // );
 
   useEffect(async () => {
-    let valueDate1 = await getDateTimeOfView(item.startdatetime, true, false, false)
-    setGetDate(valueDate1);
+    // let valueDate1 = await getDateTimeOfView(item.startdatetime, true, false, false)
+    // setGetDate(valueDate1);
 
-    let valueStartTime = await getDateTimeOfView(item.startdatetime, false, true, false)
-    setGetStartTime(valueStartTime);
+    let valueStartTime = await getDateTimeOfView(item.startdatetime, true, false, false)
+    setGetStartDate(valueStartTime);
 
-    let valueStartTime1 = await getDateTimeOfView(item.enddatetime, false, true, false)
-    setGetEndTime(valueStartTime1);
+    let valueStartTime1 = await getDateTimeOfView(item.enddatetime, true, false, false)
+    setGetEndDate(valueStartTime1);
+    // let valueStartTime = await getDateTimeOfView(item.startdatetime, false, true, false)
+    // setGetStartTime(valueStartTime);
+
+    // let valueStartTime1 = await getDateTimeOfView(item.enddatetime, false, true, false)
+    // setGetEndTime(valueStartTime1);
 
   }, []);
 
@@ -79,16 +90,15 @@ const BookingCard = props => {
                   source={imageConstant.IMAGE_CALENDAR_BLACK}
                 />
               </View>
-              <Text
-                style={[
-                  styles.textDetail,
-                  // {backgroundColor: 'green', width: 300},
-                ]}>
-                {getDate}
+              <Text style={styles.textDetail}>
+                {getStartDate}{' '}
+                <Text style={styles.textDetail}>
+                  to {getEndDate}{' '}
+                </Text>
               </Text>
             </View>
 
-            <View style={styles.viewTime}>
+            {/* <View style={styles.viewTime}>
               <View style={styles.viewImages}>
                 <Image
                   style={styles.image}
@@ -102,7 +112,7 @@ const BookingCard = props => {
                   to {getEndTime}{' '}
                 </Text>
               </Text>
-            </View>
+            </View> */}
           </View>
         ) : (
           <View style={styles.viewTimePickAbus}>
@@ -123,6 +133,7 @@ const BookingCard = props => {
             <Text style={styles.textDetail}>({item.durationMins}m)</Text>
           </View>
         )}
+
       </View>
     </View>
   );

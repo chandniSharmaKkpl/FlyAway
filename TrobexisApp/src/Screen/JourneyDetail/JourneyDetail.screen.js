@@ -526,13 +526,32 @@ const JourneyDetail = (props) => {
                       responseUser.userProfile.settings
                     )}
                 </Text>
-                {days > 0 && (
-                  <Text
-                    style={[styles.dayNumberText, { alignItems: "flex-start" }]}
-                  >
-                    {" +" + days}
-                  </Text>
+
+                {item.Type === appConstant.COMMERCIAL_FLIGHT ||
+                item.Type === appConstant.CHARTER_FLIGHT ? (
+                  days > 0 && (
+                    <Text
+                      style={[
+                        styles.dayNumberText,
+                        { alignItems: "flex-start" },
+                      ]}
+                    >
+                      {" +" + days}
+                    </Text>
+                  )
+                ) : (
+                  <></>
                 )}
+
+                {/* {
+                    days > 0 && ( 
+
+                      <Text
+                      style={[styles.dayNumberText, { alignItems: "flex-start" }]}
+                      >
+                      {" +" + days}
+                      </Text> )
+                  } */}
               </View>
             </View>
 

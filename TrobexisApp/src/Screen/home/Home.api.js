@@ -30,6 +30,7 @@ export const getUserProfile = argumentData => {
   });
 
   instance.interceptors.response.use(undefined, async error => {
+    console.log('Error - err ->', error);
     if (error) {
       const options = {
         headers: {
@@ -75,7 +76,7 @@ export const getUserProfile = argumentData => {
         data: response,
       }).then(response => {
         let response1 = response?.data?.data;
-      
+
         return response1;
       }),
     )

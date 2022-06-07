@@ -109,7 +109,7 @@ const JourneyList = (props) => {
                   {itemDetail.departure} to {itemDetail.destination}
                 </Text>
               </View>
-              <View style={styles.viewRow}>
+              {/* <View style={styles.viewRow}>
                 <View style={styles.viewImages}>
                   <Image
                     style={styles.image}
@@ -119,17 +119,15 @@ const JourneyList = (props) => {
                 </View>
                 <Text style={styles.textDetail}>
                   {convertDateTime(itemDetail.startdatetime,true,false,false,responseData.userProfile.settings)}
-                  {/* {getDateTimeOfView(itemDetail.startdatetime, true, false, false)} */}
-                  {/* Api response {itemDetail.enddatetime} */}
                 </Text>
-              </View>
+              </View> */}
               <View style={styles.viewRow}>
                 <View style={styles.viewImages}>
                   <Image
                     style={styles.image}
                     resizeMode={"contain"}
                     tintColor={appColor.NAVY_BLUE}
-                    source={imageConstant.IMAGE_CLOCK_BLACK}
+                    source={imageConstant.IMAGE_CALENDAR_BLUE}
                   />
                 </View>
                 <Text style={styles.textDetail}>
