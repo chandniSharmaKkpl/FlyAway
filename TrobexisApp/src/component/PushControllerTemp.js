@@ -86,7 +86,7 @@ function PushController(props) {
                 localDb.setUser(tempDict);
 
                 props.navigation.navigate(appConstant.DRAWER_NAVIGATOR);
-                // if (!isSuccessMsgShow)
+                 if (!isSuccessMsgShow)
                 {
                   isSuccessMsgShow = true;
                   toast.show(remoteMessage.notification.body, {

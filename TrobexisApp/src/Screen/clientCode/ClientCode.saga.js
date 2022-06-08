@@ -1,5 +1,4 @@
 import {takeLatest, take, call, put, select, all} from 'redux-saga/effects';
-import DeviceInfo from 'react-native-device-info';
 
 import {
   actionConstant,
@@ -151,7 +150,7 @@ export function* workerGetAccountUrl(argumentData, apiBase, clientToken) {
         loginUrl: loginUrl,
         responseLoginUrl: responseLoginUrl,
         functionUrl: functionUrl,
-      //  userId: 'SHARRIS', // Temp
+        // userId: 'SHARRIS', // Temp
       };
       localDB.setUser(user);
 
@@ -176,7 +175,7 @@ export function* workerGetAccountUrl(argumentData, apiBase, clientToken) {
 
       // ** For stopping loader **//
       yield put(setLoader(false));
-        // argumentData.navigation.navigate(appConstant.DRAWER_NAVIGATOR); // Temp
+          // argumentData.navigation.navigate(appConstant.DRAWER_NAVIGATOR); // Temp
       let dict = {loginUrl: loginUrl, responseLoginUrl: responseLoginUrl};
       argumentData.navigation.navigate(appConstant.LOGIN, {data: dict});
     }

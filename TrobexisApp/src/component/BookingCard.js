@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, Image} from 'react-native';
 import appColor from '../constant/colorConstant';
 import fontConstant from '../constant/fontConstant';
@@ -9,10 +9,38 @@ import {
 } from 'react-native-responsive-screen';
 import imageConstant from '../constant/imageConstant';
 import appConstant from '../constant/appConstant';
-import {getDateInFormat} from '../common/index';
+import {getDateInFormat, getDateTimeOfView} from '../common/index';
+import moment from 'moment';
 
 const BookingCard = props => {
   const {item, viewName} = props;
+  // const [getDate, setGetDate] = useState();
+  // const [getStartTime, setGetStartTime] = useState();
+  // const [getEndTime, setGetEndTime] = useState();
+  const [getStartDate, setGetStartDate] = useState();
+  const [getEndDate, setGetEndDate] = useState();
+
+  // console.log(
+  //   "itemitemitem", getDate
+  // );
+
+  useEffect(async () => {
+    // let valueDate1 = await getDateTimeOfView(item.startdatetime, true, false, false)
+    // setGetDate(valueDate1);
+
+    let valueStartTime = await getDateTimeOfView(item.startdatetime, true, false, false)
+    setGetStartDate(valueStartTime);
+
+    let valueStartTime1 = await getDateTimeOfView(item.enddatetime, true, false, false)
+    setGetEndDate(valueStartTime1);
+    // let valueStartTime = await getDateTimeOfView(item.startdatetime, false, true, false)
+    // setGetStartTime(valueStartTime);
+
+    // let valueStartTime1 = await getDateTimeOfView(item.enddatetime, false, true, false)
+    // setGetEndTime(valueStartTime1);
+
+  }, []);
+
   return (
     <View style={styles.viewOutSide}>
       <View style={styles.viewInside1}>
@@ -46,7 +74,10 @@ const BookingCard = props => {
               source={imageConstant.IMAGE_PATH}
             />
           </View>
-          <Text style={styles.textDetail}>{item.departure ? item.departure : ''} to {item.destination ? item.destination : ''}</Text>
+          <Text style={styles.textDetail}>
+            {item.departure ? item.departure : ''} to{' '}
+            {item.destination ? item.destination : ''}
+          </Text>
         </View>
 
         {viewName !== appConstant.PICK_A_BUS ? (
@@ -60,11 +91,14 @@ const BookingCard = props => {
                 />
               </View>
               <Text style={styles.textDetail}>
-                {getDateInFormat(item.startdatetime, false, false)}{' '}
+                {getStartDate}{' '}
+                <Text style={styles.textDetail}>
+                  to {getEndDate}{' '}
+                </Text>
               </Text>
             </View>
 
-            <View style={styles.viewTime}>
+            {/* <View style={styles.viewTime}>
               <View style={styles.viewImages}>
                 <Image
                   style={styles.image}
@@ -73,13 +107,12 @@ const BookingCard = props => {
                 />
               </View>
               <Text style={styles.textDetail}>
-                {getTimeInFormat(item.startdatetime)}{' '}
+                {getStartTime}{' '}
                 <Text style={styles.textDetail}>
-              to {getTimeInFormat(item.enddatetime)}{' '}
-            </Text>
+                  to {getEndTime}{' '}
+                </Text>
               </Text>
-              
-            </View>
+            </View> */}
           </View>
         ) : (
           <View style={styles.viewTimePickAbus}>
@@ -91,15 +124,16 @@ const BookingCard = props => {
               />
             </View>
             <Text style={styles.textDetail}>
-              {getTimeInFormat(item.startdatetime)}{' '}
+              {getStartTime}{' '}
               <Text style={styles.textDetail}>
-              to {getTimeInFormat(item.enddatetime)}{' '}
+                to {getEndTime}{' '}
+              </Text>
             </Text>
-            </Text>
-            
+
             <Text style={styles.textDetail}>({item.durationMins}m)</Text>
           </View>
         )}
+
       </View>
     </View>
   );
@@ -136,8 +170,8 @@ const styles = {
   },
   viewInside1: {
     paddingLeft: '2%',
-    paddingRight:'2%', 
-    paddingBottom:'2%'
+    paddingRight: '2%',
+    paddingBottom: '2%',
     //backgroundColor:'pink'
   },
   buttonYellow: {
@@ -162,7 +196,7 @@ const styles = {
   },
   viewInside: {
     flexDirection: 'row',
-   // justifyContent: 'space-between',
+    // justifyContent: 'space-between',
     alignItems: 'center',
     //  paddingLeft: wp('3%')
   },
@@ -181,13 +215,13 @@ const styles = {
     width: wp('90%'),
     height: hp('15%'),
     backgroundColor: appColor.WHITE,
-   //backgroundColor:'pink',
+    //backgroundColor:'pink',
     margin: 10,
     //  flexWrap:'wrap',
-   // alignItems: 'center',
+    // alignItems: 'center',
     justifyContent: 'center',
-    paddingLeft:'2%', 
-    paddingRight:'2%'
+    paddingLeft: '2%',
+    paddingRight: '2%',
   },
   textTitle: {
     fontFamily: fontConstant.BARLOW_BOLD,

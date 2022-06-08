@@ -59,7 +59,7 @@ const BookingSummary = props => {
   const onClickBookSeat =()=>{
     
       const {countLuggage, pickABusData} = props.route.params.luggageData;
-      console.log(" prev data ", pickABusData)
+      // console.log(" prev data ", pickABusData)
       let data = {
         'piecesofluggage': countLuggage,
         'travelDate': pickABusData.busBookingData.travelDate,

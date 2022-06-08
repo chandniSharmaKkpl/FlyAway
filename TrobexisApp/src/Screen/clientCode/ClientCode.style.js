@@ -95,6 +95,9 @@ export default StyleSheet.create({
     fontFamily: fontConstant.BARLOW_BOLD,
     fontSize: fontConstant.TEXT_45_SIZE_BOLD,
   },
+  versionColor : {
+    color: appColor.BLACK
+  },  
   inputView: {
     //flex: 1,
     paddingTop: hp('9.5%'),

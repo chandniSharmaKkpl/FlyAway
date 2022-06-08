@@ -22,9 +22,14 @@ import {
 } from '../../constant';
 import {Images} from '../../constant/SvgImgConst';
 import {useToast} from 'react-native-toast-notifications';
-
+import {
+  widthPercentageToDP as wp,
+  listenOrientationChange as lor,
+  removeOrientationListener as rol,
+  getOrientation,
+} from '../../responsiveScreen';
 import {requestGetApprovalListWithStatus} from './ApprovalList.action';
-import {getDateInFormat} from '../../common';
+import {getDateInFormat, getDateTimeOfView, convertDateTime} from '../../common';
 import {requestAcceptApproval} from './ApprovalList.action';
 import localDb from '../../database/localDb';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
@@ -38,17 +43,37 @@ const ApprovalList = props => {
   const responseData = useSelector(state => state.HomeReducer);
   const responseApprovalData = useSelector(state => state.ApprovalListReducer);
   const route = useRoute();
+  const [orientation, setOrientation] = React.useState('portrait');
 
   const dispatch = useDispatch();
   const [approvalList, setApprovalList] = useState(
     responseApprovalData.approvalList,
   ); // Getting approval list data from the home screen reducer
   const [refreshing, setRefreshing] = React.useState(false);
-
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [getDate, setGetDate] = useState('2022-06-10T14:45:00');
+
+
+  useEffect(() => {
+    lor(setOrientation);
+    return () => {
+      rol();
+    };
+  }, []);
+
+  // useEffect(async () => {
+  //   let valueDate1 = await getDateTimeOfView(
+      
+  //     true,
+  //     false,
+  //     false
+  //   );
+  //   setGetDate(valueDate1);
+
+  // }, []);
 
   //** This method will call when coming back from approval detail screen and show the data based on last selected index */
-  onBackReceiveData = data => {
+ const onBackReceiveData = data => {
     let tempIndex = 0;
     if (data.status === appConstant.PENDING_APPROVAL) {
       tempIndex = PENDING_INDEX;
@@ -159,12 +184,12 @@ const ApprovalList = props => {
   };
 
   const renderItem = item => {
-    console.log(item);
+    // console.log(item);
     let itemDetail = item.item;
-    let date =
-      itemDetail && itemDetail.requestdate ? itemDetail.requestdate : '';
+    // console.log("itemDetails", itemDetail);
+    let date = itemDetail && itemDetail.startdate ? itemDetail.startdate : '';
 
-    let requestdate = date ? getDateInFormat(date, false, false) : '';
+    let startdate = date ? getDateTimeOfView(date, true, false, false) : '';
     if (itemDetail) {
       return (
         <View style={styles.viewOutSide}>
@@ -173,14 +198,17 @@ const ApprovalList = props => {
             onPress={() => moveToDetailView(itemDetail)}>
             <View style={styles.viewInside2}>
               <View>
-                <Text style={styles.textTitle}>{itemDetail.requiredby}</Text>
+                <Text
+                  style={[
+                    styles.textTitle,
+                    {
+                      width: getOrientation() === 'portrait' ? wp('70%') : null,
+                    },
+                  ]}>
+                  {itemDetail.requiredby}
+                </Text>
                 <View style={styles.viewRow}>
                   <View style={styles.viewImages}>
-                    {/* <Image
-                      style={styles.image}
-                      resizeMode={'contain'}
-                      source={Images.IMAGE_REQUEST}
-                    /> */}
                     <Images.IMAGE_REQUEST />
                   </View>
                   <Text style={styles.textDetail}>
@@ -206,7 +234,7 @@ const ApprovalList = props => {
                       source={imageConstant.IMAGE_CALENDAR_BLUE}
                     />
                   </View>
-                  <Text style={styles.textDetail}>{requestdate}</Text>
+                  <Text style={styles.textDetail}>{convertDateTime(itemDetail.requestdate,true,false,false,responseData.userProfile.settings)}</Text>
                 </View>
               </View>
               {itemDetail.status &&

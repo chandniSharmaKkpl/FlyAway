@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState, useCallback, useEffect} from 'react';
+import React, { useState, useCallback, useEffect } from "react";
 import {
   View,
   Text,
@@ -9,57 +9,102 @@ import {
   ScrollView,
   Pressable,
   Platform,
-} from 'react-native';
-import stylesHome from '../home/Home.style';
-import styles from './JourneyDetail.style';
-import {HeaderCustom, AlertView, Loader, backHandler} from '../../component';
-import {useSelector, useDispatch} from 'react-redux';
-import localDb from '../../database/localDb';
+} from "react-native";
+import stylesHome from "../home/Home.style";
+import styles from "./JourneyDetail.style";
+import { HeaderCustom, AlertView, Loader, backHandler } from "../../component";
+import { useSelector, useDispatch } from "react-redux";
+import localDb from "../../database/localDb";
 import {
   appConstant,
   imageConstant,
   alertMsgConstant,
   appColor,
-} from '../../constant';
-import {getDateInFormat, msToTime, getDateInFormatNoTime} from '../../common';
-import {useRoute} from '@react-navigation/core';
+} from "../../constant";
+import {
+  getDateInFormat,
+  msToTime,
+  getDateInFormatNoTime,
+  convertDateTime,
+} from "../../common";
+import { useRoute } from "@react-navigation/core";
 import {
   heightPercentageToDP as hp,
   listenOrientationChange as lor,
   removeOrientationListener as rol,
   getOrientation,
-} from '../../responsiveScreen';
-import DeviceInfo, {getDeviceId} from 'react-native-device-info';
-import {requestToGetJourneyDetail} from './JourneyDetail.action';
-import {getTimeInFormat} from '../../component/BookingCard';
-import {supplierType} from '../../utils/supplierType.json';
-import {Images} from '../../constant/SvgImgConst';
-import moment from 'moment';
-import {ConfirmedStatus} from '../../utils/JourneyDetailsStatus';
+} from "../../responsiveScreen";
+import DeviceInfo, { getDeviceId } from "react-native-device-info";
+import { requestToGetJourneyDetail } from "./JourneyDetail.action";
+import { getTimeInFormat } from "../../component/BookingCard";
+import { supplierType } from "../../utils/supplierType.json";
+import { Images } from "../../constant/SvgImgConst";
+import DeviceTimeFormat from "react-native-device-time-format";
+import { is24HourFormat } from "react-native-device-time-format";
+import moment from "moment";
+import { ConfirmedStatus } from "../../utils/JourneyDetailsStatus";
+import { getDateTimeOfView } from "../../common";
 
-const JourneyDetail = props => {
-  const [orientation, setOrientation] = React.useState('portrait');
+const JourneyDetail = (props) => {
+  const [orientation, setOrientation] = React.useState("portrait");
 
   const [isAlertShow, setIsAlertShow] = useState(false);
   const route = useRoute();
   const dispatch = useDispatch();
-  const responseDetail = useSelector(state => state.JourneyDetailReducer);
-  const responseUser = useSelector(state => state.HomeReducer); // Getting api response
-
+  const responseDetail = useSelector((state) => state.JourneyDetailReducer);
+  const responseUser = useSelector((state) => state.HomeReducer); // Getting api response
   const [isApiCall, setIsApiCall] = useState(false);
-  const [travellerName, seTtravellerName] = useState('');
-  const [busBooking, setBusBooking] = useState('');
-  const [travellerDetailDate, setTravellerDetailDate] = useState('');
-  const [tvr, setTvr] = useState('');
+  const [travellerName, seTtravellerName] = useState("");
+  const [busBooking, setBusBooking] = useState("");
+  const [travellerDetailDate, setTravellerDetailDate] = useState("");
+  const [tvr, setTvr] = useState("");
   const [arrayRoutes, setArrayRoutes] = useState([]);
   const [lwidth, setlWidth] = useState(100);
   const [lheight, setlHeight] = useState(102);
-  const [status, setStatus] = useState('Confirmed Itinerary');
+  const [status, setStatus] = useState("Confirmed Itinerary");
+  const [state, setState] = useState();
+  const [currentTime, setCurrentTime] = useState("");
+  const [getDate, setGetDate] = useState();
+  const [getStartTime, setGetStartTime] = useState();
+  const [getEndTime, setGetEndTime] = useState();
+  const [journeyDetailsStartDateTime, setJourneyDetailsStartDateTime] =
+    useState();
+  const [journeyDetailsEndDateTime, setJourneyDetailsEndDateTime] = useState();
 
-  const checkStatus = incomingstatus => {
+  // console.log("journeyDetailsStartDateTime =", journeyDetailsStartDateTime);
+
+  useEffect(async () => {
+    let valueDate1 = await getDateTimeOfView(
+      journeyDetailsStartDateTime,
+      true,
+      false,
+      false
+    );
+
+    // console.log("valueDate1 =>", valueDate1);
+    setGetDate(valueDate1);
+
+    let valueStartTime = await getDateTimeOfView(
+      journeyDetailsStartDateTime,
+      false,
+      true,
+      false
+    );
+    setGetStartTime(valueStartTime);
+
+    let valueStartTime1 = await getDateTimeOfView(
+      journeyDetailsEndDateTime,
+      false,
+      true,
+      false
+    );
+    setGetEndTime(valueStartTime1);
+  }, [journeyDetailsStartDateTime, journeyDetailsEndDateTime]);
+
+  const checkStatus = (incomingstatus) => {
     if (!ConfirmedStatus.includes(incomingstatus)) {
       setTimeout(() => {
-        setStatus('Draft Itinerary');
+        setStatus("Draft Itinerary");
       }, 500);
     }
   };
@@ -72,11 +117,12 @@ const JourneyDetail = props => {
   }, []);
 
   useEffect(() => {
-    const unsubscribe = props.navigation.addListener('focus', () => {
+    const unsubscribe = props.navigation.addListener("focus", () => {
+      getCurrentHourFormat();
       const tempUser = localDb.getUser();
-      Promise.resolve(tempUser).then(response => {
+      Promise.resolve(tempUser).then((response) => {
         let param = {
-          itineraryId: route.params.itineraryId ? route.params.itineraryId : '',
+          itineraryId: route.params.itineraryId ? route.params.itineraryId : "",
           user: response,
           navigation: props.navigation,
         };
@@ -85,18 +131,18 @@ const JourneyDetail = props => {
       });
     });
     return () => {
-      console.log('unsubscribe ==> JourneyDetail');
+      // console.log("unsubscribe ==> JourneyDetail");
       unsubscribe();
     };
   }, []);
 
   //** Back button handling  */
   useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    BackHandler.addEventListener("hardwareBackPress", handleBackButtonClick);
     return () => {
       BackHandler.removeEventListener(
-        'hardwareBackPress',
-        handleBackButtonClick,
+        "hardwareBackPress",
+        handleBackButtonClick
       );
     };
   }, []);
@@ -112,9 +158,11 @@ const JourneyDetail = props => {
       return true;
     }
   };
+
   const moveBack = () => {
     props.navigation.goBack();
   };
+
   const returnRowView = (title, subTitle) => {
     return (
       <View style={styles.viewRow}>
@@ -125,15 +173,15 @@ const JourneyDetail = props => {
   };
 
   const calculateTime = (startTime, endTime) => {
-    let differenceTime = 'Total Time ';
+    let differenceTime = "Total Time ";
     let date1 = new Date(startTime);
     let date2 = new Date(endTime);
     differenceTime = date2.getTime() - date1.getTime();
     let strTime = msToTime(differenceTime);
-    return 'Total Time ' + strTime;
+    return "Total Time " + strTime;
   };
 
-  const returnSupplierCodeImage = item => {
+  const returnSupplierCodeImage = (item) => {
     if (item.Details && item.Details.length > 0 && item.Details[0].Flight) {
       let flightStr = item.Details[0].Flight;
       let supplierType1 = flightStr.slice(0, 2);
@@ -143,7 +191,7 @@ const JourneyDetail = props => {
     return null;
   };
 
-  const returnSvgImage = item => {
+  const returnSvgImage = (item) => {
     if (item.Type === appConstant.CHARTER_FLIGHT) {
       return <Images.IMAGE_CHARTER_FLIGHT_SVG />;
     } else if (item.Type === appConstant.CAMP_ACCOMODATION) {
@@ -196,10 +244,10 @@ const JourneyDetail = props => {
         item.Details.length > 0
       ) {
         let dictDetail = item.Details[0];
-        
+
         if (dictDetail.Classification) {
           let tempC = dictDetail.Classification;
-          
+
           if (tempC === appConstant.HELICOPTER) {
             return <Images.IMAGE_HELICOPTER_SVG />;
           } else if (tempC === appConstant.WATERCRAFT) {
@@ -216,7 +264,7 @@ const JourneyDetail = props => {
     }
   };
 
-  const ConvertSectoDay = n => {
+  const ConvertSectoDay = (n) => {
     var day = parseInt(n / (24 * 3600));
     n = n % (24 * 3600);
     var hour = parseInt(n / 3600);
@@ -227,57 +275,65 @@ const JourneyDetail = props => {
     n %= 60;
     var seconds = n;
 
-    let strToSend = '';
+    let strToSend = "";
     if (day > 0) {
-      strToSend = day + ' ' + 'days ';
+      strToSend = day + " " + "days ";
     }
     if (hour > 0) {
-      strToSend = strToSend + ' ' + hour + ' ' + 'hours';
+      strToSend = strToSend + " " + hour + " " + "hours";
     }
     if (minutes > 0) {
-      strToSend = strToSend + ' ' + minutes + ' ' + 'minutes';
+      strToSend = strToSend + " " + minutes + " " + "minutes";
     }
     if (seconds > 0) {
-      strToSend = strToSend + ' ' + seconds + ' ' + 'seconds';
+      strToSend = strToSend + " " + seconds + " " + "seconds";
     }
 
     return strToSend;
   };
 
+  const getCurrentHourFormat = async () => {
+    const is24Hour = await is24HourFormat();
+    // console.log(" user devie format ----", is24Hour);
+    //return moment(date).format(is24Hour ? 'HH:mm' : 'h:mm A')
+  };
+
   const itemViews = (item, type, index) => {
     let isNoShowBtnVisible = false; // This flag is using to show no show button for flights only
     const endDate =
-      item.Details[0] && item.Details[0].EndDate ? item.Details[0].EndDate : '';
+      item.Details[0] && item.Details[0].EndDate ? item.Details[0].EndDate : "";
     const startDate =
       item.Details[0] && item.Details[0].StartDate
         ? item.Details[0].StartDate
-        : '';
+        : "";
 
+    // console.log("details ==>", item);
     var formatStartDate = moment(startDate);
     var formatEndDate = moment(endDate);
     let days = 0;
-    let duration = '';
+    let duration = "";
     if (formatStartDate && formatEndDate) {
-      days = formatEndDate.diff(formatStartDate, 'days');
-      let hours = formatEndDate.diff(formatStartDate, 'hours');
+      days = formatEndDate.diff(formatStartDate, "days");
+      let hours = formatEndDate.diff(formatStartDate, "hours");
       // let minutes = formatEndDate.diff(formatStartDate, 'minutes');
 
-      let seconds = formatEndDate.diff(formatStartDate, 'seconds');
+      let seconds = formatEndDate.diff(formatStartDate, "seconds");
 
       if (seconds) {
         duration = ConvertSectoDay(seconds);
       }
     }
-
+    // console.log("items", item);
     return (
       <View
         key={index}
         style={styles.viewRowOutSide}
-        onLayout={event => {
-          var {x, y, width, height} = event.nativeEvent.layout;
-          setlWidth(getOrientation() === 'portrait' ? width - 82 : width - 115);
-          setlHeight(getOrientation() === 'portrait' ? height : height - 20);
-        }}>
+        onLayout={(event) => {
+          var { x, y, width, height } = event.nativeEvent.layout;
+          setlWidth(getOrientation() === "portrait" ? width - 82 : width - 115);
+          setlHeight(getOrientation() === "portrait" ? height : height - 20);
+        }}
+      >
         {/* Side bus view  */}
         <View style={[styles.viewLeftLine]}>
           <View
@@ -285,15 +341,16 @@ const JourneyDetail = props => {
               styles.viewCircleBlue,
               {
                 marginTop:
-                  Platform.OS === 'android'
-                    ? getOrientation() === 'portrait'
-                      ? hp('5%')
-                      : hp('8%')
-                    : getOrientation() === 'portrait'
-                    ? hp('5%')
-                    : hp('10%'),
+                  Platform.OS === "android"
+                    ? getOrientation() === "portrait"
+                      ? hp("5%")
+                      : hp("8%")
+                    : getOrientation() === "portrait"
+                    ? hp("5%")
+                    : hp("10%"),
               },
-            ]}>
+            ]}
+          >
             <View style={styles.viewPlaneImg}>{returnSvgImage(item)}</View>
           </View>
         </View>
@@ -304,50 +361,55 @@ const JourneyDetail = props => {
             styles.viewOutSide,
             {
               width: lwidth,
-              marginTop: getOrientation() === 'portrait' ? '8%' : '5%',
+              marginTop: getOrientation() === "portrait" ? "8%" : "5%",
             },
-          ]}>
+          ]}
+        >
           <View
             style={[
               styles.viewRowTop,
               {
                 width: lwidth,
                 paddingLeft: DeviceInfo.isTablet()
-                  ? getOrientation() === 'portrait'
-                    ? '3%'
-                    : '3%'
-                  : getOrientation() === 'portrait'
-                  ? '5%'
-                  : '2%',
+                  ? getOrientation() === "portrait"
+                    ? "3%"
+                    : "3%"
+                  : getOrientation() === "portrait"
+                  ? "5%"
+                  : "2%",
               },
-            ]}>
+            ]}
+          >
             <View style={styles.viewLeft}>
               <Text style={styles.textYellow}>
                 {item.Details &&
                 item.Details.length > 0 &&
                 item.Details[0].ServiceProvider
                   ? item.Details[0].ServiceProvider
-                  : ''}{' '}
+                  : ""}{" "}
                 (
                 {item.Details &&
                 item.Details.length > 0 &&
                 item.Details[0].Flight
                   ? item.Details[0].Flight
-                  : ''}
+                  : ""}
                 )
               </Text>
 
               <Text
-                style={[styles.textBlack, styles.subTitle, {paddingTop: '2%'}]}>
-                {item.Details &&
-                item.Details.length > 0 &&
-                item.Details[0].StartDate
-                  ? getDateInFormatNoTime(
-                      item.Details[0].StartDate,
-                      false,
-                      true,
-                    )
-                  : ''}
+                style={[
+                  styles.textBlack,
+                  styles.subTitle,
+                  { paddingTop: "2%" },
+                ]}
+              >
+                {convertDateTime(
+                  item.Details[0].StartDate,
+                  true,
+                  false,
+                  false,
+                  responseUser.userProfile.settings
+                )}
               </Text>
             </View>
             {(item.Type === appConstant.COMMERCIAL_FLIGHT ||
@@ -358,11 +420,12 @@ const JourneyDetail = props => {
                   style={[
                     styles.leftLine,
                     {
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
                     },
-                  ]}>
+                  ]}
+                >
                   <View style={styles.imagePlan}>
                     {returnSupplierCodeImage(item)}
                   </View>
@@ -389,7 +452,8 @@ const JourneyDetail = props => {
                 style={styles.buttonTextRed}
                 onPress={() => {
                   setIsAlertShow(true);
-                }}>
+                }}
+              >
                 <Text style={styles.textNoShow}>No</Text>
                 <Text style={styles.textNoShow}>Show</Text>
               </Pressable>
@@ -415,14 +479,16 @@ const JourneyDetail = props => {
                 item.Details.length > 0 &&
                 item.Details[0].Origin
                   ? item.Details[0].Origin
-                  : ''}
+                  : ""}
               </Text>
               <Text style={styles.textBlack}>
-                {item.Details &&
-                item.Details.length > 0 &&
-                item.Details[0].StartDate
-                  ? getTimeInFormat(item.Details[0].StartDate, false, true)
-                  : ''}
+                {convertDateTime(
+                  item.Details[0].StartDate,
+                  true,
+                  false,
+                  false,
+                  responseUser.userProfile.settings
+                )}
               </Text>
             </View>
 
@@ -442,26 +508,50 @@ const JourneyDetail = props => {
                 item.Details.length > 0 &&
                 item.Details[0].Destination
                   ? item.Details[0].Destination
-                  : '-'}
+                  : "-"}
               </Text>
-              <View style={{flexDirection: 'row'}}>
+              <View style={{ flexDirection: "row" }}>
                 <Text
                   style={[
                     styles.textBlack,
-                    {alignItems: 'flex-end', lineHeight: 25},
-                  ]}>
-                  {item.Details &&
-                  item.Details.length > 0 &&
-                  item.Details[0].EndDate
-                    ? getTimeInFormat(item.Details[0].EndDate, false, true)
-                    : '-'}
+                    { alignItems: "flex-end", lineHeight: 25 },
+                  ]}
+                >
+                  {item.Details[0]?.EndDate &&
+                    convertDateTime(
+                      item.Details[0].EndDate,
+                      true,
+                      false,
+                      false,
+                      responseUser.userProfile.settings
+                    )}
                 </Text>
-                {days > 0 && (
-                  <Text
-                    style={[styles.dayNumberText, {alignItems: 'flex-start'}]}>
-                    {' +' + days}
-                  </Text>
+
+                {item.Type === appConstant.COMMERCIAL_FLIGHT ||
+                item.Type === appConstant.CHARTER_FLIGHT ? (
+                  days > 0 && (
+                    <Text
+                      style={[
+                        styles.dayNumberText,
+                        { alignItems: "flex-start" },
+                      ]}
+                    >
+                      {" +" + days}
+                    </Text>
+                  )
+                ) : (
+                  <></>
                 )}
+
+                {/* {
+                    days > 0 && ( 
+
+                      <Text
+                      style={[styles.dayNumberText, { alignItems: "flex-start" }]}
+                      >
+                      {" +" + days}
+                      </Text> )
+                  } */}
               </View>
             </View>
 
@@ -472,7 +562,7 @@ const JourneyDetail = props => {
               ) : (
                 <Text style={styles.textBlueBig}>Duration:</Text>
               )}
-              <Text style={styles.textBlack}>{duration ? duration : '-'}</Text>
+              <Text style={styles.textBlack}>{duration ? duration : "-"}</Text>
             </View>
 
             <View style={styles.viewLocation}>
@@ -568,7 +658,7 @@ const JourneyDetail = props => {
             <View style={styles.viewLocation}>
               <View style={styles.viewSpace}>
                 <Text style={styles.textBlueBig}>Status:</Text>
-                {item.Status === 'Booked' || item.Status === 'Reserved' ? (
+                {item.Status === "Booked" || item.Status === "Reserved" ? (
                   <Text style={styles.textConfirmedInBox}>Confirmed</Text>
                 ) : (
                   <Text style={styles.textNotConfirmedInBox}>
@@ -619,16 +709,17 @@ const JourneyDetail = props => {
               styles.viewDashedLine,
               {
                 top:
-                  Platform.OS === 'android'
-                    ? getOrientation() === 'portrait'
-                      ? '11%'
-                      : '12%'
-                    : getOrientation() === 'portrait'
-                    ? '11%'
-                    : '12%',
-                height: '100%',
+                  Platform.OS === "android"
+                    ? getOrientation() === "portrait"
+                      ? "11%"
+                      : "12%"
+                    : getOrientation() === "portrait"
+                    ? "11%"
+                    : "12%",
+                height: "100%",
               },
-            ]}>
+            ]}
+          >
             {/* <View style={styles.viewDotted} /> */}
           </View>
         )}
@@ -637,25 +728,30 @@ const JourneyDetail = props => {
   };
 
   const getDataFromResponse = (responseDetail, type) => {
-    // console.log('responseDetail.Status+-+-+', responseDetail.Status);
-
     if (responseDetail && responseDetail[type]) {
-      if (type === 'StartDate') {
-        return getDateInFormat(responseDetail[type], false, false);
+      if (type === "StartDate") {
+        // return getDateInFormat(responseDetail[type], false, false);
+        return convertDateTime(
+          responseDetail.StartDate,
+          true,
+          false,
+          false,
+          responseUser.userProfile.settings
+        );
       } else {
-        if (type === 'GivenName') {
-          let surname = '';
-          if (responseDetail['Surname']) {
-            surname = responseDetail['Surname'];
+        if (type === "GivenName") {
+          let surname = "";
+          if (responseDetail["Surname"]) {
+            surname = responseDetail["Surname"];
           }
-          let name = responseDetail['GivenName'] + ' ' + surname;
+          let name = responseDetail["GivenName"] + " " + surname;
           return name;
         } else {
           return responseDetail[type];
         }
       }
     } else {
-      return 'N/A';
+      return "N/A";
     }
   };
 
@@ -664,14 +760,14 @@ const JourneyDetail = props => {
       {backHandler(moveBack)}
       <View style={stylesHome.container}>
         <HeaderCustom
-          title={'Travel Itinerary'}
+          title={"Travel Itinerary"}
           viewName={appConstant.JOURNEY_DETAIL}
           leftIcon={true}
           onClickLeftIcon={() => moveBack()}
           rightIcon={false}
           centerTitle={true}
           onClickRightIcon={() => {}}
-          rightIconImage={''}
+          rightIconImage={""}
           viewProps={props}
         />
         <ScrollView contentContainerStyle={styles.scrollView}>
@@ -681,45 +777,39 @@ const JourneyDetail = props => {
             <View style={styles.viewInside2}>
               <View style={styles.viewContainRow}>
                 {returnRowView(
-                  'Date: ',
+                  "Date: ",
+                  getDataFromResponse(responseDetail.journeyDetail, "StartDate")
+                )}
+                {returnRowView(
+                  "Name: ",
+                  getDataFromResponse(responseDetail.journeyDetail, "GivenName")
+                )}
+                {returnRowView(
+                  "Request Title: ",
+                  getDataFromResponse(responseDetail.journeyDetail, "Title")
+                )}
+                {returnRowView(
+                  "Travel Request ID: ",
                   getDataFromResponse(
                     responseDetail.journeyDetail,
-                    'StartDate',
-                  ),
+                    "TravelRequestId"
+                  )
                 )}
                 {returnRowView(
-                  'Name: ',
-                  getDataFromResponse(
-                    responseDetail.journeyDetail,
-                    'GivenName',
-                  ),
-                )}
-                {returnRowView(
-                  'Request Title: ',
-                  getDataFromResponse(responseDetail.journeyDetail, 'Title'),
-                )}
-                {returnRowView(
-                  'Travel Request ID: ',
-                  getDataFromResponse(
-                    responseDetail.journeyDetail,
-                    'TravelRequestId',
-                  ),
-                )}
-                {returnRowView(
-                  'In Country Helpline ',
-                  getDataFromResponse(),
+                  "In Country Helpline ",
+                  getDataFromResponse()
                   // responseDetail.journeyDetail,
                   // 'TravelRequestId',
                 )}
                 {returnRowView(
-                  'Security: ',
-                  getDataFromResponse(),
+                  "Security: ",
+                  getDataFromResponse()
                   // responseDetail.journeyDetail,
                   // 'TravelRequestId',
                 )}
                 {returnRowView(
-                  'Meet & Greet Team: ',
-                  getDataFromResponse(),
+                  "Meet & Greet Team: ",
+                  getDataFromResponse()
                   // responseDetail.journeyDetail,
                   // 'TravelRequestId',
                 )}
@@ -728,7 +818,9 @@ const JourneyDetail = props => {
 
             {/* Itinerary Details */}
             <View
-              style={{marginTop: getOrientation() === 'portrait' ? '8%' : '5%'}}
+              style={{
+                marginTop: getOrientation() === "portrait" ? "8%" : "5%",
+              }}
             />
             <Text style={styles.textBlackTitle}>Itinerary Details</Text>
 
@@ -736,7 +828,7 @@ const JourneyDetail = props => {
             responseDetail.journeyDetail &&
             responseDetail.journeyDetail.Itinerarys &&
             responseDetail.journeyDetail.Itinerarys.length > 0 ? (
-              status === 'Confirmed Itinerary' ? (
+              status === "Confirmed Itinerary" ? (
                 <Text style={styles.textConfirmed}>Confirmed Itinerary</Text>
               ) : (
                 <Text style={styles.textNotConfirmed}>Draft Itinerary</Text>
@@ -749,10 +841,15 @@ const JourneyDetail = props => {
             responseDetail.journeyDetail.Itinerarys.length > 0
               ? responseDetail.journeyDetail.Itinerarys.map(function (
                   item,
-                  index,
+                  index
                 ) {
-                  // console.log("responseDetail.journeyDetail ==>",JSON.stringify(item,null, 4));
+                  // console.log(
+                  //   "responseDetail.journeyDetail ==>",
+                  //   JSON.stringify(item.Details, null, 4)
+                  // );
                   checkStatus(item.Status);
+                  // setJourneyDetailsStartDateTime(item.Details.StartDate);
+                  // setJourneyDetailsEndDateTime(item.Details.EndDate);
                   return itemViews(item, imageConstant.IMAGE_PLANE, index);
                 })
               : null}
@@ -773,7 +870,7 @@ const JourneyDetail = props => {
           confirmBtnTxt={alertMsgConstant.YES}
           cancelBtnTxt={alertMsgConstant.NO}
           buttonCount={3}
-          bigBtnText={'Call the Travel Desk'}
+          bigBtnText={"Call the Travel Desk"}
           onPressConfirmBtn={() => {
             setIsAlertShow(false);
           }}
@@ -785,7 +882,7 @@ const JourneyDetail = props => {
           }}
         />
       ) : (
-        <View style={{backgroundColor: 'pink'}} />
+        <View style={{ backgroundColor: "pink" }} />
       )}
     </>
   );

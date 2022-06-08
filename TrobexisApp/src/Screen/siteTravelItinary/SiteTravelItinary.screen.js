@@ -37,7 +37,7 @@ const responseLoader = useSelector(state => state.SiteTravelItinaryReducer);
     arrayBooking.push(array);
 
     if (props.route.params.itinaryDetail && props.route.params.itinaryDetail.id) {
-      console.log(" props are ====", props); 
+      // console.log(" props are ====", props); 
 
       dispatch(requestToGetDetailOfItinary(props.route.params.itinaryDetail.id));
     }
@@ -56,7 +56,7 @@ const responseLoader = useSelector(state => state.SiteTravelItinaryReducer);
   };
 
   const cancelBookingApi =()=>{  
-    console.log(" response ===", response); 
+    // console.log(" response ===", response); 
     if (response && Array.isArray(response.Itinerarys) && response.Itinerarys.length>0) {
       dispatch(requestToCancelSiteTravelItinary({'itinerayId':response.Itinerarys[0].ItineraryId}))
     }  
@@ -113,7 +113,7 @@ const responseLoader = useSelector(state => state.SiteTravelItinaryReducer);
 
   return (
     <>
-    {console.log(" response site travel ", response)}
+    {/* {console.log(" response site travel ", response)} */}
       <View style={stylesHome.container}>
         <HeaderCustom
           title={'Site Travel Itinerary'}

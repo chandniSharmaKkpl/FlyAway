@@ -368,7 +368,7 @@ PODS:
     - React-Core
   - react-native-splash-screen (3.3.0):
     - React-Core
-  - react-native-webview (11.17.2):
+  - react-native-webview (11.21.0):
     - React-Core
   - React-perflogger (0.64.2)
   - React-RCTActionSheet (0.64.2):
@@ -434,14 +434,16 @@ PODS:
     - React-cxxreact (= 0.64.2)
     - React-jsi (= 0.64.2)
     - React-perflogger (= 0.64.2)
-  - RNCAsyncStorage (1.17.0):
+  - RNCAsyncStorage (1.17.5):
     - React-Core
   - RNCMaskedView (0.1.11):
     - React
   - RNCPushNotificationIOS (1.10.1):
     - React-Core
-  - RNDeviceInfo (8.3.0):
+  - RNDeviceInfo (8.7.1):
     - React-Core
+  - RNDeviceTimeFormat (2.0.0):
+    - React
   - RNFBApp (13.1.1):
     - Firebase/CoreOnly (= 8.10.0)
     - React-Core
@@ -453,7 +455,7 @@ PODS:
     - React-Core
   - RNPermissions (2.2.2):
     - React-Core
-  - RNReanimated (2.4.1):
+  - RNReanimated (2.8.0):
     - DoubleConversion
     - FBLazyVector
     - FBReactNativeSpec
@@ -461,7 +463,6 @@ PODS:
     - RCT-Folly
     - RCTRequired
     - RCTTypeSafety
-    - React
     - React-callinvoker
     - React-Core
     - React-Core/DevSupport
@@ -556,6 +557,7 @@ DEPENDENCIES:
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - "RNCPushNotificationIOS (from `../node_modules/@react-native-community/push-notification-ios`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
+  - RNDeviceTimeFormat (from `../node_modules/react-native-device-time-format/ios`)
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
@@ -670,6 +672,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/push-notification-ios"
   RNDeviceInfo:
     :path: "../node_modules/react-native-device-info"
+  RNDeviceTimeFormat:
+    :path: "../node_modules/react-native-device-time-format/ios"
   RNFBApp:
     :path: "../node_modules/@react-native-firebase/app"
   RNFBMessaging:
@@ -735,7 +739,7 @@ SPEC CHECKSUMS:
   react-native-safe-area-context: 9e40fb181dac02619414ba1294d6c2a807056ab9
   react-native-segmented-control: 06607462630512ff8eef652ec560e6235a30cc3e
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
-  react-native-webview: 380c1a03ec94b7ed764dac8db1e7c9952d08c93a
+  react-native-webview: 28d3fb6c10fbbef4934e816f8c0fc1f635428d9d
   React-perflogger: 25373e382fed75ce768a443822f07098a15ab737
   React-RCTActionSheet: af7796ba49ffe4ca92e7277a5d992d37203f7da5
   React-RCTAnimation: 6a2e76ab50c6f25b428d81b76a5a45351c4d77aa
@@ -748,15 +752,16 @@ SPEC CHECKSUMS:
   React-RCTVibration: 24600e3b1aaa77126989bc58b6747509a1ba14f3
   React-runtimeexecutor: a9904c6d0218fb9f8b19d6dd88607225927668f9
   ReactCommon: 149906e01aa51142707a10665185db879898e966
-  RNCAsyncStorage: 4efdcd2f7378421b29467c9de58f43552b60cf5b
+  RNCAsyncStorage: 81187912cc9a5c2591ddb161e03e587688afb764
   RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
   RNCPushNotificationIOS: 87b8d16d3ede4532745e05b03c42cff33a36cc45
-  RNDeviceInfo: 1c15bd65d0555a4246107dd9b5b9d9095aa6ad76
+  RNDeviceInfo: aad3c663b25752a52bf8fce93f2354001dd185aa
+  RNDeviceTimeFormat: 02dcc604950b95af261902398d80288684dc5ad4
   RNFBApp: 6e20f07b316346d96737191f377777f61f51a8d2
   RNFBMessaging: eb8d1b08795c8718706007ed0743732d00e1acc4
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNPermissions: 5df468064df661a4c8c017e2791ce90d7695eea5
-  RNReanimated: 58e7b950e0172235ff8296dd39ec145f9577e301
+  RNReanimated: 7f3eef39b48facdb0b053873abdaafaa6a953b0d
   RNScreens: 40a2cb40a02a609938137a1e0acfbf8fc9eebf19
   RNSVG: 302bfc9905bd8122f08966dc2ce2d07b7b52b9f8
   RNVectorIcons: 31cebfcf94e8cf8686eb5303ae0357da64d7a5a4

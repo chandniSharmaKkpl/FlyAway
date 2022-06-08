@@ -110,13 +110,14 @@ export default StyleSheet.create({
     color: appColor.NAVY_BLUE,
     flexWrap: 'wrap',
     paddingBottom: hp('1%'),
+    // width: wp('70%')
   },
   textDetail: {
     fontFamily: fontConstant.BARLOW_REGULAR,
     fontSize: fontConstant.TEXT_12_SIZE_BOLD,
     color: appColor.NAVY_BLUE,
     flexWrap: 'wrap',
-    paddingLeft: wp('2%'),
+    paddingLeft: wp('2.5%'),
   },
   viewImages: {
     width: DeviceInfo.isTablet() ? wp('2.5%') : wp('3%'),

@@ -12,7 +12,7 @@ export function* workerGetBusRoute(params) {
     const token = reducer.LoginReducer.accessToken.token;
     if (token) {
       const busRoute = yield call(getBusRoute,token,params);
-      console.log(" bus route ", busRoute); 
+      // console.log(" bus route ", busRoute); 
       if (busRoute) {
         yield put({
           type: actionConstant.ACTION_GET_BUS_ROUTE_SUCCESS,

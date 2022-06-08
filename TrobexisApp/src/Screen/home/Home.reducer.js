@@ -7,6 +7,8 @@ const initialState = {
   itinaryList: '',
   itinaryListAllJourney: '',
   approvalList: '',
+  enddatetime: '',
+  startdatetime: '',
   error: {},
 };
 
@@ -52,6 +54,7 @@ export default (state = initialState, {type, payload}) => {
       return {
         ...state,
         itinaryList: payload,
+        
         isRequesting: true,
         error: {},
       };
@@ -77,6 +80,7 @@ export default (state = initialState, {type, payload}) => {
       return {
         ...state,
         itinaryListAllJourney: payload,
+        startdatetime: payload.data,
         isRequesting: false,
         error: {},
       };
