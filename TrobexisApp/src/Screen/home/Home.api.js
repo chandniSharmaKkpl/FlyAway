@@ -30,7 +30,6 @@ export const getUserProfile = argumentData => {
   });
 
   instance.interceptors.response.use(undefined, async error => {
-    console.log('Error - err ->', error);
     if (error) {
       const options = {
         headers: {
