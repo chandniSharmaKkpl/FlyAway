@@ -24,9 +24,11 @@ Add these pods in ios pod file
  Do android specific changes as shown in the link 
  
 */
-var isSuccessMsgShow = false;
 
 function PushController(props) {
+  
+  var isSuccessMsgShow = false;
+
   const toast = useToast();
   useEffect(() => {
     {
@@ -92,6 +94,7 @@ function PushController(props) {
                   toast.show(remoteMessage.notification.body, {
                     type: alertMsgConstant.TOAST_SUCCESS,
                   });
+                  console.log("isSuccessMsgShow --->", remoteMessage.notification.body);
                 }
               });
             } else {
@@ -125,7 +128,6 @@ function PushController(props) {
               Promise.resolve(tempUser).then(response => {
                 let tempDict = response;
                 tempDict.userId = userId;
-                console.log(' in push notification -===--', remoteMessage);
                 localDb.setUser(tempDict);
 
                 props.navigation.navigate(appConstant.DRAWER_NAVIGATOR);

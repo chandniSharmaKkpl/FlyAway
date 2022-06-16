@@ -1,11 +1,13 @@
 import {Platform} from 'react-native';
 import {apiConstant, appConstant} from '../../constant';
 import axios from 'axios';
+import APIERROR from'../../api/apiBaseError';
 
 export const getDeclineReasonsApi = async argumentData => {
   let approvalId = argumentData.approvalId;
   let deviceId = argumentData.user.deviceId;
   let apiBaseUrl = argumentData.user.apiBaseUrl;
+  let userId = argumentData.user.userId;
   let clientToken = argumentData.user.clientToken;
   let clientCode = argumentData.user.client;
 
@@ -14,7 +16,7 @@ export const getDeclineReasonsApi = async argumentData => {
     timeout: 30000,
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${clientToken}`,
+      Authorization: '',
       DeviceId: deviceId,
       DeviceType: Platform.OS === 'android' ? 'ANDROID' : 'IOS',
     },
@@ -22,6 +24,7 @@ export const getDeclineReasonsApi = async argumentData => {
 
   instance.interceptors.response.use(undefined, async error => {
     if (error) {
+      console.log("getDeclineReasonsApi -> error", error);
       const options = {
         headers: {
           'Content-Type': 'application/json',
@@ -40,14 +43,14 @@ export const getDeclineReasonsApi = async argumentData => {
         DataText: error.response.data.message,
       };
       console.log(
-        'instance.interceptors.response ==> error ==> ',
+        'instance.interceptors.response ==> error ==> getDeclineReasonsApi',
         JSON.stringify(error.response.data, null, 4),
       );
 
       try {
         const res = await APIERROR.post('log', data, options);
         console.log(
-          'instance.interceptors.response ==> api res ==> ',
+          'instance.interceptors.response ==> api res ==> getDeclineReasonsApi',
           res.data,
         );
       } catch (error) {
@@ -80,7 +83,7 @@ export const getDeclineReasonsApi = async argumentData => {
     return error.response.data;
   }
 
-  //let arg = {'approvalId': approvalId}
+  let arg = {'approvalId': approvalId}
   return instance
     .get(urlString, {approvalId: approvalId})
 
@@ -92,15 +95,14 @@ export const getDeclineReasonsApi = async argumentData => {
         return response1;
       }),
     )
-    .catch(err => {
-      console.log('66 api Erorr: ', err.response);
-      return err.response.data;
+    .catch(error => {
+      console.log('66 api Erorr: ', error);
+      return error.response.data;
     });
 };
 
 // Submit Decline with Reasons calling by reason view
 export const declineApprovalApi = async argumentData => {
-  console.log('decline argument data --> : ', argumentData);
 
   let reasonId = argumentData.reasonId;
   let approvalId = argumentData.approvalId;
@@ -110,6 +112,17 @@ export const declineApprovalApi = async argumentData => {
   let apiBaseUrl = argumentData.user.apiBaseUrl;
   let clientToken = argumentData.user.clientToken;
   let comments = argumentData.comments;
+
+  let instance = axios.create({
+    baseURL: apiBaseUrl,
+    timeout: 30000,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${clientToken}`,
+      DeviceId: deviceId,
+      DeviceType: Platform.OS === 'android' ? 'ANDROID' : 'IOS',
+    },
+  });
 
   instance.interceptors.response.use(undefined, async error => {
     if (error) {
@@ -138,7 +151,7 @@ export const declineApprovalApi = async argumentData => {
       try {
         const res = await APIERROR.post('log', data, options);
         console.log(
-          'instance.interceptors.response ==> api res ==> ',
+          'instance.interceptors.response ==> api res ==>  ',
           res.data,
         );
       } catch (error) {
@@ -150,23 +163,13 @@ export const declineApprovalApi = async argumentData => {
 
   let urlString = apiBaseUrl + apiConstant.APPROVAL_DECLINE_API;
   urlString = urlString.replace(':approvalId', approvalId);
-
   console.log(' url  data  : ', urlString);
   const raw = {
     approverId: userId,
     ReasonId: reasonId,
     comments: comments,
   };
-  let instance = axios.create({
-    baseURL: apiBaseUrl,
-    timeout: 30000,
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${clientToken}`,
-      DeviceId: deviceId,
-      DeviceType: Platform.OS === 'android' ? 'ANDROID' : 'IOS',
-    },
-  });
+  console.log(approvalId,raw);
 
   try {
     return instance

@@ -1,6 +1,7 @@
 import {Platform} from 'react-native';
 import {apiConstant, appConstant} from '../../constant';
 import axios from 'axios';
+import APIERROR from '../../api/apiBaseError';
 
 export const getJourneysListApi = argumentData => {
   console.log('argumentData = argumentData =>', argumentData);
