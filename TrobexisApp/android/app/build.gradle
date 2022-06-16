@@ -134,7 +134,7 @@ android {
         applicationId "com.trobexisapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 3
+        versionCode 6
         versionName "2.5"
         missingDimensionStrategy 'react-native-camera', 'general'
     }

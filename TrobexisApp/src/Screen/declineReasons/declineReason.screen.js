@@ -88,7 +88,7 @@ const ReasonDecline = props => {
   const onClickSubmit = () => {
     const tempUser = localDb.getUser();
     Promise.resolve(tempUser).then(response => {
-      console.log('Decline => responce => ', response);
+      // console.log('Decline => responce => ', response);
       let param = {
         comments: comments,
         reasonId: reasonId,
@@ -96,7 +96,7 @@ const ReasonDecline = props => {
         approvalId: route.params ? route.params.approvalItem.item.id : '',
         navigation: props.navigation,
       };
-      console.log('Decline => params => ', param);
+      // console.log('Decline => params => ', param);
       dispatch(requestDeclineApproval(param));
     });
   };

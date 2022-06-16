@@ -1,7 +1,7 @@
 import {Platform} from 'react-native';
 import {apiConstant, appConstant} from '../../constant';
 import axios from 'axios';
-
+import APIERROR from '../../api/apiBaseError';
 export const acceptApprovalApiInDetail = async argumentData => {
   let approvalId = argumentData.data.approvalId;
   let deviceId = argumentData.data.user.deviceId;
@@ -96,8 +96,18 @@ export const getApprovalDetail = argumentData => {
   let userId = argumentData.data.user.userId;
   let clientCode = argumentData.data.user.client;
 
-
-  console.log(" aporval id -----======>", approvalId, "Deviceid ", deviceId, 'bse ',apiBaseUrl,'client token', clientToken, 'userid', userId )
+  console.log(
+    ' aporval id -----======>',
+    approvalId,
+    'Deviceid ',
+    deviceId,
+    'bse ',
+    apiBaseUrl,
+    'client token',
+    clientToken,
+    'userid',
+    userId,
+  );
 
   let instance = axios.create({
     baseURL: apiBaseUrl,
@@ -157,7 +167,12 @@ export const getApprovalDetail = argumentData => {
         data: response,
       }).then(response => {
         let response1 = response.data.data;
-        console.log(' approval detail --->', response1, "approvalId",approvalId);
+        console.log(
+          ' approval detail --->',
+          response1,
+          'approvalId',
+          approvalId,
+        );
         return response1;
       }),
     )
