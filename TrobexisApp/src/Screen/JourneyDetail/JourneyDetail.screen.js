@@ -192,8 +192,7 @@ const JourneyDetail = props => {
   };
 
   const returnSvgImage = item => {
-
-    console.log("item.Type ===>", item.Type);
+    console.log('item.Type ===>', item.Type);
 
     if (item.Type === appConstant.CHARTER_FLIGHT) {
       return <Images.IMAGE_CHARTER_FLIGHT_SVG />;
@@ -474,22 +473,24 @@ const JourneyDetail = props => {
                   : ''}
               </Text>
               <Text style={styles.textBlack}>
-              {item.Type === appConstant.CAMP_ACCOMODATION ||
-                  item.Type === appConstant.HOTEL 
-                    ? convertDateTime(
-                        item.Details[0].StartDate,
-                        true,
-                        false,
-                        false,
-                        responseUser.userProfile.settings,
-                      )
-                    : convertDateTime(
-                        item.Details[0].StartDate,
-                        false,
-                        false,
-                        true,
-                        responseUser.userProfile.settings,
-                      )}
+                {item.Type === appConstant.CAMP_ACCOMODATION ||
+                item.Type === appConstant.HOTEL ||
+                item.Type === appConstant.SITE_ACCOMODATION ||
+                item.Type === appConstant.OFFSHORE || item.Type === appConstant.TBA
+                  ? convertDateTime(
+                      item.Details[0].StartDate,
+                      true,
+                      false,
+                      false,
+                      responseUser.userProfile.settings,
+                    )
+                  : convertDateTime(
+                      item.Details[0].StartDate,
+                      false,
+                      false,
+                      true,
+                      responseUser.userProfile.settings,
+                    )}
               </Text>
             </View>
 
@@ -518,7 +519,9 @@ const JourneyDetail = props => {
                     {alignItems: 'flex-end', lineHeight: 25},
                   ]}>
                   {item.Type === appConstant.CAMP_ACCOMODATION ||
-                  item.Type === appConstant.HOTEL 
+                  item.Type === appConstant.HOTEL ||
+                  item.Type === appConstant.SITE_ACCOMODATION ||
+                  item.Type === appConstant.OFFSHORE || item.Type === appConstant.TBA
                     ? convertDateTime(
                         item.Details[0].EndDate,
                         true,
@@ -894,7 +897,7 @@ const JourneyDetail = props => {
           }}
         />
       ) : (
-        <View style={{backgroundColor: 'pink'}} />
+        <View />
       )}
     </>
   );

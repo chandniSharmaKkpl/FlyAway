@@ -9,37 +9,14 @@ import {
 } from 'react-native-responsive-screen';
 import imageConstant from '../constant/imageConstant';
 import appConstant from '../constant/appConstant';
-import {getDateInFormat, getDateTimeOfView} from '../common/index';
+import {convertDateTime, getDateInFormat, getDateTimeOfView} from '../common/index';
 import moment from 'moment';
+import { useSelector } from 'react-redux';
 
 const BookingCard = props => {
   const {item, viewName} = props;
-  // const [getDate, setGetDate] = useState();
-  // const [getStartTime, setGetStartTime] = useState();
-  // const [getEndTime, setGetEndTime] = useState();
-  const [getStartDate, setGetStartDate] = useState();
-  const [getEndDate, setGetEndDate] = useState();
 
-  // console.log(
-  //   "itemitemitem", getDate
-  // );
-
-  useEffect(async () => {
-    // let valueDate1 = await getDateTimeOfView(item.startdatetime, true, false, false)
-    // setGetDate(valueDate1);
-
-    let valueStartTime = await getDateTimeOfView(item.startdatetime, true, false, false)
-    setGetStartDate(valueStartTime);
-
-    let valueStartTime1 = await getDateTimeOfView(item.enddatetime, true, false, false)
-    setGetEndDate(valueStartTime1);
-    // let valueStartTime = await getDateTimeOfView(item.startdatetime, false, true, false)
-    // setGetStartTime(valueStartTime);
-
-    // let valueStartTime1 = await getDateTimeOfView(item.enddatetime, false, true, false)
-    // setGetEndTime(valueStartTime1);
-
-  }, []);
+  const responseUser = useSelector(state => state.HomeReducer); // Getting api response
 
   return (
     <View style={styles.viewOutSide}>
@@ -91,9 +68,21 @@ const BookingCard = props => {
                 />
               </View>
               <Text style={styles.textDetail}>
-                {getStartDate}{' '}
+              {convertDateTime(
+                      item.startdatetime,
+                      true,
+                      false,
+                      false,
+                      responseUser.userProfile.settings,
+                    )}{' '}
                 <Text style={styles.textDetail}>
-                  to {getEndDate}{' '}
+                  to {convertDateTime(
+                      item.enddatetime,
+                      true,
+                      false,
+                      false,
+                      responseUser.userProfile.settings,
+                    )}{' '}
                 </Text>
               </Text>
             </View>
@@ -124,9 +113,21 @@ const BookingCard = props => {
               />
             </View>
             <Text style={styles.textDetail}>
-              {getStartTime}{' '}
+            {convertDateTime(
+                      item.startdatetime,
+                      true,
+                      false,
+                      false,
+                      responseUser.userProfile.settings,
+                    )}{' '}
               <Text style={styles.textDetail}>
-                to {getEndTime}{' '}
+                to  {convertDateTime(
+                      item.enddatetime,
+                      true,
+                      false,
+                      false,
+                      responseUser.userProfile.settings,
+                    )}{' '}
               </Text>
             </Text>
 
