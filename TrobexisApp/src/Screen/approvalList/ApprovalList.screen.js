@@ -234,7 +234,7 @@ const ApprovalList = props => {
                       source={imageConstant.IMAGE_CALENDAR_BLUE}
                     />
                   </View>
-                  <Text style={styles.textDetail}>{convertDateTime(itemDetail.requestdate,true,false,false,responseData.userProfile.settings)}</Text>
+                  <Text style={styles.textDetail}>{convertDateTime(itemDetail.startdate,true,false,false,responseData.userProfile.settings)}</Text>
                 </View>
               </View>
               {itemDetail.status &&
