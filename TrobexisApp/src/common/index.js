@@ -71,7 +71,7 @@ export const convertDateTime = (
     }
     if (!isDate && !isTime && isDateTime) {
       if (element.key == "Format.Datetime") {
-        let formattedDate = moment(dateString).format("YYYY-MM-DD HH:mm");
+        let formattedDate = moment(dateString).format(element.value);
         return formattedDate;
       }
     }
