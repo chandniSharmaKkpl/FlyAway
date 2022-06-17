@@ -39,6 +39,7 @@ export default {
   OTHER_GROUND_TRANSPORT : 'Other/Ground Transport',
   CHARTER_FLIGHT: 'Charter Flight',
   CAMP_ACCOMODATION: 'Camp Accommodation',
+  SITE_ACCOMODATION: 'Site Accommodation',
   COMMERCIAL_FLIGHT: 'Commercial Flight',
   BUS: 'Bus',
   CAR: 'Car',
