@@ -110,21 +110,13 @@ export const approvalDateTimeFormate = (
   isDateTime,
   dateValueArray
 ) => {
-  console.log("dateValueArray --", dateString,dateValueArray);
   if (!dateValueArray) return null;
   for (let index = 0; index < dateValueArray.length; index++) {
     const element = dateValueArray[index];
     if (!isDate && !isTime && isDateTime) {
       if (element.key == "Format.Datetime") {
-        console.log(
-          "approvalDateTimeFormate ==>",
-          element.value,
-          dateString,
-          moment(dateString).format(element.value)
-        );
         let result = element.value.slice(0, 10);
         let formattedDate = moment(dateString,["lll"]).format(result);
-        console.log("formattedDate -1", formattedDate);
         return formattedDate;
       }
     }
