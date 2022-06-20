@@ -185,6 +185,7 @@ const JourneyDetail = props => {
     if (item.Details && item.Details.length > 0 && item.Details[0].Flight) {
       let flightStr = item.Details[0].Flight;
       let supplierType1 = flightStr.slice(0, 2);
+      console.log(" ---------> Supplier type -----",supplierType1);
       const image = Images[supplierType1];
       return image && image();
     }
@@ -192,7 +193,7 @@ const JourneyDetail = props => {
   };
 
   const returnSvgImage = item => {
-    console.log('item.Type ===>', item.Type);
+    // console.log('item.Type ===>', item.Type);
 
     if (item.Type === appConstant.CHARTER_FLIGHT) {
       return <Images.IMAGE_CHARTER_FLIGHT_SVG />;
@@ -235,6 +236,8 @@ const JourneyDetail = props => {
           }
         }
       }
+        return <Images.IMAGE_BUS_SVG />;
+      
     } else if (item.Type === appConstant.HOTEL_ACCOMMODATION) {
       return <Images.IMAGE_HOTEL_SVG />; // because, Hotel Accommodation has all categories in Hotel
     } else if (item.Type === appConstant.CAR_HIRE) {
@@ -258,6 +261,8 @@ const JourneyDetail = props => {
             return <Images.IMAGE_BUS_SVG />;
           }
         }
+          return <Images.IMAGE_HELICOPTER_SVG />;
+        
       }
     } else if (item.Type === appConstant.TBA) {
       return <Images.IMAGE_HANDSHAKE_SVG />;
@@ -301,9 +306,16 @@ const JourneyDetail = props => {
   };
 
   const itemViews = (item, type, index) => {
+    // console.log(' ------- itemViews ------ ', item.Details);
+   // if (index == 0)
+     {
+      
+   
     let isNoShowBtnVisible = false; // This flag is using to show no show button for flights only
     const endDate =
       item.Details[0] && item.Details[0].EndDate ? item.Details[0].EndDate : '';
+      // console.log(' ----£nd date--- itemViews ------ ', endDate);
+
     const startDate =
       item.Details[0] && item.Details[0].StartDate
         ? item.Details[0].StartDate
@@ -378,7 +390,7 @@ const JourneyDetail = props => {
                   : '2%',
               },
             ]}>
-            <View style={styles.viewLeft}>
+            <View style={[styles.viewLeft]}>
               <Text style={styles.textYellow}>
                 {item.Details &&
                 item.Details.length > 0 &&
@@ -476,7 +488,8 @@ const JourneyDetail = props => {
                 {item.Type === appConstant.CAMP_ACCOMODATION ||
                 item.Type === appConstant.HOTEL ||
                 item.Type === appConstant.SITE_ACCOMODATION ||
-                item.Type === appConstant.OFFSHORE || item.Type === appConstant.TBA
+                item.Type === appConstant.OFFSHORE ||
+                item.Type === appConstant.TBA
                   ? convertDateTime(
                       item.Details[0].StartDate,
                       true,
@@ -497,7 +510,7 @@ const JourneyDetail = props => {
             <View style={styles.viewLocation}>
               <View style={styles.viewSpace} />
               {item.Type === appConstant.CAMP_ACCOMODATION ||
-              item.Type === appConstant.HOTEL  ? (
+              item.Type === appConstant.HOTEL ? (
                 <Text style={styles.textBlueBig}>Check-Out:</Text>
               ) : item.Type === appConstant.CAR_HIRE ? (
                 <Text style={styles.textBlueBig}>Drop-off:</Text>
@@ -521,20 +534,21 @@ const JourneyDetail = props => {
                   {item.Type === appConstant.CAMP_ACCOMODATION ||
                   item.Type === appConstant.HOTEL ||
                   item.Type === appConstant.SITE_ACCOMODATION ||
-                  item.Type === appConstant.OFFSHORE || item.Type === appConstant.TBA
+                  item.Type === appConstant.OFFSHORE ||
+                  item.Type === appConstant.TBA
                     ? convertDateTime(
                         item.Details[0].EndDate,
                         true,
                         false,
                         false,
-                        responseUser.userProfile.settings,
+                        responseUser.userProfile.settings
                       )
                     : convertDateTime(
                         item.Details[0].EndDate,
                         false,
                         false,
                         true,
-                        responseUser.userProfile.settings,
+                        responseUser.userProfile.settings
                       )}
                 </Text>
 
@@ -660,7 +674,11 @@ const JourneyDetail = props => {
                 <>
                   <View style={styles.viewSpace} />
                   <Text style={styles.textBlueBig}>Ticket #</Text>
-                  <Text style={styles.textBlack}>-</Text>
+                  <Text style={styles.textBlack}>{item.Details &&
+                item.Details.length > 0 &&
+                item.Details[0].TicketId
+                  ? item.Details[0].TicketId
+                  : ''}</Text>
                 </>
               )}
             </View>
@@ -734,6 +752,10 @@ const JourneyDetail = props => {
         )}
       </View>
     );
+  } 
+  // else {
+  //     <View />
+  // }
   };
 
   const getDataFromResponse = (responseDetail, type) => {
@@ -849,6 +871,15 @@ const JourneyDetail = props => {
                 <Text style={styles.textNotConfirmed}>Draft Itinerary</Text>
               )
             ) : null}
+            {/* {responseDetail &&
+            responseDetail.journeyDetail &&
+            responseDetail.journeyDetail.Itinerarys &&
+            responseDetail.journeyDetail.Itinerarys.length > 0
+              ? console.log(
+                  'responseDetail.journeyDetail.Itinerarys---> ',
+                  responseDetail.journeyDetail.Itinerarys
+                )
+              : null} */}
 
             {responseDetail &&
             responseDetail.journeyDetail &&
@@ -858,10 +889,17 @@ const JourneyDetail = props => {
                   item,
                   index,
                 ) {
-                  // console.log(
-                  //   "responseDetail.journeyDetail ==>",
-                  //   JSON.stringify(item.Details, null, 4)
-                  // );
+                  // if (index == 0) {
+                  //   console.log(
+                  //     "responseDetail.journeyDetail ==>",
+                  //     JSON.stringify(item, null, 4 )
+                  //   );
+                 //   return itemViews(item, imageConstant.IMAGE_PLANE, index);
+
+                  // } else {
+                    
+                  // }
+                  
                   checkStatus(item.Status);
                   // setJourneyDetailsStartDateTime(item.Details.StartDate);
                   // setJourneyDetailsEndDateTime(item.Details.EndDate);
