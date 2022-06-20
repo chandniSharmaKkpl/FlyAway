@@ -51,31 +51,36 @@ export const convertDateTime = (
   isDate,
   isTime,
   isDateTime,
-  dateValueArray
+  dateValueArray 
 ) => {
   if (!dateValueArray) return null;
-  for (let index = 0; index < dateValueArray.length; index++) {
-    const element = dateValueArray[index];
-
-    if (isDate && !isTime && !isDateTime) {
-      if (element.key == "Format.Date") {
-        let formattedDate = moment(dateString).format(element.value);
-        return formattedDate;
+  if(dateString){
+    for (let index = 0; index < dateValueArray.length; index++) {
+      const element = dateValueArray[index];
+  
+      if (isDate && !isTime && !isDateTime) {
+        if (element.key == "Format.Date") {
+          let formattedDate = moment(dateString).format(element.value);
+          return formattedDate;
+        }
+      }
+      if (!isDate && isTime && !isDateTime) {
+        if (element.key == "Format.Time") {
+          let formattedDate = moment(dateString).format(element.value);
+          return formattedDate;
+        }
+      }
+      if (!isDate && !isTime && isDateTime) {
+        if (element.key == "Format.Datetime") {
+          let formattedDate = moment(dateString).format(element.value);
+          return formattedDate;
+        }
       }
     }
-    if (!isDate && isTime && !isDateTime) {
-      if (element.key == "Format.Time") {
-        let formattedDate = moment(dateString).format(element.value);
-        return formattedDate;
-      }
-    }
-    if (!isDate && !isTime && isDateTime) {
-      if (element.key == "Format.Datetime") {
-        let formattedDate = moment(dateString).format(element.value);
-        return formattedDate;
-      }
-    }
+  }else{
+    return "";
   }
+ 
 };
 
 export const getDateTimeOfView = async (

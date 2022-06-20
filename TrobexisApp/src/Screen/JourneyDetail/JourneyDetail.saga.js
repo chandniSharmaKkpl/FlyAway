@@ -15,7 +15,6 @@ export function* workerGetJourneyDetail(argumentData) {
       getJourneyDetail,
       argumentData.payload,
     );
-console.log('workerGetJourneyDetail',new Date().toTimeString());
     // console.log('journeyDetailResponse ', JSON.stringify(journeyDetailResponse,null,4));
     if (isError(journeyDetailResponse)) {
       yield put({
@@ -31,6 +30,8 @@ console.log('workerGetJourneyDetail',new Date().toTimeString());
         argumentData.payload.data.navigation.navigate(appConstant.CLIENT_CODE);
       }
     } else {
+      console.log('workerGetJourneyDetail', journeyDetailResponse);
+
       yield put({
         type: actionConstant.ACTION_GET_DETAIL_OF_ITINARY_SUCCESS,
         payload: journeyDetailResponse,

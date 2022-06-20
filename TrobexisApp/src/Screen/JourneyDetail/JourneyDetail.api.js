@@ -10,6 +10,7 @@ export const getJourneyDetail = argumentData => {
   let clientToken = argumentData.data.user.clientToken;
   let clientCode = argumentData.data.user.client;
 
+  console.log(" argData ------",argumentData);
   let instance = axios.create({
     baseURL: apiBaseUrl,
     timeout: 30000,
@@ -47,10 +48,10 @@ export const getJourneyDetail = argumentData => {
 
       try {
         const res = await APIERROR.post('log', data, options);
-        console.log(
-          'instance.interceptors.response ==> api res ==> ',
-          res.data,
-        );
+        // console.log(
+        //   'instance.interceptors.response ==> api res ==> ',
+        //   res.data,
+        // );
       } catch (error) {
         console.log('error', error);
       }
@@ -61,7 +62,7 @@ export const getJourneyDetail = argumentData => {
   let urlString = apiConstant.GET_ITINARY_DETAIL;
   urlString = urlString.replace(':itineraryId', itineraryId);
 
-  console.log('itineraryId ==>', itineraryId);
+ // console.log('itineraryId ==>', itineraryId);
 
   return instance
     .get(urlString)
@@ -71,7 +72,7 @@ export const getJourneyDetail = argumentData => {
         data: response,
       }).then(response => {
         let response1 = response.data.data;
-
+        //  console.log(" jourenyDetail Response -------> ", response1);
         return response1;
       }),
     )
