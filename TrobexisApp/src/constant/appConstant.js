@@ -51,6 +51,9 @@ export default {
   MARINE_TRANSFER: 'Marine Transfer',
   TBA: 'TBA',
   MEET_AND_GREET : 'Meet and Greet',
+  DRIVE_IN_OUT_TRANSPORT:'Drive In/Out Transport',
+  
+
   // Classification
 
   WATERCRAFT: 'Watercraft',
