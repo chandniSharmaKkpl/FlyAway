@@ -469,7 +469,7 @@ const JourneyDetail = props => {
           <View style={styles.viewItinerary}>
             <View style={styles.viewLocation}>
               {item.Type === appConstant.CAMP_ACCOMODATION ||
-              item.Type === appConstant.HOTEL ? (
+              item.Type === appConstant.HOTEL || item.Type === appConstant.HOTEL_ACCOMMODATION ? (
                 <Text style={styles.textBlueBig}>Check-In:</Text>
               ) : item.Type === appConstant.CAR_HIRE ? (
                 <Text style={styles.textBlueBig}>Pick-Up:</Text>
@@ -485,32 +485,33 @@ const JourneyDetail = props => {
                   : ''}
               </Text>
               <Text style={styles.textBlack}>
-                {item.Type === appConstant.CAMP_ACCOMODATION ||
-                item.Type === appConstant.HOTEL ||
-                item.Type === appConstant.SITE_ACCOMODATION ||
-                item.Type === appConstant.OFFSHORE ||
-                item.Type === appConstant.TBA
+                {item.Type === appConstant.OTHER_GROUND_TRANSPORT ||
+                  item.Type === appConstant.DRIVE_IN_OUT_TRANSPORT ||
+                  item.Type === appConstant.CAR_HIRE ||
+                  item.Type === appConstant.CHARTER_FLIGHT ||
+                  item.Type === appConstant.COMMERCIAL_FLIGHT || item.Type === appConstant.TRANSFER || item.Type === appConstant.MARINE_TRANSFER
                   ? convertDateTime(
+                    item.Details[0].StartDate,
+                    false,
+                    false,
+                    true,
+                    responseUser.userProfile.settings,
+                  ):
+                  convertDateTime(
                       item.Details[0].StartDate,
                       true,
                       false,
                       false,
                       responseUser.userProfile.settings,
                     )
-                  : convertDateTime(
-                      item.Details[0].StartDate,
-                      false,
-                      false,
-                      true,
-                      responseUser.userProfile.settings,
-                    )}
+                   }
               </Text>
             </View>
 
             <View style={styles.viewLocation}>
               <View style={styles.viewSpace} />
               {item.Type === appConstant.CAMP_ACCOMODATION ||
-              item.Type === appConstant.HOTEL ? (
+              item.Type === appConstant.HOTEL || item.Type === appConstant.HOTEL_ACCOMMODATION? (
                 <Text style={styles.textBlueBig}>Check-Out:</Text>
               ) : item.Type === appConstant.CAR_HIRE ? (
                 <Text style={styles.textBlueBig}>Drop-off:</Text>
@@ -531,29 +532,35 @@ const JourneyDetail = props => {
                     styles.textBlack,
                     {alignItems: 'flex-end', lineHeight: 25},
                   ]}>
-                  {item.Type === appConstant.CAMP_ACCOMODATION ||
-                  item.Type === appConstant.HOTEL ||
-                  item.Type === appConstant.SITE_ACCOMODATION ||
-                  item.Type === appConstant.OFFSHORE ||
-                  item.Type === appConstant.TBA
+                  {item.Type === appConstant.OTHER_GROUND_TRANSPORT ||
+                  item.Type === appConstant.DRIVE_IN_OUT_TRANSPORT ||
+                  item.Type === appConstant.CAR_HIRE ||
+                  item.Type === appConstant.CHARTER_FLIGHT ||
+                  item.Type === appConstant.COMMERCIAL_FLIGHT || item.Type === appConstant.TRANSFER || item.Type === appConstant.MARINE_TRANSFER
                     ? convertDateTime(
+                        item.Details[0].EndDate,
+                        false,
+                        false,
+                        true,
+                        responseUser.userProfile.settings
+                      ):
+                      convertDateTime(
                         item.Details[0].EndDate,
                         true,
                         false,
                         false,
                         responseUser.userProfile.settings
                       )
-                    : convertDateTime(
-                        item.Details[0].EndDate,
-                        false,
-                        false,
-                        true,
-                        responseUser.userProfile.settings
-                      )}
+
+                      }
                 </Text>
 
-                {item.Type === appConstant.COMMERCIAL_FLIGHT ||
-                item.Type === appConstant.CHARTER_FLIGHT ? (
+                {item.Type === appConstant.OTHER_GROUND_TRANSPORT ||
+                  item.Type === appConstant.DRIVE_IN_OUT_TRANSPORT ||
+                  item.Type === appConstant.CAR_HIRE ||
+                  item.Type === appConstant.CHARTER_FLIGHT ||
+                  item.Type === appConstant.COMMERCIAL_FLIGHT || item.Type === appConstant.TRANSFER || item.Type === appConstant.MARINE_TRANSFER
+                   ? (
                   days > 0 && (
                     <Text
                       style={[
@@ -626,7 +633,7 @@ const JourneyDetail = props => {
             </View>
 
             <View style={styles.viewLocation}>
-              {item.Type === appConstant.HOTEL && (
+              {item.Type === appConstant.HOTEL || item.Type === appConstant.HOTEL_ACCOMMODATION && (
                 <>
                   <View style={styles.viewSpace} />
                   <Text style={styles.textBlueBig}>Room:</Text>
@@ -697,7 +704,7 @@ const JourneyDetail = props => {
             </View>
 
             <View style={styles.viewLocation}>
-              {(item.Type === appConstant.HOTEL ||
+              {(item.Type === appConstant.HOTEL || item.Type === appConstant.HOTEL_ACCOMMODATION ||
                 item.Type === appConstant.MEET_AND_GREET) && (
                 <>
                   <View style={styles.viewSpace} />

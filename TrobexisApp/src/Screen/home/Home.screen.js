@@ -169,6 +169,7 @@ const HomeScreen = props => {
       let matchElement = response.userProfile.settings.find(
         item => item.key == keyName,
       );
+
       if (matchElement.value === 'Y') {
         return true;
       } else {
@@ -181,6 +182,7 @@ const HomeScreen = props => {
 
   return (
     <>
+    
       {/* {backHandler(handleBackButtonClick)} */}
       {/* {checkResponseForRedirection()} */}
       {/* <SafeAreaView
