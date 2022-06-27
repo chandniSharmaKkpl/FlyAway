@@ -185,7 +185,7 @@ const JourneyDetail = props => {
     if (item.Details && item.Details.length > 0 && item.Details[0].Flight) {
       let flightStr = item.Details[0].Flight;
       let supplierType1 = flightStr.slice(0, 2);
-      console.log(" ---------> Supplier type -----",supplierType1);
+      console.log(' ---------> Supplier type -----', supplierType1);
       const image = Images[supplierType1];
       return image && image();
     }
@@ -236,8 +236,7 @@ const JourneyDetail = props => {
           }
         }
       }
-        return <Images.IMAGE_BUS_SVG />;
-      
+      return <Images.IMAGE_BUS_SVG />;
     } else if (item.Type === appConstant.HOTEL_ACCOMMODATION) {
       return <Images.IMAGE_HOTEL_SVG />; // because, Hotel Accommodation has all categories in Hotel
     } else if (item.Type === appConstant.CAR_HIRE) {
@@ -261,11 +260,27 @@ const JourneyDetail = props => {
             return <Images.IMAGE_BUS_SVG />;
           }
         }
-          return <Images.IMAGE_HELICOPTER_SVG />;
-        
+        return <Images.IMAGE_HELICOPTER_SVG />;
       }
     } else if (item.Type === appConstant.TBA) {
       return <Images.IMAGE_HANDSHAKE_SVG />;
+    } else if (item.Type === appConstant.DRIVE_IN_OUT_TRANSPORT) {
+      if (
+        item.Details &&
+        Array.isArray(item.Details) &&
+        item.Details.length > 0
+      ) {
+        let dictDetail = item.Details[0];
+        if (dictDetail.Classification) {
+          let tempC = dictDetail.Classification;
+          if (tempC === appConstant.BUS_COACH) {
+            return <Images.IMAGE_BUS_SVG />;
+          } else {
+            return <Images.IMAGE_CAR_SVG />;
+          }
+        }
+      }
+      return <Images.IMAGE_CAR_SVG />;
     } else {
       return <Images.IMAGE_BUS_SVG />;
     }
@@ -307,274 +322,284 @@ const JourneyDetail = props => {
 
   const itemViews = (item, type, index) => {
     // console.log(' ------- itemViews ------ ', item.Details);
-   // if (index == 0)
-     {
-      
-   
-    let isNoShowBtnVisible = false; // This flag is using to show no show button for flights only
-    const endDate =
-      item.Details[0] && item.Details[0].EndDate ? item.Details[0].EndDate : '';
+    // if (index == 0)
+    {
+      let isNoShowBtnVisible = false; // This flag is using to show no show button for flights only
+      const endDate =
+        item.Details[0] && item.Details[0].EndDate
+          ? item.Details[0].EndDate
+          : '';
       // console.log(' ----£nd date--- itemViews ------ ', endDate);
 
-    const startDate =
-      item.Details[0] && item.Details[0].StartDate
-        ? item.Details[0].StartDate
-        : '';
+      const startDate =
+        item.Details[0] && item.Details[0].StartDate
+          ? item.Details[0].StartDate
+          : '';
 
-    // console.log("details ==>", item);
-    var formatStartDate = moment(startDate);
-    var formatEndDate = moment(endDate);
-    let days = 0;
-    let duration = '';
-    if (formatStartDate && formatEndDate) {
-      days = formatEndDate.diff(formatStartDate, 'days');
-      let hours = formatEndDate.diff(formatStartDate, 'hours');
-      // let minutes = formatEndDate.diff(formatStartDate, 'minutes');
+      // console.log("details ==>", item);
+      var formatStartDate = moment(startDate);
+      var formatEndDate = moment(endDate);
+      let days = 0;
+      let duration = '';
+      if (formatStartDate && formatEndDate) {
+        days = formatEndDate.diff(formatStartDate, 'days');
+        let hours = formatEndDate.diff(formatStartDate, 'hours');
+        // let minutes = formatEndDate.diff(formatStartDate, 'minutes');
 
-      let seconds = formatEndDate.diff(formatStartDate, 'seconds');
+        let seconds = formatEndDate.diff(formatStartDate, 'seconds');
 
-      if (seconds) {
-        duration = ConvertSectoDay(seconds);
+        if (seconds) {
+          duration = ConvertSectoDay(seconds);
+        }
       }
-    }
-    // console.log("items", item);
-    return (
-      <View
-        key={index}
-        style={styles.viewRowOutSide}
-        onLayout={event => {
-          var {x, y, width, height} = event.nativeEvent.layout;
-          setlWidth(getOrientation() === 'portrait' ? width - 82 : width - 115);
-          setlHeight(getOrientation() === 'portrait' ? height : height - 20);
-        }}>
-        {/* Side bus view  */}
-        <View style={[styles.viewLeftLine]}>
-          <View
-            style={[
-              styles.viewCircleBlue,
-              {
-                marginTop:
-                  Platform.OS === 'android'
-                    ? getOrientation() === 'portrait'
-                      ? hp('5%')
-                      : hp('8%')
-                    : getOrientation() === 'portrait'
-                    ? hp('5%')
-                    : hp('10%'),
-              },
-            ]}>
-            <View style={styles.viewPlaneImg}>{returnSvgImage(item)}</View>
-          </View>
-        </View>
-
-        {/* Detail Section */}
+      // console.log("items", item);
+      return (
         <View
-          style={[
-            styles.viewOutSide,
-            {
-              width: lwidth,
-              marginTop: getOrientation() === 'portrait' ? '8%' : '5%',
-            },
-          ]}>
+          key={index}
+          style={styles.viewRowOutSide}
+          onLayout={event => {
+            var {x, y, width, height} = event.nativeEvent.layout;
+            setlWidth(
+              getOrientation() === 'portrait' ? width - 82 : width - 115,
+            );
+            setlHeight(getOrientation() === 'portrait' ? height : height - 20);
+          }}>
+          {/* Side bus view  */}
+          <View style={[styles.viewLeftLine]}>
+            <View
+              style={[
+                styles.viewCircleBlue,
+                {
+                  marginTop:
+                    Platform.OS === 'android'
+                      ? getOrientation() === 'portrait'
+                        ? hp('5%')
+                        : hp('8%')
+                      : getOrientation() === 'portrait'
+                      ? hp('5%')
+                      : hp('10%'),
+                },
+              ]}>
+              <View style={styles.viewPlaneImg}>{returnSvgImage(item)}</View>
+            </View>
+          </View>
+
+          {/* Detail Section */}
           <View
             style={[
-              styles.viewRowTop,
+              styles.viewOutSide,
               {
                 width: lwidth,
-                paddingLeft: DeviceInfo.isTablet()
-                  ? getOrientation() === 'portrait'
-                    ? '3%'
-                    : '3%'
-                  : getOrientation() === 'portrait'
-                  ? '5%'
-                  : '2%',
+                marginTop: getOrientation() === 'portrait' ? '8%' : '5%',
               },
             ]}>
-            <View style={[styles.viewLeft]}>
-              <Text style={styles.textYellow}>
-                {item.Details &&
-                item.Details.length > 0 &&
-                item.Details[0].ServiceProvider
-                  ? item.Details[0].ServiceProvider
-                  : ''}{' '}
-                (
-                {item.Details &&
-                item.Details.length > 0 &&
-                item.Details[0].Flight
-                  ? item.Details[0].Flight
-                  : ''}
-                )
-              </Text>
+            <View
+              style={[
+                styles.viewRowTop,
+                {
+                  width: lwidth,
+                  paddingLeft: DeviceInfo.isTablet()
+                    ? getOrientation() === 'portrait'
+                      ? '3%'
+                      : '3%'
+                    : getOrientation() === 'portrait'
+                    ? '5%'
+                    : '2%',
+                },
+              ]}>
+              <View style={[styles.viewLeft]}>
+                <Text style={styles.textYellow}>
+                  {item.Details &&
+                  item.Details.length > 0 &&
+                  item.Details[0].ServiceProvider
+                    ? item.Details[0].ServiceProvider
+                    : ''}{' '}
+                  (
+                  {item.Details &&
+                  item.Details.length > 0 &&
+                  item.Details[0].Flight
+                    ? item.Details[0].Flight
+                    : ''}
+                  )
+                </Text>
 
-              <Text
-                style={[styles.textBlack, styles.subTitle, {paddingTop: '2%'}]}>
-                {convertDateTime(
-                  item.Details[0].StartDate,
-                  true,
-                  false,
-                  false,
-                  responseUser.userProfile.settings,
-                )}
-              </Text>
-            </View>
-            {(item.Type === appConstant.COMMERCIAL_FLIGHT ||
-              item.Type === appConstant.CHARTER_FLIGHT ||
-              item.Type === appConstant.HELICOPTER) && (
-              <>
-                <View
+                <Text
                   style={[
-                    styles.leftLine,
-                    {
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    },
+                    styles.textBlack,
+                    styles.subTitle,
+                    {paddingTop: '2%'},
                   ]}>
-                  <View style={styles.imagePlan}>
-                    {returnSupplierCodeImage(item)}
-                  </View>
-                  {/* <Image
+                  {convertDateTime(
+                    item.Details[0].StartDate,
+                    true,
+                    false,
+                    false,
+                    responseUser.userProfile.settings,
+                  )}
+                </Text>
+              </View>
+              {(item.Type === appConstant.COMMERCIAL_FLIGHT ||
+                item.Type === appConstant.CHARTER_FLIGHT ||
+                item.Type === appConstant.HELICOPTER) && (
+                <>
+                  <View
+                    style={[
+                      styles.leftLine,
+                      {
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      },
+                    ]}>
+                    <View style={styles.imagePlan}>
+                      {returnSupplierCodeImage(item)}
+                    </View>
+                    {/* <Image
                     source={imageConstant.IMAGE_CHARTER_FLIGHT_PNG}
                     resizeMode={'contain'}
                     style={styles.imagePlan}
                   /> */}
-                  {item.Details &&
-                  item.Details.length > 0 &&
-                  item.Details[0].Flight ? (
-                    <Text style={styles.flightNumber}>
-                      {item.Details &&
-                        item.Details.length > 0 &&
-                        item.Details[0].Flight}
-                    </Text>
-                  ) : null}
-                  {/* <Text style={styles.flightCodeNumber}>(A320-200)</Text> */}
-                </View>
-              </>
-            )}
-            {isNoShowBtnVisible ? (
-              <Pressable
-                style={styles.buttonTextRed}
-                onPress={() => {
-                  setIsAlertShow(true);
-                }}>
-                <Text style={styles.textNoShow}>No</Text>
-                <Text style={styles.textNoShow}>Show</Text>
-              </Pressable>
-            ) : null}
-          </View>
-
-          <View style={styles.viewSingleLine} />
-
-          <View style={styles.viewDepartsAndArrive}></View>
-          <View style={styles.viewItinerary}>
-            <View style={styles.viewLocation}>
-              {item.Type === appConstant.CAMP_ACCOMODATION ||
-              item.Type === appConstant.HOTEL || item.Type === appConstant.HOTEL_ACCOMMODATION ? (
-                <Text style={styles.textBlueBig}>Check-In:</Text>
-              ) : item.Type === appConstant.CAR_HIRE ? (
-                <Text style={styles.textBlueBig}>Pick-Up:</Text>
-              ) : (
-                <Text style={styles.textBlueBig}>Departs:</Text>
+                    {item.Details &&
+                    item.Details.length > 0 &&
+                    item.Details[0].Flight ? (
+                      <Text style={styles.flightNumber}>
+                        {item.Details &&
+                          item.Details.length > 0 &&
+                          item.Details[0].Flight}
+                      </Text>
+                    ) : null}
+                    {/* <Text style={styles.flightCodeNumber}>(A320-200)</Text> */}
+                  </View>
+                </>
               )}
-
-              <Text style={styles.textBlack}>
-                {item.Details &&
-                item.Details.length > 0 &&
-                item.Details[0].Origin
-                  ? item.Details[0].Origin
-                  : ''}
-              </Text>
-              <Text style={styles.textBlack}>
-                {item.Type === appConstant.OTHER_GROUND_TRANSPORT ||
-                  item.Type === appConstant.DRIVE_IN_OUT_TRANSPORT ||
-                  item.Type === appConstant.CAR_HIRE ||
-                  item.Type === appConstant.CHARTER_FLIGHT ||
-                  item.Type === appConstant.COMMERCIAL_FLIGHT || item.Type === appConstant.TRANSFER || item.Type === appConstant.MARINE_TRANSFER
-                  ? convertDateTime(
-                    item.Details[0].StartDate,
-                    false,
-                    false,
-                    true,
-                    responseUser.userProfile.settings,
-                  ):
-                  convertDateTime(
-                      item.Details[0].StartDate,
-                      true,
-                      false,
-                      false,
-                      responseUser.userProfile.settings,
-                    )
-                   }
-              </Text>
+              {isNoShowBtnVisible ? (
+                <Pressable
+                  style={styles.buttonTextRed}
+                  onPress={() => {
+                    setIsAlertShow(true);
+                  }}>
+                  <Text style={styles.textNoShow}>No</Text>
+                  <Text style={styles.textNoShow}>Show</Text>
+                </Pressable>
+              ) : null}
             </View>
 
-            <View style={styles.viewLocation}>
-              <View style={styles.viewSpace} />
-              {item.Type === appConstant.CAMP_ACCOMODATION ||
-              item.Type === appConstant.HOTEL || item.Type === appConstant.HOTEL_ACCOMMODATION? (
-                <Text style={styles.textBlueBig}>Check-Out:</Text>
-              ) : item.Type === appConstant.CAR_HIRE ? (
-                <Text style={styles.textBlueBig}>Drop-off:</Text>
-              ) : (
-                <Text style={styles.textBlueBig}>Arrives:</Text>
-              )}
+            <View style={styles.viewSingleLine} />
 
-              <Text style={styles.textBlack}>
-                {item.Details &&
-                item.Details.length > 0 &&
-                item.Details[0].Destination
-                  ? item.Details[0].Destination
-                  : '-'}
-              </Text>
-              <View style={{flexDirection: 'row'}}>
-                <Text
-                  style={[
-                    styles.textBlack,
-                    {alignItems: 'flex-end', lineHeight: 25},
-                  ]}>
+            <View style={styles.viewDepartsAndArrive}></View>
+            <View style={styles.viewItinerary}>
+              <View style={styles.viewLocation}>
+                {item.Type === appConstant.CAMP_ACCOMODATION ||
+                item.Type === appConstant.HOTEL ||
+                item.Type === appConstant.HOTEL_ACCOMMODATION ? (
+                  <Text style={styles.textBlueBig}>Check-In:</Text>
+                ) : item.Type === appConstant.CAR_HIRE ? (
+                  <Text style={styles.textBlueBig}>Pick-Up:</Text>
+                ) : (
+                  <Text style={styles.textBlueBig}>Departs:</Text>
+                )}
+
+                <Text style={styles.textBlack}>
+                  {item.Details &&
+                  item.Details.length > 0 &&
+                  item.Details[0].Origin
+                    ? item.Details[0].Origin
+                    : ''}
+                </Text>
+                <Text style={styles.textBlack}>
                   {item.Type === appConstant.OTHER_GROUND_TRANSPORT ||
                   item.Type === appConstant.DRIVE_IN_OUT_TRANSPORT ||
                   item.Type === appConstant.CAR_HIRE ||
                   item.Type === appConstant.CHARTER_FLIGHT ||
-                  item.Type === appConstant.COMMERCIAL_FLIGHT || item.Type === appConstant.TRANSFER || item.Type === appConstant.MARINE_TRANSFER
+                  item.Type === appConstant.COMMERCIAL_FLIGHT ||
+                  item.Type === appConstant.TRANSFER ||
+                  item.Type === appConstant.MARINE_TRANSFER
                     ? convertDateTime(
-                        item.Details[0].EndDate,
+                        item.Details[0].StartDate,
                         false,
                         false,
                         true,
-                        responseUser.userProfile.settings
-                      ):
-                      convertDateTime(
-                        item.Details[0].EndDate,
-                        true,
-                        false,
-                        false,
-                        responseUser.userProfile.settings
+                        responseUser.userProfile.settings,
                       )
-
-                      }
+                    : convertDateTime(
+                        item.Details[0].StartDate,
+                        true,
+                        false,
+                        false,
+                        responseUser.userProfile.settings,
+                      )}
                 </Text>
+              </View>
 
-                {item.Type === appConstant.OTHER_GROUND_TRANSPORT ||
+              <View style={styles.viewLocation}>
+                <View style={styles.viewSpace} />
+                {item.Type === appConstant.CAMP_ACCOMODATION ||
+                item.Type === appConstant.HOTEL ||
+                item.Type === appConstant.HOTEL_ACCOMMODATION ? (
+                  <Text style={styles.textBlueBig}>Check-Out:</Text>
+                ) : item.Type === appConstant.CAR_HIRE ? (
+                  <Text style={styles.textBlueBig}>Drop-off:</Text>
+                ) : (
+                  <Text style={styles.textBlueBig}>Arrives:</Text>
+                )}
+
+                <Text style={styles.textBlack}>
+                  {item.Details &&
+                  item.Details.length > 0 &&
+                  item.Details[0].Destination
+                    ? item.Details[0].Destination
+                    : '-'}
+                </Text>
+                <View style={{flexDirection: 'row'}}>
+                  <Text
+                    style={[
+                      styles.textBlack,
+                      {alignItems: 'flex-end', lineHeight: 25},
+                    ]}>
+                    {item.Type === appConstant.OTHER_GROUND_TRANSPORT ||
+                    item.Type === appConstant.DRIVE_IN_OUT_TRANSPORT ||
+                    item.Type === appConstant.CAR_HIRE ||
+                    item.Type === appConstant.CHARTER_FLIGHT ||
+                    item.Type === appConstant.COMMERCIAL_FLIGHT ||
+                    item.Type === appConstant.TRANSFER ||
+                    item.Type === appConstant.MARINE_TRANSFER
+                      ? convertDateTime(
+                          item.Details[0].EndDate,
+                          false,
+                          false,
+                          true,
+                          responseUser.userProfile.settings,
+                        )
+                      : convertDateTime(
+                          item.Details[0].EndDate,
+                          true,
+                          false,
+                          false,
+                          responseUser.userProfile.settings,
+                        )}
+                  </Text>
+
+                  {item.Type === appConstant.OTHER_GROUND_TRANSPORT ||
                   item.Type === appConstant.DRIVE_IN_OUT_TRANSPORT ||
                   item.Type === appConstant.CAR_HIRE ||
                   item.Type === appConstant.CHARTER_FLIGHT ||
-                  item.Type === appConstant.COMMERCIAL_FLIGHT || item.Type === appConstant.TRANSFER || item.Type === appConstant.MARINE_TRANSFER
-                   ? (
-                  days > 0 && (
-                    <Text
-                      style={[
-                        styles.dayNumberText,
-                        {alignItems: 'flex-start'},
-                      ]}>
-                      {' +' + days}
-                    </Text>
-                  )
-                ) : (
-                  <></>
-                )}
+                  item.Type === appConstant.COMMERCIAL_FLIGHT ||
+                  item.Type === appConstant.TRANSFER ||
+                  item.Type === appConstant.MARINE_TRANSFER ? (
+                    days > 0 && (
+                      <Text
+                        style={[
+                          styles.dayNumberText,
+                          {alignItems: 'flex-start'},
+                        ]}>
+                        {' +' + days}
+                      </Text>
+                    )
+                  ) : (
+                    <></>
+                  )}
 
-                {/* {
+                  {/* {
                     days > 0 && ( 
 
                       <Text
@@ -583,142 +608,147 @@ const JourneyDetail = props => {
                       {" +" + days}
                       </Text> )
                   } */}
+                </View>
               </View>
-            </View>
 
-            <View style={styles.viewLocation}>
-              <View style={styles.viewSpace} />
-              {item.Type === appConstant.MEET_AND_GREET ? (
-                <></>
-              ) : (
-                <Text style={styles.textBlueBig}>Duration:</Text>
-              )}
-              <Text style={styles.textBlack}>{duration ? duration : '-'}</Text>
-            </View>
-
-            <View style={styles.viewLocation}>
-              {(item.Type === appConstant.BUS ||
-                item.Type === appConstant.CAR_HIRE) && (
-                <>
-                  <View style={styles.viewSpace} />
-                  <Text style={styles.textBlueBig}>Vehicle</Text>
-                  <Text style={styles.textBlack}></Text>
-                </>
-              )}
-            </View>
-
-            <View style={styles.viewLocation}>
-              {item.Type === appConstant.CAMP_ACCOMODATION && (
-                <>
-                  <View style={styles.viewSpace} />
-                  <Text style={styles.textBlueBig}>Room:</Text>
-                  <Text style={styles.textBlack}>-</Text>
-                  <View style={styles.viewSpace} />
-                  <Text style={styles.textBlueBig}>Locker:</Text>
-                  <Text style={styles.textBlack}>-</Text>
-                  <View style={styles.viewSpace} />
-                  <Text style={styles.textBlueBig}>Phone:</Text>
-                  <Text style={styles.textBlack}>-</Text>
-                  <View style={styles.viewSpace} />
-                  <Text style={styles.textBlueBig}>Muster 1:</Text>
-                  <Text style={styles.textBlack}>-</Text>
-                  <View style={styles.viewSpace} />
-                  <Text style={styles.textBlueBig}>Muster 2:</Text>
-                  <Text style={styles.textBlack}>-</Text>
-                  <View style={styles.viewSpace} />
-                  <Text style={styles.textBlueBig}>Tag/Token:</Text>
-                  <Text style={styles.textBlack}>-</Text>
-                </>
-              )}
-            </View>
-
-            <View style={styles.viewLocation}>
-              {item.Type === appConstant.HOTEL || item.Type === appConstant.HOTEL_ACCOMMODATION && (
-                <>
-                  <View style={styles.viewSpace} />
-                  <Text style={styles.textBlueBig}>Room:</Text>
-                  <Text style={styles.textBlack}>A-101A</Text>
-                  <View style={styles.viewSpace} />
-                  <Text style={styles.textBlueBig}>Phone:</Text>
-                  <Text style={styles.textBlack}>08 6587 5698</Text>
-                  <View style={styles.viewSpace} />
-                  <Text style={styles.textBlueBig}>Address:</Text>
-                  <Text style={styles.textBlack}></Text>
-                </>
-              )}
-            </View>
-
-            <View style={styles.viewLocation}>
-              {item.Type === appConstant.WATERCRAFT && (
-                <>
-                  <View style={styles.viewSpace} />
-                  <Text style={styles.textBlueBig}>Vessel:</Text>
-                  <Text style={styles.textBlack}></Text>
-                </>
-              )}
-            </View>
-
-            <View style={styles.viewLocation}>
-              {!(
-                item.Type === appConstant.BUS ||
-                item.Type === appConstant.COACH ||
-                item.Type === appConstant.CAMP_ACCOMODATION ||
-                item.Type === appConstant.WATERCRAFT ||
-                item.Type === appConstant.MEET_AND_GREET
-              ) && (
-                <>
-                  <View style={styles.viewSpace} />
-                  <Text style={styles.textBlueBig}>Booking #</Text>
-                  <Text style={styles.textBlack}>-</Text>
-                </>
-              )}
-            </View>
-
-            <View style={styles.viewLocation}>
-              {(item.Type === appConstant.COMMERCIAL_FLIGHT ||
-                item.Type === appConstant.CHARTER_FLIGHT ||
-                item.Type === appConstant.HELICOPTER) && (
-                <>
-                  <View style={styles.viewSpace} />
-                  <Text style={styles.textBlueBig}>Ticket #</Text>
-                  <Text style={styles.textBlack}>{item.Details &&
-                item.Details.length > 0 &&
-                item.Details[0].TicketId
-                  ? item.Details[0].TicketId
-                  : ''}</Text>
-                </>
-              )}
-            </View>
-
-            <View style={styles.viewLocation}>
-              <View style={styles.viewSpace}>
-                <Text style={styles.textBlueBig}>Status:</Text>
-                {item.Status === 'Booked' || item.Status === 'Reserved' ? (
-                  <Text style={styles.textConfirmedInBox}>Confirmed</Text>
+              <View style={styles.viewLocation}>
+                <View style={styles.viewSpace} />
+                {item.Type === appConstant.MEET_AND_GREET ? (
+                  <></>
                 ) : (
-                  <Text style={styles.textNotConfirmedInBox}>
-                    Not Confirmed
-                  </Text>
+                  <Text style={styles.textBlueBig}>Duration:</Text>
+                )}
+                <Text style={styles.textBlack}>
+                  {duration ? duration : '-'}
+                </Text>
+              </View>
+
+              <View style={styles.viewLocation}>
+                {(item.Type === appConstant.BUS ||
+                  item.Type === appConstant.CAR_HIRE) && (
+                  <>
+                    <View style={styles.viewSpace} />
+                    <Text style={styles.textBlueBig}>Vehicle</Text>
+                    <Text style={styles.textBlack}></Text>
+                  </>
+                )}
+              </View>
+
+              <View style={styles.viewLocation}>
+                {item.Type === appConstant.CAMP_ACCOMODATION && (
+                  <>
+                    <View style={styles.viewSpace} />
+                    <Text style={styles.textBlueBig}>Room:</Text>
+                    <Text style={styles.textBlack}>-</Text>
+                    <View style={styles.viewSpace} />
+                    <Text style={styles.textBlueBig}>Locker:</Text>
+                    <Text style={styles.textBlack}>-</Text>
+                    <View style={styles.viewSpace} />
+                    <Text style={styles.textBlueBig}>Phone:</Text>
+                    <Text style={styles.textBlack}>-</Text>
+                    <View style={styles.viewSpace} />
+                    <Text style={styles.textBlueBig}>Muster 1:</Text>
+                    <Text style={styles.textBlack}>-</Text>
+                    <View style={styles.viewSpace} />
+                    <Text style={styles.textBlueBig}>Muster 2:</Text>
+                    <Text style={styles.textBlack}>-</Text>
+                    <View style={styles.viewSpace} />
+                    <Text style={styles.textBlueBig}>Tag/Token:</Text>
+                    <Text style={styles.textBlack}>-</Text>
+                  </>
+                )}
+              </View>
+
+              <View style={styles.viewLocation}>
+                {item.Type === appConstant.HOTEL ||
+                  (item.Type === appConstant.HOTEL_ACCOMMODATION && (
+                    <>
+                      <View style={styles.viewSpace} />
+                      <Text style={styles.textBlueBig}>Room:</Text>
+                      <Text style={styles.textBlack}></Text>
+                      <View style={styles.viewSpace} />
+                      <Text style={styles.textBlueBig}>Phone:</Text>
+                      <Text style={styles.textBlack}></Text>
+                      <View style={styles.viewSpace} />
+                      <Text style={styles.textBlueBig}>Address:</Text>
+                      <Text style={styles.textBlack}></Text>
+                    </>
+                  ))}
+              </View>
+
+              <View style={styles.viewLocation}>
+                {item.Type === appConstant.WATERCRAFT && (
+                  <>
+                    <View style={styles.viewSpace} />
+                    <Text style={styles.textBlueBig}>Vessel:</Text>
+                    <Text style={styles.textBlack}></Text>
+                  </>
+                )}
+              </View>
+
+              <View style={styles.viewLocation}>
+                {!(
+                  item.Type === appConstant.BUS ||
+                  item.Type === appConstant.COACH ||
+                  item.Type === appConstant.CAMP_ACCOMODATION ||
+                  item.Type === appConstant.WATERCRAFT ||
+                  item.Type === appConstant.MEET_AND_GREET
+                ) && (
+                  <>
+                    <View style={styles.viewSpace} />
+                    <Text style={styles.textBlueBig}>Booking #</Text>
+                    <Text style={styles.textBlack}>-</Text>
+                  </>
+                )}
+              </View>
+
+              <View style={styles.viewLocation}>
+                {(item.Type === appConstant.COMMERCIAL_FLIGHT ||
+                  item.Type === appConstant.CHARTER_FLIGHT ||
+                  item.Type === appConstant.HELICOPTER) && (
+                  <>
+                    <View style={styles.viewSpace} />
+                    <Text style={styles.textBlueBig}>Ticket #</Text>
+                    <Text style={styles.textBlack}>
+                      {item.Details &&
+                      item.Details.length > 0 &&
+                      item.Details[0].TicketId
+                        ? item.Details[0].TicketId
+                        : ''}
+                    </Text>
+                  </>
+                )}
+              </View>
+
+              <View style={styles.viewLocation}>
+                <View style={styles.viewSpace}>
+                  <Text style={styles.textBlueBig}>Status:</Text>
+                  {item.Status === 'Booked' || item.Status === 'Reserved' ? (
+                    <Text style={styles.textConfirmedInBox}>Confirmed</Text>
+                  ) : (
+                    <Text style={styles.textNotConfirmedInBox}>
+                      Not Confirmed
+                    </Text>
+                  )}
+                </View>
+              </View>
+
+              <View style={styles.viewLocation}>
+                {(item.Type === appConstant.HOTEL ||
+                  item.Type === appConstant.HOTEL_ACCOMMODATION ||
+                  item.Type === appConstant.MEET_AND_GREET) && (
+                  <>
+                    <View style={styles.viewSpace} />
+                    <Text style={styles.textBlueBig}>Note:</Text>
+                    <Text style={styles.textBlack}>
+                    
+                    </Text>
+                  </>
                 )}
               </View>
             </View>
 
-            <View style={styles.viewLocation}>
-              {(item.Type === appConstant.HOTEL || item.Type === appConstant.HOTEL_ACCOMMODATION ||
-                item.Type === appConstant.MEET_AND_GREET) && (
-                <>
-                  <View style={styles.viewSpace} />
-                  <Text style={styles.textBlueBig}>Note:</Text>
-                  <Text style={styles.textBlack}>
-                    Your QR code will be scanned when you arrive at your hotel.
-                    Please have your QR code ready
-                  </Text>
-                </>
-              )}
-            </View>
-          </View>
-
-          {/* <View
+            {/* <View
             style={
               item.Type === appConstant.CHARTER_FLIGHT
                 ? styles.ViewBlueBottom
@@ -736,33 +766,34 @@ const JourneyDetail = props => {
                 : 'Total Time'}
             </Text>
           </View> */}
-        </View>
-
-        {index === responseDetail.journeyDetail.Itinerarys.length - 1 ? null : (
-          <View
-            style={[
-              styles.viewDashedLine,
-              {
-                top:
-                  Platform.OS === 'android'
-                    ? getOrientation() === 'portrait'
-                      ? '11%'
-                      : '12%'
-                    : getOrientation() === 'portrait'
-                    ? '11%'
-                    : '12%',
-                height: '100%',
-              },
-            ]}>
-            {/* <View style={styles.viewDotted} /> */}
           </View>
-        )}
-      </View>
-    );
-  } 
-  // else {
-  //     <View />
-  // }
+
+          {index ===
+          responseDetail.journeyDetail.Itinerarys.length - 1 ? null : (
+            <View
+              style={[
+                styles.viewDashedLine,
+                {
+                  top:
+                    Platform.OS === 'android'
+                      ? getOrientation() === 'portrait'
+                        ? '11%'
+                        : '12%'
+                      : getOrientation() === 'portrait'
+                      ? '11%'
+                      : '12%',
+                  height: '100%',
+                },
+              ]}>
+              {/* <View style={styles.viewDotted} /> */}
+            </View>
+          )}
+        </View>
+      );
+    }
+    // else {
+    //     <View />
+    // }
   };
 
   const getDataFromResponse = (responseDetail, type) => {
@@ -901,12 +932,12 @@ const JourneyDetail = props => {
                   //     "responseDetail.journeyDetail ==>",
                   //     JSON.stringify(item, null, 4 )
                   //   );
-                 //   return itemViews(item, imageConstant.IMAGE_PLANE, index);
+                  //   return itemViews(item, imageConstant.IMAGE_PLANE, index);
 
                   // } else {
-                    
+
                   // }
-                  
+
                   checkStatus(item.Status);
                   // setJourneyDetailsStartDateTime(item.Details.StartDate);
                   // setJourneyDetailsEndDateTime(item.Details.EndDate);
