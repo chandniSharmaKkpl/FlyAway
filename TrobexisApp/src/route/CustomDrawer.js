@@ -74,13 +74,23 @@ export default CustomDrawer = () => {
     navigation.navigate(appConstant.ABOUT_APP_VERSION);
   };
 
+  const scanCode = () => {
+    navigation.navigate(appConstant.SCAN);
+  }
+
   const menuName = [
     {
       id: 1,
       name: 'About',
       func: aboutApp,
     },
+    {
+      id: 2,
+      name: 'Scan QR Code',
+      func: scanCode,
+    }
   ];
+
   const Item = ({name, func}) => (
     <TouchableOpacity
       onPress={() => {
@@ -142,11 +152,11 @@ export default CustomDrawer = () => {
 
             {/* Creating Drawer sections */}
 
-            {returnDrawerSection(
+            {/* {returnDrawerSection(
             'Scan QR Code',
             <IconIonicons name="scan-sharp" style={styles.iconDrawerMenu} />,
             appConstant.SCAN,
-          )}
+          )} */}
           {/* {returnDrawerSection(
             'Settings',
             <IconIonicons name="settings-sharp" style={styles.iconDrawerMenu} />,
