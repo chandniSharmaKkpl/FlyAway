@@ -1,5 +1,6 @@
 apply plugin: "com.android.application"
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 /**
  * The react.gradle file registers a task for each build variant (e.g. bundleDebugJsAndAssets
  * and bundleReleaseJsAndAssets).
@@ -163,6 +164,14 @@ android {
             signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        
+            // firebaseCrashlytic {
+            //     nativeSymboleUploadEnabled true
+            // }
+            firebaseCrashlytics {
+                nativeSymbolUploadEnabled true
+                unstrippedNativeLibsDir 'build/intermediates/merged_native_libs/release/out/lib'
+            }
         }
     }
 
@@ -189,8 +198,12 @@ dependencies {
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
+    // implementation platform('com.google.firebase:firebase-bom:30.2.0')
+    //   implementation 'com.google.firebase:firebase-crashlytics'
+    // implementation 'com.google.firebase:firebase-analytics'
+
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
-//    implementation 'com.google.firebase:firebase-analytics:17.3.4'
+
     implementation 'com.google.firebase:firebase-messaging:17.3.4'
     implementation project(':@react-native-async-storage')
     

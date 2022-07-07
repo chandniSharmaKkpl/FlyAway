@@ -629,7 +629,13 @@ const JourneyDetail = props => {
                   <>
                     <View style={styles.viewSpace} />
                     <Text style={styles.textBlueBig}>Vehicle</Text>
-                    <Text style={styles.textBlack}></Text>
+                    <Text style={styles.textBlack}>
+                      {item.Details &&
+                      item.Details.length > 0 &&
+                      item.Details[0].Vehicle
+                        ? item.Details[0].Vehicle
+                        : '-'}
+                    </Text>
                   </>
                 )}
               </View>
@@ -639,19 +645,49 @@ const JourneyDetail = props => {
                   <>
                     <View style={styles.viewSpace} />
                     <Text style={styles.textBlueBig}>Room:</Text>
-                    <Text style={styles.textBlack}>-</Text>
+                    <Text style={styles.textBlack}>
+                      {item.Details &&
+                      item.Details.length > 0 &&
+                      item.Details[0].Room
+                        ? item.Details[0].Room
+                        : '-'}
+                    </Text>
                     <View style={styles.viewSpace} />
                     <Text style={styles.textBlueBig}>Locker:</Text>
-                    <Text style={styles.textBlack}>-</Text>
+                    <Text style={styles.textBlack}>
+                      {item.Details &&
+                      item.Details.length > 0 &&
+                      item.Details[0].Locker
+                        ? item.Details[0].Locker
+                        : '-'}
+                    </Text>
                     <View style={styles.viewSpace} />
                     <Text style={styles.textBlueBig}>Phone:</Text>
-                    <Text style={styles.textBlack}>-</Text>
+                    <Text style={styles.textBlack}>
+                      {item.Details &&
+                      item.Details.length > 0 &&
+                      item.Details[0].Phone
+                        ? item.Details[0].Phone
+                        : '-'}
+                    </Text>
                     <View style={styles.viewSpace} />
                     <Text style={styles.textBlueBig}>Muster 1:</Text>
-                    <Text style={styles.textBlack}>-</Text>
+                    <Text style={styles.textBlack}>
+                      {item.Details &&
+                      item.Details.length > 0 &&
+                      item.Details[0].Muster01
+                        ? item.Details[0].Muster01
+                        : '-'}
+                    </Text>
                     <View style={styles.viewSpace} />
                     <Text style={styles.textBlueBig}>Muster 2:</Text>
-                    <Text style={styles.textBlack}>-</Text>
+                    <Text style={styles.textBlack}>
+                      {item.Details &&
+                      item.Details.length > 0 &&
+                      item.Details[0].Muster02
+                        ? item.Details[0].Muster02
+                        : '-'}
+                    </Text>
                     <View style={styles.viewSpace} />
                     <Text style={styles.textBlueBig}>Tag/Token:</Text>
                     <Text style={styles.textBlack}>-</Text>
@@ -665,13 +701,31 @@ const JourneyDetail = props => {
                     <>
                       <View style={styles.viewSpace} />
                       <Text style={styles.textBlueBig}>Room:</Text>
-                      <Text style={styles.textBlack}></Text>
+                      <Text style={styles.textBlack}>
+                        {item.Details &&
+                        item.Details.length > 0 &&
+                        item.Details[0].Room
+                          ? item.Details[0].Room
+                          : '-'}
+                      </Text>
                       <View style={styles.viewSpace} />
                       <Text style={styles.textBlueBig}>Phone:</Text>
-                      <Text style={styles.textBlack}></Text>
+                      <Text style={styles.textBlack}>
+                        {item.Details &&
+                        item.Details.length > 0 &&
+                        item.Details[0].Phone
+                          ? item.Details[0].Phone
+                          : '-'}
+                      </Text>
                       <View style={styles.viewSpace} />
                       <Text style={styles.textBlueBig}>Address:</Text>
-                      <Text style={styles.textBlack}></Text>
+                      <Text style={styles.textBlack}>
+                        {item.Details &&
+                        item.Details.length > 0 &&
+                        item.Details[0].Address
+                          ? item.Details[0].Address
+                          : '-'}
+                      </Text>
                     </>
                   ))}
               </View>
@@ -681,7 +735,13 @@ const JourneyDetail = props => {
                   <>
                     <View style={styles.viewSpace} />
                     <Text style={styles.textBlueBig}>Vessel:</Text>
-                    <Text style={styles.textBlack}></Text>
+                    <Text style={styles.textBlack}>
+                      {item.Details &&
+                      item.Details.length > 0 &&
+                      item.Details[0].Vessel
+                        ? item.Details[0].Vessel
+                        : '-'}
+                    </Text>
                   </>
                 )}
               </View>
@@ -697,7 +757,13 @@ const JourneyDetail = props => {
                   <>
                     <View style={styles.viewSpace} />
                     <Text style={styles.textBlueBig}>Booking #</Text>
-                    <Text style={styles.textBlack}>-</Text>
+                    <Text style={styles.textBlack}>
+                      {item.Details &&
+                      item.Details.length > 0 &&
+                      item.Details[0].Booking
+                        ? item.Details[0].Booking
+                        : '-'}
+                    </Text>
                   </>
                 )}
               </View>
@@ -741,7 +807,11 @@ const JourneyDetail = props => {
                     <View style={styles.viewSpace} />
                     <Text style={styles.textBlueBig}>Note:</Text>
                     <Text style={styles.textBlack}>
-                    
+                      {item.Details &&
+                      item.Details.length > 0 &&
+                      item.Details[0].Note
+                        ? item.Details[0].Note
+                        : ''}
                     </Text>
                   </>
                 )}

@@ -2,7 +2,7 @@
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
-platform :ios, '10.0'
+platform :ios, '12.0'
 project 'TrobexisApp.xcodeproj'
 target 'TrobexisApp' do
   config = use_native_modules!
@@ -14,7 +14,8 @@ target 'TrobexisApp' do
     # to enable hermes on iOS, change `false` to `true` and then install pods
     :hermes_enabled => false
   )
-  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+  $FirebaseSDKVersion = '8.11.0'
+   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
   pod 'RNCPushNotificationIOS', :path => '../node_modules/@react-native-community/push-notification-ios'
   pod 'Firebase/Core'
   pod 'Firebase/Messaging'
@@ -25,6 +26,7 @@ target 'TrobexisApp' do
   pod 'react-native-webview', :path => '../node_modules/react-native-webview'
   pod 'TouchID', :path => '../node_modules/react-native-touch-id'
   pod 'RNSVG', :path => '../node_modules/react-native-svg'
+  pod 'Firebase/Crashlytics'
 
 #  pod 'RNDeviceTimeFormat', :path => '../node_modules/react-native-device-time-format'
 
@@ -37,10 +39,13 @@ target 'TrobexisApp' do
   # Note that if you have use_frameworks! enabled, Flipper will not work and
   # you should disable the next line.
  use_flipper!()
+#  use_frameworks!
+ $RNFirebaseAsStaticFramework = true
 #  post_install do |installer|
 #    react_native_post_install(installer)
 #  end
   
+
   post_install do |installer|
     installer.pods_project.targets.each do |target|
        react_native_post_install(installer)

@@ -41,6 +41,7 @@ export const getApiBase = argumentData => {
         data: response,
         //status: response.status
       }).then(response => {
+        console.log("response ===>", response.data.data);
         let apiBaseUrl = response.data.data.value
         localDB.setBaseUrl(apiBaseUrl);
         return response.data.data; 
