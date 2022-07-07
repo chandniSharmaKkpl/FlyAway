@@ -3,15 +3,14 @@ import {useState, useCallback, useEffect} from 'react';
 
 import {
   Image,
-Pressable,
+  Pressable,
   StyleSheet,
   View,
   ImageBackground,
   Text,
   FlatList,
-
 } from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler'
+import {TouchableOpacity} from 'react-native-gesture-handler';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -36,6 +35,7 @@ import {useNavigation} from '@react-navigation/core';
 import localDb from '../database/localDb';
 import {AlertView} from '../component';
 import {Touchable} from 'react-native';
+import crashlytics from '@react-native-firebase/crashlytics';
 
 export default CustomDrawer = () => {
   const navigation = useNavigation();
@@ -49,15 +49,22 @@ export default CustomDrawer = () => {
       alert(alertMsgConstant.COMING_SOON);
     }
   };
+
+  const onLogout = () => {
+    // firebase.crashlytics().crash();
+
+    setIsAlertShow(true)
+  };
+
   const returnDrawerSection = (title, icon, screenName) => {
     return (
       <View style={styles.drawerSection}>
-        <Pressable
+        <TouchableOpacity
           style={styles.btnDrawer}
           onPress={() => onPressItem(screenName)}>
           <View style={styles.viewCircleBlue}>{icon}</View>
           <Text style={styles.textDrawerTitle}>{title}</Text>
-        </Pressable>
+        </TouchableOpacity>
         <View style={styles.singleLine} />
       </View>
     );
@@ -75,15 +82,12 @@ export default CustomDrawer = () => {
     },
   ];
   const Item = ({name, func}) => (
-    <TouchableOpacity  onPress={() => {
-      func();
-    }}>
+    <TouchableOpacity
+      onPress={() => {
+        func();
+      }}>
       <View style={styles.item}>
-        <Text
-          style={styles.title}
-         >
-          {name}
-        </Text>
+        <Text style={styles.title}>{name}</Text>
       </View>
       <View style={styles.dividerLine}></View>
     </TouchableOpacity>
@@ -138,12 +142,12 @@ export default CustomDrawer = () => {
 
             {/* Creating Drawer sections */}
 
-            {/* {returnDrawerSection(
+            {returnDrawerSection(
             'Scan QR Code',
             <IconIonicons name="scan-sharp" style={styles.iconDrawerMenu} />,
             appConstant.SCAN,
           )}
-          {returnDrawerSection(
+          {/* {returnDrawerSection(
             'Settings',
             <IconIonicons name="settings-sharp" style={styles.iconDrawerMenu} />,
             appConstant.SETTING,
@@ -163,11 +167,7 @@ export default CustomDrawer = () => {
 
         {isAlertShow ? null : (
           <View style={styles.viewLogout}>
-            <Pressable
-              style={styles.btnDrawer}
-              onPress={() => {
-                setIsAlertShow(true);
-              }}>
+            <Pressable style={styles.btnDrawer} onPress={() => onLogout()}>
               <View>
                 <IconMaterial name="logout" style={styles.iconLogout} />
               </View>

@@ -73,6 +73,7 @@ function PushController(props) {
           remoteMessage.data &&
           remoteMessage.data.authenticate
         ) {
+          console.log("remoteMessage received ====== ", remoteMessage);
           let dictAuthenticate = JSON.parse(remoteMessage.data.authenticate);
 
           if (dictAuthenticate.status === 'SUCCESS') {

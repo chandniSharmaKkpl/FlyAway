@@ -19,6 +19,9 @@
 #import <SKIOSNetworkPlugin/SKIOSNetworkAdapter.h>
 #import <FlipperKitReactPlugin/FlipperKitReactPlugin.h>
 #import <RNSplashScreen.h>
+#import <Firebase.h>
+//#import UIKit;
+//#import Firebase;
 
 
 static void InitializeFlipper(UIApplication *application) {

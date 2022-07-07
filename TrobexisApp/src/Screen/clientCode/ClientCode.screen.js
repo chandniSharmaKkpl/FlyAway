@@ -28,6 +28,8 @@ import {
   alertMsgConstant,
   actionConstant,
 } from '../../constant';
+import crashlytics from '@react-native-firebase/crashlytics';
+
 import localDB from '../../database/localDb';
 import {checkStringContainsSpecialChar} from '../../common';
 // import {
@@ -52,7 +54,6 @@ import {
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 // import moment from 'moment';
-
 
 const ClientCodeScreen = props => {
   const [orientation, setOrientation] = React.useState('portrait');
@@ -195,6 +196,8 @@ const ClientCodeScreen = props => {
   };
 
   const submitForm = () => {
+    // crashlytics().crash()
+
     setIsClientCodeListShow(false);
     if (clientCode === '') {
       setError(alertMsgConstant.CLIENT_CODE_NOT_EMPTY);

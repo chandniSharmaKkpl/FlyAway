@@ -123,7 +123,7 @@ const BusBookingScreen = (props) => {
 
         setBusBookingUrl(functionUrl);
         setHeadersWeb({
-          Authorization : `Bearer ${response.clientToken}`,
+           Authorization : `Bearer ${response.clientToken}`,
           DeviceId: response.deviceId ? response.deviceId : "",
           DeviceType: Platform.OS === "android" ? "ANDROID" : "IOS",
         });

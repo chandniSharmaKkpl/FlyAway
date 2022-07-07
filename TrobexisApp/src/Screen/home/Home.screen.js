@@ -52,14 +52,11 @@ const HomeScreen = props => {
   var countBack = 0;
 
   useEffect(() => {
-   
     lor(setOrientation);
     return () => {
       rol();
     };
   }, [orientation]);
-
- 
 
   // const setAlertShowFromHeader = value => {
   //   setIsAlertShow(value);
@@ -182,7 +179,6 @@ const HomeScreen = props => {
 
   return (
     <>
-    
       {/* {backHandler(handleBackButtonClick)} */}
       {/* {checkResponseForRedirection()} */}
       {/* <SafeAreaView

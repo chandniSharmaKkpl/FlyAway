@@ -78,26 +78,26 @@ const ApprovalDetail = props => {
   }, []);
 
   const returnRowView = (title, subTitle, type) => {
-    if (type == 'DateTime') {
-      return (
-        <View style={[styles.viewRow]}>
-          <Text style={styles.textBlue}>{title}:</Text>
-          <Text style={styles.textSubTitle}>
-            {subTitle ? (
-              approvalDateTimeFormate(
-                subTitle,
-                false,
-                false,
-                true,
-                responseUser.userProfile.settings,
-              )
-            ) : (
-              <></>
-            )}
-          </Text>
-        </View>
-      );
-    }
+    // if (type == 'DateTime') {
+    //   return (
+    //     <View style={[styles.viewRow]}>
+    //       <Text style={styles.textBlue}>{title}:</Text>
+    //       <Text style={styles.textSubTitle}>
+    //         {subTitle ? (
+    //           approvalDateTimeFormate(
+    //             subTitle,
+    //             false,
+    //             false,
+    //             true,
+    //             responseUser.userProfile.settings,
+    //           )
+    //         ) : (
+    //           <></>
+    //         )}
+    //       </Text>
+    //     </View>
+    //   );
+    // }
     return (
       <View style={styles.viewRow}>
         <Text style={styles.textBlue}>{title}</Text>
@@ -194,22 +194,22 @@ const ApprovalDetail = props => {
         <>
           {arraySort &&
             arraySort.map((item, index) => {
-              if (item.Type == 'DateTime') {
-                return (
-                  <View style={[styles.viewRow]}>
-                    <Text style={styles.textBlue}>{item.Label}:</Text>
-                    <Text style={styles.textSubTitle}>
-                      {approvalDateTimeFormate(
-                        item.Data,
-                        false,
-                        false,
-                        true,
-                        responseUser.userProfile.settings,
-                      )}
-                    </Text>
-                  </View>
-                );
-              }
+              // if (item.Type == 'DateTime') {
+              //   return (
+              //     <View style={[styles.viewRow]}>
+              //       <Text style={styles.textBlue}>{item.Label}:</Text>
+              //       <Text style={styles.textSubTitle}>
+              //         {approvalDateTimeFormate(
+              //           item.Data,
+              //           false,
+              //           false,
+              //           true,
+              //           responseUser.userProfile.settings,
+              //         )}
+              //       </Text>
+              //     </View>
+              //   );
+              // }
               return (
                 <View style={[styles.viewRow]}>
                   <Text style={styles.textBlue}>{item.Label}:</Text>

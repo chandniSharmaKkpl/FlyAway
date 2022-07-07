@@ -60,7 +60,7 @@ const Scan = props => {
         />
         <QRCodeScanner
           onRead={this.onSuccess}
-          // flashMode={RNCamera.Constants.FlashMode.torch}
+          flashMode={RNCamera.Constants.FlashMode.torch}
           topContent={
             <Text style={styles.centerText}>
               <Text style={styles.textBold}>Scan QR Code </Text>
