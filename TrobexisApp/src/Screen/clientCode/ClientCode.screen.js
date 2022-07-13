@@ -28,7 +28,6 @@ import {
   alertMsgConstant,
   actionConstant,
 } from '../../constant';
-import crashlytics from '@react-native-firebase/crashlytics';
 
 import localDB from '../../database/localDb';
 import {checkStringContainsSpecialChar} from '../../common';
@@ -196,8 +195,6 @@ const ClientCodeScreen = props => {
   };
 
   const submitForm = () => {
-    // crashlytics().crash()
-
     setIsClientCodeListShow(false);
     if (clientCode === '') {
       setError(alertMsgConstant.CLIENT_CODE_NOT_EMPTY);

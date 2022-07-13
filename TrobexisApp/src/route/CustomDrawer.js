@@ -35,7 +35,6 @@ import {useNavigation} from '@react-navigation/core';
 import localDb from '../database/localDb';
 import {AlertView} from '../component';
 import {Touchable} from 'react-native';
-import crashlytics from '@react-native-firebase/crashlytics';
 
 export default CustomDrawer = () => {
   const navigation = useNavigation();
@@ -51,8 +50,6 @@ export default CustomDrawer = () => {
   };
 
   const onLogout = () => {
-    // firebase.crashlytics().crash();
-
     setIsAlertShow(true)
   };
 

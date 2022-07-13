@@ -8,6 +8,9 @@ export function* workerAcceptApproval(argumentData ) {
 
     try {
           
+      console.log(" workerAcceptApproval ---- ", argumentData);
+      
+    
       const approvalResponse = yield call(acceptApprovalApi,argumentData.payload);
      
       if (isError(approvalResponse)) {
@@ -30,6 +33,9 @@ export function* workerAcceptApproval(argumentData ) {
           type: actionConstant.ACTION_ACCEPT_APPROVAL_SUCCESS,
           payload: approvalResponse,
         });
+        if (argumentData.payload.data.screenName) {
+           argumentData.payload.data.navigation.goBack(); 
+       }
       }
   
     } catch (error) {
