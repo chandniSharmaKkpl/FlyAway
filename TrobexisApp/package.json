@@ -39,7 +39,7 @@
     "react-native-permissions": "^2.2.2",
     "react-native-push-notification": "^8.0.1",
     "react-native-qrcode-scanner": "^1.5.4",
-    "react-native-reanimated": "^2.2.0",
+    "react-native-reanimated": "^2.9.1",
     "react-native-responsive-screen": "github:gregfenton/react-native-responsive-screen",
     "react-native-responsive-screen-hooks": "^1.4.2",
     "react-native-safe-area-context": "^3.4.1",
