@@ -1,6 +1,7 @@
 apply plugin: "com.android.application"
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'com.google.firebase.firebase-perf'
 /**
  * The react.gradle file registers a task for each build variant (e.g. bundleDebugJsAndAssets
  * and bundleReleaseJsAndAssets).
@@ -134,7 +135,7 @@ android {
         applicationId "com.trobexisapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 10
+        versionCode 11
         versionName "2.5"
         missingDimensionStrategy 'react-native-camera', 'general'
     }
@@ -201,6 +202,8 @@ dependencies {
     // implementation platform('com.google.firebase:firebase-bom:30.2.0')
     //   implementation 'com.google.firebase:firebase-crashlytics'
     // implementation 'com.google.firebase:firebase-analytics'
+
+    implementation 'com.google.firebase:firebase-perf:19.0.9'
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 

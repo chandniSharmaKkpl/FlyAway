@@ -16,7 +16,7 @@ export const getDeclineReasonsApi = async argumentData => {
     timeout: 30000,
     headers: {
       'Content-Type': 'application/json',
-      Authorization: '',
+      Authorization: `Bearer ${clientToken}`,
       DeviceId: deviceId,
       DeviceType: Platform.OS === 'android' ? 'ANDROID' : 'IOS',
     },

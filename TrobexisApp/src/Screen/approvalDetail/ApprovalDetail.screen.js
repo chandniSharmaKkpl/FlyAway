@@ -121,8 +121,9 @@ const ApprovalDetail = props => {
         approvalId: route.params.approvalId ? route.params.approvalId : '',
         user: response,
         navigation: props.navigation,
+        screenName: appConstant.APPROVAL_DETAIL
       };
-      dispatch(requestAcceptApproval(param));
+       dispatch(requestAcceptApproval(param));
     });
   };
 
