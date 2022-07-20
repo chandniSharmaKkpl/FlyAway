@@ -3,6 +3,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from '../../responsiveScreen';
+import DeviceInfo from 'react-native-device-info';
 import fontConstant from '../../constant/fontConstant';
 import appColor from '../../constant/colorConstant';
 export default StyleSheet.create({
@@ -95,9 +96,17 @@ export default StyleSheet.create({
     fontFamily: fontConstant.BARLOW_BOLD,
     fontSize: fontConstant.TEXT_45_SIZE_BOLD,
   },
-  versionColor : {
-    color: appColor.BLACK
-  },  
+  appVersion: {
+    fontSize:
+      Platform.OS === 'ios'
+        ? DeviceInfo.isTablet()
+          ? fontConstant.TEXT_H1_SIZE_REGULAR
+          : fontConstant.TEXT_H2_SIZE_REGULAR
+        : fontConstant.TEXT_H2_SIZE_REGULAR,
+  },
+  versionColor: {
+    color: appColor.BLACK,
+  },
   inputView: {
     //flex: 1,
     paddingTop: hp('9.5%'),

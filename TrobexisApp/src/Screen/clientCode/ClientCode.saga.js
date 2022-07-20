@@ -150,7 +150,7 @@ export function* workerGetAccountUrl(argumentData, apiBase, clientToken) {
         loginUrl: loginUrl,
         responseLoginUrl: responseLoginUrl,
         functionUrl: functionUrl,
-       userId: 'SHARRIS', // Temp
+       userId: 'P000000443', // Temp
       };
       localDB.setUser(user);
 

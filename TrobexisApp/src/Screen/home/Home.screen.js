@@ -35,7 +35,7 @@ import {
   imageConstant,
   errorCodeConstant,
 } from '../../constant';
-
+import {useRoute, useNavigation} from '@react-navigation/core';
 import {requestToGetApprovalList, requestToGetUserProfile} from './Home.action';
 import localDb from '../../database/localDb';
 import DeviceInfo from 'react-native-device-info';
@@ -50,6 +50,9 @@ const HomeScreen = props => {
   const [userProfile, setUserProfile] = useState({});
   const [isAlertShow, setIsAlertShow] = useState(false);
   var countBack = 0;
+
+  const route = useRoute();
+console.log(route.name);
 
   useEffect(() => {
    
@@ -218,7 +221,7 @@ const HomeScreen = props => {
               <View
                 style={{
                   paddingLeft:
-                    getOrientation() === 'portrait' ? wp('5%') : wp('3%'),
+                    getOrientation() === 'portrait' ? DeviceInfo.isTablet() ? wp('4%') :  wp('5%') : wp('3%'),
                   paddingTop: hp('1.2%'),
                 }}>
                 <Text style={styles.textHello}>

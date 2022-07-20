@@ -118,7 +118,8 @@ export default {
   // Api date & version
 
   APP_VERSION : version,
-  USER_SETTING:'settings'
+  USER_SETTING:'settings',
+  HOME_SCREEN_PATH : 'homeScreenPath'
 };
 
 
