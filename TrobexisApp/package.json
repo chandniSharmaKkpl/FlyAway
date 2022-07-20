@@ -17,6 +17,7 @@
     "@react-native-firebase/app": "^13.0.1",
     "@react-native-firebase/crashlytics": "^13.0.1",
     "@react-native-firebase/messaging": "^13.0.1",
+    "@react-native-firebase/perf": "^13.0.1",
     "@react-native-segmented-control/segmented-control": "^2.4.0",
     "@react-navigation/bottom-tabs": "^5.11.11",
     "@react-navigation/drawer": "^5.12.5",
