@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Image, Text, Pressable, Platform, StyleSheet} from 'react-native';
+import {View, Image, Text, Pressable, Platform, StyleSheet, StatusBar} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -8,6 +8,7 @@ import {
   getOrientation,
 } from '../responsiveScreen';
 import {appConstant, imageConstant, appColor, fontConstant} from '../constant';
+import DeviceInfo from 'react-native-device-info';
 import {useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
@@ -45,7 +46,7 @@ const HeaderCustom = props => {
       height: hp('10%'),
       paddingTop: 0,
       backgroundColor: appColor.NAVY_BLUE,
-      // backgroundColor: 'pink',
+      
     },
 
     topHeaderStyleAndroid: {
@@ -63,12 +64,12 @@ const HeaderCustom = props => {
           : getOrientation() === 'portrait'
           ? hp('6%')
           : hp('3%'),
-      marginLeft: wp('4%'),
+      marginLeft: DeviceInfo.isTablet() ? wp('2%') : wp('4%'),
     },
 
     styleBell: {
-      height: 22,
-      width: 22,
+      height:getOrientation() === 'portrait' ?  hp('3%') :  DeviceInfo.isTablet() ?  hp('4%') : hp('6%'),
+      width: getOrientation() === 'portrait' ? wp('6%') : wp('6%'),
       marginTop:
         Platform.OS === 'android'
           ? hp('2%')
@@ -105,7 +106,8 @@ const HeaderCustom = props => {
         Platform.OS === 'android'
           ? styles.topHeaderStyleAndroid
           : styles.topHeaderStyleIos
-      }>
+    }>
+        <StatusBar translucent barStyle="light-content" />
       <Pressable style={styles.iconHeader} onPress={onClickLeftIcon}>
         {viewName === appConstant.HOME_SCREEN ||
         viewName === appConstant.BUS_BOOKING ||

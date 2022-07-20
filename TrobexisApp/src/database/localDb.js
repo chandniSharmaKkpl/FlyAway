@@ -148,6 +148,28 @@ const getUserSettings = async () => {
   }
 };
 
+// const setHomeScreenPath = async () => {
+//   await AsyncStorage.setItem(appConstant.HOME_SCREEN_PATH);
+//   then(() => {
+//     return true;
+//   })
+//   .catch (() => {
+//     return false;
+//   });
+// };
+
+// const getHomeScreenPath = async () => {
+//   const path = await AsyncStorage.getItem(appConstant.HOME_SCREEN_PATH);
+//   let pathName;
+//   if (path) {
+//     pathName = JSON.parse(path);
+//     console.log("Path ====>", pathName);
+//     return pathName;
+//   } else {
+//   }
+//   return pathName;
+// };
+
 
 export default {
   getAccessToken,
@@ -162,5 +184,7 @@ export default {
   setUserId,
   clearAll,
   getUserSettings,
-  setUserSettings
+  setUserSettings,
+  // setHomeScreenPath,
+  // getHomeScreenPath
 };

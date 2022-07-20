@@ -34,7 +34,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/core';
 import localDb from '../database/localDb';
 import {AlertView} from '../component';
-import {Touchable} from 'react-native';
 
 export default CustomDrawer = () => {
   const navigation = useNavigation();
@@ -129,7 +128,7 @@ export default CustomDrawer = () => {
                   activeOpacity={0.7}
                 />
               </View> */}
-                <View style={{paddingLeft: wp('5%')}}>
+                <View style={{paddingLeft: wp('5%'), paddingTop: 12}}>
                   <Text style={styles.textUserNameTop}>
                     {response.userProfile && response.userProfile.firstname
                       ? response.userProfile.firstname
