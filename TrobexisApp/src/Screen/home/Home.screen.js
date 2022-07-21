@@ -285,7 +285,7 @@ console.log(route.name);
               </View>
             ) : null}
 
-            {getValueToShowTile('Function.Approval') ? (
+            {/* {getValueToShowTile('Function.Approval') ? ( */}
               <View style={styles.viewSmallBox}>
                 {response.approvalList &&
                 Array.isArray(response.approvalList) &&
@@ -313,7 +313,7 @@ console.log(route.name);
                   <Text style={styles.textButtonTitle}>Approvals</Text>
                 </Pressable>
               </View>
-            ) : null}
+            {/* ) : null} */}
 
             {getValueToShowTile('Function.Bus') ? (
               <View style={styles.viewSmallBox}>
