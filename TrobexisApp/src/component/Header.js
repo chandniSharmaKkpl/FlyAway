@@ -52,7 +52,7 @@ const HeaderCustom = props => {
     topHeaderStyleAndroid: {
       flexDirection: 'row',
       justifyContent: 'space-between',
-      height: hp('7%'),
+      height: hp('8%'),
       backgroundColor: appColor.NAVY_BLUE,
     },
     iconHeader: {
@@ -69,7 +69,7 @@ const HeaderCustom = props => {
 
     styleBell: {
       height:getOrientation() === 'portrait' ?  hp('3%') :  DeviceInfo.isTablet() ?  hp('4%') : hp('6%'),
-      width: getOrientation() === 'portrait' ? wp('6%') : wp('6%'),
+      width: getOrientation() === 'portrait' ? wp('4%') : wp('6%'),
       marginTop:
         Platform.OS === 'android'
           ? hp('2%')
@@ -107,7 +107,10 @@ const HeaderCustom = props => {
           ? styles.topHeaderStyleAndroid
           : styles.topHeaderStyleIos
     }>
-        <StatusBar translucent barStyle="light-content" />
+      {
+        Platform.OS === 'ios' ? (<StatusBar translucent barStyle="light-content" />
+        ) : null
+      }
       <Pressable style={styles.iconHeader} onPress={onClickLeftIcon}>
         {viewName === appConstant.HOME_SCREEN ||
         viewName === appConstant.BUS_BOOKING ||

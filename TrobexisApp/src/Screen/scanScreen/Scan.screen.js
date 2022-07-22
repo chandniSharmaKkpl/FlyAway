@@ -26,7 +26,7 @@ const Scan = props => {
     return true;
   };
 
-  onSuccess = e => {
+ const  onSuccess = e => {
     Linking.openURL(e.data).catch(err =>
       console.error('An error occured', err),
     );
@@ -73,7 +73,7 @@ const Scan = props => {
           rightIconImage={''}
         />
         <QRCodeScanner
-          onRead={this.onSuccess}
+          onRead={onSuccess}
           cameraStyle={{height: SCREEN_HEIGHT}}
           showMarker
           markerStyle={{
@@ -115,10 +115,10 @@ const Scan = props => {
               </View>
 
               <View style={styles.topOverlay}>
-                <Text style={{fontSize: 17, color: 'white'}}>
+                <Text style={{fontSize: 17, color: 'white', marginTop: 18}}>
                   Place the QR Code Inside the Frame
                 </Text>
-                <View style={{marginTop: 50}}>
+                <View style={{marginTop: 40}}>
                   <Pressable
                     style={[commonStyle.yellowButton, styles.btnSubmit]}>
                     <Text style={[commonStyle.yellowButtonTitle]}>Scan</Text>
