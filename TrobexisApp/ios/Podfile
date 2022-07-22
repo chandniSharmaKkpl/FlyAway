@@ -12,9 +12,10 @@ target 'TrobexisApp' do
   use_react_native!(
     :path => config[:reactNativePath],
     # to enable hermes on iOS, change `false` to `true` and then install pods
-    :hermes_enabled => false
+    :hermes_enabled => false,
+
   )
-  $FirebaseSDKVersion = '8.11.0'
+  # $FirebaseSDKVersion = '8.11.0'
    pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
   pod 'RNCPushNotificationIOS', :path => '../node_modules/@react-native-community/push-notification-ios'
   pod 'Firebase/Core'
@@ -40,7 +41,7 @@ target 'TrobexisApp' do
   #
   # Note that if you have use_frameworks! enabled, Flipper will not work and
   # you should disable the next line.
- use_flipper!()
+  use_flipper!({ 'Flipper' => '0.78'})
 #  use_frameworks!
  $RNFirebaseAsStaticFramework = true
 #  post_install do |installer|

@@ -5,6 +5,7 @@ import {
 } from '../../responsiveScreen';
 import fontConstant from '../../constant/fontConstant';
 import appColor from '../../constant/colorConstant';
+import DeviceInfo from 'react-native-device-info';
 
 export default StyleSheet.create({
   container: {
@@ -59,7 +60,7 @@ export default StyleSheet.create({
   },
   textButtonTitle: {
     fontFamily: fontConstant.BARLOW_BOLD,
-    fontSize: fontConstant.TEXT_H4_SIZE_BOLD,
+    fontSize: DeviceInfo.isTablet() ? fontConstant.TEXT_12_SIZE_BOLD : fontConstant.TEXT_10_SIZE_REGULAR,
     color: appColor.NAVY_BLUE,
     flexWrap: 'wrap',
     alignSelf: 'center',
@@ -81,8 +82,8 @@ export default StyleSheet.create({
   viewYellowBox: {
     backgroundColor: appColor.YELLOW,
     borderRadius: 7,
-    width: 20,
-    height: 20,
+    width: DeviceInfo.isTablet() ?  40 : 20,
+    height: DeviceInfo.isTablet() ? 40 : 20,
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
@@ -122,7 +123,7 @@ export default StyleSheet.create({
   },
   textNumber: {
     fontFamily: fontConstant.BARLOW_REGULAR,
-    fontSize: fontConstant.TEXT_H3_SIZE_REGULAR,
+    fontSize: DeviceInfo.isTablet() ?fontConstant.TEXT_H2_SIZE_REGULAR :  fontConstant.TEXT_H3_SIZE_REGULAR,
     color: appColor.WHITE,
   },
 });

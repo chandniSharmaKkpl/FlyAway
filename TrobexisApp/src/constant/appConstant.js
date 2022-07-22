@@ -30,7 +30,7 @@ export default {
   APPROVAL_DETAIL: 'Approval Detail',
   JOURNEY_DETAIL: 'Journey Detail',
   SETTING: 'Setting',
-  SCAN: 'Scan',
+  SCAN: 'Scan QR Code',
   SUPPORT: 'Support',
   ABOUT_APP_VERSION: 'AboutAppVersion',
 
@@ -118,7 +118,8 @@ export default {
   // Api date & version
 
   APP_VERSION : version,
-  USER_SETTING:'settings'
+  USER_SETTING:'settings',
+  HOME_SCREEN_PATH : 'homeScreenPath'
 };
 
 

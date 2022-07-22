@@ -19,13 +19,14 @@ import {
   removeOrientationListener as rol,
   getOrientation,
 } from '../responsiveScreen';
+import {useRoute, useNavigation} from '@react-navigation/core';
 import DeviceInfo from 'react-native-device-info';
 import LoginScreen from '../Screen/Login/Login.screen';
 import ForgotPassword from '../Screen/ForgotPassword/ForgotPassword.screen';
 import AuthContext from '../context/AuthContext';
 import ClientCodeScreen from '../Screen/clientCode/ClientCode.screen';
 import ApprovalListScreen from '../Screen/approvalList/ApprovalList.screen';
-import localDB from '../database/localDb';
+import localDb from '../database/localDb';
 import ReasonScreen from '../Screen/declineReasons/declineReason.screen';
 import JourneyList from '../Screen/Jorneys/Journeys.screen';
 import ApprovalDetail from '../Screen/approvalDetail/ApprovalDetail.screen';
@@ -33,7 +34,7 @@ import JourneyDetail from '../Screen/JourneyDetail/JourneyDetail.screen';
 import ApprovalList from '../Screen/approvalList/ApprovalList.screen';
 import CustomDrawer from '../route/CustomDrawer';
 import Scan from '../Screen/scanScreen/Scan.screen';
-import AboutAppVersion from '../Screen/AboutAppVersion'
+import AboutAppVersion from '../Screen/AboutAppVersion';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   appColor,
@@ -60,7 +61,10 @@ function DrawerNavigator() {
       <Drawer.Screen name={appConstant.SCAN} component={Scan} />
 
       <Drawer.Screen name={appConstant.TAB} component={TabNavigator} />
-      <Drawer.Screen name={appConstant.ABOUT_APP_VERSION} component={AboutAppVersion} />
+      <Drawer.Screen
+        name={appConstant.ABOUT_APP_VERSION}
+        component={AboutAppVersion}
+      />
     </Drawer.Navigator>
   );
 }
@@ -206,6 +210,9 @@ const BusBookingStack = () => {
 
 function TabNavigator() {
   const [orientation, setOrientation] = React.useState('portrait');
+  const route = useRoute();
+
+  console.log('Route ---->', JSON.stringify(route, null, 4));
 
   useEffect(() => {
     console.log('setOrientation natigate', orientation);
@@ -219,7 +226,7 @@ function TabNavigator() {
     tab: {
       flex: 1,
       justifyContent: 'center',
-      alignItems: 'center'
+      alignItems: 'center',
       // backgroundColor: 'black',
     },
     tabBarLabel: {
@@ -244,10 +251,6 @@ function TabNavigator() {
           : getOrientation() === 'portrait'
           ? hp('1%')
           : hp('2.5%'),
-      // justifyContent: 'center',
-      //  backgroundColor:'red',
-      //  alignItems: 'center',
-      // justifyContent: 'flex-end',
     },
     tabBar: {
       height: DeviceInfo.isTablet()
@@ -261,7 +264,6 @@ function TabNavigator() {
     },
   });
 
-  // console.log('navigate+-+-styles', styles);
 
   return (
     <TabObject.Navigator
@@ -294,7 +296,16 @@ function TabNavigator() {
                   />
                 </View>
                 <Text style={[styles.tabBarLabel, {width: '100%'}]}>
-                  {focused ? appConstant.HOME_SCREEN : ''}
+                {focused ?
+                  route &&
+                  route.state &&
+                  route.state.routes[0] &&
+                  route.state.routes[0].state &&
+                  route.state.routes[0].state.index
+                    ? route.state.routes[0].state?.index !== 0
+                      ? ''
+                      : appConstant.HOME_SCREEN
+                    : appConstant.HOME_SCREEN : '' }
                 </Text>
               </View>
             ) : (
@@ -307,7 +318,16 @@ function TabNavigator() {
                   />
                 </View>
                 <Text style={styles.tabBarLabel}>
-                  {focused ? appConstant.HOME_SCREEN : ''}
+                  {focused ?
+                  route &&
+                  route.state &&
+                  route.state.routes[0] &&
+                  route.state.routes[0].state &&
+                  route.state.routes[0].state.index
+                    ? route.state.routes[0].state?.index !== 0
+                      ? ''
+                      : appConstant.HOME_SCREEN
+                    : appConstant.HOME_SCREEN : '' }
                 </Text>
               </View>
             ),
