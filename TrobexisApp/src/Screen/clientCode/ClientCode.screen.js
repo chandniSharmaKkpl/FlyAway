@@ -109,7 +109,6 @@ const ClientCodeScreen = props => {
 
   useFocusEffect(
     React.useCallback(() => {
-
       //** Whenever user will comeback to this view we will fetch all client codes and show them in the list  */
 
       getClientCodes();
@@ -266,8 +265,6 @@ const ClientCodeScreen = props => {
     );
   };
 
- 
-
   const onClickOutside = () => {
     Keyboard.dismiss();
     setIsClientCodeListShow(false);
@@ -288,9 +285,10 @@ const ClientCodeScreen = props => {
             />
           </View>
           <View style={styles.titleView}>
-            
             <Text style={styles.titleStyle}>Client Code</Text>
-            <Text style={[styles.appVersion ,{textAlign: 'center'}]}>App Version 2.5(12)</Text>
+            <Text style={[styles.appVersion, {textAlign: 'center'}]}>
+              App Version 2.5(12)
+            </Text>
           </View>
 
           <View style={styles.inputView}>

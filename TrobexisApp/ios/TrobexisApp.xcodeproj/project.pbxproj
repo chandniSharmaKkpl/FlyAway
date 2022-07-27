@@ -16,7 +16,7 @@
 		6DFB854A79DD49419A133B32 /* libPods-TrobexisApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C0298EDD8FC4D29FD5596975 /* libPods-TrobexisApp.a */; };
 		7A6BA8AC876647F69B30607F /* Barlow-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3B61A9E17923407891B596CB /* Barlow-Bold.ttf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		A92AD1D726D8D36600DBE2F3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A92AD1D626D8D36600DBE2F3 /* GoogleService-Info.plist */; };
+		A95EFAF42891394A005C07C2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A95EFAF328913949005C07C2 /* GoogleService-Info.plist */; };
 		E520437A44A34BA7A6CFE99B /* Barlow-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4EE88936E4CD46699EEA8623 /* Barlow-SemiBold.ttf */; };
 /* End PBXBuildFile section */
 
@@ -48,7 +48,7 @@
 		5A1B86F04E8180DC46B3F571 /* Pods-TrobexisApp-TrobexisAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrobexisApp-TrobexisAppTests.release.xcconfig"; path = "Target Support Files/Pods-TrobexisApp-TrobexisAppTests/Pods-TrobexisApp-TrobexisAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = TrobexisApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		87F8242C1C9B4834AC2B0D5E /* Barlow-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-Regular.ttf"; path = "../assets/Fonts/Barlow-Regular.ttf"; sourceTree = "<group>"; };
-		A92AD1D626D8D36600DBE2F3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		A95EFAF328913949005C07C2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A9FBD987273A4B5C000FC356 /* TrobexisApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = TrobexisApp.entitlements; path = TrobexisApp/TrobexisApp.entitlements; sourceTree = "<group>"; };
 		B11F6FB4554C488DF3E4FCB8 /* libPods-TrobexisApp-TrobexisAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TrobexisApp-TrobexisAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0298EDD8FC4D29FD5596975 /* libPods-TrobexisApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TrobexisApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -95,6 +95,7 @@
 		13B07FAE1A68108700A75B9A /* TrobexisApp */ = {
 			isa = PBXGroup;
 			children = (
+				A95EFAF328913949005C07C2 /* GoogleService-Info.plist */,
 				A9FBD987273A4B5C000FC356 /* TrobexisApp.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -136,7 +137,6 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				A92AD1D626D8D36600DBE2F3 /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* TrobexisApp */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* TrobexisAppTests */,
@@ -272,7 +272,7 @@
 				7A6BA8AC876647F69B30607F /* Barlow-Bold.ttf in Resources */,
 				279AB4C10EDB471C9EB49565 /* Barlow-Regular.ttf in Resources */,
 				E520437A44A34BA7A6CFE99B /* Barlow-SemiBold.ttf in Resources */,
-				A92AD1D726D8D36600DBE2F3 /* GoogleService-Info.plist in Resources */,
+				A95EFAF42891394A005C07C2 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -574,7 +574,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.2excel.trobexisapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.trobexisapp;
 				PRODUCT_NAME = TrobexisApp;
 				PROVISIONING_PROFILE_SPECIFIER = "Trobexis Development Profile";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -606,7 +606,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.2excel.trobexisapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.trobexisapp;
 				PRODUCT_NAME = TrobexisApp;
 				PROVISIONING_PROFILE_SPECIFIER = "Trobexis AppStore Distribution Profile";
 				SWIFT_VERSION = 5.0;
