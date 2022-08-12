@@ -32,6 +32,7 @@ import {
 import localDB from '../../database/localDb';
 import {checkStringContainsSpecialChar} from '../../common';
 import {checkNotifications} from 'react-native-permissions';
+import firebase from '@react-native-firebase/app';
 
 // import {
 //   widthPercentageToDP as wp,
@@ -74,7 +75,7 @@ const ClientCodeScreen = props => {
 
   const [deviceInfo, setDeviceInfo] = useState({}); // Getting user device info from push controller.
   const [isAlertShow, setIsAlertShow] = useState(false); // Android back handling show alert
- const [notificationStatus, setnotificationStatus] = useState();
+  const [notificationStatus, setnotificationStatus] = useState();
   //const [countBack, setCountBack] = React.useState(0)
   var countBack = 0;
 
@@ -101,12 +102,12 @@ const ClientCodeScreen = props => {
   }, []);
 
   useEffect(() => {
-    (async () => {
+    async () => {
       const authStatus = await messaging().requestPermission();
-      setnotificationStatus(authStatus)
-      console.log(" auth status in client code  ----------->",authStatus);  
-    })   
-  }, [notificationStatus])
+      setnotificationStatus(authStatus);
+      console.log(' auth status in client code  ----------->', authStatus);
+    };
+  }, [notificationStatus]);
 
   //   const getCurrentHourFormat = async () => {
   //     const is24Hour = await is24HourFormat()
@@ -198,7 +199,7 @@ const ClientCodeScreen = props => {
     setDeviceInfo(value);
   };
 
-    //**Getting notifcation status from push controller */
+  //**Getting notifcation status from push controller */
 
   const getNotificationStatus = value => {
     setnotificationStatus(value);
@@ -213,50 +214,57 @@ const ClientCodeScreen = props => {
     return true;
   };
 
-  const submitForm =async() => {
+  const submitForm = async () => {
+    // checking notification permissions is not allow then return user back
+    // console.log(" notification status submit in client code  ----------->",notificationStatus);
 
-// checking notification permissions is not allow then return user back 
-// console.log(" notification status submit in client code  ----------->",notificationStatus);  
+    const authStatus = await messaging().requestPermission();
+    const enabled =
+      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
-  const authStatus = await messaging().requestPermission();
-  const enabled =
-    authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-    authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+    if (enabled) {
+      
+      setIsClientCodeListShow(false);
 
-if (enabled) {
-  console.log(" in conditon yes ");
-  setIsClientCodeListShow(false);
-  if (clientCode === '') {
-    setError(alertMsgConstant.CLIENT_CODE_NOT_EMPTY);
-  } else {
-    //** Special character and space not allowed  */
-    if (checkStringContainsSpecialChar(clientCode)) {
-      setError(alertMsgConstant.SPECIAL_CHAR_NOT_ALLOW);
+      if (clientCode === '') {
+        setError(alertMsgConstant.CLIENT_CODE_NOT_EMPTY);
+     
+      } else {
+       
+        //** Special character and space not allowed  */
+        if (checkStringContainsSpecialChar(clientCode)) {
+          setError(alertMsgConstant.SPECIAL_CHAR_NOT_ALLOW);
+          return;
+        }
+
+        //** Remove all spaces from the client code */
+        let trimClientCode = clientCode.replace(/ /g, '');
+
+
+        const messaging1 = firebase.messaging();
+        messaging1.getToken().then(deviceToken => {
+          if (deviceToken) {
+            // Call api here
+            let param = {
+              client: trimClientCode,
+              DeviceType: Platform.OS === 'android' ? 'ANDROID' : 'IOS',
+              DeviceId: deviceToken,
+              navigation: navigation,
+            };
+            dispatch(setLoader(true));
+            dispatch(requestToGetApiBase(param));
+          }
+        });
+      }
+    } else {
+      
+      toast.show(alertMsgConstant.PLEASE_TURN_ON_YOUR_NOTIFCATION, {
+        type: alertMsgConstant.TOAST_DANGER,
+      });
       return;
     }
-
-    //** Remove all spaces from the client code */
-    let trimClientCode = clientCode.replace(/ /g, '');
-
-    // Call api here
-    let param = {
-      client: trimClientCode,
-      DeviceType: Platform.OS === 'android' ? 'ANDROID' : 'IOS',
-      DeviceId: deviceInfo.device_token,
-      navigation: navigation,
-    };
-    dispatch(setLoader(true));
-    dispatch(requestToGetApiBase(param));
-  }
-}else{
-  console.log(" in conditon no ");
-  toast.show(alertMsgConstant.PLEASE_TURN_ON_YOUR_NOTIFCATION, {
-    type: alertMsgConstant.TOAST_DANGER,
-  });
-  return;
-}
   };
-
 
   const renderClientCode = item => {
     return (
@@ -377,8 +385,11 @@ if (enabled) {
           onPressBigBtn={() => {}}
         />
       ) : null}
-
-      <PushController getDeviceInfo={getDeviceInfo} navigation={navigation} getNotificationStatus={getNotificationStatus} />
+      <PushController
+        getDeviceInfo={getDeviceInfo}
+        navigation={navigation}
+        getNotificationStatus={getNotificationStatus}
+      />
     </>
   );
 };

@@ -38,14 +38,13 @@ function PushController(props) {
           authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
           authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
-          console.log(" auth status is ----------->",authStatus);
+          console.log(" auth status is -----%%%%%%%%%%%%%%%%%------>",authStatus);
           props.getNotificationStatus(authStatus);
 
         if (enabled) {
           // console.log('Authorization status:', authStatus);
           const messaging1 = firebase.messaging();
           messaging1.getToken().then(deviceToken => {
-            // console.log(' deviceToken for ios ', deviceToken);
 
             let device_info = {};
             if (deviceToken) {
