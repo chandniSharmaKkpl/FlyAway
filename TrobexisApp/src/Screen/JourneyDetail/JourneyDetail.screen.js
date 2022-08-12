@@ -557,13 +557,13 @@ const JourneyDetail = props => {
                       {alignItems: 'flex-end', lineHeight: 25},
                     ]}>
                     {
-                    // item.Type == appConstant.OTHER_GROUND_TRANSPORT ||
-                    // item.Type == appConstant.DRIVE_IN_OUT_TRANSPORT ||
-                    // item.Type == appConstant.CAR_HIRE ||
+                    item.Type == appConstant.OTHER_GROUND_TRANSPORT ||
+                    item.Type == appConstant.DRIVE_IN_OUT_TRANSPORT ||
+                    item.Type == appConstant.CAR_HIRE ||
                     item.Type == appConstant.CHARTER_FLIGHT ||
-                    item.Type == appConstant.COMMERCIAL_FLIGHT 
-                    // item.Type == appConstant.TRANSFER ||
-                    // item.Type == appConstant.MARINE_TRANSFER
+                    item.Type == appConstant.COMMERCIAL_FLIGHT ||
+                    item.Type == appConstant.TRANSFER ||
+                    item.Type == appConstant.MARINE_TRANSFER
                       ? convertDateTime(
                           item.Details[0].EndDate,
                           false,
@@ -580,13 +580,15 @@ const JourneyDetail = props => {
                         )}
                   </Text>
 
-                  {item.Type == appConstant.OTHER_GROUND_TRANSPORT ||
-                  item.Type == appConstant.DRIVE_IN_OUT_TRANSPORT ||
-                  item.Type == appConstant.CAR_HIRE ||
+                  {
+                  // item.Type == appConstant.OTHER_GROUND_TRANSPORT ||
+                  // item.Type == appConstant.DRIVE_IN_OUT_TRANSPORT ||
+                  // item.Type == appConstant.CAR_HIRE ||
                   item.Type == appConstant.CHARTER_FLIGHT ||
-                  item.Type == appConstant.COMMERCIAL_FLIGHT ||
-                  item.Type == appConstant.TRANSFER ||
-                  item.Type == appConstant.MARINE_TRANSFER ? (
+                  item.Type == appConstant.COMMERCIAL_FLIGHT 
+                  // item.Type == appConstant.TRANSFER ||
+                  // item.Type == appConstant.MARINE_TRANSFER 
+                  ? (
                     days > 0 && (
                       <Text
                         style={[

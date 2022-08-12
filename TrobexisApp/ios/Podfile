@@ -29,6 +29,7 @@ target 'TrobexisApp' do
   pod 'RNSVG', :path => '../node_modules/react-native-svg'
   pod 'Firebase/Crashlytics'
   pod 'FirebasePerformance'
+  pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications.podspec"
 
 
 #  pod 'RNDeviceTimeFormat', :path => '../node_modules/react-native-device-time-format'

@@ -38,6 +38,9 @@ function PushController(props) {
           authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
           authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
+          console.log(" auth status is ----------->",authStatus);
+          props.getNotificationStatus(authStatus);
+
         if (enabled) {
           // console.log('Authorization status:', authStatus);
           const messaging1 = firebase.messaging();
@@ -64,6 +67,10 @@ function PushController(props) {
             props.getDeviceInfo(device_info);
           });
         } else {
+          console.log(" else part disable notifications   ====== ",authStatus);
+          toast.show(alertMsgConstant.PLEASE_TURN_ON_YOUR_NOTIFCATION, {
+            type: alertMsgConstant.TOAST_DANGER,
+          });
         }
       })();
 

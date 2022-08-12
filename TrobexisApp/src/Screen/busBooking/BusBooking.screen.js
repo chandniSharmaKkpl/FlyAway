@@ -119,7 +119,7 @@ const BusBookingScreen = (props) => {
         functionUrl = functionUrl.replace(":actionKey", "BUSBOOKING");
         
         // console.log(" ++++++ ", responseBusBooking);
-        console.log(" ------- ", functionUrl);
+        console.log("functionUrl -------> ", JSON.stringify(responseBusBooking.accessTokenBusBooking.token));
 
         setBusBookingUrl(functionUrl);
         setHeadersWeb({
@@ -164,10 +164,11 @@ const BusBookingScreen = (props) => {
     <>
       <WebView
         onLoad={() => hideSpinner()}
+             startInLoadingState={false}
         style={styles.webview}
         source={{
           uri: busBookingUrl,
-          headers: headersWeb,
+          // headers: headersWeb,
         }}
       ></WebView>
       {/* <TextInput 
