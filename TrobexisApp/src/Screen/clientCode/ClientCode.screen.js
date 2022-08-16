@@ -301,7 +301,7 @@ const ClientCodeScreen = props => {
           <View style={styles.titleView}>
             <Text style={styles.titleStyle}>Client Code</Text>
             <Text style={[styles.appVersion, {textAlign: 'center'}]}>
-              App Version 5.0 (1.0)
+              App Version 6.0 (1.0)
             </Text>
           </View>
 
