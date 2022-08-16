@@ -38,7 +38,6 @@ function PushController(props) {
           authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
           authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
-          console.log(" auth status is -----%%%%%%%%%%%%%%%%%------>",authStatus);
           props.getNotificationStatus(authStatus);
 
         if (enabled) {
@@ -49,6 +48,8 @@ function PushController(props) {
             let device_info = {};
             if (deviceToken) {
               device_info.device_token = deviceToken ? deviceToken : '';
+              console.log(" deviceToken is -----%%%%%%%%%%%%%%%%%------>",deviceToken);
+
             }
             DeviceInfo.syncUniqueId().then(uniqueId => {
               device_info.device_uuid = uniqueId;

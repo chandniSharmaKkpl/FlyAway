@@ -31,7 +31,6 @@ import {
 
 import localDB from '../../database/localDb';
 import {checkStringContainsSpecialChar} from '../../common';
-import {checkNotifications} from 'react-native-permissions';
 import firebase from '@react-native-firebase/app';
 
 // import {
@@ -216,7 +215,7 @@ const ClientCodeScreen = props => {
 
   const submitForm = async () => {
     // checking notification permissions is not allow then return user back
-    // console.log(" notification status submit in client code  ----------->",notificationStatus);
+    console.log(" notification status submit in client code  ----------->",notificationStatus);
 
     const authStatus = await messaging().requestPermission();
     const enabled =
@@ -253,6 +252,8 @@ const ClientCodeScreen = props => {
               navigation: navigation,
             };
             dispatch(setLoader(true));
+
+
             dispatch(requestToGetApiBase(param));
           }
         });
@@ -300,7 +301,7 @@ const ClientCodeScreen = props => {
           <View style={styles.titleView}>
             <Text style={styles.titleStyle}>Client Code</Text>
             <Text style={[styles.appVersion, {textAlign: 'center'}]}>
-              App Version 4.0 (1.0)
+              App Version 5.0 (1.0)
             </Text>
           </View>
 

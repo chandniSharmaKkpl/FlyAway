@@ -22,6 +22,8 @@ import PushController from '../../component/PushControllerTemp';
 import {WebView} from 'react-native-webview';
 import {useRoute, useNavigation} from '@react-navigation/core';
 import localDb from '../../database/localDb';
+import messaging from '@react-native-firebase/messaging';
+import firebase from '@react-native-firebase/app';
 
 const LoginScreen = props => {
   const [isClickEye, setIsClickEye] = useState(false);
@@ -75,17 +77,21 @@ const LoginScreen = props => {
     const tempUser = localDb.getUser();
     Promise.resolve(tempUser).then(response => {
       if (response) {
-        if (response.responseLoginUrl) {
+        console.log(" response ---------->", response);
+        if (response.loginUrl) {
+            setLoginUrl(response.loginUrl);
+        } else {
+          console.log(' else login url ---', response );
           let tempUrl = response.responseLoginUrl;
           tempUrl = tempUrl.replace(':mobileDeviceId', deviceInfo.device_token);
           console.log(' url ---', tempUrl);
           setLoginUrl(tempUrl);
-        } else {
-          setLoginUrl(response.loginUrl);
         }
       }
     });
   }, [deviceInfo]);
+
+ 
 
   function Validate({email, password}) {
     let emailErr = '';
