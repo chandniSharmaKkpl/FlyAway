@@ -48,7 +48,6 @@ function PushController(props) {
             let device_info = {};
             if (deviceToken) {
               device_info.device_token = deviceToken ? deviceToken : '';
-              console.log(" deviceToken is -----%%%%%%%%%%%%%%%%%------>",deviceToken);
 
             }
             DeviceInfo.syncUniqueId().then(uniqueId => {
@@ -67,7 +66,6 @@ function PushController(props) {
             props.getDeviceInfo(device_info);
           });
         } else {
-          console.log(" else part disable notifications   ====== ",authStatus);
           toast.show(alertMsgConstant.PLEASE_TURN_ON_YOUR_NOTIFCATION, {
             type: alertMsgConstant.TOAST_DANGER,
           });
@@ -80,7 +78,6 @@ function PushController(props) {
           remoteMessage.data &&
           remoteMessage.data.authenticate
         ) {
-          console.log("remoteMessage received ====== ", remoteMessage);
           let dictAuthenticate = JSON.parse(remoteMessage.data.authenticate);
 
           if (dictAuthenticate.status === 'SUCCESS') {
@@ -102,7 +99,6 @@ function PushController(props) {
                   toast.show(remoteMessage.notification.body, {
                     type: alertMsgConstant.TOAST_SUCCESS,
                   });
-                  console.log("isSuccessMsgShow --->", remoteMessage.notification.body);
                 }
               });
             } else {
