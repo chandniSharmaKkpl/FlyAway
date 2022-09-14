@@ -18,8 +18,8 @@ export default {
     color: appColor.BLACK,
     paddingLeft: '2%',
     paddingRight: '2%',
-    paddingTop: '2%',
-    paddingBottom: '2%',
+    // paddingTop: '2%',
+    // paddingBottom: '1%',
     width: '80%',
     // backgroundColor: appColor.GRAY,
     // height:hp('4%')
