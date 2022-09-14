@@ -169,7 +169,7 @@ export const getApprovalDetail = argumentData => {
         let response1 = response.data.data;
         console.log(
           ' approval detail --->',
-          response1,
+          JSON.stringify(response1,null,4),
           'approvalId',
           approvalId,
         );

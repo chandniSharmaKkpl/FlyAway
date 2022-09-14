@@ -1,4 +1,5 @@
 export default {
+  PLEASE_TURN_ON_YOUR_NOTIFCATION: "Please turn on your notification",
   WARNING: 'Warning',
   NO_INTERNET: 'Data fetching will take time in low internet connection!',
   EMAIL_NOT_EMPTY: 'Email cannot be empty',

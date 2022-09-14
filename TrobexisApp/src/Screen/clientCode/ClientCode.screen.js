@@ -31,6 +31,8 @@ import {
 
 import localDB from '../../database/localDb';
 import {checkStringContainsSpecialChar} from '../../common';
+import firebase from '@react-native-firebase/app';
+
 // import {
 //   widthPercentageToDP as wp,
 //   heightPercentageToDP as hp,
@@ -52,6 +54,9 @@ import {
 } from '../../component/BioMetricAuth';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import crashlytics from '@react-native-firebase/crashlytics';
+import messaging from '@react-native-firebase/messaging';
+
 // import moment from 'moment';
 
 const ClientCodeScreen = props => {
@@ -69,6 +74,7 @@ const ClientCodeScreen = props => {
 
   const [deviceInfo, setDeviceInfo] = useState({}); // Getting user device info from push controller.
   const [isAlertShow, setIsAlertShow] = useState(false); // Android back handling show alert
+  const [notificationStatus, setnotificationStatus] = useState();
   //const [countBack, setCountBack] = React.useState(0)
   var countBack = 0;
 
@@ -94,6 +100,14 @@ const ClientCodeScreen = props => {
     };
   }, []);
 
+  useEffect(() => {
+    async () => {
+      const authStatus = await messaging().requestPermission();
+      setnotificationStatus(authStatus);
+      console.log(' auth status in client code  ----------->', authStatus);
+    };
+  }, [notificationStatus]);
+
   //   const getCurrentHourFormat = async () => {
   //     const is24Hour = await is24HourFormat()
   //     var locale = window.navigator.userLanguage || window.navigator.language;
@@ -109,7 +123,6 @@ const ClientCodeScreen = props => {
 
   useFocusEffect(
     React.useCallback(() => {
-
       //** Whenever user will comeback to this view we will fetch all client codes and show them in the list  */
 
       getClientCodes();
@@ -185,6 +198,12 @@ const ClientCodeScreen = props => {
     setDeviceInfo(value);
   };
 
+  //**Getting notifcation status from push controller */
+
+  const getNotificationStatus = value => {
+    setnotificationStatus(value);
+  };
+
   const handleBackButtonClick = () => {
     // countBack = countBack + 1;
     // if (countBack > 1)
@@ -194,65 +213,59 @@ const ClientCodeScreen = props => {
     return true;
   };
 
-  const submitForm = () => {
-    setIsClientCodeListShow(false);
-    if (clientCode === '') {
-      setError(alertMsgConstant.CLIENT_CODE_NOT_EMPTY);
-    } else {
-      //** Special character and space not allowed  */
-      if (checkStringContainsSpecialChar(clientCode)) {
-        setError(alertMsgConstant.SPECIAL_CHAR_NOT_ALLOW);
-        return;
+  const submitForm = async () => {
+    // checking notification permissions is not allow then return user back
+    console.log(" notification status submit in client code  ----------->",notificationStatus);
+
+    const authStatus = await messaging().requestPermission();
+    const enabled =
+      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+    if (enabled) {
+      
+      setIsClientCodeListShow(false);
+
+      if (clientCode === '') {
+        setError(alertMsgConstant.CLIENT_CODE_NOT_EMPTY);
+     
+      } else {
+       
+        //** Special character and space not allowed  */
+        if (checkStringContainsSpecialChar(clientCode)) {
+          setError(alertMsgConstant.SPECIAL_CHAR_NOT_ALLOW);
+          return;
+        }
+
+        //** Remove all spaces from the client code */
+        let trimClientCode = clientCode.replace(/ /g, '');
+
+
+        const messaging1 = firebase.messaging();
+        messaging1.getToken().then(deviceToken => {
+          if (deviceToken) {
+            // Call api here
+            let param = {
+              client: trimClientCode,
+              DeviceType: Platform.OS === 'android' ? 'ANDROID' : 'IOS',
+              DeviceId: deviceToken,
+              navigation: navigation,
+            };
+            dispatch(setLoader(true));
+
+
+            dispatch(requestToGetApiBase(param));
+          }
+        });
       }
-
-      //** Remove all spaces from the client code */
-      let trimClientCode = clientCode.replace(/ /g, '');
-
-      // Call api here
-      let param = {
-        client: trimClientCode,
-        DeviceType: Platform.OS === 'android' ? 'ANDROID' : 'IOS',
-        DeviceId: deviceInfo.device_token,
-        navigation: navigation,
-      };
-      dispatch(setLoader(true));
-      dispatch(requestToGetApiBase(param));
+    } else {
+      
+      toast.show(alertMsgConstant.PLEASE_TURN_ON_YOUR_NOTIFCATION, {
+        type: alertMsgConstant.TOAST_DANGER,
+      });
+      return;
     }
   };
-
-  const checkResponseCode = useCallback(() => {
-    if (
-      responseData &&
-      responseData?.responseAccountUrl &&
-      responseData?.responseAccountUrl.length > 0 &&
-      responseData?.responseAccountUrl[0].code &&
-      responseData?.responseAccountUrl[0].code === 'Authenticate'
-    ) {
-      console.log(' in chec res', responseData.responseAccountUrl);
-      // let loginUrl = responseData.responseAccountUrl[0].value;
-      // loginUrl = loginUrl.replace(':mobileDeviceId', deviceInfo.device_token);
-
-      // let user = {
-      //   clientToken: responseData.clientToken,
-      //   deviceId: deviceInfo.device_token,
-      //   apiBaseUrl: responseData.apiBaseData.value,
-      //   loginUrl: loginUrl,
-      //   userId: 'P000000442',
-      // };
-      // localDB.setUser(user);
-      saveClientCodeLocally();
-      dispatch(setLoader(false));
-
-      // // dispatch({type: actionConstant.ACTION_GET_API_BASE_SUCCESS, payload:{}})
-      // let arrayTemp = responseData.responseAccountUrl;
-      // arrayTemp = [];
-      // responseData.responseAccountUrl = arrayTemp;
-
-      navigation.navigate(appConstant.DRAWER_NAVIGATOR); // Temp
-
-      // navigation.navigate(appConstant.LOGIN, {loginUrl: loginUrl});
-    }
-  }, [responseData]);
 
   const renderClientCode = item => {
     return (
@@ -265,8 +278,6 @@ const ClientCodeScreen = props => {
       </Pressable>
     );
   };
-
- 
 
   const onClickOutside = () => {
     Keyboard.dismiss();
@@ -288,9 +299,10 @@ const ClientCodeScreen = props => {
             />
           </View>
           <View style={styles.titleView}>
-            
             <Text style={styles.titleStyle}>Client Code</Text>
-            <Text style={[styles.appVersion ,{textAlign: 'center'}]}>App Version 2.5(12)</Text>
+            <Text style={[styles.appVersion, {textAlign: 'center'}]}>
+              App Version 9.0 (1.0)
+            </Text>
           </View>
 
           <View style={styles.inputView}>
@@ -374,8 +386,11 @@ const ClientCodeScreen = props => {
           onPressBigBtn={() => {}}
         />
       ) : null}
-
-      <PushController getDeviceInfo={getDeviceInfo} navigation={navigation} />
+      <PushController
+        getDeviceInfo={getDeviceInfo}
+        navigation={navigation}
+        getNotificationStatus={getNotificationStatus}
+      />
     </>
   );
 };

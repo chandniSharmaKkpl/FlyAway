@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>970528940197-m782snj6f45it4keanb1q9iko6hb7gqq.apps.googleusercontent.com</string>
+	<string>970528940197-n75fnn8psg5bo3ukfg83d902mt3o3ugv.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.970528940197-m782snj6f45it4keanb1q9iko6hb7gqq</string>
+	<string>com.googleusercontent.apps.970528940197-n75fnn8psg5bo3ukfg83d902mt3o3ugv</string>
 	<key>API_KEY</key>
 	<string>AIzaSyBxP3DBvOMvxJLEBEUQ57LBNKWDn-Ov66g</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.2excel.trobexisapp</string>
+	<string>com.trobexisapp</string>
 	<key>PROJECT_ID</key>
 	<string>trobexis-155fc</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:970528940197:ios:119bbad54294a4d9dd2d4c</string>
+	<string>1:970528940197:ios:cc311b51e9848a31dd2d4c</string>
 </dict>
 </plist>

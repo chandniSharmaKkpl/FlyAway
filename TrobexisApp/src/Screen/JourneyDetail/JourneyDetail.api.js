@@ -3,12 +3,14 @@ import {apiConstant, appConstant} from '../../constant';
 import axios from 'axios';
 import APIERROR from '../../api/apiBaseError';
 
-export const getJourneyDetail = argumentData => {
+export const getJourneyDetail = async argumentData => {
   let itineraryId = argumentData.data.itineraryId;
   let deviceId = argumentData.data.user.deviceId;
   let apiBaseUrl = argumentData.data.user.apiBaseUrl;
   let clientToken = argumentData.data.user.clientToken;
   let clientCode = argumentData.data.user.client;
+  let userId = argumentData.data.user.userId;
+
 
   console.log(" argData ------",argumentData);
   let instance = axios.create({
@@ -64,20 +66,16 @@ export const getJourneyDetail = argumentData => {
 
  // console.log('itineraryId ==>', itineraryId);
 
-  return instance
-    .get(urlString)
-
-    .then(response =>
-      Promise.resolve({
-        data: response,
-      }).then(response => {
-        let response1 = response.data.data;
-        //  console.log(" jourenyDetail Response -------> ", response1);
-        return response1;
-      }),
-    )
-    .catch(err => {
-      console.log('88 api Erorr: ', err.response);
-      return err.response.data;
+  try {
+    const response = await instance
+      .get(urlString);
+    const response_1 = await Promise.resolve({
+      data: response,
     });
+    let response1 = response_1.data.data;
+    return response1;
+  } catch (err) {
+    console.log('88 api Erorr: ', err);
+    return err;
+  }
 };

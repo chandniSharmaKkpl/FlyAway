@@ -128,17 +128,18 @@ export function* workerGetAccountUrl(argumentData, apiBase, clientToken) {
         payload: responseAccountUrl,
       });
 
+      let loginUrlTemp = '';
       let loginUrl = '';
       let responseLoginUrl = '';
       let functionUrl = '';
 
       if (responseAccountUrl && Array.isArray(responseAccountUrl)) {
-        loginUrl = responseAccountUrl[0].value;
+        loginUrlTemp = responseAccountUrl[0].value;
         responseLoginUrl = responseAccountUrl[0].value;
-        loginUrl = loginUrl.replace(':mobileDeviceId', argumentData.DeviceId);
+        loginUrl = loginUrlTemp.replace(':mobileDeviceId', argumentData.DeviceId);
 
         functionUrl = responseAccountUrl[1].value;
-        console.log(' responseAccountUrl ======', responseAccountUrl);
+        //  console.log(' responseAccountUrl ======', responseAccountUrl);
       } else {
       }
 
@@ -150,7 +151,7 @@ export function* workerGetAccountUrl(argumentData, apiBase, clientToken) {
         loginUrl: loginUrl,
         responseLoginUrl: responseLoginUrl,
         functionUrl: functionUrl,
-      //  userId: 'SHARRIS', // Temp
+        userId: 'SHARRIS', // Temp
       };
       localDB.setUser(user);
 
@@ -175,7 +176,7 @@ export function* workerGetAccountUrl(argumentData, apiBase, clientToken) {
 
       // ** For stopping loader **//
       yield put(setLoader(false));
-      //  argumentData.navigation.navigate(appConstant.DRAWER_NAVIGATOR); // Temp
+     //  argumentData.navigation.navigate(appConstant.DRAWER_NAVIGATOR); // Temp
       let dict = {loginUrl: loginUrl, responseLoginUrl: responseLoginUrl};
       argumentData.navigation.navigate(appConstant.LOGIN, {data: dict});
     }
@@ -200,6 +201,5 @@ export function* watchGetApiBase() {
 }
 
 export default watchGetApiBase;
-
 
 //https://app-aue.trobexisuat.com/TONEAPPUAT/MobileApp/MobileFunctions.aspx?key=20220624072012653d41bf41610a4408dbba51dded52ff14fd&action=BUSBOOKING

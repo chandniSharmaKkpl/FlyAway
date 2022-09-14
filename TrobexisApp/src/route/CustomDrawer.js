@@ -77,29 +77,32 @@ export default CustomDrawer = () => {
   const menuName = [
     {
       id: 1,
+      icon: imageConstant.IMAGE_ABOUT_PNG,
       name: 'About',
       func: aboutApp,
     },
     {
       id: 2,
+      icon: imageConstant.IMAGE_SCAN_PNG,
       name: 'Scan QR Code',
       func: scanCode,
     }
   ];
 
-  const Item = ({name, func}) => (
+  const Item = ({name, func, icon}) => (
     <TouchableOpacity
       onPress={() => {
         func();
       }}>
       <View style={styles.item}>
+        <Image source={icon} style={{marginRight: 15, height: 24, width: 24}}/>
         <Text style={styles.title}>{name}</Text>
       </View>
       <View style={styles.dividerLine}></View>
     </TouchableOpacity>
   );
 
-  const renderItem = ({item}) => <Item name={item.name} func={item.func} />;
+  const renderItem = ({item}) => <Item name={item.name} func={item.func} icon={item.icon} />;
 
   return (
     <>
@@ -209,6 +212,8 @@ export default CustomDrawer = () => {
 const styles = StyleSheet.create({
   item: {
     padding: 20,
+    flexDirection: 'row',
+    alignItems : 'center'
   },
   dividerLine: {
     borderWidth: 0.3,

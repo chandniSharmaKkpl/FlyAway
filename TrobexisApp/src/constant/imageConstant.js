@@ -21,6 +21,8 @@ export default {
   IMAGE_DRAWER_BG: require('../../assets/image/home_page/drawer_top_bg.png'),
   IMAGE_CHARTER_FLIGHT_PNG: require('../../assets/image/home_page/qantas-airways.png'),
   IMAGE_TELEPHONE_PNG: require('../../assets/image/home_page/telephone.png'),
+  IMAGE_SCAN_PNG : require('../../assets/image/home_page/scanIcon.png'),
+  IMAGE_ABOUT_PNG : require('../../assets/image/home_page/aboutIcon.png'),
 
   // Make a booking
 

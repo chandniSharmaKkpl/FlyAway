@@ -234,13 +234,12 @@ const ReasonDecline = props => {
                       : '94%',
                 },
               ]}>
-              {/* <View> */}
+              
               {responseGetReasonList.isRequesting ? (
                 <View style={styles.loaderFlatList}>
                   <ActivityIndicator size="large" color={appColor.NAVY_BLUE} />
                 </View>
               ) : (
-                // <ScrollView>
                 <FlatList
                   data={
                     responseGetReasonList && responseGetReasonList.declineReason
