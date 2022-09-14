@@ -185,7 +185,6 @@ const JourneyDetail = props => {
     if (item.Details && item.Details.length > 0 && item.Details[0].Flight) {
       let flightStr = item.Details[0].Flight;
       let supplierType1 = flightStr.slice(0, 2);
-      console.log(' ---------> Supplier type -----', supplierType1);
       const image = Images[supplierType1];
       return image && image();
     }

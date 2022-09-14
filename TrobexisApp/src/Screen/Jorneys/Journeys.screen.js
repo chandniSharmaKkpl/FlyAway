@@ -83,9 +83,9 @@ const JourneyList = (props) => {
   const renderItem = (item) => {
     let itemDetail = item.item;
     let date = itemDetail.requestdate;
-    // setJourneyListDateTime(itemDetail);
     // let requestdate = date ? getDateInFormat(date, true, false) : '';
-
+    // setJourneyListDateTime();
+    console.log("itemDetail ===>", itemDetail);
     return (
       <View style={styles.viewOutSide}>
         <Pressable
