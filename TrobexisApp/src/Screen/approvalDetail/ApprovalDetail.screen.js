@@ -10,13 +10,7 @@ import {useRoute, useNavigation} from '@react-navigation/core';
 import {requestAcceptApproval} from '../approvalList/ApprovalList.action';
 import {appColor, appConstant, alertMsgConstant} from '../../constant';
 import {requestToGetApprovalDetail} from './ApprovalDetail.action';
-import {
-  approvalDateTimeFormate,
-  convertDateTime,
-  getDateInFormat,
-  msToTime,
-} from '../../common';
-import moment from 'moment';
+import { approvalDateTimeFormate } from '../../common';
 
 const arrayApprovalCode = [
   {code: 'SAR', codeName: 'Site Access Request'},
@@ -78,6 +72,7 @@ const ApprovalDetail = props => {
   }, []);
 
   const returnRowView = (title, subTitle, type) => {
+    console.log(`Title : ${title}, subTitle : ${subTitle}`);
     // if (type == 'DateTime') {
     //   return (
     //     <View style={[styles.viewRow]}>
@@ -121,9 +116,9 @@ const ApprovalDetail = props => {
         approvalId: route.params.approvalId ? route.params.approvalId : '',
         user: response,
         navigation: props.navigation,
-        screenName: appConstant.APPROVAL_DETAIL
+        screenName: appConstant.APPROVAL_DETAIL,
       };
-       dispatch(requestAcceptApproval(param));
+      dispatch(requestAcceptApproval(param));
     });
   };
 
@@ -195,22 +190,26 @@ const ApprovalDetail = props => {
         <>
           {arraySort &&
             arraySort.map((item, index) => {
-              // if (item.Type == 'DateTime') {
-              //   return (
-              //     <View style={[styles.viewRow]}>
-              //       <Text style={styles.textBlue}>{item.Label}:</Text>
-              //       <Text style={styles.textSubTitle}>
-              //         {approvalDateTimeFormate(
-              //           item.Data,
-              //           false,
-              //           false,
-              //           true,
-              //           responseUser.userProfile.settings,
-              //         )}
-              //       </Text>
-              //     </View>
-              //   );
-              // }
+              console.log("item.Type", item.Data);
+              if (item.Type == 'DateTime' && item.Data) {
+                return (
+                  <View style={[styles.viewRow]}>
+                    <Text style={styles.textBlue}>{item.Label}:</Text>
+                    <Text style={styles.textSubTitle}>
+                      {approvalDateTimeFormate(
+                        item.Data,
+                        false,
+                        false,
+                        true,
+                        responseUser.userProfile.settings,
+                      )}
+                    </Text>
+                  </View>
+                );
+              }
+              if (!item.Data) {
+                return <></>;
+              }
               return (
                 <View style={[styles.viewRow]}>
                   <Text style={styles.textBlue}>{item.Label}:</Text>
@@ -269,8 +268,8 @@ const ApprovalDetail = props => {
                     {getDataFromResponse(responseDetail, 'Status')}
                   </Text>
                 </View>
-                <View style={styles.viewGrayLine} />
-                <View style={styles.viewContainRow}>
+                {/* <View style={styles.viewGrayLine} /> */}
+                {/* <View style={styles.viewContainRow}>
                   {returnRowView(
                     'Request Creation Date',
                     getDataFromResponse(responseDetail, 'Start Date'),
@@ -288,7 +287,7 @@ const ApprovalDetail = props => {
                     'Position:',
                     getDataFromResponse(responseDetail, 'Position'),
                   )}
-                </View>
+                </View> */}
               </View>
             </View>
 

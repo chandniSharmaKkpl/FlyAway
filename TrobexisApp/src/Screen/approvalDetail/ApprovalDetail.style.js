@@ -42,8 +42,9 @@ export default StyleSheet.create({
     backgroundColor: appColor.WHITE,
     width: '90%',
     alignSelf: 'center',
+    justifyContent: 'center',
     borderRadius: 10,
-    borderColor: Platform.OS === 'android' ? appColor.BORDER : appColor.GRAY,
+    borderColor: Platform.OS === 'android' ? appColor.RED : appColor.GRAY,
     shadowColor: appColor.SHADOW,
     shadowOffset: {
       width: 1,

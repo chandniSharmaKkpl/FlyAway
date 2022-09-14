@@ -15,7 +15,7 @@ export function* workerGetJourneyDetail(argumentData) {
       getJourneyDetail,
       argumentData.payload,
     );
-    // console.log('journeyDetailResponse ', JSON.stringify(journeyDetailResponse,null,4));
+    console.log('journeyDetailResponse ', JSON.stringify(journeyDetailResponse,null,4));
     if (isError(journeyDetailResponse)) {
       yield put({
         type: actionConstant.ACTION_API_ERROR_SUCCESS,
