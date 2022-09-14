@@ -261,8 +261,9 @@ const ApprovalDetail = props => {
               <View style={styles.viewInside}>
                 <View style={styles.viewInsideTitle}>
                   <Text style={styles.textYellow}>
-                    {getDataFromResponse(responseDetail, 'Approval For')} (
-                    {getDataFromResponse(responseDetail, 'Traveller ID')})
+                    {getDataFromResponse(responseDetail, 'Approval For')} 
+                    {/* (
+                    {getDataFromResponse(responseDetail, 'Traveller ID')}) */}
                   </Text>
                   <Text style={styles.textRed}>
                     {getDataFromResponse(responseDetail, 'Status')}
