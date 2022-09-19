@@ -380,5 +380,8 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     marginRight: 20,
   },
-  container: {},
+  container: {
+      // backgroundColor:'pink'
+      height:'110%'
+  },
 });

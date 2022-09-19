@@ -119,16 +119,17 @@ export const approvalDateTimeFormate = (
   for (let index = 0; index < dateValueArray.length; index++) {
     const element = dateValueArray[index];
     console.log('element', element);
+
     if (!isDate && !isTime && isDateTime) {
       if (element.key == 'Format.Datetime') {
-        let result = element.value.slice(0, 10);
         try {
           let formattedDate = moment(dateString).format(element.value);
-          console.log('formattedDate', formattedDate);
-          if (formattedDate.isValid()) {
+          // if (formattedDate.isValid()) {
+
+            console.log('formattedDate Valid ----------->', formattedDate,"---------->");
+
             return formattedDate;
-          }
-          throw 'Not Valid date';
+          // }
         } catch (error) {
           return dateString;
         }
