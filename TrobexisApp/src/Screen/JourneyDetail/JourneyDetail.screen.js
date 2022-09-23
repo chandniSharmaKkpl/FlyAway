@@ -285,7 +285,8 @@ const JourneyDetail = props => {
     }
   };
 
-  const ConvertSectoDay = n => {
+  const ConvertSectoDay = (n, item) => {
+    console.log(" item ----",item);
     var day = parseInt(n / (24 * 3600));
     n = n % (24 * 3600);
     var hour = parseInt(n / 3600);
@@ -298,7 +299,9 @@ const JourneyDetail = props => {
 
     let strToSend = '';
     if (day > 0) {
-      strToSend = day + ' ' + 'days ';
+     // strToSend = day + ' ' + 'days ';
+      strToSend = day + ' ' + 'nights ';
+
     }
     if (hour > 0) {
       strToSend = strToSend + ' ' + hour + ' ' + 'hours';
@@ -348,7 +351,7 @@ const JourneyDetail = props => {
         let seconds = formatEndDate.diff(formatStartDate, 'seconds');
 
         if (seconds) {
-          duration = ConvertSectoDay(seconds);
+          duration = ConvertSectoDay(seconds, item);
         }
       }
       // console.log("items", item);
@@ -402,12 +405,12 @@ const JourneyDetail = props => {
                       ? '3%'
                       : '3%'
                     : getOrientation() === 'portrait'
-                    ? '5%'
+                    ? '4%'
                     : '2%',
                 },
               ]}>
               <View style={[styles.viewLeft]}>
-                <Text style={styles.textYellow}>
+                <Text style={styles.textYellow} >
                   {item.Details &&
                   item.Details.length > 0 &&
                   item.Details[0].ServiceProvider
@@ -498,13 +501,15 @@ const JourneyDetail = props => {
                   <Text style={styles.textBlueBig}>Departs:</Text>
                 )}
 
-                <Text style={styles.textBlack}>
+{item.Type === appConstant.CAMP_ACCOMODATION ||
+                item.Type === appConstant.HOTEL ||
+                item.Type === appConstant.HOTEL_ACCOMMODATION ?null: <Text style={styles.textBlack}>
                   {item.Details &&
                   item.Details.length > 0 &&
                   item.Details[0].Origin
                     ? item.Details[0].Origin
                     : ''}
-                </Text>
+                </Text> }
                 <Text style={styles.textBlack}>
                   {item.Type === appConstant.OTHER_GROUND_TRANSPORT ||
                   item.Type === appConstant.DRIVE_IN_OUT_TRANSPORT ||
@@ -542,13 +547,15 @@ const JourneyDetail = props => {
                   <Text style={styles.textBlueBig}>Arrives:</Text>
                 )}
 
-                <Text style={styles.textBlack}>
+{item.Type === appConstant.CAMP_ACCOMODATION ||
+                item.Type === appConstant.HOTEL ||
+                item.Type === appConstant.HOTEL_ACCOMMODATION ?null:  <Text style={styles.textBlack}>
                   {item.Details &&
                   item.Details.length > 0 &&
                   item.Details[0].Destination
                     ? item.Details[0].Destination
                     : '-'}
-                </Text>
+                </Text>}
                 <View style={{flexDirection: 'row'}}>
                   <Text
                     style={[

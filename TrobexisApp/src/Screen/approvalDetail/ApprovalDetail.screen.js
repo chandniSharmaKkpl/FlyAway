@@ -191,16 +191,16 @@ const ApprovalDetail = props => {
           {arraySort &&
             arraySort.map((item, index) => {
               console.log("item.Type", item.Data);
-              if (item.Type == 'DateTime' && item.Data) {
+              if (item.Type && item.Data) {
                 return (
                   <View style={[styles.viewRow]}>
                     <Text style={styles.textBlue}>{item.Label}:</Text>
                     <Text style={styles.textSubTitle}>
                       {approvalDateTimeFormate(
                         item.Data,
+                       item.Type == "Date" || item.Type == "DateTime"?  true: false ,
+                       item.Type == "Time"?  true: false,
                         false,
-                        false,
-                        true,
                         responseUser.userProfile.settings,
                       )}
                     </Text>

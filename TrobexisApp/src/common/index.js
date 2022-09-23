@@ -124,15 +124,22 @@ export const approvalDateTimeFormate = (
       if (element.key == 'Format.Datetime') {
         try {
           let formattedDate = moment(dateString).format(element.value);
-          // if (formattedDate.isValid()) {
-
             console.log('formattedDate Valid ----------->', formattedDate,"---------->");
-
             return formattedDate;
-          // }
         } catch (error) {
           return dateString;
         }
+      }
+    }if (isDate && !isTime && !isDateTime) {
+      if (element.key == 'Format.Date') {
+        let formattedDate = moment(dateString).format(element.value);
+        return formattedDate;
+      }
+    }
+    if (!isDate && isTime && !isDateTime) {
+      if (element.key == 'Format.Time') {
+        let formattedDate = moment(dateString).format(element.value);
+        return formattedDate;
       }
     }
   }
