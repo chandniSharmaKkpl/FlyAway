@@ -28,6 +28,7 @@ export default {
   BIOMETRIC_FAILED:'',
   EMPTY_LIST:'There is no approvals in this section',
   COMING_SOON:'Coming Soon',
+  SOMETHING_WENT_WRONG: "Something went wrong!",
 
   //** Toast types **/
   TOAST_SUCCESS:"success",

@@ -2,6 +2,7 @@ import {Platform} from 'react-native';
 import {apiConstant, appConstant} from '../../constant';
 import axios from 'axios';
 import APIERROR from '../../api/apiBaseError';
+
 export const acceptApprovalApiInDetail = async argumentData => {
   let approvalId = argumentData.data.approvalId;
   let deviceId = argumentData.data.user.deviceId;
@@ -114,7 +115,7 @@ export const getApprovalDetail = argumentData => {
     timeout: 30000,
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${clientToken}`,
+     Authorization: `Bearer ${clientToken}`,
       DeviceId: deviceId,
       DeviceType: Platform.OS === 'android' ? 'ANDROID' : 'IOS',
     },

@@ -195,7 +195,16 @@ const ApprovalDetail = props => {
                 return (
                   <View style={[styles.viewRow]}>
                     <Text style={styles.textBlue}>{item.Label}:</Text>
-                    <Text style={styles.textSubTitle}>
+                 {/* {item.Label == "Escalation Date"? <Text style={styles.textSubTitle}>
+                      {approvalDateTimeFormate(
+                        item.Data,
+                       item.Type == "Date"?  true: false ,
+                       item.Type == "Time"?  true: false,
+                       item.Type == "DateTime"? true: false,
+                        responseUser.userProfile.settings,
+                      )}
+                    </Text>:   */}
+                     <Text style={styles.textSubTitle}>
                       {approvalDateTimeFormate(
                         item.Data,
                        item.Type == "Date" || item.Type == "DateTime"?  true: false ,
@@ -204,6 +213,7 @@ const ApprovalDetail = props => {
                         responseUser.userProfile.settings,
                       )}
                     </Text>
+                     {/* } */}
                   </View>
                 );
               }
