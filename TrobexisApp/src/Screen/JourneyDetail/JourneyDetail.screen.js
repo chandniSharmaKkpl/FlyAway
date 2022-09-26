@@ -285,7 +285,7 @@ const JourneyDetail = props => {
     }
   };
 
-  const ConvertSectoDay = n => {
+  const ConvertSectoDay = (n, item) => {
     var day = parseInt(n / (24 * 3600));
     n = n % (24 * 3600);
     var hour = parseInt(n / 3600);
@@ -298,16 +298,42 @@ const JourneyDetail = props => {
 
     let strToSend = '';
     if (day > 0) {
-      strToSend = day + ' ' + 'days ';
+      if (
+        item.Type === appConstant.CAMP_ACCOMODATION ||
+        item.Type === appConstant.HOTEL ||
+        item.Type === appConstant.HOTEL_ACCOMMODATION
+      ) {
+        strToSend = day + ' ' + 'nights ';
+      } else {
+        strToSend = day + ' ' + 'days ';
+      }
     }
     if (hour > 0) {
+      if (
+        item.Type === appConstant.CAMP_ACCOMODATION ||
+        item.Type === appConstant.HOTEL ||
+        item.Type === appConstant.HOTEL_ACCOMMODATION
+      ) { }else{
       strToSend = strToSend + ' ' + hour + ' ' + 'hours';
+      }
     }
     if (minutes > 0) {
-      strToSend = strToSend + ' ' + minutes + ' ' + 'minutes';
+      if (
+        item.Type === appConstant.CAMP_ACCOMODATION ||
+        item.Type === appConstant.HOTEL ||
+        item.Type === appConstant.HOTEL_ACCOMMODATION
+      ) { }else{
+          strToSend = strToSend + ' ' + minutes + ' ' + 'minutes';
+      }
     }
     if (seconds > 0) {
-      strToSend = strToSend + ' ' + seconds + ' ' + 'seconds';
+      if (
+        item.Type === appConstant.CAMP_ACCOMODATION ||
+        item.Type === appConstant.HOTEL ||
+        item.Type === appConstant.HOTEL_ACCOMMODATION
+      ) { }else{
+          strToSend = strToSend + ' ' + seconds + ' ' + 'seconds';
+      }
     }
 
     return strToSend;
@@ -348,7 +374,7 @@ const JourneyDetail = props => {
         let seconds = formatEndDate.diff(formatStartDate, 'seconds');
 
         if (seconds) {
-          duration = ConvertSectoDay(seconds);
+          duration = ConvertSectoDay(seconds, item);
         }
       }
       // console.log("items", item);
@@ -402,7 +428,7 @@ const JourneyDetail = props => {
                       ? '3%'
                       : '3%'
                     : getOrientation() === 'portrait'
-                    ? '5%'
+                    ? '4%'
                     : '2%',
                 },
               ]}>
@@ -498,13 +524,17 @@ const JourneyDetail = props => {
                   <Text style={styles.textBlueBig}>Departs:</Text>
                 )}
 
-                <Text style={styles.textBlack}>
-                  {item.Details &&
-                  item.Details.length > 0 &&
-                  item.Details[0].Origin
-                    ? item.Details[0].Origin
-                    : ''}
-                </Text>
+                {item.Type === appConstant.CAMP_ACCOMODATION ||
+                item.Type === appConstant.HOTEL ||
+                item.Type === appConstant.HOTEL_ACCOMMODATION ? null : (
+                  <Text style={styles.textBlack}>
+                    {item.Details &&
+                    item.Details.length > 0 &&
+                    item.Details[0].Origin
+                      ? item.Details[0].Origin
+                      : ''}
+                  </Text>
+                )}
                 <Text style={styles.textBlack}>
                   {item.Type === appConstant.OTHER_GROUND_TRANSPORT ||
                   item.Type === appConstant.DRIVE_IN_OUT_TRANSPORT ||
@@ -542,21 +572,24 @@ const JourneyDetail = props => {
                   <Text style={styles.textBlueBig}>Arrives:</Text>
                 )}
 
-                <Text style={styles.textBlack}>
-                  {item.Details &&
-                  item.Details.length > 0 &&
-                  item.Details[0].Destination
-                    ? item.Details[0].Destination
-                    : '-'}
-                </Text>
+                {item.Type === appConstant.CAMP_ACCOMODATION ||
+                item.Type === appConstant.HOTEL ||
+                item.Type === appConstant.HOTEL_ACCOMMODATION ? null : (
+                  <Text style={styles.textBlack}>
+                    {item.Details &&
+                    item.Details.length > 0 &&
+                    item.Details[0].Destination
+                      ? item.Details[0].Destination
+                      : '-'}
+                  </Text>
+                )}
                 <View style={{flexDirection: 'row'}}>
                   <Text
                     style={[
                       styles.textBlack,
                       {alignItems: 'flex-end', lineHeight: 25},
                     ]}>
-                    {
-                    item.Type == appConstant.OTHER_GROUND_TRANSPORT ||
+                    {item.Type == appConstant.OTHER_GROUND_TRANSPORT ||
                     item.Type == appConstant.DRIVE_IN_OUT_TRANSPORT ||
                     item.Type == appConstant.CAR_HIRE ||
                     item.Type == appConstant.CHARTER_FLIGHT ||
@@ -580,26 +613,26 @@ const JourneyDetail = props => {
                   </Text>
 
                   {
-                  // item.Type == appConstant.OTHER_GROUND_TRANSPORT ||
-                  // item.Type == appConstant.DRIVE_IN_OUT_TRANSPORT ||
-                  // item.Type == appConstant.CAR_HIRE ||
-                  item.Type == appConstant.CHARTER_FLIGHT ||
-                  item.Type == appConstant.COMMERCIAL_FLIGHT 
-                  // item.Type == appConstant.TRANSFER ||
-                  // item.Type == appConstant.MARINE_TRANSFER 
-                  ? (
-                    days > 0 && (
-                      <Text
-                        style={[
-                          styles.dayNumberText,
-                          {alignItems: 'flex-start'},
-                        ]}>
-                        {' +' + days}
-                      </Text>
+                    // item.Type == appConstant.OTHER_GROUND_TRANSPORT ||
+                    // item.Type == appConstant.DRIVE_IN_OUT_TRANSPORT ||
+                    // item.Type == appConstant.CAR_HIRE ||
+                    item.Type == appConstant.CHARTER_FLIGHT ||
+                    item.Type == appConstant.COMMERCIAL_FLIGHT ? (
+                      // item.Type == appConstant.TRANSFER ||
+                      // item.Type == appConstant.MARINE_TRANSFER
+                      days > 0 && (
+                        <Text
+                          style={[
+                            styles.dayNumberText,
+                            {alignItems: 'flex-start'},
+                          ]}>
+                          {' +' + days}
+                        </Text>
+                      )
+                    ) : (
+                      <></>
                     )
-                  ) : (
-                    <></>
-                  )}
+                  }
 
                   {/* {
                     days > 0 && ( 

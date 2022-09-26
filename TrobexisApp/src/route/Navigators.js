@@ -264,7 +264,6 @@ function TabNavigator() {
     },
   });
 
-
   return (
     <TabObject.Navigator
       name={appConstant.TAB}
@@ -296,16 +295,17 @@ function TabNavigator() {
                   />
                 </View>
                 <Text style={[styles.tabBarLabel, {width: '100%'}]}>
-                {focused ?
-                  route &&
-                  route.state &&
-                  route.state.routes[0] &&
-                  route.state.routes[0].state &&
-                  route.state.routes[0].state.index
-                    ? route.state.routes[0].state?.index !== 0
-                      ? ''
+                  {focused
+                    ? route &&
+                      route.state &&
+                      route.state.routes[0] &&
+                      route.state.routes[0].state &&
+                      route.state.routes[0].state.index
+                      ? route.state.routes[0].state?.index !== 0
+                        ? ''
+                        : appConstant.HOME_SCREEN
                       : appConstant.HOME_SCREEN
-                    : appConstant.HOME_SCREEN : '' }
+                    : ''}
                 </Text>
               </View>
             ) : (
@@ -318,16 +318,17 @@ function TabNavigator() {
                   />
                 </View>
                 <Text style={styles.tabBarLabel}>
-                  {focused ?
-                  route &&
-                  route.state &&
-                  route.state.routes[0] &&
-                  route.state.routes[0].state &&
-                  route.state.routes[0].state.index
-                    ? route.state.routes[0].state?.index !== 0
-                      ? ''
+                  {focused
+                    ? route &&
+                      route.state &&
+                      route.state.routes[0] &&
+                      route.state.routes[0].state &&
+                      route.state.routes[0].state.index
+                      ? route.state.routes[0].state?.index !== 0
+                        ? ''
+                        : appConstant.HOME_SCREEN
                       : appConstant.HOME_SCREEN
-                    : appConstant.HOME_SCREEN : '' }
+                    : ''}
                 </Text>
               </View>
             ),
@@ -413,12 +414,28 @@ function NavigationSetup() {
   // When Dashboard page will update for api this will also update
 
   useEffect(() => {
-    if (errorData && errorData.error && errorData.error.message) {
-      toast.show(errorData.error.message, {
-        type: alertMsgConstant.TOAST_DANGER,
-      });
+    console.log(' Navigator iiiiiiii error ---------------', errorData);
+
+    if (
+      errorData &&
+      errorData.error &&
+      errorData.error.message &&
+      errorData.error.code
+    ) {
       if (errorData.error.code === errorCodeConstant.UNAUTHORIZED) {
         setCurrentUser(null);
+      }
+      if (
+        errorData.error.code == errorCodeConstant.BAD_REQUEST ||
+        errorData.error.code == errorCodeConstant.INTERNAL_SERVER_ERROR
+      ) {
+        toast.show(alertMsgConstant.SOMETHING_WENT_WRONG, {
+          type: alertMsgConstant.TOAST_DANGER,
+        });
+      } else {
+        toast.show(errorData.error.message, {
+          type: alertMsgConstant.TOAST_DANGER,
+        });
       }
       let dict = errorData.error;
       dict.message = null;

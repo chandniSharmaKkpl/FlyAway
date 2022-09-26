@@ -76,6 +76,6 @@ export const getJourneyDetail = async argumentData => {
     return response1;
   } catch (err) {
     console.log('88 api Erorr: ', err);
-    return err;
+    return err.response.data;;
   }
 };

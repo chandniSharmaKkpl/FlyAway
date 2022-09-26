@@ -119,7 +119,9 @@ export default {
 
   APP_VERSION : version,
   USER_SETTING:'settings',
-  HOME_SCREEN_PATH : 'homeScreenPath'
+  HOME_SCREEN_PATH : 'homeScreenPath',
+
+  
 };
 
 

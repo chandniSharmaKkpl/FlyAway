@@ -6,6 +6,7 @@ import {
 import fontConstant from '../../constant/fontConstant';
 import appColor from '../../constant/colorConstant';
 
+const LEFT_PADDING = '5%';
 export default StyleSheet.create({
   viewSpace: {
     paddingTop: '4%',
@@ -164,7 +165,7 @@ export default StyleSheet.create({
     padding: '5%',
   },
   viewContainRow: {
-    paddingLeft: '5%',
+    paddingLeft: wp('3%'),
     paddingRight: '5%',
     paddingBottom: '5%',
     paddingTop: '3%',
@@ -186,6 +187,7 @@ export default StyleSheet.create({
     marginBottom: hp('5%'),
     flexDirection: 'row',
     justifyContent: 'space-between',
+
   },
   textArea: {
     height: hp('10%'),
@@ -225,7 +227,7 @@ export default StyleSheet.create({
     // paddingRight: '5%',
     paddingLeft: '5%',
     position: 'relative',
-    // backgroundColor: 'pink',
+    //  backgroundColor: 'pink',
 
   },
   buttonBusYellow: {
@@ -244,6 +246,7 @@ export default StyleSheet.create({
     fontFamily: fontConstant.BARLOW_SEMI_BOLD,
     fontSize: fontConstant.TEXT_16_SIZE_REGULAR,
     color: appColor.YELLOW,
+    // backgroundColor:'orange',
   },
   leftLine: {
     height: '100%',
@@ -276,11 +279,13 @@ export default StyleSheet.create({
   },
 
   viewLeft: {
-    paddingLeft: wp('2%'),
-    paddingRight: wp('2%'),
-    width: wp('50%'),
+    // paddingLeft: wp('1%'),
+    paddingRight: wp('1%'),
+    width: wp('52%'),
     paddingTop: hp('2%'),
     paddingBottom: hp('2%'),
+    // backgroundColor:'pink', 
+
   },
 
   ViewBlueBottom: {
@@ -392,7 +397,7 @@ export default StyleSheet.create({
     fontFamily: fontConstant.BARLOW_REGULAR,
     fontSize: fontConstant.TEXT_H2_SIZE_REGULAR,
     color: appColor.BLACK,
-    flexWrap: 'wrap',
+    // flexWrap: 'wrap',
   },
 dayNumberText:{
   fontFamily: fontConstant.BARLOW_REGULAR,
@@ -416,7 +421,7 @@ dayNumberText:{
   },
 
   viewItinerary: {
-    paddingLeft: wp('5%'),
+    paddingLeft: wp('3%'),
     paddingRight: wp('2%'),
     paddingBottom: hp('2%'),
   },
