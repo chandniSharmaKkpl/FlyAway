@@ -97,18 +97,18 @@ export const getApprovalDetail = argumentData => {
   let userId = argumentData.data.user.userId;
   let clientCode = argumentData.data.user.client;
 
-  console.log(
-    ' aporval id -----======>',
-    approvalId,
-    'Deviceid ',
-    deviceId,
-    'bse ',
-    apiBaseUrl,
-    'client token',
-    clientToken,
-    'userid',
-    userId,
-  );
+  // console.log(
+  //   ' aporval id -----======>',
+  //   approvalId,
+  //   'Deviceid ',
+  //   deviceId,
+  //   'bse ',
+  //   apiBaseUrl,
+  //   'client token',
+  //   clientToken,
+  //   'userid',
+  //   userId,
+  // );
 
   let instance = axios.create({
     baseURL: apiBaseUrl,

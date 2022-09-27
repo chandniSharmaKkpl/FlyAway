@@ -259,7 +259,7 @@ const JourneyDetail = props => {
             return <Images.IMAGE_BUS_SVG />;
           }
         }
-        return <Images.IMAGE_HELICOPTER_SVG />;
+        return <Text style={styles.textT}>T</Text>;
       }
     } else if (item.Type === appConstant.TBA) {
       return <Images.IMAGE_HANDSHAKE_SVG />;
@@ -313,8 +313,9 @@ const JourneyDetail = props => {
         item.Type === appConstant.CAMP_ACCOMODATION ||
         item.Type === appConstant.HOTEL ||
         item.Type === appConstant.HOTEL_ACCOMMODATION
-      ) { }else{
-      strToSend = strToSend + ' ' + hour + ' ' + 'hours';
+      ) {
+      } else {
+        strToSend = strToSend + ' ' + hour + ' ' + 'hours';
       }
     }
     if (minutes > 0) {
@@ -322,8 +323,9 @@ const JourneyDetail = props => {
         item.Type === appConstant.CAMP_ACCOMODATION ||
         item.Type === appConstant.HOTEL ||
         item.Type === appConstant.HOTEL_ACCOMMODATION
-      ) { }else{
-          strToSend = strToSend + ' ' + minutes + ' ' + 'minutes';
+      ) {
+      } else {
+        strToSend = strToSend + ' ' + minutes + ' ' + 'minutes';
       }
     }
     if (seconds > 0) {
@@ -331,8 +333,9 @@ const JourneyDetail = props => {
         item.Type === appConstant.CAMP_ACCOMODATION ||
         item.Type === appConstant.HOTEL ||
         item.Type === appConstant.HOTEL_ACCOMMODATION
-      ) { }else{
-          strToSend = strToSend + ' ' + seconds + ' ' + 'seconds';
+      ) {
+      } else {
+        strToSend = strToSend + ' ' + seconds + ' ' + 'seconds';
       }
     }
 
@@ -439,13 +442,11 @@ const JourneyDetail = props => {
                   item.Details[0].ServiceProvider
                     ? item.Details[0].ServiceProvider
                     : ''}{' '}
-                  (
                   {item.Details &&
                   item.Details.length > 0 &&
-                  item.Details[0].Flight
+                  item.Details[0].Flight && item.Details[0].Flight != "-"
                     ? item.Details[0].Flight
-                    : ''}
-                  )
+                    : null}
                 </Text>
 
                 <Text
@@ -572,17 +573,14 @@ const JourneyDetail = props => {
                   <Text style={styles.textBlueBig}>Arrives:</Text>
                 )}
 
-                {item.Type === appConstant.CAMP_ACCOMODATION ||
-                item.Type === appConstant.HOTEL ||
-                item.Type === appConstant.HOTEL_ACCOMMODATION ? null : (
-                  <Text style={styles.textBlack}>
-                    {item.Details &&
-                    item.Details.length > 0 &&
-                    item.Details[0].Destination
-                      ? item.Details[0].Destination
-                      : '-'}
-                  </Text>
-                )}
+                <Text style={styles.textBlack}>
+                  {item.Details &&
+                  item.Details.length > 0 &&
+                  item.Details[0].Destination
+                    ? item.Details[0].Destination
+                    : '-'}
+                </Text>
+
                 <View style={{flexDirection: 'row'}}>
                   <Text
                     style={[
@@ -795,8 +793,8 @@ const JourneyDetail = props => {
                     <Text style={styles.textBlack}>
                       {item.Details &&
                       item.Details.length > 0 &&
-                      item.Details[0].Booking
-                        ? item.Details[0].Booking
+                      item.Details[0].ServiceReferenceId
+                        ? item.Details[0].ServiceReferenceId
                         : '-'}
                     </Text>
                   </>
