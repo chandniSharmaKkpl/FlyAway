@@ -56,6 +56,9 @@ const ApprovalDetail = props => {
     const unsubscribe = props.navigation.addListener('focus', () => {
       const tempUser = localDb.getUser();
       Promise.resolve(tempUser).then(response => {
+        console.log(" route.params.status -----========-", route.params);
+
+
         let param = {
           approvalId: route.params.approvalId ? route.params.approvalId : '',
           user: response,
@@ -190,42 +193,45 @@ const ApprovalDetail = props => {
         <>
           {arraySort &&
             arraySort.map((item, index) => {
-              console.log("item.Type", item.Data);
+              console.log("item.Type", item.Type);
               if (item.Type && item.Data) {
+                if (item.Type == "Date" || item.Type == "DateTime"|| item.Type == "Time") {
+                  return (
+                    <View style={[styles.viewRow]}>
+                      <Text style={styles.textBlue}>{item.Label}:</Text>
+                       <Text style={styles.textSubTitle}>
+                        {approvalDateTimeFormate(
+                          item.Data,
+                         item.Type == "Date" || item.Type == "DateTime"?  true: false ,
+                         item.Type == "Time"?  true: false,
+                          false,
+                          responseUser.userProfile.settings,
+                        )}
+                      </Text>
+                    </View>
+                  );
+                }else{
+                  return (
+                    <View style={[styles.viewRow]}>
+                      <Text style={styles.textBlue}>{item.Label}: </Text>
+                      <Text style={styles.textSubTitle}>{item.Data}</Text>
+                    </View>
+                  );
+                }
+               
+              }else{
                 return (
                   <View style={[styles.viewRow]}>
-                    <Text style={styles.textBlue}>{item.Label}:</Text>
-                 {/* {item.Label == "Escalation Date"? <Text style={styles.textSubTitle}>
-                      {approvalDateTimeFormate(
-                        item.Data,
-                       item.Type == "Date"?  true: false ,
-                       item.Type == "Time"?  true: false,
-                       item.Type == "DateTime"? true: false,
-                        responseUser.userProfile.settings,
-                      )}
-                    </Text>:   */}
-                     <Text style={styles.textSubTitle}>
-                      {approvalDateTimeFormate(
-                        item.Data,
-                       item.Type == "Date" || item.Type == "DateTime"?  true: false ,
-                       item.Type == "Time"?  true: false,
-                        false,
-                        responseUser.userProfile.settings,
-                      )}
-                    </Text>
-                     {/* } */}
+                    <Text style={styles.textBlue}>{item.Label}: </Text>
+                    <Text style={styles.textSubTitle}>{item.Data}</Text>
                   </View>
                 );
               }
+
               if (!item.Data) {
                 return <></>;
               }
-              return (
-                <View style={[styles.viewRow]}>
-                  <Text style={styles.textBlue}>{item.Label}:</Text>
-                  <Text style={styles.textSubTitle}>{item.Data}</Text>
-                </View>
-              );
+             
             })}
         </>
       );
@@ -279,26 +285,7 @@ const ApprovalDetail = props => {
                     {getDataFromResponse(responseDetail, 'Status')}
                   </Text>
                 </View>
-                {/* <View style={styles.viewGrayLine} /> */}
-                {/* <View style={styles.viewContainRow}>
-                  {returnRowView(
-                    'Request Creation Date',
-                    getDataFromResponse(responseDetail, 'Start Date'),
-                    'DateTime',
-                  )}
-                  {returnRowView(
-                    'Company Name:',
-                    getDataFromResponse(responseDetail, 'Company Name'),
-                  )}
-                  {returnRowView(
-                    'Sub Contractor:',
-                    getDataFromResponse(responseDetail, 'SubContract Name'),
-                  )}
-                  {returnRowView(
-                    'Position:',
-                    getDataFromResponse(responseDetail, 'Position'),
-                  )}
-                </View> */}
+              
               </View>
             </View>
 
@@ -313,20 +300,9 @@ const ApprovalDetail = props => {
               </View>
             </View>
 
-            {/* <View style={styles.viewSection}>
-              <Text style={styles.textBlackTitle}>Comments / Messages</Text>
-              <View style={styles.viewInside}>
-                {/* <View style={styles.textAreaContainer}> */}
-            {/* <Text style={styles.textArea}>
-                  {getDataFromResponse(responseDetail, 'Comments')}
-                </Text>
-              </View> */}
-            {/* </View> 
-            </View> */}
-
             {route.params &&
-            route.params.status &&
-            route.params.status === appConstant.PENDING_APPROVAL ? (
+            route.params.approvalItem &&
+            route.params.approvalItem.status === appConstant.PENDING_APPROVAL  ? (
               <View style={styles.viewButtonBottom}>
                 <Pressable
                   style={stylesCommon.greenButton}

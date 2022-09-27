@@ -57,7 +57,6 @@ const ReasonDecline = props => {
   const [reasonId, setReasonId] = useState('');
 
   const [showReasonList, setShowReasonList] = useState(false);
-  console.log('showReasonList', showReasonList);
   const [comments, setComments] = useState('');
   const [textLimit, setTextLimit] = useState(0);
 
@@ -121,9 +120,7 @@ const ReasonDecline = props => {
     );
   };
 
-  useEffect(() => {
-    console.log('decline reson => ', reason);
-  }, [reason]);
+  useEffect(() => {}, [reason]);
 
   const getDataFromResponse = () => {
     if (responseGetReasonList.declineSubmitRes) {
@@ -134,7 +131,12 @@ const ReasonDecline = props => {
         let dict = responseGetReasonList.declineSubmitRes;
         (dict.message = ''), (responseGetReasonList.declineSubmitRes = dict);
         if (responseGetReasonList.declineSubmitRes.success) {
-          moveBack();
+          let tempApproval = route.params.approvalItem;
+          let tempApprovalItem = tempApproval.item;
+          tempApprovalItem.status = appConstant.DECLINED;
+          route.params.onBackReceiveData &&
+            route.params.onBackReceiveData(tempApprovalItem);
+          props.navigation.goBack();
         }
       }
     }
@@ -234,7 +236,6 @@ const ReasonDecline = props => {
                       : '94%',
                 },
               ]}>
-              
               {responseGetReasonList.isRequesting ? (
                 <View style={styles.loaderFlatList}>
                   <ActivityIndicator size="large" color={appColor.NAVY_BLUE} />
