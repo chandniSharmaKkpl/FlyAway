@@ -68,6 +68,13 @@ export default StyleSheet.create({
     fontSize: fontConstant.TEXT_H2_SIZE_REGULAR,
     color: appColor.WHITE,
   },
+  textT: {
+    fontFamily: fontConstant.BARLOW_SEMI_BOLD,
+    fontSize: fontConstant.TEXT_20_SIZE_BOLD,
+    color: appColor.WHITE,
+    alignSelf:'center', 
+    marginTop:-3
+  },
   buttonTextRed: {
     justifyContent: 'center',
     alignItems: 'center',
