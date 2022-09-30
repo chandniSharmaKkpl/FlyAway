@@ -414,8 +414,6 @@ function NavigationSetup() {
   // When Dashboard page will update for api this will also update
 
   useEffect(() => {
-    console.log(' Navigator iiiiiiii error ---------------', errorData);
-
     if (
       errorData &&
       errorData.error &&

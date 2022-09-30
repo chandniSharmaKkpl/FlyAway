@@ -372,8 +372,6 @@ const JourneyDetail = props => {
       if (formatStartDate && formatEndDate) {
         days = formatEndDate.diff(formatStartDate, 'days');
         let hours = formatEndDate.diff(formatStartDate, 'hours');
-        // let minutes = formatEndDate.diff(formatStartDate, 'minutes');
-
         let seconds = formatEndDate.diff(formatStartDate, 'seconds');
 
         if (seconds) {

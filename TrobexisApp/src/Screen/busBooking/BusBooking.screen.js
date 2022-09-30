@@ -60,6 +60,8 @@ const BusBookingScreen = (props) => {
   }, []);
 
   const handleBackButtonClick = () => {
+     console.log(" handleBackButtonClick--------");
+     props.navigation.goBack();
     return true;
   };
   // Getting device info from push controller
@@ -162,6 +164,7 @@ const BusBookingScreen = (props) => {
 
   return (
     <>
+    <View style={styles.viewBusBckgnd}>
       <WebView
         onLoad={() => hideSpinner()}
              startInLoadingState={false}
@@ -171,6 +174,7 @@ const BusBookingScreen = (props) => {
           // headers: headersWeb,
         }}
       ></WebView>
+      </View>
       {/* <TextInput 
             value={route && route.params && route.params.loginUrl? route.params.loginUrl: loginUrl}
             style={styles.tokenStyle}

@@ -7,6 +7,12 @@ import fontConstant from '../../constant/fontConstant';
 import appColor from '../../constant/colorConstant';
 
 export default StyleSheet.create({
+  viewBusBckgnd:{
+   height: hp('86.5%'),
+   width: wp('100%'),
+   marginTop:Platform.OS == 'ios'? hp('3%'): 0,
+   backgroundColor:appColor.WHITE
+  },
   iconHeader: {
     height: hp('2.5%'),
     width: wp('8%'),
@@ -30,9 +36,9 @@ export default StyleSheet.create({
     backgroundColor: appColor.LIGH_BLUE,
   },
   webview:{
-    marginTop:hp('3%'),
-    width: wp('100%'), 
-    height:hp('100%'), 
+   
+    width: '100%', 
+    height:'100%', 
     position:'absolute',
     // backgroundColor: appColor.LIGH_BLUE
   },
