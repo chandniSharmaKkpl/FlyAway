@@ -335,41 +335,8 @@ function TabNavigator() {
         }}
         component={HomeStack}
       />
+   
       {/* <TabObject.Screen
-        name={appConstant.BUS_BOOKING}
-        component={BusBookingStack}
-        options={{
-          tabBarIcon: ({tintColor, focused}) =>
-            DeviceInfo.isTablet() ? (
-              <View style={{width: wp('12%'), alignItems: 'center'}}>
-                <View style={styles.viewImage}>
-                  <Image
-                    source={imageConstant.IMAGE_BUS_WHITE}
-                    resizeMode={'contain'}
-                    style={styles.image}
-                  />
-                </View>
-                <Text style={styles.tabBarLabel}>
-                  {focused ? appConstant.BUS_BOOKING : ''}
-                </Text>
-              </View>
-            ) : (
-              <View>
-                <View style={styles.viewImage}>
-                  <Image
-                    source={imageConstant.IMAGE_BUS_WHITE}
-                    resizeMode={'contain'}
-                    style={styles.image}
-                  />
-                </View>
-                <Text style={styles.tabBarLabel}>
-                  {focused ? appConstant.BUS_BOOKING : ''}
-                </Text>
-              </View>
-            ),
-        }}
-      /> */}
-      <TabObject.Screen
         name={appConstant.HISTORY}
         component={HistoryScreen}
         options={{
@@ -402,7 +369,7 @@ function TabNavigator() {
               </View>
             ),
         }}
-      />
+      /> */}
     </TabObject.Navigator>
   );
 }

@@ -8,7 +8,7 @@ import appColor from '../../constant/colorConstant';
 
 export default StyleSheet.create({
   viewBusBckgnd:{
-   height: hp('86.5%'),
+   height: hp('86.5%'), // Need to remove tab bar height in the view's height otherwise view will not scroll till the end.
    width: wp('100%'),
    marginTop:Platform.OS == 'ios'? hp('3%'): 0,
    backgroundColor:appColor.WHITE

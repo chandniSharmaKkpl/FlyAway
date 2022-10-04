@@ -192,7 +192,7 @@ console.log(route.name);
           title={''}
           viewName={appConstant.HOME_SCREEN}
           leftIcon={true}
-          rightIcon={true}
+          rightIcon={false}
           centerTitle={false}
           onClickRightIcon={onClickRightIcon}
           rightIconImage={''}

@@ -80,13 +80,13 @@ export default CustomDrawer = () => {
       icon: imageConstant.IMAGE_ABOUT_PNG,
       name: 'About',
       func: aboutApp,
-    },
-    {
-      id: 2,
-      icon: imageConstant.IMAGE_SCAN_PNG,
-      name: 'Scan QR Code',
-      func: scanCode,
     }
+    // {
+    //   id: 2,
+    //   icon: imageConstant.IMAGE_SCAN_PNG,
+    //   name: 'Scan QR Code',
+    //   func: scanCode,
+    // }
   ];
 
   const Item = ({name, func, icon}) => (
