@@ -34,10 +34,19 @@ import {requestAcceptApproval} from './ApprovalList.action';
 import localDb from '../../database/localDb';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import {useRoute, useNavigation} from '@react-navigation/core';
+import moment from 'moment';
 
 PENDING_INDEX = 0;
 APPROVED_INDEX = 1;
 DECLINED_INDEX = 2;
+
+// date wise sorting Approval list
+
+const sortApprovalList = (list) => {
+  return list.sort( (a, b) => {
+    return moment(a['startdate']).valueOf() - moment(b['startdate']).valueOf()
+  })
+}
 
 const ApprovalList = props => {
   const responseData = useSelector(state => state.HomeReducer);
@@ -60,17 +69,6 @@ const ApprovalList = props => {
       rol();
     };
   }, []);
-
-  // useEffect(async () => {
-  //   let valueDate1 = await getDateTimeOfView(
-      
-  //     true,
-  //     false,
-  //     false
-  //   );
-  //   setGetDate(valueDate1);
-
-  // }, []);
 
   //** This method will call when coming back from approval detail screen and show the data based on last selected index */
  const onBackReceiveData = data => {
@@ -346,7 +344,7 @@ const ApprovalList = props => {
                   />
                 }
                 extraData={refreshing}
-                data={responseApprovalData.approvalListWithStatus}
+                data={sortApprovalList(responseApprovalData.approvalListWithStatus)}
                 renderItem={renderItem}
                 keyExtractor={approvalListData => approvalListData.id}
               />
