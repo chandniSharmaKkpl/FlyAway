@@ -215,7 +215,10 @@ const ClientCodeScreen = props => {
 
   const submitForm = async () => {
     // checking notification permissions is not allow then return user back
-    console.log(" notification status submit in client code  ----------->",notificationStatus);
+    console.log(
+      ' notification status submit in client code  ----------->',
+      notificationStatus,
+    );
 
     const authStatus = await messaging().requestPermission();
     const enabled =
@@ -223,14 +226,11 @@ const ClientCodeScreen = props => {
       authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
     if (enabled) {
-      
       setIsClientCodeListShow(false);
 
       if (clientCode === '') {
         setError(alertMsgConstant.CLIENT_CODE_NOT_EMPTY);
-     
       } else {
-       
         //** Special character and space not allowed  */
         if (checkStringContainsSpecialChar(clientCode)) {
           setError(alertMsgConstant.SPECIAL_CHAR_NOT_ALLOW);
@@ -239,7 +239,6 @@ const ClientCodeScreen = props => {
 
         //** Remove all spaces from the client code */
         let trimClientCode = clientCode.replace(/ /g, '');
-
 
         const messaging1 = firebase.messaging();
         messaging1.getToken().then(deviceToken => {
@@ -253,13 +252,11 @@ const ClientCodeScreen = props => {
             };
             dispatch(setLoader(true));
 
-
             dispatch(requestToGetApiBase(param));
           }
         });
       }
     } else {
-      
       toast.show(alertMsgConstant.PLEASE_TURN_ON_YOUR_NOTIFCATION, {
         type: alertMsgConstant.TOAST_DANGER,
       });
@@ -301,7 +298,7 @@ const ClientCodeScreen = props => {
           <View style={styles.titleView}>
             <Text style={styles.titleStyle}>Client Code</Text>
             <Text style={[styles.appVersion, {textAlign: 'center'}]}>
-              App Version 15.0 (1.0)
+              App Version 16.0 (1.0)
             </Text>
           </View>
 

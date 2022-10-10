@@ -101,13 +101,18 @@ const JourneyDetail = props => {
     setGetEndTime(valueStartTime1);
   }, [journeyDetailsStartDateTime, journeyDetailsEndDateTime]);
 
-  const checkStatus = incomingstatus => {
-    if (!ConfirmedStatus.includes(incomingstatus)) {
-      setTimeout(() => {
-        setStatus('Draft Itinerary');
-      }, 500);
-    }
-  };
+  const checkStatus = React.useCallback(_Itinerarys => {
+    let flag = false;
+    _Itinerarys.forEach(_Itinerary => {
+      let incomingstatus = _Itinerary.Status;
+      // console.log(ConfirmedStatus, incomingstatus);
+      if (!ConfirmedStatus.includes(incomingstatus)) {
+        flag = true;
+        return;
+      }
+    });
+    return flag;
+  }, []);
 
   useEffect(() => {
     lor(setOrientation);
@@ -442,7 +447,8 @@ const JourneyDetail = props => {
                     : ''}{' '}
                   {item.Details &&
                   item.Details.length > 0 &&
-                  item.Details[0].Flight && item.Details[0].Flight != "-"
+                  item.Details[0].Flight &&
+                  item.Details[0].Flight != '-'
                     ? item.Details[0].Flight
                     : null}
                 </Text>
@@ -1004,7 +1010,7 @@ const JourneyDetail = props => {
             responseDetail.journeyDetail &&
             responseDetail.journeyDetail.Itinerarys &&
             responseDetail.journeyDetail.Itinerarys.length > 0 ? (
-              status === 'Confirmed Itinerary' ? (
+              !checkStatus(responseDetail.journeyDetail.Itinerarys) ? (
                 <Text style={styles.textConfirmed}>Confirmed Itinerary</Text>
               ) : (
                 <Text style={styles.textNotConfirmed}>Draft Itinerary</Text>
@@ -1039,7 +1045,9 @@ const JourneyDetail = props => {
 
                   // }
 
-                  checkStatus(item.Status);
+                  // setTimeout(() => {
+                  //   checkStatus(item.Status);
+                  // }, 500);
                   // setJourneyDetailsStartDateTime(item.Details.StartDate);
                   // setJourneyDetailsEndDateTime(item.Details.EndDate);
                   return itemViews(item, imageConstant.IMAGE_PLANE, index);

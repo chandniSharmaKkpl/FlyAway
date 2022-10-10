@@ -6,7 +6,6 @@ import {HeaderCustom, BookingCard} from '../../component';
 import {appConstant} from '../../constant';
 import DeviceInfo from 'react-native-device-info';
 function AboutAppVersion(props) {
-
   let version = DeviceInfo.getVersion();
   let buildNumber = DeviceInfo.getBuildNumber();
 
@@ -32,8 +31,12 @@ function AboutAppVersion(props) {
         <Text style={stylesCommon.textHeading}>App Information</Text>
         <View>
           <Text style={stylesCommon.normalText}>Version : {version}</Text>
-          <Text style={stylesCommon.normalText}>BuildNumber : {buildNumber}</Text>
-          <Text style={stylesCommon.normalText}>Build Release Date: 04/10/2022</Text>
+          <Text style={stylesCommon.normalText}>
+            BuildNumber : {buildNumber}
+          </Text>
+          <Text style={stylesCommon.normalText}>
+            Build Release Date: 10/10/2022
+          </Text>
         </View>
       </View>
     </>
