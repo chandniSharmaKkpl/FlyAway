@@ -309,7 +309,7 @@ const ApprovalList = props => {
         />
         <View style={styles.viewSegmentControl}>
           <SegmentedControl
-            values={['Pending', 'Approved', 'Decline']}
+            values={['Pending', 'Approved', 'Declined']}
             selectedIndex={selectedIndex}
             backgroundColor={appColor.NAVY_BLUE}
             tintColor={appColor.WHITE}
