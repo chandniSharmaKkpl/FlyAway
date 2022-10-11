@@ -9,8 +9,6 @@ import {
   Pressable,
   BackHandler,
 } from 'react-native';
-// import SafeAreaView from 'react-native-safe-area-view';
-import {SafeAreaView} from 'react-native-safe-area-context';
 
 import styles from './Home.style';
 import {
@@ -40,6 +38,7 @@ import {requestToGetApprovalList, requestToGetUserProfile} from './Home.action';
 import localDb from '../../database/localDb';
 import DeviceInfo from 'react-native-device-info';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import { sortList } from '../../common';
 const HomeScreen = props => {
   const [orientation, setOrientation] = React.useState('portrait');
 
@@ -244,7 +243,7 @@ console.log(route.name);
             }}>
             <FlatList
               renderItem={renderItem}
-              data={response.itinaryListAllJourney}
+              data={sortList(response.itinaryListAllJourney, "startdatetime")}
               horizontal={true}
               keyExtractor={(item, index) => index.toString()}
             />

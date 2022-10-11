@@ -284,7 +284,7 @@ const JourneyDetail = props => {
           }
         }
       }
-      return <Images.IMAGE_CAR_SVG />;
+      return <Text style={styles.textT}>T</Text>;
     } else {
       return <Images.IMAGE_BUS_SVG />;
     }
@@ -448,7 +448,7 @@ const JourneyDetail = props => {
                   {item.Details &&
                   item.Details.length > 0 &&
                   item.Details[0].Flight &&
-                  item.Details[0].Flight != '-'
+                  item.Details[0].Flight != '' && item.Details[0].Flight != '-'
                     ? item.Details[0].Flight
                     : null}
                 </Text>
@@ -577,13 +577,15 @@ const JourneyDetail = props => {
                   <Text style={styles.textBlueBig}>Arrives:</Text>
                 )}
 
-                <Text style={styles.textBlack}>
+{item.Type === appConstant.CAMP_ACCOMODATION ||
+                item.Type === appConstant.HOTEL ||
+                item.Type === appConstant.HOTEL_ACCOMMODATION ? null : <Text style={styles.textBlack}>
                   {item.Details &&
                   item.Details.length > 0 &&
                   item.Details[0].Destination
                     ? item.Details[0].Destination
-                    : '-'}
-                </Text>
+                    : ''}
+                </Text>}
 
                 <View style={{flexDirection: 'row'}}>
                   <Text
@@ -656,7 +658,7 @@ const JourneyDetail = props => {
                   <Text style={styles.textBlueBig}>Duration:</Text>
                 )}
                 <Text style={styles.textBlack}>
-                  {duration ? duration : '-'}
+                  {duration ? duration : ''}
                 </Text>
               </View>
 
@@ -671,7 +673,7 @@ const JourneyDetail = props => {
                       item.Details.length > 0 &&
                       item.Details[0].Vehicle
                         ? item.Details[0].Vehicle
-                        : '-'}
+                        : ''}
                     </Text>
                   </>
                 )}
@@ -687,7 +689,7 @@ const JourneyDetail = props => {
                       item.Details.length > 0 &&
                       item.Details[0].Room
                         ? item.Details[0].Room
-                        : '-'}
+                        : ''}
                     </Text>
                     <View style={styles.viewSpace} />
                     <Text style={styles.textBlueBig}>Locker:</Text>
@@ -696,7 +698,7 @@ const JourneyDetail = props => {
                       item.Details.length > 0 &&
                       item.Details[0].Locker
                         ? item.Details[0].Locker
-                        : '-'}
+                        : ''}
                     </Text>
                     <View style={styles.viewSpace} />
                     <Text style={styles.textBlueBig}>Phone:</Text>
@@ -705,7 +707,7 @@ const JourneyDetail = props => {
                       item.Details.length > 0 &&
                       item.Details[0].Phone
                         ? item.Details[0].Phone
-                        : '-'}
+                        : ''}
                     </Text>
                     <View style={styles.viewSpace} />
                     <Text style={styles.textBlueBig}>Muster 1:</Text>
@@ -714,7 +716,7 @@ const JourneyDetail = props => {
                       item.Details.length > 0 &&
                       item.Details[0].Muster01
                         ? item.Details[0].Muster01
-                        : '-'}
+                        : ''}
                     </Text>
                     <View style={styles.viewSpace} />
                     <Text style={styles.textBlueBig}>Muster 2:</Text>
@@ -723,7 +725,7 @@ const JourneyDetail = props => {
                       item.Details.length > 0 &&
                       item.Details[0].Muster02
                         ? item.Details[0].Muster02
-                        : '-'}
+                        : ''}
                     </Text>
                     <View style={styles.viewSpace} />
                     <Text style={styles.textBlueBig}>Tag/Token:</Text>
@@ -743,7 +745,7 @@ const JourneyDetail = props => {
                         item.Details.length > 0 &&
                         item.Details[0].Room
                           ? item.Details[0].Room
-                          : '-'}
+                          : ''}
                       </Text>
                       <View style={styles.viewSpace} />
                       <Text style={styles.textBlueBig}>Phone:</Text>
@@ -752,7 +754,7 @@ const JourneyDetail = props => {
                         item.Details.length > 0 &&
                         item.Details[0].Phone
                           ? item.Details[0].Phone
-                          : '-'}
+                          : ''}
                       </Text>
                       <View style={styles.viewSpace} />
                       <Text style={styles.textBlueBig}>Address:</Text>
@@ -761,7 +763,7 @@ const JourneyDetail = props => {
                         item.Details.length > 0 &&
                         item.Details[0].Address
                           ? item.Details[0].Address
-                          : '-'}
+                          : ''}
                       </Text>
                     </>
                   ))}
@@ -777,7 +779,7 @@ const JourneyDetail = props => {
                       item.Details.length > 0 &&
                       item.Details[0].Vessel
                         ? item.Details[0].Vessel
-                        : '-'}
+                        : ''}
                     </Text>
                   </>
                 )}
@@ -799,7 +801,7 @@ const JourneyDetail = props => {
                       item.Details.length > 0 &&
                       item.Details[0].ServiceReferenceId
                         ? item.Details[0].ServiceReferenceId
-                        : '-'}
+                        :""}
                     </Text>
                   </>
                 )}

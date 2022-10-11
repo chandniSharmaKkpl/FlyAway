@@ -23,6 +23,7 @@ import {
   getDateInFormat,
   getDateTimeOfView,
   convertDateTime,
+  sortList
 } from '../../common';
 import {successToGetApprovalList} from '../home/Home.action';
 const JourneyList = props => {
@@ -59,6 +60,8 @@ const JourneyList = props => {
       );
     };
   }, []);
+
+  // date wise sorting Approval list
 
   const handleBackButtonClick = () => {
     if (route.params && route.params.callingView) {
@@ -180,7 +183,7 @@ const JourneyList = props => {
 
         <View style={styles.viewFlatList}>
           <FlatList
-            data={journeyList}
+            data={sortList(journeyList, "startdatetime")}
             renderItem={renderItem}
             keyExtractor={(item, index) => index.toString()}
           />

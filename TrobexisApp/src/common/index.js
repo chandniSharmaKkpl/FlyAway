@@ -250,6 +250,13 @@ export function isError(params) {
   }
 }
 
+export const sortList=(list, key)=>{
+  if (list && list.length>0) {
+    return list.sort( (a, b) => {
+      return moment(a[key]).valueOf() - moment(b[key]).valueOf()
+    })
+  }
+}
 // const useBackButton1 = (handler) => {
 
 //   // Frustration isolated! Yay! 🎉
@@ -270,5 +277,6 @@ export default {
   isError,
   msToTime,
   getDateTimeOfView,
+  sortList
   // useBackButton1
 };

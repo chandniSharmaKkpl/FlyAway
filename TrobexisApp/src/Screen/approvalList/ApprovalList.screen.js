@@ -1,6 +1,4 @@
 import React, {useState, useCallback, useEffect} from 'react';
-import {useFocusEffect} from '@react-navigation/native';
-
 import {
   View,
   Text,
@@ -29,7 +27,7 @@ import {
   getOrientation,
 } from '../../responsiveScreen';
 import {requestGetApprovalListWithStatus} from './ApprovalList.action';
-import {getDateInFormat, getDateTimeOfView, convertDateTime} from '../../common';
+import {getDateInFormat, getDateTimeOfView, convertDateTime, sortList} from '../../common';
 import {requestAcceptApproval} from './ApprovalList.action';
 import localDb from '../../database/localDb';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
@@ -40,13 +38,6 @@ PENDING_INDEX = 0;
 APPROVED_INDEX = 1;
 DECLINED_INDEX = 2;
 
-// date wise sorting Approval list
-
-const sortApprovalList = (list) => {
-  return list.sort( (a, b) => {
-    return moment(a['startdate']).valueOf() - moment(b['startdate']).valueOf()
-  })
-}
 
 const ApprovalList = props => {
   const responseData = useSelector(state => state.HomeReducer);
@@ -344,7 +335,7 @@ const ApprovalList = props => {
                   />
                 }
                 extraData={refreshing}
-                data={sortApprovalList(responseApprovalData.approvalListWithStatus)}
+                data={sortList(responseApprovalData.approvalListWithStatus,"startdate")}
                 renderItem={renderItem}
                 keyExtractor={approvalListData => approvalListData.id}
               />

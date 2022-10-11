@@ -180,7 +180,7 @@ const BusBookingScreen = (props) => {
             style={styles.tokenStyle}
             multiline={true}
           /> */}
-      <Pressable
+      {/* <Pressable
         style={styles.iconHeader}
         onPress={() => props.navigation.goBack()}
       >
@@ -189,7 +189,7 @@ const BusBookingScreen = (props) => {
           resizeMode={"contain"}
           source={imageConstant.IMAGE_ARROW_BACK}
         />
-      </Pressable>
+      </Pressable> */}
 
       {loading && (
         <Loader viewName={appConstant.BUS_BOOKING} loading={loading} />
