@@ -577,15 +577,9 @@ const JourneyDetail = props => {
                   <Text style={styles.textBlueBig}>Arrives:</Text>
                 )}
 
-{item.Type === appConstant.CAMP_ACCOMODATION ||
-                item.Type === appConstant.HOTEL ||
-                item.Type === appConstant.HOTEL_ACCOMMODATION ? null : <Text style={styles.textBlack}>
-                  {item.Details &&
-                  item.Details.length > 0 &&
-                  item.Details[0].Destination
-                    ? item.Details[0].Destination
-                    : ''}
-                </Text>}
+{item.Details && item.Details.length > 0 &&
+                  item.Details[0].Destination && item.Details[0].Destination != '' && item.Details[0].Destination != '-' ? <Text style={styles.textBlack}>
+                </Text>: null}
 
                 <View style={{flexDirection: 'row'}}>
                   <Text
