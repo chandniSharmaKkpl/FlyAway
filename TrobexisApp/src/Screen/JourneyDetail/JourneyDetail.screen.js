@@ -290,6 +290,22 @@ const JourneyDetail = props => {
     }
   };
 
+  const durationForAccomodations = (_startDate, _endDate, item) => {
+    var formatStartDate = moment(_startDate).startOf('day');
+    var formatEndDate = moment(_endDate);
+
+    var day = formatEndDate.diff(formatStartDate, 'days');
+
+    var strToSend = '';
+
+    if (day > 0) {
+      strToSend = day + ' ' + 'nights ';
+    }
+    return strToSend;
+  };
+
+  // Type != camp and hotel accomoations
+
   const ConvertSectoDay = (n, item) => {
     var day = parseInt(n / (24 * 3600));
     n = n % (24 * 3600);
@@ -301,45 +317,24 @@ const JourneyDetail = props => {
     n %= 60;
     var seconds = n;
 
-    let strToSend = '';
+    var strToSend = '';
     if (day > 0) {
-      if (
-        item.Type === appConstant.CAMP_ACCOMODATION ||
-        item.Type === appConstant.HOTEL ||
-        item.Type === appConstant.HOTEL_ACCOMMODATION
-      ) {
-        strToSend = day + ' ' + 'nights ';
-      } else {
+      {
         strToSend = day + ' ' + 'days ';
       }
     }
     if (hour > 0) {
-      if (
-        item.Type === appConstant.CAMP_ACCOMODATION ||
-        item.Type === appConstant.HOTEL ||
-        item.Type === appConstant.HOTEL_ACCOMMODATION
-      ) {
-      } else {
+      {
         strToSend = strToSend + ' ' + hour + ' ' + 'hours';
       }
     }
     if (minutes > 0) {
-      if (
-        item.Type === appConstant.CAMP_ACCOMODATION ||
-        item.Type === appConstant.HOTEL ||
-        item.Type === appConstant.HOTEL_ACCOMMODATION
-      ) {
-      } else {
+      {
         strToSend = strToSend + ' ' + minutes + ' ' + 'minutes';
       }
     }
     if (seconds > 0) {
-      if (
-        item.Type === appConstant.CAMP_ACCOMODATION ||
-        item.Type === appConstant.HOTEL ||
-        item.Type === appConstant.HOTEL_ACCOMMODATION
-      ) {
-      } else {
+      {
         strToSend = strToSend + ' ' + seconds + ' ' + 'seconds';
       }
     }
@@ -349,12 +344,9 @@ const JourneyDetail = props => {
 
   const getCurrentHourFormat = async () => {
     const is24Hour = await is24HourFormat();
-    // console.log(" user devie format ----", is24Hour);
-    //return moment(date).format(is24Hour ? 'HH:mm' : 'h:mm A')
   };
 
   const itemViews = (item, type, index) => {
-    // console.log(' ------- itemViews ------ ', item.Details);
     // if (index == 0)
     {
       let isNoShowBtnVisible = false; // This flag is using to show no show button for flights only
@@ -372,15 +364,25 @@ const JourneyDetail = props => {
       // console.log("details ==>", item);
       var formatStartDate = moment(startDate);
       var formatEndDate = moment(endDate);
+
       let days = 0;
       let duration = '';
       if (formatStartDate && formatEndDate) {
         days = formatEndDate.diff(formatStartDate, 'days');
         let hours = formatEndDate.diff(formatStartDate, 'hours');
-        let seconds = formatEndDate.diff(formatStartDate, 'seconds');
+        // let seconds = formatEndDate.diff(formatStartDate, 'seconds');
+        let seconds = (formatEndDate - formatStartDate) / 1000;
 
-        if (seconds) {
-          duration = ConvertSectoDay(seconds, item);
+        if (
+          item.Type === appConstant.CAMP_ACCOMODATION ||
+          item.Type === appConstant.HOTEL ||
+          item.Type === appConstant.HOTEL_ACCOMMODATION
+        ) {
+          duration = durationForAccomodations(startDate, endDate, item);
+        } else {
+          if (seconds) {
+            duration = ConvertSectoDay(seconds, item);
+          }
         }
       }
       // console.log("items", item);
@@ -448,7 +450,8 @@ const JourneyDetail = props => {
                   {item.Details &&
                   item.Details.length > 0 &&
                   item.Details[0].Flight &&
-                  item.Details[0].Flight != '' && item.Details[0].Flight != '-'
+                  item.Details[0].Flight != '' &&
+                  item.Details[0].Flight != '-'
                     ? item.Details[0].Flight
                     : null}
                 </Text>
@@ -577,9 +580,15 @@ const JourneyDetail = props => {
                   <Text style={styles.textBlueBig}>Arrives:</Text>
                 )}
 
-{item.Details && item.Details.length > 0 &&
-                  item.Details[0].Destination && item.Details[0].Destination != '' && item.Details[0].Destination != '-' ? <Text style={styles.textBlack}>
-                </Text>: null}
+                {item.Details &&
+                item.Details.length > 0 &&
+                item.Details[0].Destination &&
+                item.Details[0].Destination != '' &&
+                item.Details[0].Destination != '-' ? (
+                  <Text style={styles.textBlack}>
+                    {item.Details[0].Destination}
+                  </Text>
+                ) : null}
 
                 <View style={{flexDirection: 'row'}}>
                   <Text
@@ -651,9 +660,7 @@ const JourneyDetail = props => {
                 ) : (
                   <Text style={styles.textBlueBig}>Duration:</Text>
                 )}
-                <Text style={styles.textBlack}>
-                  {duration ? duration : ''}
-                </Text>
+                <Text style={styles.textBlack}>{duration ? duration : ''}</Text>
               </View>
 
               <View style={styles.viewLocation}>
@@ -795,7 +802,7 @@ const JourneyDetail = props => {
                       item.Details.length > 0 &&
                       item.Details[0].ServiceReferenceId
                         ? item.Details[0].ServiceReferenceId
-                        :""}
+                        : ''}
                     </Text>
                   </>
                 )}
