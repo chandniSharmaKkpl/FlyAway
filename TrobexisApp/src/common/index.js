@@ -124,7 +124,6 @@ export const approvalDateTimeFormate = (
       if (element.key == 'Format.Datetime') {
         try {
           let formattedDate = moment(dateString).format(element.value);
-            console.log('formattedDate Valid ----------->', formattedDate,"---------->");
             return formattedDate;
         } catch (error) {
           return dateString;

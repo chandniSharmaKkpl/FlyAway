@@ -304,8 +304,7 @@ const JourneyDetail = props => {
     return strToSend;
   };
 
-  // Type != camp and hotel accomoations
-
+  // Type != camp and hotel accomoations so this method will call 
   const ConvertSectoDay = (n, item) => {
     var day = parseInt(n / (24 * 3600));
     n = n % (24 * 3600);
@@ -319,24 +318,16 @@ const JourneyDetail = props => {
 
     var strToSend = '';
     if (day > 0) {
-      {
-        strToSend = day + ' ' + 'days ';
-      }
+      strToSend = day + ' ' + 'days ';
     }
     if (hour > 0) {
-      {
-        strToSend = strToSend + ' ' + hour + ' ' + 'hours';
-      }
+      strToSend = strToSend + ' ' + hour + ' ' + 'hours';
     }
     if (minutes > 0) {
-      {
-        strToSend = strToSend + ' ' + minutes + ' ' + 'minutes';
-      }
+      strToSend = strToSend + ' ' + minutes + ' ' + 'minutes';
     }
     if (seconds > 0) {
-      {
-        strToSend = strToSend + ' ' + seconds + ' ' + 'seconds';
-      }
+      strToSend = strToSend + ' ' + seconds + ' ' + 'seconds';
     }
 
     return strToSend;
@@ -368,11 +359,10 @@ const JourneyDetail = props => {
       let days = 0;
       let duration = '';
       if (formatStartDate && formatEndDate) {
-        days = formatEndDate.diff(formatStartDate, 'days');
-        let hours = formatEndDate.diff(formatStartDate, 'hours');
-        // let seconds = formatEndDate.diff(formatStartDate, 'seconds');
+        days = formatEndDate.diff(formatStartDate, 'days'); // Add daycount for charter and commercial flight
         let seconds = (formatEndDate - formatStartDate) / 1000;
 
+        console.log(" date difference", seconds );
         if (
           item.Type === appConstant.CAMP_ACCOMODATION ||
           item.Type === appConstant.HOTEL ||
@@ -385,7 +375,6 @@ const JourneyDetail = props => {
           }
         }
       }
-      // console.log("items", item);
       return (
         <View
           key={index}
@@ -441,7 +430,13 @@ const JourneyDetail = props => {
                 },
               ]}>
               <View style={[styles.viewLeft]}>
-                <Text style={styles.textYellow}>
+              {(item.Details &&
+                  item.Details.length > 0 &&
+                  item.Details[0].ServiceProvider) || (item.Details &&
+                  item.Details.length > 0 &&
+                  item.Details[0].Flight &&
+                  item.Details[0].Flight != '' &&
+                  item.Details[0].Flight != '-') ?  <Text style={styles.textYellow}>
                   {item.Details &&
                   item.Details.length > 0 &&
                   item.Details[0].ServiceProvider
@@ -452,9 +447,9 @@ const JourneyDetail = props => {
                   item.Details[0].Flight &&
                   item.Details[0].Flight != '' &&
                   item.Details[0].Flight != '-'
-                    ? item.Details[0].Flight
+                    ? (item.Details[0].Flight)
                     : null}
-                </Text>
+                </Text> : null}
 
                 <Text
                   style={[
@@ -487,14 +482,10 @@ const JourneyDetail = props => {
                     <View style={styles.imagePlan}>
                       {returnSupplierCodeImage(item)}
                     </View>
-                    {/* <Image
-                    source={imageConstant.IMAGE_CHARTER_FLIGHT_PNG}
-                    resizeMode={'contain'}
-                    style={styles.imagePlan}
-                  /> */}
+                   
                     {item.Details &&
                     item.Details.length > 0 &&
-                    item.Details[0].Flight ? (
+                    item.Details[0].Flight &&  item.Details[0].Flight != '-' ? (
                       <Text style={styles.flightNumber}>
                         {item.Details &&
                           item.Details.length > 0 &&
@@ -796,7 +787,7 @@ const JourneyDetail = props => {
                 ) && (
                   <>
                     <View style={styles.viewSpace} />
-                    <Text style={styles.textBlueBig}>Booking #</Text>
+                    <Text style={styles.textBlueBig}>Booking #:</Text>
                     <Text style={styles.textBlack}>
                       {item.Details &&
                       item.Details.length > 0 &&
@@ -814,7 +805,7 @@ const JourneyDetail = props => {
                   item.Type === appConstant.HELICOPTER) && (
                   <>
                     <View style={styles.viewSpace} />
-                    <Text style={styles.textBlueBig}>Ticket #</Text>
+                    <Text style={styles.textBlueBig}>Ticket #:</Text>
                     <Text style={styles.textBlack}>
                       {item.Details &&
                       item.Details.length > 0 &&

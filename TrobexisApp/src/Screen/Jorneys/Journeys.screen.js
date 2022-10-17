@@ -93,6 +93,26 @@ const JourneyList = props => {
     // let requestdate = date ? getDateInFormat(date, true, false) : '';
     // setJourneyListDateTime();
     console.log('itemDetail ===>', JSON.stringify(itemDetail, null, 4));
+
+    let location = ""
+    
+    if (itemDetail.departure && itemDetail.destination) {
+      if (itemDetail.departure === itemDetail.destination) {
+        location = itemDetail.destination;
+      } else{
+        location =  itemDetail.departure+" to "+itemDetail.destination
+      }
+    }else{
+      // if anyone is missing either departure or destination 
+      if (itemDetail.departure) {
+        location = itemDetail.departure;
+      }else{
+        location = itemDetail.destination;
+      }
+    }
+   
+  
+
     return (
       <View style={styles.viewOutSide}>
         <Pressable
@@ -112,21 +132,10 @@ const JourneyList = props => {
                   />
                 </View>
                 <Text style={styles.textDetail}>
-                  {itemDetail.departure} to {itemDetail.destination}
+                 {location}
                 </Text>
               </View>
-              {/* <View style={styles.viewRow}>
-                <View style={styles.viewImages}>
-                  <Image
-                    style={styles.image}
-                    resizeMode={"contain"}
-                    source={imageConstant.IMAGE_CALENDAR_BLUE}
-                  />
-                </View>
-                <Text style={styles.textDetail}>
-                  {convertDateTime(itemDetail.startdatetime,true,false,false,responseData.userProfile.settings)}
-                </Text>
-              </View> */}
+             
               <View style={styles.viewRow}>
                 <View style={styles.viewImages}>
                   <Image

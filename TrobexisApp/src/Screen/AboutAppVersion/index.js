@@ -35,7 +35,7 @@ function AboutAppVersion(props) {
             BuildNumber : {buildNumber}
           </Text>
           <Text style={stylesCommon.normalText}>
-            Build Release Date: 11/10/2022
+            Build Release Date: 17/10/2022
           </Text>
         </View>
       </View>

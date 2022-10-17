@@ -18,6 +18,22 @@ const BookingCard = props => {
 
   const responseUser = useSelector(state => state.HomeReducer); // Getting api response
 
+  let location = ""
+    
+    if (item.departure && item.destination) {
+      if (item.departure === item.destination) {
+        location = item.destination;
+      } else{
+        location =  item.departure+" to "+item.destination
+      }
+    }else{
+      // if anyone is missing either departure or destination 
+      if (item.departure) {
+        location = item.departure;
+      }else{
+        location = item.destination;
+      }
+    }
   return (
     <View style={styles.viewOutSide}>
       <View style={styles.viewInside1}>
@@ -52,8 +68,7 @@ const BookingCard = props => {
             />
           </View>
           <Text style={styles.textDetail}>
-            {item.departure ? item.departure : ''} to{' '}
-            {item.destination ? item.destination : ''}
+            {location}
           </Text>
         </View>
 
