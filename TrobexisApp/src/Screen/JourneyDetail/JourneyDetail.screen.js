@@ -362,7 +362,6 @@ const JourneyDetail = props => {
         days = formatEndDate.diff(formatStartDate, 'days'); // Add daycount for charter and commercial flight
         let seconds = (formatEndDate - formatStartDate) / 1000;
 
-        console.log(" date difference", seconds );
         if (
           item.Type === appConstant.CAMP_ACCOMODATION ||
           item.Type === appConstant.HOTEL ||
@@ -720,8 +719,7 @@ const JourneyDetail = props => {
                         : ''}
                     </Text>
                     <View style={styles.viewSpace} />
-                    <Text style={styles.textBlueBig}>Tag/Token:</Text>
-                    <Text style={styles.textBlack}>-</Text>
+                   
                   </>
                 )}
               </View>
