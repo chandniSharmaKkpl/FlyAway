@@ -1,0 +1,31 @@
+export default {
+  USER_NAME_API: 'T1MOBARQDEV',
+  PASSWORD_API: '8E43E4037E0C48D5B2CF96CE074B4238',
+  USER_NAME_API_CLIENT_CODE:'T1ApiMobileUAT',
+  PASSWORD_API_CLIENT_CODE:'4rGECCEbmVuZJngZTVt4K8jyLgBQGPf4fFeXGrx9LBzsy5usU6', 
+
+  BASE_URL: 'https://app-aue.trobexisuat.com/T1DEVMobile/api/',
+  ERROR_API_BASE_URL :'https://app-aue.trobexisuat.com/T1MobileService/api/',
+  GET_ACCESS_TOKEN: 'account/accesstoken/',
+  USER_PROFILE: '/api/users/:userId/profile',
+  GET_ITINARY_LIST: '/api/users/:userId/itineraries?cancancel=true',
+  GET_ITINARY_DETAIL: '/api/itineraries/:itineraryId',
+  GET_BUS_STOP: 'bus/stops',
+  GET_BUS_ROUTE:'bus/routes',
+  POST_BUS_BOOKING:'bus/bookings',
+  CANCEL_BUS_BOOKING:'itineraries/:itinerayId',
+  GET_ITINARY_LIST_ALL_JOURNEY: '/api/users/:userId/itineraries?cancancel=false',
+  GET_APPROVAL_LIST:'/api/users/:userId/approvals',
+  GET_APPROVAL_LIST_PLUS_STATUS:'/api/users/:userId/approvals/:status',
+  
+  // Authorisation Apis 
+  BASE_URL_GET_API_BASE:'https://app-au.trobexis.com/T1MobileService/api/',
+  URL_TO_GET_API_BASE:'account/:client/baseapiurl',
+  GET_TOKEN_BASED_ON_CLIENT_CODE:'/api/account/:client/accesstoken',
+  ACCOUNT_URL:'/api/account/url',
+  ACCESS_TOKEN_BASED_CLIENT_TOKEN: '/api/account/accesstokenuser',
+  APPROVAL_ACCEPT_API:'/api/approvals/:approvalId/approve', 
+  APPROVAL_DECLINE_API:'/api/approvals/:approvalId/decline',
+  GET_DECLINE_REASONS:'/api/schema/approval/declinereasons',
+  GET_APPROVAL_DETAIL: '/api/approvals/:approvalId',
+};
